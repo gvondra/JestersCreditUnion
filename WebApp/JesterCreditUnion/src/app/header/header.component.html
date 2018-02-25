@@ -1,3 +1,9 @@
-<header style="border-bottom: 3px double gray; padding: 0px 1px">
+<header style="border-bottom: 3px double gray; padding: 0px 1px;">
+  <button type="button" style="float: left; margin-right: 5px; margin-top: 5px" class="btn btn-default" (click)="toggleVissible()">
+    <i class="fas fa-bars"></i>
+  </button>
   <h1>Jester Credit Union</h1>
+  <menu [hidden]="hidden" class="ng-hide" style="background-color: silver; margin: 0px; padding: 0px; border-top: 3px double gray;">
+    <app-menu (onClick)="toggleVissible()"></app-menu>
+  </menu>
 </header>

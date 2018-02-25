@@ -5,3 +5,17 @@ body {
     max-width: 28cm;
     font-size: small;
 }
+
+.menu {
+    list-style: none inside;
+    margin: 0px;
+    padding: 0px;
+}
+
+.menu li a {
+    display: block;
+    padding: 3px 0px;
+    font-size: medium;
+}
+
+[hidden] { display: none !important;}

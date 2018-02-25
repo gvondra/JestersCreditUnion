@@ -8,11 +8,17 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { HeaderComponent } from './header/header.component';
+import { RequestMembershipComponent } from './request-membership/request-membership.component';
+import { MenuComponent } from './menu/menu.component';
 
 const appRoutes: Routes = [
   {
     path: '',
     component: HomeComponent
+  },
+  {
+    path: 'join',
+    component: RequestMembershipComponent
   }
 ]
 
@@ -20,7 +26,9 @@ const appRoutes: Routes = [
   declarations: [
     AppComponent,
     HeaderComponent,
-    HomeComponent
+    HomeComponent,
+    RequestMembershipComponent,
+    MenuComponent
   ],
   imports: [
     BrowserModule,
