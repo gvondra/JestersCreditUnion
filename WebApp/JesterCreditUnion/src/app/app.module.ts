@@ -10,6 +10,7 @@ import { HomeComponent } from './home/home.component';
 import { HeaderComponent } from './header/header.component';
 import { RequestMembershipComponent } from './request-membership/request-membership.component';
 import { MenuComponent } from './menu/menu.component';
+import { ConfigurationService } from './configuration.service';
 
 const appRoutes: Routes = [
   {
@@ -36,7 +37,7 @@ const appRoutes: Routes = [
     HttpModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [],
+  providers: [ConfigurationService],
   bootstrap: [AppComponent, HeaderComponent]
 })
 export class AppModule { }
