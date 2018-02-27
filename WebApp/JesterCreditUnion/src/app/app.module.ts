@@ -13,6 +13,7 @@ import { MenuComponent } from './menu/menu.component';
 import { ConfigurationService } from './configuration.service';
 import { AppRoutingModule } from './app-routing.module';
 import { AuthService } from './auth/auth.service';
+import { CallbackComponent } from './callback/callback.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { AuthService } from './auth/auth.service';
     HeaderComponent,
     HomeComponent,
     RequestMembershipComponent,
-    MenuComponent
+    MenuComponent,
+    CallbackComponent
   ],
   imports: [
     BrowserModule,
