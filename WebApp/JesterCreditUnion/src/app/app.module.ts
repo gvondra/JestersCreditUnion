@@ -11,17 +11,8 @@ import { HeaderComponent } from './header/header.component';
 import { RequestMembershipComponent } from './request-membership/request-membership.component';
 import { MenuComponent } from './menu/menu.component';
 import { ConfigurationService } from './configuration.service';
-
-const appRoutes: Routes = [
-  {
-    path: '',
-    component: HomeComponent
-  },
-  {
-    path: 'join',
-    component: RequestMembershipComponent
-  }
-]
+import { AppRoutingModule } from './app-routing.module';
+import { AuthService } from './auth/auth.service';
 
 @NgModule({
   declarations: [
@@ -35,9 +26,9 @@ const appRoutes: Routes = [
     BrowserModule,
     FormsModule,
     HttpModule,
-    RouterModule.forRoot(appRoutes)
+    AppRoutingModule
   ],
-  providers: [ConfigurationService],
+  providers: [ConfigurationService, AuthService],
   bootstrap: [AppComponent, HeaderComponent]
 })
 export class AppModule { }
