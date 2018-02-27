@@ -1,5 +1,4 @@
-import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
-import { HeaderComponent } from '../header/header.component';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { MenuItem } from '../menu-item';
 import { MenuService } from '../menu.service';
 @Component({
@@ -10,8 +9,7 @@ import { MenuService } from '../menu.service';
 })
 export class MenuComponent implements OnInit {
 
-  sections : Array<Array<MenuItem>>;
-  @Input() headerComponent : HeaderComponent;
+  sections : Array<Array<MenuItem>>;  
   @Output() onClick = new EventEmitter();
 
   constructor(private menuService : MenuService) { }
