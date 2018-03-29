@@ -3,6 +3,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import * as auth0 from 'auth0-js';
 import { AUTH_CONFIG } from './auth-config';
 import { Router } from '@angular/router';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class AuthService {
@@ -11,7 +12,7 @@ auth0 = new auth0.WebAuth({
   clientID: AUTH_CONFIG.CLIENT_ID,
   domain: AUTH_CONFIG.CLIENT_DOMAIN,
   responseType: 'token id_token',
-  redirectUri: AUTH_CONFIG.REDIRECT,
+  redirectUri: environment.callbackUrl,
   audience: AUTH_CONFIG.AUDIENCE,
   scope: AUTH_CONFIG.SCOPE
 });

@@ -5,5 +5,6 @@
 
 export const environment = {
   production: false,
-  configurationServiceUrl: ""
+  baseUrl: "/api/",
+  callbackUrl: "http://localhost:4200/callback"
 };
