@@ -8,7 +8,7 @@ export class LookupService {
 
   constructor(private http: Http) { }
 
-  getActiveLookup(group: string, selected: string, baseUrl: string): Promise<LookupItem[]> {    
+  getActiveLookup(group: string, selected: string): Promise<LookupItem[]> {    
     return Promise.resolve(LOOKUP_ITEMS[group]);
   }
 }

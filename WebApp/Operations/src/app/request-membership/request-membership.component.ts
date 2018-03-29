@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { MembershipRequest } from '../membership-request';
 import { LookupItem } from "../lookup-item";
 import { LookupService } from "../lookup.service";
-import { ConfigurationService } from "../configuration.service";
 @Component({
   selector: 'app-request-membership',
   templateUrl: './request-membership.component.html',
@@ -15,19 +14,15 @@ export class RequestMembershipComponent implements OnInit {
   genders: LookupItem[] = null;
   occupancyStatuses: LookupItem[] = null;
   employmentStatuses: LookupItem[] = null;
-  constructor(private configurationService: ConfigurationService,
-              private lookupService: LookupService) { }
+  constructor(private lookupService: LookupService) { }
 
-  ngOnInit() {
-    this.configurationService.getLookupServiceUrl()
-    .then(url => {      
-      this.lookupService.getActiveLookup("Gender", "", url)
-      .then(data => this.genders = data)
-      this.lookupService.getActiveLookup("OccupancyStatus", "", url)
-      .then(data => this.occupancyStatuses = data)
-      this.lookupService.getActiveLookup("EmploymentStatus", "", url)
-      .then(data => this.employmentStatuses = data)
-    })
+  ngOnInit() {          
+    this.lookupService.getActiveLookup("Gender", "")
+    .then(data => this.genders = data)
+    this.lookupService.getActiveLookup("OccupancyStatus", "")
+    .then(data => this.occupancyStatuses = data)
+    this.lookupService.getActiveLookup("EmploymentStatus", "")
+    .then(data => this.employmentStatuses = data)    
   }
 
 }
