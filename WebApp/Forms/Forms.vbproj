@@ -49,14 +49,6 @@
       <HintPath>..\..\packages\Auth0.OpenIdConnectSigningKeyResolver.1.0.0\lib\net45\Auth0.Owin.OpenIdConnectSigningKeyResolver.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Autofac, Version=4.6.2.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Autofac.4.6.2\lib\net45\Autofac.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AutoMapper, Version=6.2.2.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\AutoMapper.6.2.2\lib\net45\AutoMapper.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
       <Private>True</Private>
@@ -184,6 +176,8 @@
     <Import Include="System.Web.UI.WebControls" />
     <Import Include="System.Web.UI.WebControls.WebParts" />
     <Import Include="System.Web.UI.HtmlControls" />
+    <Import Include="System.Xml" />
+    <Import Include="System.Xml.Serialization" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Start\SwaggerConfig.cs" />
@@ -192,6 +186,12 @@
   <ItemGroup>
     <Compile Include="App_Start\SwaggerConfig.vb" />
     <Compile Include="App_Start\WebApiConfig.vb" />
+    <Compile Include="Controllers\FormsController.vb" />
+    <Compile Include="Enumerations.vb" />
+    <Compile Include="Forms\FormSerializer.vb" />
+    <Compile Include="Forms\RoleRequest.vb" />
+    <Compile Include="Models\Form.vb" />
+    <Compile Include="Models\RoleRequest.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -226,10 +226,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Controllers\" />
-    <Folder Include="Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
