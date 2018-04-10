@@ -9,7 +9,7 @@ interface AuthConfig {
 export const AUTH_CONFIG: AuthConfig = {
     CLIENT_ID: 'gg3MuVGfxg9QK4v4uwfrlXTiC5HnmTec',
     CLIENT_DOMAIN: 'jestercreditunion-dvlp.auth0.com', // e.g., you.auth0.com
-    AUDIENCE: 'http://localhost/jestercreditunion/api',
+    AUDIENCE: 'http://localhost:3000/OperationsAPI',
     REDIRECT: 'http://localhost:4200/callback',
     SCOPE: 'openid profile email'
   };

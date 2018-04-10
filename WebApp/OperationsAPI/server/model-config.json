@@ -16,5 +16,9 @@
   "MenuItem": {
     "dataSource": null,
     "public": true
+  },
+  "RoleRequest": {
+    "dataSource": null,
+    "public": true
   }
 }

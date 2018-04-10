@@ -5,7 +5,7 @@ module.exports = function(Menuitem) {
         cb(null, [
             [
                 {Text: "Home", URL: ""},
-                {Text: "Join", URL: "/join"}
+                {Text: "Request Role", URL: "/rolerequest"}
             ]
         ])
     }

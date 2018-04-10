@@ -7,10 +7,10 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { HeaderComponent } from './header/header.component';
-import { MenuComponent } from './menu/menu.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AuthService } from './auth/auth.service';
 import { CallbackComponent } from './callback/callback.component';
+import { RoleRequestComponent } from './role-request/role-request.component';
 
 
 @NgModule({
@@ -18,8 +18,8 @@ import { CallbackComponent } from './callback/callback.component';
     AppComponent,
     HeaderComponent,
     HomeComponent,
-    MenuComponent,
-    CallbackComponent
+    CallbackComponent,
+    RoleRequestComponent
   ],
   imports: [
     BrowserModule,

@@ -81,6 +81,7 @@ logout() {
   localStorage.removeItem('id_token');
   localStorage.removeItem('profile');
   localStorage.removeItem('expires_at');
+  sessionStorage.removeItem('jcuoMenuItems');
   this.userProfile = undefined;
   this.setLoggedIn(false);
 }

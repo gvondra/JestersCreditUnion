@@ -1,0 +1,22 @@
+{
+  "name": "RoleRequest",
+  "base": "Model",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "FullName": {
+      "type": "string",
+      "required": true
+    },
+    "Comment": {
+      "type": "string",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

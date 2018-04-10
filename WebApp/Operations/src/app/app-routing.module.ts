@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { AuthGuard } from './auth/auth.guard';
 import { CallbackComponent } from './callback/callback.component';
+import { RoleRequestComponent } from './role-request/role-request.component';
 const routes: Routes = [
     {
         path: '',
@@ -11,6 +12,13 @@ const routes: Routes = [
       {
         path: 'callback',
         component: CallbackComponent
+      },
+      {
+        path: 'rolerequest',
+        component: RoleRequestComponent,
+        canActivate: [
+          AuthGuard
+        ]
       }
 ];
 
