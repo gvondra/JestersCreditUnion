@@ -6,7 +6,7 @@
       <Value Profile="(Default)">jestercreditunion-dvlp.auth0.com</Value>
     </Setting>
     <Setting Name="Auth0ApiIdentifier" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">http://localhost/jesterscreditunion/forms/api</Value>
+      <Value Profile="(Default)">http://localhost:3000/OperationsAPI</Value>
     </Setting>
   </Settings>
 </SettingsFile>

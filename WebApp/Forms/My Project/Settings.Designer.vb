@@ -65,7 +65,7 @@ Namespace My
         
         <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("http://localhost/jesterscreditunion/forms/api")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("http://localhost:3000/OperationsAPI")>  _
         Public ReadOnly Property Auth0ApiIdentifier() As String
             Get
                 Return CType(Me("Auth0ApiIdentifier"),String)
