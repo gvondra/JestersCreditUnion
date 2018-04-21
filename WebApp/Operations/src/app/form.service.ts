@@ -10,7 +10,7 @@ export class FormService {
   constructor(private http: Http) { }
 
   createRoleRequest(roleRequest: RoleRequest): Promise<any> {
-    return this.http.post(environment.baseUrl + "Form/RoleRequest", roleRequest,
+    return this.http.post(environment.baseUrl + "Forms/RoleRequest", roleRequest,
     {
       headers: new Headers({"Authorization": `Bearer ${localStorage.getItem('token')}`})
     })
