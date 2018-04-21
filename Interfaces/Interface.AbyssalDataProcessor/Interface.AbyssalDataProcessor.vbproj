@@ -71,11 +71,17 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CreateFormRequest.vb" />
+    <Compile Include="Form.vb" />
+    <Compile Include="FormSaver.vb" />
+    <Compile Include="IFormSaver.vb" />
     <Compile Include="ISettings.vb" />
     <Compile Include="IUserFactory.vb" />
+    <Compile Include="IUserSaver.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="User.vb" />
     <Compile Include="UserFactory.vb" />
+    <Compile Include="UserSaver.vb" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
