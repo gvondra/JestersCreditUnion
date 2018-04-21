@@ -5,14 +5,17 @@ Public Class UserFactory
     Private m_tokenFactory As ITokenFactory
     Private m_innerUserFactory As JestersCreditUnion.Interface.AbyssalDataProcessor.IUserFactory
     Private m_userInfoService As JestersCreditUnion.Interface.UserManagement.IUserInfoService
+    Private m_userSaver As IUserSaver
 
     Public Sub New(ByVal tokenFactory As ITokenFactory,
             ByVal userFactory As JestersCreditUnion.Interface.AbyssalDataProcessor.IUserFactory,
-            userInfoService As JestersCreditUnion.Interface.UserManagement.IUserInfoService)
+            userInfoService As JestersCreditUnion.Interface.UserManagement.IUserInfoService,
+            userSaver As IUserSaver)
 
         m_tokenFactory = tokenFactory
         m_innerUserFactory = userFactory
         m_userInfoService = userInfoService
+        m_userSaver = userSaver
     End Sub
 
     Public Function GetBySubscriberId(ByVal principal As ClaimsPrincipal) As User Implements IUserFactory.GetBySubscriberId
@@ -24,6 +27,7 @@ Public Class UserFactory
         If user Is Nothing Then
             user = New User
             UpdateUser(user, principal)
+            user = m_userSaver.Create(New SettingsAdp, token.AccessToken, user, subscriberId)
         End If
 
         Return user
@@ -45,9 +49,9 @@ Public Class UserFactory
         End If
 
         If principal.Claims.Where(Function(c As Claim) c.Type = "gty" AndAlso c.Value = "client-credentials").Any() Then
-            Claim = principal.Claims.FirstOrDefault(Function(c As Claim) c.Type = ClaimTypes.NameIdentifier)
-            If Claim IsNot Nothing AndAlso String.IsNullOrEmpty(user.FullName) Then
-                user.FullName = Claim.Value
+            claim = principal.Claims.FirstOrDefault(Function(c As Claim) c.Type = ClaimTypes.NameIdentifier)
+            If claim IsNot Nothing AndAlso String.IsNullOrEmpty(user.FullName) Then
+                user.FullName = claim.Value
             End If
         Else
             userInfo = m_userInfoService.Get(New SettingsJcuUserManagement, accessToken)
@@ -64,6 +68,5 @@ Public Class UserFactory
                 End If
             End If
         End If
-
     End Sub
 End Class
