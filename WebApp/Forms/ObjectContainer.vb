@@ -14,6 +14,11 @@ Public Class ObjectContainer
         builder.RegisterType(Of JestersCreditUnion.Interface.AbyssalDataProcessor.UserFactory)() _
             .As(Of JestersCreditUnion.Interface.AbyssalDataProcessor.IUserFactory)()
 
+        builder.RegisterType(Of UserSaver)() _
+            .As(Of IUserSaver)()
+
+        builder.RegisterType(Of FormSaver)() _
+            .As(Of IFormSaver)()
 
         builder.RegisterType(Of JestersCreditUnion.Interface.UserManagement.UserInfoService)() _
             .As(Of JestersCreditUnion.Interface.UserManagement.IUserInfoService)()

@@ -197,7 +197,6 @@
     <Compile Include="Enumerations.vb" />
     <Compile Include="Forms\FormSerializer.vb" />
     <Compile Include="Forms\RoleRequest.vb" />
-    <Compile Include="Models\Form.vb" />
     <Compile Include="Models\RoleRequest.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
