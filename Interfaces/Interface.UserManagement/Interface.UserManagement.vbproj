@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{A37BF7A0-6B5E-451E-843F-A87B74A7F264}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>AbyssalDataProcessor.Interface.UserManagement</RootNamespace>
-    <AssemblyName>AbyssalDataProcessor.Interface.UserManagement</AssemblyName>
+    <RootNamespace>JestersCreditUnion.Interface.UserManagement</RootNamespace>
+    <AssemblyName>JestersCreditUnion.Interface.UserManagement</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Windows</MyType>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
@@ -18,7 +18,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile>AbyssalDataProcessor.Interface.UserManagement.xml</DocumentationFile>
+    <DocumentationFile>JestersCreditUnion.Interface.UserManagement.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
@@ -28,7 +28,7 @@
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile>AbyssalDataProcessor.Interface.UserManagement.xml</DocumentationFile>
+    <DocumentationFile>JestersCreditUnion.Interface.UserManagement.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
@@ -67,7 +67,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ISettings.vb" />
+    <Compile Include="ITokenService.vb" />
     <Compile Include="IUserInfoService.vb" />
+    <Compile Include="Token.vb" />
+    <Compile Include="TokenService.vb" />
     <Compile Include="UserInfo.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="UserInfoService.vb" />

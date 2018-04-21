@@ -8,5 +8,17 @@
     <Setting Name="Auth0ApiIdentifier" Type="System.String" Scope="Application">
       <Value Profile="(Default)">http://localhost:3000/OperationsAPI</Value>
     </Setting>
+    <Setting Name="adpClientId" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">rgxB7Xs04SmIpNkcjA4AnxjjcvPbaJdv</Value>
+    </Setting>
+    <Setting Name="adpSecret" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">mNhhFYD8y6WZlxPhBVBjPu0UqK-gu-2JFvtyGxi_vYQK5g9rW8TKumqF0HWfPBA8</Value>
+    </Setting>
+    <Setting Name="adpAudience" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://localhost/abyssaldataprocessor/api</Value>
+    </Setting>
+    <Setting Name="adpAuth0Domain" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">abyssaldataprocessor-dvlp.auth0.com</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

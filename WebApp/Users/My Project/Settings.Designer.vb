@@ -71,6 +71,42 @@ Namespace My
                 Return CType(Me("Auth0ApiIdentifier"),String)
             End Get
         End Property
+        
+        <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("rgxB7Xs04SmIpNkcjA4AnxjjcvPbaJdv")>  _
+        Public ReadOnly Property adpClientId() As String
+            Get
+                Return CType(Me("adpClientId"),String)
+            End Get
+        End Property
+        
+        <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("mNhhFYD8y6WZlxPhBVBjPu0UqK-gu-2JFvtyGxi_vYQK5g9rW8TKumqF0HWfPBA8")>  _
+        Public ReadOnly Property adpSecret() As String
+            Get
+                Return CType(Me("adpSecret"),String)
+            End Get
+        End Property
+        
+        <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("http://localhost/abyssaldataprocessor/api")>  _
+        Public ReadOnly Property adpAudience() As String
+            Get
+                Return CType(Me("adpAudience"),String)
+            End Get
+        End Property
+        
+        <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("abyssaldataprocessor-dvlp.auth0.com")>  _
+        Public ReadOnly Property adpAuth0Domain() As String
+            Get
+                Return CType(Me("adpAuth0Domain"),String)
+            End Get
+        End Property
     End Class
 End Namespace
 

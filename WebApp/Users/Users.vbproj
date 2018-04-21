@@ -199,7 +199,9 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="SettingsAdp.vb" />
     <Compile Include="Startup.vb" />
+    <Compile Include="Token.vb" />
   </ItemGroup>
   <ItemGroup>
     <None Include="My Project\Application.myapp">
