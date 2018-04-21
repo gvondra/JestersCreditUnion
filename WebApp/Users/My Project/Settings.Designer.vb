@@ -92,19 +92,19 @@ Namespace My
         
         <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("http://localhost/abyssaldataprocessor/api")>  _
-        Public ReadOnly Property adpAudience() As String
+         Global.System.Configuration.DefaultSettingValueAttribute("abyssaldataprocessor-dvlp.auth0.com")>  _
+        Public ReadOnly Property adpAuth0Domain() As String
             Get
-                Return CType(Me("adpAudience"),String)
+                Return CType(Me("adpAuth0Domain"),String)
             End Get
         End Property
         
         <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("abyssaldataprocessor-dvlp.auth0.com")>  _
-        Public ReadOnly Property adpAuth0Domain() As String
+         Global.System.Configuration.DefaultSettingValueAttribute("http://localhost/api")>  _
+        Public ReadOnly Property adpAudience() As String
             Get
-                Return CType(Me("adpAuth0Domain"),String)
+                Return CType(Me("adpAudience"),String)
             End Get
         End Property
     End Class
