@@ -7,7 +7,7 @@ apiEndpoints:
   # see: http://www.express-gateway.io/docs/configuration/gateway.config.yml/apiEndpoints
   forms:
     host: "*"
-    paths: /api/forms
+    paths: /api/forms/*
   menu:
     host: "*"
     paths: /api/menu
