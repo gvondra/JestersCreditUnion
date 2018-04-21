@@ -8,7 +8,7 @@ plugins:
   # express-gateway-plugin-example:
   #   param1: 'param from system.config' 
   body-parser:
-    package: ./policies/body-parser
+    package: ./policies/body-parser    
   set-user-id:
     package: ./policies/set-user-id
 

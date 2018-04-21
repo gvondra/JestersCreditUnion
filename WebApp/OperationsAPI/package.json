@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "main": "server.js",
   "dependencies": {
-    "express-gateway": "^1.8.2"
+    "express-gateway": "^1.8.2",
+    "request": "^2.85.0",
+    "request-promise-native": "^1.0.5"
   }
 }
