@@ -9,10 +9,6 @@ const p = {
         return bodyParser.json();
       }
 }
-const r = function(gatewayExpressApp) {
-    
-    //gatewayExpressApp.post('/api/*', bodyParser.json());
-};
 
 module.exports = {
     version: '1.2.0',

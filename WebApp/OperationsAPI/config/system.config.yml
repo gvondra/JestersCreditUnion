@@ -10,7 +10,9 @@ plugins:
   body-parser:
     package: ./policies/body-parser    
   set-user-id:
-    package: ./policies/set-user-id
+    package: ./policies/set-user-id   
+  menu:
+    package: ./policies/menu
 
 crypto:
   cipherKey: sensitiveKey

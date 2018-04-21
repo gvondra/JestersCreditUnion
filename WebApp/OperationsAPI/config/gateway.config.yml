@@ -8,6 +8,9 @@ apiEndpoints:
   forms:
     host: "*"
     paths: /api/forms
+  menu:
+    host: "*"
+    paths: /api/menu
 serviceEndpoints:
   # see: http://www.express-gateway.io/docs/configuration/gateway.config.yml/serviceEndpoints
   jcu:
@@ -21,17 +24,18 @@ policies:
   - rate-limit
   - body-parser
   - set-user-id
+  - menu
 pipelines:
   # see: https://www.express-gateway.io/docs/configuration/gateway.config.yml/pipelines
   forms:
     apiEndpoints:
       - forms
     policies:
-      - jwt:
+      - jwt: &jwt
         - action:
             secretOrPublicKeyFile: ./key/jestercreditunion-dvlp.pem
             checkCredentialExistence: false
-      - rate-limit:
+      - rate-limit: &rateLimit
         - action:
             max: 600                      # max 600 request
             windowMs: 60000               # per 60 seconds
@@ -39,3 +43,10 @@ pipelines:
       - proxy:
         - action:
             serviceEndpoint: jcu
+  menu:
+    apiEndpoints:
+      - menu
+    policies:
+      - jwt: *jwt
+      - rate-limit: *rateLimit
+      - menu:
