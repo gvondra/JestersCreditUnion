@@ -35,10 +35,7 @@ pipelines:
         - action:
             max: 600                      # max 600 request
             windowMs: 60000               # per 60 seconds
-            rateLimitBy: "${req.user.id}" # EgContext.req.user.id  
-      - set-user-id:
-        - action:
-            address: "http://localhost:50367/"
+            rateLimitBy: "${req.user.sub}" # EgContext.req.user.sub
       - proxy:
         - action:
             serviceEndpoint: jcu
