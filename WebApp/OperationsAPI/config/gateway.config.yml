@@ -16,10 +16,17 @@ apiEndpoints:
     paths: /api/groups
   group:
     host: "*"
-    paths: /api/group
-  groupId:
+    paths: 
+      - "/api/group"
+      - "/api/group/:id"
+  users:
     host: "*"
-    paths: /api/group/:id
+    paths: /api/users/*
+  user:
+    host: "*"
+    paths: 
+      - "/api/user"
+      - "/api/user/:id"
 serviceEndpoints:
   # see: http://www.express-gateway.io/docs/configuration/gateway.config.yml/serviceEndpoints
   jcu:
@@ -66,7 +73,8 @@ pipelines:
     apiEndpoints:
       - groups
       - group
-      - groupId
+      - users
+      - user
     policies:
       - jwt: *jwt
       - rate-limit: *rateLimit
