@@ -11,6 +11,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AuthService } from './auth/auth.service';
 import { CallbackComponent } from './callback/callback.component';
 import { RoleRequestComponent } from './role-request/role-request.component';
+import { GroupsComponent } from './groups/groups.component';
+import { GroupComponent } from './group/group.component';
 
 
 @NgModule({
@@ -19,7 +21,9 @@ import { RoleRequestComponent } from './role-request/role-request.component';
     HeaderComponent,
     HomeComponent,
     CallbackComponent,
-    RoleRequestComponent
+    RoleRequestComponent,
+    GroupsComponent,
+    GroupComponent
   ],
   imports: [
     BrowserModule,

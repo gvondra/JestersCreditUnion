@@ -17,4 +17,20 @@ export class GroupService {
     .then(response => response.json() as Array<Group>)
   }
 
+  getGroup(groupId: string) : Promise<Group> {
+    return this.http.get(environment.baseUrl + "Group/" + groupId, {
+      headers: new Headers({"Authorization": `Bearer ${localStorage.getItem('token')}`})
+    })
+    .toPromise()
+    .then(response => response.json() as Group)
+  }
+
+  putGroup(group: Group): Promise<Group> {
+    return this.http.put(environment.baseUrl + "Group", group,
+    {
+      headers: new Headers({"Authorization": `Bearer ${localStorage.getItem('token')}`})
+    })
+    .toPromise()
+    .then(response => response.json() as Group)
+  }
 }

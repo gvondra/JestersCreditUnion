@@ -5,6 +5,7 @@ import { AuthGuard } from './auth/auth.guard';
 import { CallbackComponent } from './callback/callback.component';
 import { RoleRequestComponent } from './role-request/role-request.component';
 import { GroupsComponent } from './groups/groups.component';
+import { GroupComponent } from './group/group.component';
 const routes: Routes = [
     {
         path: '',
@@ -24,6 +25,20 @@ const routes: Routes = [
       {
         path: 'groups',
         component: GroupsComponent,
+        canActivate: [
+          AuthGuard
+        ]
+      },
+      {
+        path: 'group',
+        component: GroupComponent,
+        canActivate: [
+          AuthGuard
+        ]
+      },
+      {
+        path: 'group/:id',
+        component: GroupComponent,
         canActivate: [
           AuthGuard
         ]

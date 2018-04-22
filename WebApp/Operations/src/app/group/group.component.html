@@ -1,0 +1,22 @@
+<h2>Group</h2>
+<div [hidden]="SpinnerHidden">  
+  <i class="fa fa-cog fa-spin" style="font-size:36px; margin: 25px;"></i>
+</div>
+<form *ngIf="Group" novalidate="novalidate" name="groupForm" #groupForm="ngForm">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-3">
+        <label class="control-label">Name</label>:
+      </div>
+      <div class="col-md-8">
+        <input id="Name" name="Name" #nameInput="ngModel" type="text" required="required" class="form-control" [(ngModel)]="Group.Name"/>
+        <div [hidden]="nameInput.valid || nameInput.pristine" class="alert alert-danger">is required</div>
+      </div>
+    </div>  
+    <div class="row">
+      <div class="col-md-6 col-md-offset-3">
+        <button class="btn btn-default" [disabled]="!groupForm.form.valid" (click)="Submit()">Submit</button>
+      </div>
+    </div>   
+  </div>
+</form> 
