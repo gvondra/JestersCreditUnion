@@ -13,6 +13,8 @@ plugins:
     package: ./policies/set-user-id   
   menu:
     package: ./policies/menu
+  set-adp-auth:
+    package: ./policies/set-adp-auth
 
 crypto:
   cipherKey: sensitiveKey
