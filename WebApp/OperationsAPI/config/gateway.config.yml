@@ -11,10 +11,15 @@ apiEndpoints:
   menu:
     host: "*"
     paths: /api/menu
+  groups:
+    host: "*"
+    paths: /api/groups
 serviceEndpoints:
   # see: http://www.express-gateway.io/docs/configuration/gateway.config.yml/serviceEndpoints
   jcu:
     url: "http://localhost:63264/"
+  adp:
+    url: "http://localhost:65026/"
 policies:
   - cors
   - expression
@@ -25,6 +30,7 @@ policies:
   - body-parser
   - set-user-id
   - menu
+  - set-adp-auth
 pipelines:
   # see: https://www.express-gateway.io/docs/configuration/gateway.config.yml/pipelines
   forms:
@@ -50,3 +56,16 @@ pipelines:
       - jwt: *jwt
       - rate-limit: *rateLimit
       - menu:
+  groups:
+    apiEndpoints:
+      - groups
+    policies:
+      - jwt: *jwt
+      - rate-limit: *rateLimit
+      - set-adp-auth:
+        - action:
+            address: https://abyssaldataprocessor-dvlp.auth0.com/
+      - proxy:
+        - action:
+            serviceEndpoint: adp
+    
