@@ -1,0 +1,29 @@
+<h2>Search</h2>
+<form novalidate="novalidate" name="searchForm" #searchForm="ngForm">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-8">
+        <input id="SearchText" name="SearchText" #searchTextInput="ngModel" type="text" required="required" class="form-control" [(ngModel)]="SearchText"/>
+        <div [hidden]="searchTextInput.valid || searchTextInput.pristine" class="alert alert-danger">is required</div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <button class="btn btn-default" [disabled]="!searchForm.form.valid" (click)="Submit()">Submit</button>
+      </div>
+    </div>
+  </div>
+</form>
+<div [hidden]="SpinnerHidden">  
+  <i class="fa fa-cog fa-spin" style="font-size:36px; margin: 25px;"></i>
+</div>
+<div id="SearchResultPannel" *ngIf="SearchResult">
+  <h3>Result</h3>
+  <table>
+    <tr *ngFor="let u of SearchResult">
+      <td><a [routerLink]="['/user', u.UserId]">{{ u.ShortName }}</a></td>
+      <td>{{ u.FullName }}</td>
+      <td>{{ u.EmailAddress }}</td>
+    </tr>
+  </table>
+</div>
