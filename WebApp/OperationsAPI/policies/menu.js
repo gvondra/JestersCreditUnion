@@ -12,7 +12,7 @@ const p = {
                 if (!section2) {
                     section2 = []
                 }
-                section2.push({Text: "Users", URL: "/users"})
+                section2.push({Text: "Users", URL: "/usersearch"})
                 menuCount += 1;
                 section2.push({Text: "Groups", URL: "/groups"})
                 menuCount += 1;
