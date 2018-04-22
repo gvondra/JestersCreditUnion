@@ -16,7 +16,7 @@ const p = {
         }
 
         return (req, res, next) => {
-          console.log('executing set-user-id with params', actionParams);
+          //console.log('executing set-user-id with params', actionParams);
           getUser(actionParams.address, req.headers["authorization"])
             .then(data => {
                 console.log(data);
@@ -37,9 +37,9 @@ module.exports = {
     schema: {
         $id: 'jesterscreditunion/policies/setuserid',
         address: {
-        type: 'string',
-      },
-      required: ['address']
+            type: 'string',
+        },
+        required: ['address']
     } 
 
 }
