@@ -27,6 +27,7 @@ apiEndpoints:
     paths: 
       - "/api/user"
       - "/api/user/:id"
+      - "/api/user/:id/groups"
 serviceEndpoints:
   # see: http://www.express-gateway.io/docs/configuration/gateway.config.yml/serviceEndpoints
   jcu:
