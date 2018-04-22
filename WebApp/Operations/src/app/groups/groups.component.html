@@ -1,0 +1,12 @@
+<div style="float: right;">
+  <a [routerLink]="['/group']">New Group</a>
+</div>
+<h2>Groups</h2>
+<div [hidden]="SpinnerHidden">  
+<i class="fa fa-cog fa-spin" style="font-size:36px; margin: 25px;"></i>
+</div>
+<div *ngIf="Groups">
+  <ul>
+      <li *ngFor="let g of Groups"><a [routerLink]="['/group', g.GroupId]">{{ g.Name }}</a></li>
+  </ul>
+</div>
