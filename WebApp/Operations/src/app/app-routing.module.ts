@@ -6,6 +6,9 @@ import { CallbackComponent } from './callback/callback.component';
 import { RoleRequestComponent } from './role-request/role-request.component';
 import { GroupsComponent } from './groups/groups.component';
 import { GroupComponent } from './group/group.component';
+import { UserSearchComponent } from './user-search/user-search.component';
+import { UserComponent } from './user/user.component';
+import { UserGroupsComponent } from './user-groups/user-groups.component';
 const routes: Routes = [
     {
         path: '',
@@ -39,6 +42,27 @@ const routes: Routes = [
       {
         path: 'group/:id',
         component: GroupComponent,
+        canActivate: [
+          AuthGuard
+        ]
+      },
+      {
+        path: 'usersearch',
+        component: UserSearchComponent,
+        canActivate: [
+          AuthGuard
+        ]
+      },
+      {
+        path: 'user/:id',
+        component: UserComponent,
+        canActivate: [
+          AuthGuard
+        ]
+      },
+      {
+        path: 'user/:id/groups',
+        component: UserGroupsComponent,
         canActivate: [
           AuthGuard
         ]

@@ -13,6 +13,9 @@ import { CallbackComponent } from './callback/callback.component';
 import { RoleRequestComponent } from './role-request/role-request.component';
 import { GroupsComponent } from './groups/groups.component';
 import { GroupComponent } from './group/group.component';
+import { UserSearchComponent } from './user-search/user-search.component';
+import { UserComponent } from './user/user.component';
+import { UserGroupsComponent } from './user-groups/user-groups.component';
 
 
 @NgModule({
@@ -23,7 +26,10 @@ import { GroupComponent } from './group/group.component';
     CallbackComponent,
     RoleRequestComponent,
     GroupsComponent,
-    GroupComponent
+    GroupComponent,
+    UserSearchComponent,
+    UserComponent,
+    UserGroupsComponent
   ],
   imports: [
     BrowserModule,
