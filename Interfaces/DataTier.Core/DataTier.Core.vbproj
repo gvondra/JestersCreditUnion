@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{672A5B5A-0B59-47CE-BA3C-B4D350D99FD5}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>AbyssalDataProcessor.DataTier.Core</RootNamespace>
-    <AssemblyName>AbyssalDataProcessor.DataTier.Core</AssemblyName>
+    <RootNamespace>JestersCreditUnion.DataTier.Core</RootNamespace>
+    <AssemblyName>JestersCreditUnion.DataTier.Core</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Windows</MyType>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
@@ -18,7 +18,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile>AbyssalDataProcessor.DataTier.Core.xml</DocumentationFile>
+    <DocumentationFile>JestersCreditUnion.DataTier.Core.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
@@ -28,7 +28,7 @@
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile>AbyssalDataProcessor.DataTier.Core.xml</DocumentationFile>
+    <DocumentationFile>JestersCreditUnion.DataTier.Core.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
@@ -53,8 +53,8 @@
     <Reference Include="System.Net.Http" />
   </ItemGroup>
   <ItemGroup>
-    <Import Include="AbyssalDataProcessor.DataTier.Core.Models" />
-    <Import Include="AbyssalDataProcessor.DataTier.Utilities" />
+    <Import Include="JestersCreditUnion.DataTier.Core.Models" />
+    <Import Include="JestersCreditUnion.DataTier.Utilities" />
     <Import Include="Microsoft.VisualBasic" />
     <Import Include="System" />
     <Import Include="System.Collections" />
