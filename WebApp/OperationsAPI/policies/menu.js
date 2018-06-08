@@ -3,7 +3,7 @@ const p = {
     policy: (actionParams) => {
         return (req, res, next) => {
             var menuCount = 0;
-            console.log(req.user["https://jesterscreditunion-dvlp/role-SU"]);
+            //console.log(req.user["https://jesterscreditunion-dvlp/role-SU"]);
             var isSuperUser = (req.user["https://jesterscreditunion-dvlp/role-SU"] && req.user["https://jesterscreditunion-dvlp/role-SU"] === "SU");
             var section1 = null;
             var section2 = null;
