@@ -94,6 +94,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClaimsAuthorizationAttribute.vb" />
     <Compile Include="ControllerBase.vb" />
     <Compile Include="IUserFactory.vb" />
     <Compile Include="MetricsLogAttribute.vb" />
@@ -103,6 +104,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="RoleProcessor.vb" />
     <Compile Include="Settings.vb" />
     <Compile Include="UserFactory.vb" />
   </ItemGroup>
@@ -118,6 +120,10 @@
     <ProjectReference Include="..\Core\Core.Framework\Core.Framework.vbproj">
       <Project>{90fbcf4b-681c-4b01-8d78-fabe7bbb04e0}</Project>
       <Name>Core.Framework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Core\Core.User\Core.User.vbproj">
+      <Project>{2e861851-89c0-420c-88cd-bf91f6e51b4d}</Project>
+      <Name>Core.User</Name>
     </ProjectReference>
     <ProjectReference Include="..\Core\Core.Utilities.Framework\Core.Utilities.Framework.vbproj">
       <Project>{c19a5ae6-3454-499a-a73b-4ebdcb5c7989}</Project>
