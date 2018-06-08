@@ -17,7 +17,7 @@ Imports Moq
 
         form = roleRequest.CreateForm(user.Object)
 
-        Assert.IsInstanceOfType(form, GetType(AbyssalDataProcessor.Core.Form.Form))
+        Assert.IsInstanceOfType(form, GetType(JestersCreditUnion.Core.Form.Form))
         Assert.AreEqual(Of enumFormType)(enumFormType.RoleRequest, form.Type)
         Assert.AreEqual(Of enumFormStyle)(enumFormStyle.RoleRequest, form.Style)
         Assert.IsNotNull(form.Content)

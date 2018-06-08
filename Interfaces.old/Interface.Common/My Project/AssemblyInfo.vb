@@ -12,7 +12,7 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyDescription("")> 
 <Assembly: AssemblyCompany("")>
 <Assembly: AssemblyProduct("Jesters Credit Union")>
-<Assembly: AssemblyCopyright("Copyright ©Jesters Credit Union 2018")>
+<Assembly: AssemblyCopyright("Copyright ©Jesters Credit Union  2018")>
 <Assembly: AssemblyTrademark("")> 
 
 <Assembly: ComVisible(False)>

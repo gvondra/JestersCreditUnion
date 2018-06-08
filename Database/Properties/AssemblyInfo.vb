@@ -9,9 +9,9 @@ Imports System.Reflection
 
 <Assembly: AssemblyTitle("$projectname$")> 
 <Assembly: AssemblyDescription("")> 
-<Assembly: AssemblyCompany("")> 
-<Assembly: AssemblyProduct("Database")> 
-<Assembly: AssemblyCopyright("Copyright ©  2018")> 
+<Assembly: AssemblyCompany("")>
+<Assembly: AssemblyProduct("Jesters Credit Union")>
+<Assembly: AssemblyCopyright("Copyright ©Jesters Credit Union  2018")>
 <Assembly: AssemblyTrademark("")> 
 
 ' Version information for an assembly consists of the following four values:

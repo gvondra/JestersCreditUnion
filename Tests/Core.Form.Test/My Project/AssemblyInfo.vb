@@ -11,8 +11,8 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyTitle("Core.Form.Test")>
 <Assembly: AssemblyDescription("")>
 <Assembly: AssemblyCompany("")>
-<Assembly: AssemblyProduct("Core.Form.Test")>
-<Assembly: AssemblyCopyright("Copyright ©  2018")>
+<Assembly: AssemblyProduct("Jesters Credit Union")>
+<Assembly: AssemblyCopyright("Copyright ©Jesters Credit Union  2018")>
 <Assembly: AssemblyTrademark("")>
 
 <Assembly: ComVisible(False)>
