@@ -78,6 +78,7 @@
   <ItemGroup>
     <Compile Include="EventType.vb" />
     <Compile Include="Group.vb" />
+    <Compile Include="ObjectContainerBuilder.vb" />
     <Compile Include="Task.vb" />
     <Compile Include="TaskFactory.vb" />
     <Compile Include="TaskSaver.vb" />

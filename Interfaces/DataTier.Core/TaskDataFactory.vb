@@ -16,7 +16,7 @@
         parameter.Value = taskId
         Return Me.GenericDataFactory.GetData(settings,
                                              providerFactory,
-                                             "adp.sTask",
+                                             "jcu.sTask",
                                              Function() New TaskData,
                                              New Action(Of IEnumerable(Of TaskData))(AddressOf AssignDataStateManager(Of TaskData)),
                                              {parameter}).FirstOrDefault
@@ -31,7 +31,7 @@
         parameter.Value = userId
         Return Me.GenericDataFactory.GetData(settings,
                                              providerFactory,
-                                             "adp.sTaskByUserId",
+                                             "jcu.sTaskByUserId",
                                              Function() New TaskData,
                                              New Action(Of IEnumerable(Of TaskData))(AddressOf AssignDataStateManager(Of TaskData)),
                                              {parameter})
@@ -48,7 +48,7 @@
         parameter.Value = taskId
         Using connection As IDbConnection = providerFactory.OpenConnection(settings.ConnectionString)
             Using command As IDbCommand = connection.CreateCommand
-                command.CommandText = "adp.sTaskFormByTaskId"
+                command.CommandText = "jcu.sTaskFormByTaskId"
                 command.CommandType = CommandType.StoredProcedure
                 command.Parameters.Add(parameter)
 

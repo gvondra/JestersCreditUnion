@@ -104,6 +104,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="ObjectContainerFactory.vb" />
     <Compile Include="RoleProcessor.vb" />
     <Compile Include="Settings.vb" />
     <Compile Include="UserFactory.vb" />
@@ -117,9 +118,25 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Core\Core.Event\Core.Event.vbproj">
+      <Project>{54abb947-d5f2-4b81-ae14-d132ff07e3ce}</Project>
+      <Name>Core.Event</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Core\Core.Form\Core.Form.vbproj">
+      <Project>{e0824bc0-9245-4273-bbbe-ca435f79817f}</Project>
+      <Name>Core.Form</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Core\Core.Framework\Core.Framework.vbproj">
       <Project>{90fbcf4b-681c-4b01-8d78-fabe7bbb04e0}</Project>
       <Name>Core.Framework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Core\Core.Logging\Core.Log.vbproj">
+      <Project>{8c9b4a10-f563-4491-af9d-259e6a4f4f6f}</Project>
+      <Name>Core.Log</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Core\Core.Task\Core.Task.vbproj">
+      <Project>{1c826a9d-914f-4c67-a4c9-0fbf59ab1f07}</Project>
+      <Name>Core.Task</Name>
     </ProjectReference>
     <ProjectReference Include="..\Core\Core.User\Core.User.vbproj">
       <Project>{2e861851-89c0-420c-88cd-bf91f6e51b4d}</Project>

@@ -24,7 +24,7 @@ Public Class TaskTypeGroupDataFactoryTest
 
         factory.GetByTaskTypeId(settings.Object, providerFactory.Object, Guid.Empty)
 
-        command.VerifySet(Sub(c As IDbCommand) c.CommandText = "adp.sTaskTypeGroupByTaskTypeId", Times.Once)
+        command.VerifySet(Sub(c As IDbCommand) c.CommandText = "jcu.sTaskTypeGroupByTaskTypeId", Times.Once)
 
         generic.Verify(Of IEnumerable(Of TaskTypeGroupData))(
             Function(g As IGenericDataFactory(Of TaskTypeGroupData)) g.LoadData(Of TaskTypeGroupData)(

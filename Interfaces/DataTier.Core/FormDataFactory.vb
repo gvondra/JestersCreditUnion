@@ -16,7 +16,7 @@
         parameter.Value = formId
         Return Me.GenericDataFactory.GetData(settings,
                                              providerFactory,
-                                             "adp.sForm",
+                                             "jcu.sForm",
                                              Function() New FormData,
                                              New Action(Of IEnumerable(Of FormData))(AddressOf AssignDataStateManager(Of FormData)),
                                              {parameter}).FirstOrDefault

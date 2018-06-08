@@ -26,7 +26,7 @@ Public Class UserDataSaverTest
         providerFactory.Verify(Sub(f As IDbProviderFactory) f.EstablishTransaction(transactionHandler.Object, data), Times.Once)
         command.Verify(Of Integer)(Function(c As IDbCommand) c.ExecuteNonQuery(), Times.Once)
         command.VerifySet(Sub(c As IDbCommand) c.CommandType = CommandType.StoredProcedure, Times.AtLeastOnce)
-        command.VerifySet(Sub(c As IDbCommand) c.CommandText = "adp.iUser", Times.AtLeastOnce)
+        command.VerifySet(Sub(c As IDbCommand) c.CommandText = "jcu.iUser", Times.AtLeastOnce)
     End Sub
 
     <TestMethod()>
@@ -57,7 +57,7 @@ Public Class UserDataSaverTest
         providerFactory.Verify(Sub(f As IDbProviderFactory) f.EstablishTransaction(transactionHandler.Object, data), Times.Once)
         command.Verify(Of Integer)(Function(c As IDbCommand) c.ExecuteNonQuery(), Times.Once)
         command.VerifySet(Sub(c As IDbCommand) c.CommandType = CommandType.StoredProcedure, Times.AtLeastOnce)
-        command.VerifySet(Sub(c As IDbCommand) c.CommandText = "adp.uUser", Times.AtLeastOnce)
+        command.VerifySet(Sub(c As IDbCommand) c.CommandText = "jcu.uUser", Times.AtLeastOnce)
     End Sub
 
 

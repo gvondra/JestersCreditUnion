@@ -16,7 +16,7 @@
         parameter.Value = groupId
         Return Me.GenericDataFactory.GetData(settings,
                                              providerFactory,
-                                             "adp.sGroup",
+                                             "jcu.sGroup",
                                              Function() New GroupData,
                                              New Action(Of IEnumerable(Of GroupData))(AddressOf AssignDataStateManager(Of GroupData)),
                                              {parameter}).FirstOrDefault
@@ -29,7 +29,7 @@
     Public Function GetAll(settings As ISettings, ByVal providerFactory As IDbProviderFactory) As IEnumerable(Of GroupData)
         Return Me.GenericDataFactory.GetData(settings,
                                              providerFactory,
-                                             "adp.sGroupAll",
+                                             "jcu.sGroupAll",
                                              Function() New GroupData,
                                              New Action(Of IEnumerable(Of GroupData))(AddressOf AssignDataStateManager(Of GroupData)))
     End Function

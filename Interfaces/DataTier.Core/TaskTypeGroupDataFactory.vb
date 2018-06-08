@@ -19,7 +19,7 @@
         Dim groups As IEnumerable(Of GroupData)
         Using connection As IDbConnection = providerFactory.OpenConnection(settings.ConnectionString)
             Using command As IDbCommand = connection.CreateCommand
-                command.CommandText = "adp.sTaskTypeGroupByTaskTypeId"
+                command.CommandText = "jcu.sTaskTypeGroupByTaskTypeId"
                 command.CommandType = CommandType.StoredProcedure
                 parameter = CreateParameter(providerFactory, "taskTypeId", DbType.Guid)
                 parameter.Value = taskTypeId

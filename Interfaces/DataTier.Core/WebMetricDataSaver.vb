@@ -20,7 +20,7 @@
         Using command As IDbCommand = m_transactionHandler.Connection.CreateCommand
             command.Transaction = m_transactionHandler.Transaction.InnerTransaction
             command.CommandType = CommandType.StoredProcedure
-            command.CommandText = "adp.iWebMetric"
+            command.CommandText = "jcu.iWebMetric"
 
             id = CreateParameter(providerFactory, "id", DbType.Int32)
             id.Direction = ParameterDirection.Output

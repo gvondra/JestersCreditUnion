@@ -9,7 +9,8 @@ Public Class UserFactory
     Private m_container As IContainer
 
     Public Sub New()
-        'm_container = ObjectContainer.GetContainer()
+        Dim objectContainerFactory As New ObjectContainerFactory
+        m_container = objectContainerFactory.Create
         Using scope As ILifetimeScope = m_container.BeginLifetimeScope
             m_innerUserFactory = scope.Resolve(Of JestersCreditUnion.Core.Framework.IUserFactory)
         End Using

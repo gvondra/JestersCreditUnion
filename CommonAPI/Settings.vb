@@ -9,7 +9,7 @@
 
     Public ReadOnly Property ConnectionString As String Implements ISettings.ConnectionString
         Get
-            Return My.Settings.AuthEndpointDomain
+            Return My.Settings.ConnectionString
         End Get
     End Property
 End Class

@@ -21,7 +21,7 @@
         Using command As IDbCommand = m_transactionHandler.Connection.CreateCommand
             command.Transaction = m_transactionHandler.Transaction.InnerTransaction
             command.CommandType = CommandType.StoredProcedure
-            command.CommandText = "adp.iUserAccount"
+            command.CommandText = "jcu.iUserAccount"
 
             id = CreateParameter(providerFactory, "id", DbType.Guid)
             id.Direction = ParameterDirection.Output

@@ -19,7 +19,7 @@
         Dim groups As IEnumerable(Of GroupData)
         Using connection As IDbConnection = providerFactory.OpenConnection(settings.ConnectionString)
             Using command As IDbCommand = connection.CreateCommand
-                command.CommandText = "adp.sUserGroupByUserId"
+                command.CommandText = "jcu.sUserGroupByUserId"
                 command.CommandType = CommandType.StoredProcedure
                 parameter = CreateParameter(providerFactory, "userId", DbType.Guid)
                 parameter.Value = userId

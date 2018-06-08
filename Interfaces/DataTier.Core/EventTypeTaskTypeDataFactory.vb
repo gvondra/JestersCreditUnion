@@ -19,7 +19,7 @@
         Dim eventTypes As IEnumerable(Of EventTypeData)
         Using connection As IDbConnection = providerFactory.OpenConnection(settings.ConnectionString)
             Using command As IDbCommand = connection.CreateCommand
-                command.CommandText = "adp.sEventTypeTaskTypeByTaskTypeId"
+                command.CommandText = "jcu.sEventTypeTaskTypeByTaskTypeId"
                 command.CommandType = CommandType.StoredProcedure
                 parameter = CreateParameter(providerFactory, "taskTypeId", DbType.Guid)
                 parameter.Value = taskTypeId
@@ -59,7 +59,7 @@
         Dim taskTypes As IEnumerable(Of TaskTypeData)
         Using connection As IDbConnection = providerFactory.OpenConnection(settings.ConnectionString)
             Using command As IDbCommand = connection.CreateCommand
-                command.CommandText = "adp.sEventTypeTaskTypeByEventTypeId"
+                command.CommandText = "jcu.sEventTypeTaskTypeByEventTypeId"
                 command.CommandType = CommandType.StoredProcedure
                 parameter = CreateParameter(providerFactory, "eventTypeId", DbType.Int16)
                 parameter.Value = eventTypeId

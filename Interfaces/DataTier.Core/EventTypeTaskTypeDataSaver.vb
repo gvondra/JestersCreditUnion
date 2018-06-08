@@ -22,7 +22,7 @@
             Using command As IDbCommand = m_transactionHandler.Connection.CreateCommand
                 command.Transaction = m_transactionHandler.Transaction.InnerTransaction
                 command.CommandType = CommandType.StoredProcedure
-                command.CommandText = "adp.iEventTypeTaskType"
+                command.CommandText = "jcu.iEventTypeTaskType"
 
                 timestamp = CreateParameter(providerFactory, "timestamp", DbType.DateTime)
                 timestamp.Direction = ParameterDirection.Output
@@ -51,7 +51,7 @@
             Using command As IDbCommand = m_transactionHandler.Connection.CreateCommand
                 command.Transaction = m_transactionHandler.Transaction.InnerTransaction
                 command.CommandType = CommandType.StoredProcedure
-                command.CommandText = "adp.uEventTypeTaskType"
+                command.CommandText = "jcu.uEventTypeTaskType"
 
                 timestamp = CreateParameter(providerFactory, "timestamp", DbType.DateTime)
                 timestamp.Direction = ParameterDirection.Output

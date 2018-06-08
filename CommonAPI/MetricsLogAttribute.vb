@@ -4,11 +4,25 @@ Imports System.Web.Http.Filters
 Public Class MetricsLogAttribute
     Inherits ActionFilterAttribute
 
-    Public Sub New(ByVal objectContainer As IContainer)
-        Me.ObjectContainer = objectContainer
-    End Sub
+    Private Shared m_objectContainer As IContainer
 
     Public Property ObjectContainer As IContainer
+        Get
+            Dim factory As ObjectContainerFactory
+            If m_objectContainer Is Nothing Then
+                SyncLock GetType(MetricsLogAttribute)
+                    If m_objectContainer Is Nothing Then
+                        factory = New ObjectContainerFactory
+                        m_objectContainer = factory.Create
+                    End If
+                End SyncLock
+            End If
+            Return m_objectContainer
+        End Get
+        Set(value As IContainer)
+            m_objectContainer = value
+        End Set
+    End Property
 
     Public Overrides Sub OnActionExecuting(actionContext As HttpActionContext)
         actionContext.RequestContext.RouteData.Values.Add("adpStartTs", Date.UtcNow)

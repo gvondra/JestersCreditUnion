@@ -91,6 +91,7 @@
     <Compile Include="Forms\RoleRequest.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="ObjectContainer.vb" />
+    <Compile Include="ObjectContainerBuilder.vb" />
     <Compile Include="TransformIndex.vb" />
   </ItemGroup>
   <ItemGroup>

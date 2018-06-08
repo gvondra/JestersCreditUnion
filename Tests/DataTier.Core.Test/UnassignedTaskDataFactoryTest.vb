@@ -18,7 +18,7 @@ Public Class UnassignedTaskDataFactoryTest
         generic.Verify(Of IEnumerable(Of UnassignedTaskData))(
             Function(f As IGenericDataFactory(Of UnassignedTaskData)) f.GetData(settings.Object,
                                                                       providerFactory.Object,
-                                                                      "adp.sUnassignedTaskByUser",
+                                                                      "jcu.sUnassignedTaskByUser",
                                                                       It.IsAny(Of Func(Of UnassignedTaskData)),
                                                                       It.IsAny(Of IEnumerable(Of IDataParameter))),
             Times.Once

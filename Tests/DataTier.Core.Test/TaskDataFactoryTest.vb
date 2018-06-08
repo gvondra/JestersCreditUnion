@@ -15,7 +15,7 @@ Public Class TaskDataFactoryTest
         generic.Verify(Of IEnumerable(Of TaskData))(
             Function(f As IGenericDataFactory(Of TaskData)) f.GetData(settings.Object,
                                                                       providerFactory.Object,
-                                                                      "adp.sTask",
+                                                                      "jcu.sTask",
                                                                       It.IsAny(Of Func(Of TaskData)),
                                                                       It.IsAny(Of Action(Of IEnumerable(Of TaskData))),
                                                                       It.IsAny(Of IEnumerable(Of IDataParameter))),
@@ -37,7 +37,7 @@ Public Class TaskDataFactoryTest
         generic.Verify(Of IEnumerable(Of TaskData))(
             Function(f As IGenericDataFactory(Of TaskData)) f.GetData(settings.Object,
                                                                       providerFactory.Object,
-                                                                      "adp.sTaskByUserId",
+                                                                      "jcu.sTaskByUserId",
                                                                       It.IsAny(Of Func(Of TaskData)),
                                                                       It.IsAny(Of Action(Of IEnumerable(Of TaskData))),
                                                                       It.IsAny(Of IEnumerable(Of IDataParameter))),
@@ -93,6 +93,6 @@ Public Class TaskDataFactoryTest
         Assert.IsNotNull(result)
         Assert.AreEqual(data.Rows.Count, result.Count())
 
-        command.VerifySet(Sub(c As IDbCommand) c.CommandText = "adp.sTaskFormByTaskId", Times.Once)
+        command.VerifySet(Sub(c As IDbCommand) c.CommandText = "jcu.sTaskFormByTaskId", Times.Once)
     End Sub
 End Class

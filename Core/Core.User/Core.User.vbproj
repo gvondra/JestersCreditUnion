@@ -79,6 +79,7 @@
     <Compile Include="GroupSaver.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="ObjectContainer.vb" />
+    <Compile Include="ObjectContainerBuilder.vb" />
     <Compile Include="RoleConstants.vb" />
     <Compile Include="UserGroup.vb" />
     <Compile Include="UserGroupSaver.vb" />

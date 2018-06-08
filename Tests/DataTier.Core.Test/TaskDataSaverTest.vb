@@ -26,7 +26,7 @@ Public Class TaskDataSaverTest
         providerFactory.Verify(Sub(f As IDbProviderFactory) f.EstablishTransaction(transactionHandler.Object, data), Times.Once)
         command.Verify(Of Integer)(Function(c As IDbCommand) c.ExecuteNonQuery(), Times.Once)
         command.VerifySet(Sub(c As IDbCommand) c.CommandType = CommandType.StoredProcedure, Times.AtLeastOnce)
-        command.VerifySet(Sub(c As IDbCommand) c.CommandText = "adp.iTask", Times.AtLeastOnce)
+        command.VerifySet(Sub(c As IDbCommand) c.CommandText = "jcu.iTask", Times.AtLeastOnce)
     End Sub
 
     '<TestMethod()>
@@ -55,7 +55,7 @@ Public Class TaskDataSaverTest
     '    providerFactory.Verify(Sub(f As IDbProviderFactory) f.EstablishTransaction(settings.Object), Times.Once)
     '    command.Verify(Of Integer)(Function(c As IDbCommand) c.ExecuteNonQuery(), Times.Once)
     '    command.VerifySet(Sub(c As IDbCommand) c.CommandType = CommandType.StoredProcedure, Times.AtLeastOnce)
-    '    command.VerifySet(Sub(c As IDbCommand) c.CommandText = "adp.uTask", Times.AtLeastOnce)
+    '    command.VerifySet(Sub(c As IDbCommand) c.CommandText = "jcu.uTask", Times.AtLeastOnce)
     'End Sub
 
 

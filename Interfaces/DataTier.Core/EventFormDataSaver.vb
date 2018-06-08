@@ -21,7 +21,7 @@
             Using command As IDbCommand = m_transactionHandler.Connection.CreateCommand
                 command.Transaction = m_transactionHandler.Transaction.InnerTransaction
                 command.CommandType = CommandType.StoredProcedure
-                command.CommandText = "adp.iEventForm"
+                command.CommandText = "jcu.iEventForm"
 
                 timestamp = CreateParameter(providerFactory, "timestamp", DbType.DateTime)
                 timestamp.Direction = ParameterDirection.Output

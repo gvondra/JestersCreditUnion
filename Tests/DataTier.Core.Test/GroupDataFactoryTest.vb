@@ -16,7 +16,7 @@ Public Class GroupDataFactoryTest
         generic.Verify(Of IEnumerable(Of GroupData))(
             Function(f As IGenericDataFactory(Of GroupData)) f.GetData(settings.Object,
                                                                       providerFactory.Object,
-                                                                      "adp.sGroup",
+                                                                      "jcu.sGroup",
                                                                       It.IsAny(Of Func(Of GroupData)),
                                                                       It.IsAny(Of Action(Of IEnumerable(Of GroupData))),
                                                                       It.IsAny(Of IEnumerable(Of IDataParameter))),
@@ -38,7 +38,7 @@ Public Class GroupDataFactoryTest
         generic.Verify(Of IEnumerable(Of GroupData))(
             Function(f As IGenericDataFactory(Of GroupData)) f.GetData(settings.Object,
                                                                       providerFactory.Object,
-                                                                      "adp.sGroupAll",
+                                                                      "jcu.sGroupAll",
                                                                       It.IsAny(Of Func(Of GroupData)),
                                                                       It.IsAny(Of Action(Of IEnumerable(Of GroupData)))),
             Times.Once

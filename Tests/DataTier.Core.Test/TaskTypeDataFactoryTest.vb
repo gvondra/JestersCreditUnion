@@ -16,7 +16,7 @@ Public Class TaskTypeDataFactoryTest
         generic.Verify(Of IEnumerable(Of TaskTypeData))(
             Function(f As IGenericDataFactory(Of TaskTypeData)) f.GetData(settings.Object,
                                                                       providerFactory.Object,
-                                                                      "adp.sTaskType",
+                                                                      "jcu.sTaskType",
                                                                       It.IsAny(Of Func(Of TaskTypeData)),
                                                                       It.IsAny(Of Action(Of IEnumerable(Of TaskTypeData))),
                                                                       It.IsAny(Of IEnumerable(Of IDataParameter))),
@@ -38,7 +38,7 @@ Public Class TaskTypeDataFactoryTest
         generic.Verify(Of IEnumerable(Of TaskTypeData))(
             Function(f As IGenericDataFactory(Of TaskTypeData)) f.GetData(settings.Object,
                                                                       providerFactory.Object,
-                                                                      "adp.sTaskTypeAll",
+                                                                      "jcu.sTaskTypeAll",
                                                                       It.IsAny(Of Func(Of TaskTypeData)),
                                                                       It.IsAny(Of Action(Of IEnumerable(Of TaskTypeData)))),
             Times.Once

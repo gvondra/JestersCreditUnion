@@ -17,7 +17,7 @@ Public Class UserDataFactory
         parameter.Value = emailAddress
         Return Me.GenericDataFactory.GetData(settings,
                                              providerFactory,
-                                             "adp.sUserByEmailAddress",
+                                             "jcu.sUserByEmailAddress",
                                              Function() New UserData,
                                              New Action(Of IEnumerable(Of UserData))(AddressOf AssignDataStateManager(Of UserData)),
                                              {parameter})
@@ -32,7 +32,7 @@ Public Class UserDataFactory
         parameter.Value = subscriberId
         Return Me.GenericDataFactory.GetData(settings,
                                              providerFactory,
-                                             "adp.sUserBySubscriberId",
+                                             "jcu.sUserBySubscriberId",
                                              Function() New UserData,
                                              New Action(Of IEnumerable(Of UserData))(AddressOf AssignDataStateManager(Of UserData)),
                                              {parameter}).FirstOrDefault
@@ -47,7 +47,7 @@ Public Class UserDataFactory
         parameter.Value = userId
         Return Me.GenericDataFactory.GetData(settings,
                                              providerFactory,
-                                             "adp.sUser",
+                                             "jcu.sUser",
                                              Function() New UserData,
                                              New Action(Of IEnumerable(Of UserData))(AddressOf AssignDataStateManager(Of UserData)),
                                              {parameter}).FirstOrDefault
@@ -69,7 +69,7 @@ Public Class UserDataFactory
         wildCardValue.Value = "%" & searchText & "%"
         Return Me.GenericDataFactory.GetData(settings,
                                              providerFactory,
-                                             "adp.sUserSearch",
+                                             "jcu.sUserSearch",
                                              Function() New UserData,
                                              New Action(Of IEnumerable(Of UserData))(AddressOf AssignDataStateManager(Of UserData)),
                                              {value, wildCardValue})

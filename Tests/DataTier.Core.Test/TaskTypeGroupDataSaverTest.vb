@@ -26,7 +26,7 @@ Public Class TaskTypeGroupSaverTest
         providerFactory.Verify(Sub(f As IDbProviderFactory) f.EstablishTransaction(transactionHandler.Object), Times.Once)
         command.Verify(Of Integer)(Function(c As IDbCommand) c.ExecuteNonQuery(), Times.Once)
         command.VerifySet(Sub(c As IDbCommand) c.CommandType = CommandType.StoredProcedure, Times.AtLeastOnce)
-        command.VerifySet(Sub(c As IDbCommand) c.CommandText = "adp.iTaskTypeGroup", Times.AtLeastOnce)
+        command.VerifySet(Sub(c As IDbCommand) c.CommandText = "jcu.iTaskTypeGroup", Times.AtLeastOnce)
     End Sub
 
     <TestMethod()>
@@ -57,7 +57,7 @@ Public Class TaskTypeGroupSaverTest
         providerFactory.Verify(Sub(f As IDbProviderFactory) f.EstablishTransaction(transactionHandler.Object), Times.Once)
         command.Verify(Of Integer)(Function(c As IDbCommand) c.ExecuteNonQuery(), Times.Once)
         command.VerifySet(Sub(c As IDbCommand) c.CommandType = CommandType.StoredProcedure, Times.AtLeastOnce)
-        command.VerifySet(Sub(c As IDbCommand) c.CommandText = "adp.uTaskTypeGroup", Times.AtLeastOnce)
+        command.VerifySet(Sub(c As IDbCommand) c.CommandText = "jcu.uTaskTypeGroup", Times.AtLeastOnce)
     End Sub
 
 

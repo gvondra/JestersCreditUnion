@@ -22,7 +22,7 @@
             Using command As IDbCommand = m_transactionHandler.Connection.CreateCommand
                 command.Transaction = m_transactionHandler.Transaction.InnerTransaction
                 command.CommandType = CommandType.StoredProcedure
-                command.CommandText = "adp.iEvent"
+                command.CommandText = "jcu.iEvent"
 
                 id = CreateParameter(providerFactory, "id", DbType.Guid)
                 id.Direction = ParameterDirection.Output

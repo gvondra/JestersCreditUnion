@@ -94,6 +94,7 @@
     <Compile Include="EventTypeTaskType.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="ObjectContainer.vb" />
+    <Compile Include="ObjectContainerBuilder.vb" />
     <Compile Include="TaskEventTrigger.vb" />
   </ItemGroup>
   <ItemGroup>

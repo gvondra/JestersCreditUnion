@@ -16,7 +16,7 @@ Public Class EventTypeDataFactoryTest
         generic.Verify(Of IEnumerable(Of EventTypeData))(
             Function(f As IGenericDataFactory(Of EventTypeData)) f.GetData(settings.Object,
                                                                         providerFactory.Object,
-                                                                        "adp.sEventType",
+                                                                        "jcu.sEventType",
                                                                         It.IsAny(Of Func(Of EventTypeData)),
                                                                         It.IsAny(Of Action(Of IEnumerable(Of EventTypeData))),
                                                                         It.IsAny(Of IEnumerable(Of IDataParameter))),
@@ -38,7 +38,7 @@ Public Class EventTypeDataFactoryTest
         generic.Verify(Of IEnumerable(Of EventTypeData))(
             Function(f As IGenericDataFactory(Of EventTypeData)) f.GetData(settings.Object,
                                                                       providerFactory.Object,
-                                                                      "adp.sEventTypeAll",
+                                                                      "jcu.sEventTypeAll",
                                                                       It.IsAny(Of Func(Of EventTypeData)),
                                                                       It.IsAny(Of Action(Of IEnumerable(Of EventTypeData)))),
             Times.Once

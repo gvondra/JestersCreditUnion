@@ -19,7 +19,7 @@
         Dim attributes As IEnumerable(Of WebMetricAttributeData)
         Using connection As IDbConnection = providerFactory.OpenConnection(settings.ConnectionString)
             Using command As IDbCommand = connection.CreateCommand
-                command.CommandText = "adp.sWebMetricByUntil"
+                command.CommandText = "jcu.sWebMetricByUntil"
                 command.CommandType = CommandType.StoredProcedure
 
                 parameter = CreateParameter(providerFactory, "until", DbType.DateTime)

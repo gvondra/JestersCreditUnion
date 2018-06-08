@@ -16,7 +16,7 @@
         parameter.Value = id
         Return Me.GenericDataFactory.GetData(settings,
                                              providerFactory,
-                                             "adp.sEventType",
+                                             "jcu.sEventType",
                                              Function() New EventTypeData,
                                              New Action(Of IEnumerable(Of EventTypeData))(AddressOf AssignDataStateManager(Of EventTypeData)),
                                              {parameter}).FirstOrDefault
@@ -29,7 +29,7 @@
     Public Function GetAll(settings As ISettings, ByVal providerFactory As IDbProviderFactory) As IEnumerable(Of EventTypeData)
         Return Me.GenericDataFactory.GetData(settings,
                                              providerFactory,
-                                             "adp.sEventTypeAll",
+                                             "jcu.sEventTypeAll",
                                              Function() New EventTypeData,
                                              New Action(Of IEnumerable(Of EventTypeData))(AddressOf AssignDataStateManager(Of EventTypeData)))
     End Function

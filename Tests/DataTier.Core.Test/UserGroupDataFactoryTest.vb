@@ -24,7 +24,7 @@ Public Class UserGroupDataFactoryTest
 
         factory.GetByUserId(settings.Object, providerFactory.Object, Guid.Empty)
 
-        command.VerifySet(Sub(c As IDbCommand) c.CommandText = "adp.sUserGroupByUserId", Times.Once)
+        command.VerifySet(Sub(c As IDbCommand) c.CommandText = "jcu.sUserGroupByUserId", Times.Once)
 
         generic.Verify(Of IEnumerable(Of UserGroupData))(
             Function(g As IGenericDataFactory(Of UserGroupData)) g.LoadData(Of UserGroupData)(

@@ -16,7 +16,7 @@
         parameter.Value = userId
         Return Me.GenericDataFactory.GetData(settings,
                                              providerFactory,
-                                             "adp.sUnassignedTaskByUser",
+                                             "jcu.sUnassignedTaskByUser",
                                              Function() New UnassignedTaskData,
                                              {parameter})
     End Function

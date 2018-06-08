@@ -6,12 +6,12 @@ Public MustInherit Class ControllerBase
 
     Private m_container As IContainer
 
-    Public Sub New()
-        ' todo get containter
-    End Sub
-
     Public Property ObjectContainer As IContainer
         Get
+            If m_container Is Nothing Then
+                Dim objectContainerFactory As New ObjectContainerFactory
+                m_container = objectContainerFactory.Create
+            End If
             Return m_container
         End Get
         Set(value As IContainer)

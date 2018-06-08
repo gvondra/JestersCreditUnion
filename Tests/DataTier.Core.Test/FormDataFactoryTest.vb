@@ -16,7 +16,7 @@ Public Class FormDataFactoryTest
         generic.Verify(Of IEnumerable(Of FormData))(
             Function(f As IGenericDataFactory(Of FormData)) f.GetData(settings.Object,
                                                                       providerFactory.Object,
-                                                                      "adp.sForm",
+                                                                      "jcu.sForm",
                                                                       It.IsAny(Of Func(Of FormData)),
                                                                       It.IsAny(Of Action(Of IEnumerable(Of FormData))),
                                                                       It.IsAny(Of IEnumerable(Of IDataParameter))),

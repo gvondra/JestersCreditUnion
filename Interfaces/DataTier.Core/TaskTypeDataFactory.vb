@@ -16,7 +16,7 @@
         parameter.Value = taskTypeId
         Return Me.GenericDataFactory.GetData(settings,
                                              providerFactory,
-                                             "adp.sTaskType",
+                                             "jcu.sTaskType",
                                              Function() New TaskTypeData,
                                              New Action(Of IEnumerable(Of TaskTypeData))(AddressOf AssignDataStateManager(Of TaskTypeData)),
                                              {parameter}).FirstOrDefault
@@ -29,7 +29,7 @@
     Public Function GetAll(settings As ISettings, ByVal providerFactory As IDbProviderFactory) As IEnumerable(Of TaskTypeData)
         Return Me.GenericDataFactory.GetData(settings,
                                              providerFactory,
-                                             "adp.sTaskTypeAll",
+                                             "jcu.sTaskTypeAll",
                                              Function() New TaskTypeData,
                                              New Action(Of IEnumerable(Of TaskTypeData))(AddressOf AssignDataStateManager(Of TaskTypeData)))
     End Function

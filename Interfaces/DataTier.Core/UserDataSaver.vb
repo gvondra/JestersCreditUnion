@@ -23,7 +23,7 @@
             Using command As IDbCommand = m_transactionHandler.Connection.CreateCommand
                 command.Transaction = m_transactionHandler.Transaction.InnerTransaction
                 command.CommandType = CommandType.StoredProcedure
-                command.CommandText = "adp.iUser"
+                command.CommandText = "jcu.iUser"
 
                 id = CreateParameter(providerFactory, "id", DbType.Guid)
                 id.Direction = ParameterDirection.Output
@@ -55,7 +55,7 @@
             Using command As IDbCommand = m_transactionHandler.Connection.CreateCommand
                 command.Transaction = m_transactionHandler.Transaction.InnerTransaction
                 command.CommandType = CommandType.StoredProcedure
-                command.CommandText = "adp.uUser"
+                command.CommandText = "jcu.uUser"
 
                 AddParameter(providerFactory, command.Parameters, "id", DbType.Guid, m_userData.UserId)
 

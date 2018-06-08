@@ -16,7 +16,7 @@ Public Class UserDataFactoryTest
         generic.Verify(Of IEnumerable(Of UserData))(
             Function(f As IGenericDataFactory(Of UserData)) f.GetData(settings.Object,
                                                                       providerFactory.Object,
-                                                                      "adp.sUserByEmailAddress",
+                                                                      "jcu.sUserByEmailAddress",
                                                                       It.IsAny(Of Func(Of UserData)),
                                                                       It.IsAny(Of Action(Of IEnumerable(Of UserData))),
                                                                       It.IsAny(Of IEnumerable(Of IDataParameter))),
@@ -38,7 +38,7 @@ Public Class UserDataFactoryTest
         generic.Verify(Of IEnumerable(Of UserData))(
             Function(f As IGenericDataFactory(Of UserData)) f.GetData(settings.Object,
                                                                       providerFactory.Object,
-                                                                      "adp.sUserBySubscriberId",
+                                                                      "jcu.sUserBySubscriberId",
                                                                       It.IsAny(Of Func(Of UserData)),
                                                                       It.IsAny(Of Action(Of IEnumerable(Of UserData))),
                                                                       It.IsAny(Of IEnumerable(Of IDataParameter))),
@@ -60,7 +60,7 @@ Public Class UserDataFactoryTest
         generic.Verify(Of IEnumerable(Of UserData))(
             Function(f As IGenericDataFactory(Of UserData)) f.GetData(settings.Object,
                                                                       providerFactory.Object,
-                                                                      "adp.sUser",
+                                                                      "jcu.sUser",
                                                                       It.IsAny(Of Func(Of UserData)),
                                                                       It.IsAny(Of Action(Of IEnumerable(Of UserData))),
                                                                       It.IsAny(Of IEnumerable(Of IDataParameter))),
@@ -82,7 +82,7 @@ Public Class UserDataFactoryTest
         generic.Verify(Of IEnumerable(Of UserData))(
             Function(f As IGenericDataFactory(Of UserData)) f.GetData(settings.Object,
                                                                       providerFactory.Object,
-                                                                      "adp.sUserSearch",
+                                                                      "jcu.sUserSearch",
                                                                       It.IsAny(Of Func(Of UserData)),
                                                                       It.IsAny(Of Action(Of IEnumerable(Of UserData))),
                                                                       It.IsAny(Of IEnumerable(Of IDataParameter))),

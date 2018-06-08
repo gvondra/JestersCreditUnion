@@ -24,7 +24,7 @@ Public Class WebMetricDataFactoryTest
 
         factory.GetByMaxCreateTimestamp(settings.Object, providerFactory.Object, Date.UtcNow, 0, 25)
 
-        command.VerifySet(Sub(c As IDbCommand) c.CommandText = "adp.sWebMetricByUntil", Times.Once)
+        command.VerifySet(Sub(c As IDbCommand) c.CommandText = "jcu.sWebMetricByUntil", Times.Once)
 
         generic.Verify(Of IEnumerable(Of WebMetricData))(
             Function(g As IGenericDataFactory(Of WebMetricData)) g.LoadData(Of WebMetricData)(

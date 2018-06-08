@@ -24,7 +24,7 @@ Public Class EventTypeTaskTypeDataFactoryTest
 
         factory.GetByTaskId(settings.Object, providerFactory.Object, Guid.Empty)
 
-        command.VerifySet(Sub(c As IDbCommand) c.CommandText = "adp.sEventTypeTaskTypeByTaskTypeId", Times.Once)
+        command.VerifySet(Sub(c As IDbCommand) c.CommandText = "jcu.sEventTypeTaskTypeByTaskTypeId", Times.Once)
 
         generic.Verify(Of IEnumerable(Of EventTypeTaskTypeData))(
             Function(g As IGenericDataFactory(Of EventTypeTaskTypeData)) g.LoadData(Of EventTypeTaskTypeData)(
@@ -65,7 +65,7 @@ Public Class EventTypeTaskTypeDataFactoryTest
 
         factory.GetByEventTypeId(settings.Object, providerFactory.Object, 1S)
 
-        command.VerifySet(Sub(c As IDbCommand) c.CommandText = "adp.sEventTypeTaskTypeByEventTypeId", Times.Once)
+        command.VerifySet(Sub(c As IDbCommand) c.CommandText = "jcu.sEventTypeTaskTypeByEventTypeId", Times.Once)
 
         generic.Verify(Of IEnumerable(Of EventTypeTaskTypeData))(
             Function(g As IGenericDataFactory(Of EventTypeTaskTypeData)) g.LoadData(Of EventTypeTaskTypeData)(
