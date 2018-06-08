@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E0824BC0-9245-4273-BBBE-CA435F79817F}</ProjectGuid>
+    <ProjectGuid>{89949EC4-AB0D-4633-A394-B0760D6122A0}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>JestersCreditUnion.Core.Form</RootNamespace>
-    <AssemblyName>JestersCreditUnion.Core.Form</AssemblyName>
+    <RootNamespace>JestersCreditUnion.CommonAPI</RootNamespace>
+    <AssemblyName>JestersCreditUnion.CommonAPI</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Windows</MyType>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
@@ -18,9 +18,8 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile>JestersCreditUnion.Core.Form.xml</DocumentationFile>
+    <DocumentationFile>JestersCreditUnion.CommonAPI.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>None</DebugType>
@@ -28,9 +27,8 @@
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile>JestersCreditUnion.Core.Form.xml</DocumentationFile>
+    <DocumentationFile>JestersCreditUnion.CommonAPI.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup>
     <OptionExplicit>On</OptionExplicit>
@@ -46,28 +44,45 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Autofac, Version=4.8.1.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Autofac.4.8.1\lib\net45\Autofac.dll</HintPath>
+      <HintPath>..\packages\Autofac.4.8.1\lib\net45\Autofac.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="JestersCreditUnion.Core.Form.Style">
-      <HintPath>..\Core.Form.Style\JestersCreditUnion.Core.Form.Style.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.IdentityModel.Logging, Version=5.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.Logging.5.2.2\lib\net451\Microsoft.IdentityModel.Logging.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Tokens, Version=5.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.Tokens.5.2.2\lib\net451\Microsoft.IdentityModel.Tokens.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.IO.Compression.FileSystem" />
-    <Reference Include="System.Numerics" />
+    <Reference Include="System.IdentityModel" />
+    <Reference Include="System.IdentityModel.Tokens.Jwt, Version=4.0.40306.1554, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IdentityModel.Tokens.Jwt.4.0.4.403061554\lib\net45\System.IdentityModel.Tokens.Jwt.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.6\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Http, Version=5.2.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.6\lib\net45\System.Web.Http.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Net.Http" />
   </ItemGroup>
   <ItemGroup>
     <Import Include="JestersCreditUnion.Core.Framework" />
-    <Import Include="JestersCreditUnion.Core.Framework.Forms" />
-    <Import Include="JestersCreditUnion.Core.Utilities" />
     <Import Include="JestersCreditUnion.Core.Utilities.Framework" />
     <Import Include="Microsoft.VisualBasic" />
     <Import Include="System" />
@@ -76,51 +91,38 @@
     <Import Include="System.Data" />
     <Import Include="System.Diagnostics" />
     <Import Include="System.Linq" />
-    <Import Include="System.Xml" />
     <Import Include="System.Threading.Tasks" />
-    <Import Include="System.Xml.Serialization" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Form.vb" />
-    <Compile Include="FormContentTransform.vb" />
-    <Compile Include="FormContentTransformFactory.vb" />
-    <Compile Include="FormFactory.vb" />
-    <Compile Include="FormSaver.vb" />
-    <Compile Include="FormSerializer.vb" />
-    <Compile Include="FormSerializerFactory.vb" />
-    <Compile Include="Forms\RoleRequest.vb" />
+    <Compile Include="ControllerBase.vb" />
+    <Compile Include="IUserFactory.vb" />
+    <Compile Include="MetricsLogAttribute.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
-    <Compile Include="ObjectContainer.vb" />
-    <Compile Include="TransformIndex.vb" />
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Settings.vb" />
+    <Compile Include="UserFactory.vb" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Interfaces\DataTier.Core.Models\DataTier.Core.Models.vbproj">
-      <Project>{6529b79a-5a30-40b2-8c59-05599d4e17f2}</Project>
-      <Name>DataTier.Core.Models</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Interfaces\DataTier.Core\DataTier.Core.vbproj">
-      <Project>{672a5b5a-0b59-47ce-ba3c-b4d350d99fd5}</Project>
-      <Name>DataTier.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Interfaces\DataTier.Utilities\DataTier.Utilities.vbproj">
-      <Project>{85efb4ba-c5f1-454b-8129-4b04512f5753}</Project>
-      <Name>DataTier.Utilities</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Core.Framework\Core.Framework.vbproj">
+    <None Include="My Project\Settings.settings">
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Core\Core.Framework\Core.Framework.vbproj">
       <Project>{90fbcf4b-681c-4b01-8d78-fabe7bbb04e0}</Project>
       <Name>Core.Framework</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Core.Utilities.Framework\Core.Utilities.Framework.vbproj">
+    <ProjectReference Include="..\Core\Core.Utilities.Framework\Core.Utilities.Framework.vbproj">
       <Project>{c19a5ae6-3454-499a-a73b-4ebdcb5c7989}</Project>
       <Name>Core.Utilities.Framework</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Core.Utilities\Core.Utilities.vbproj">
-      <Project>{b37692e3-910a-4dee-a1e4-d87ac24bc4eb}</Project>
-      <Name>Core.Utilities</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
