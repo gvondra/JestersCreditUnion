@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A37BF7A0-6B5E-451E-843F-A87B74A7F264}</ProjectGuid>
+    <ProjectGuid>{6529B79A-5A30-40B2-8C59-05599D4E17F2}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>AbyssalDataProcessor.Interface.UserManagement</RootNamespace>
-    <AssemblyName>AbyssalDataProcessor.Interface.UserManagement</AssemblyName>
+    <RootNamespace>AbyssalDataProcessor.DataTier.Core.Models</RootNamespace>
+    <AssemblyName>AbyssalDataProcessor.DataTier.Core.Models</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Windows</MyType>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
@@ -18,7 +18,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile>AbyssalDataProcessor.Interface.UserManagement.xml</DocumentationFile>
+    <DocumentationFile>AbyssalDataProcessor.DataTier.Core.Models.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
@@ -28,7 +28,7 @@
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile>AbyssalDataProcessor.Interface.UserManagement.xml</DocumentationFile>
+    <DocumentationFile>AbyssalDataProcessor.DataTier.Core.Models.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
@@ -45,10 +45,6 @@
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Newtonsoft.Json.10.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -56,6 +52,7 @@
     <Reference Include="System.Net.Http" />
   </ItemGroup>
   <ItemGroup>
+    <Import Include="AbyssalDataProcessor.DataTier.Utilities" />
     <Import Include="Microsoft.VisualBasic" />
     <Import Include="System" />
     <Import Include="System.Collections" />
@@ -63,17 +60,33 @@
     <Import Include="System.Data" />
     <Import Include="System.Diagnostics" />
     <Import Include="System.Linq" />
-    <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ISettings.vb" />
-    <Compile Include="IUserInfoService.vb" />
-    <Compile Include="UserInfo.vb" />
+    <Compile Include="EventData.vb" />
+    <Compile Include="EventFormData.vb" />
+    <Compile Include="EventTaskData.vb" />
+    <Compile Include="EventTypeData.vb" />
+    <Compile Include="EventTypeTaskTypeData.vb" />
+    <Compile Include="FormData.vb" />
+    <Compile Include="GroupData.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
-    <Compile Include="UserInfoService.vb" />
+    <Compile Include="OrganizationData.vb" />
+    <Compile Include="TaskData.vb" />
+    <Compile Include="TaskTypeData.vb" />
+    <Compile Include="TaskTypeGroupData.vb" />
+    <Compile Include="UnassignedTaskData.vb" />
+    <Compile Include="UserAccountData.vb" />
+    <Compile Include="UserData.vb" />
+    <Compile Include="UserGroupData.vb" />
+    <Compile Include="UserOrganizationData.vb" />
+    <Compile Include="WebMetricAttributeData.vb" />
+    <Compile Include="WebMetricData.vb" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <ProjectReference Include="..\DataTier.Utilities\DataTier.Utilities.vbproj">
+      <Project>{85efb4ba-c5f1-454b-8129-4b04512f5753}</Project>
+      <Name>DataTier.Utilities</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

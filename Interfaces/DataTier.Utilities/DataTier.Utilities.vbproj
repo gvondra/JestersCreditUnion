@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A37BF7A0-6B5E-451E-843F-A87B74A7F264}</ProjectGuid>
+    <ProjectGuid>{85EFB4BA-C5F1-454B-8129-4B04512F5753}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>AbyssalDataProcessor.Interface.UserManagement</RootNamespace>
-    <AssemblyName>AbyssalDataProcessor.Interface.UserManagement</AssemblyName>
+    <RootNamespace>AbyssalDataProcessor.DataTier.Utilities</RootNamespace>
+    <AssemblyName>AbyssalDataProcessor.DataTier.Utilities</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Windows</MyType>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
@@ -18,7 +18,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile>AbyssalDataProcessor.Interface.UserManagement.xml</DocumentationFile>
+    <DocumentationFile>AbyssalDataProcessor.DataTier.Utilities.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
@@ -28,7 +28,7 @@
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile>AbyssalDataProcessor.Interface.UserManagement.xml</DocumentationFile>
+    <DocumentationFile>AbyssalDataProcessor.DataTier.Utilities.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
@@ -45,10 +45,6 @@
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Newtonsoft.Json.10.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -63,17 +59,43 @@
     <Import Include="System.Data" />
     <Import Include="System.Diagnostics" />
     <Import Include="System.Linq" />
-    <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BooleanLoaderComponent.vb" />
+    <Compile Include="ColumnMapping.vb" />
+    <Compile Include="ColumnMappingAttribute.vb" />
+    <Compile Include="DataStateManager.vb" />
+    <Compile Include="DbProviderFactory.vb" />
+    <Compile Include="DbTransaction.vb" />
+    <Compile Include="GenericDataFactory.vb" />
+    <Compile Include="GuidLoaderComponent.vb" />
+    <Compile Include="DoubleLoaderComponent.vb" />
+    <Compile Include="DecimalLoaderComponent.vb" />
+    <Compile Include="IDataCreator.vb" />
+    <Compile Include="IDataManagedState.vb" />
+    <Compile Include="IDataStateManager.vb" />
+    <Compile Include="IDataUpdater.vb" />
+    <Compile Include="IDbProviderFactory.vb" />
+    <Compile Include="IDbTransaction.vb" />
+    <Compile Include="IDbTransactionObserver.vb" />
+    <Compile Include="IGenericDataFactory.vb" />
+    <Compile Include="ILoader.vb" />
+    <Compile Include="ILoaderComponent.vb" />
+    <Compile Include="ILoaderFactory.vb" />
+    <Compile Include="DateLoaderComponent.vb" />
+    <Compile Include="ITransactionHandler.vb" />
+    <Compile Include="LoaderComponentNotFound.vb" />
+    <Compile Include="Loader.vb" />
+    <Compile Include="LoaderFactory.vb" />
+    <Compile Include="StringLoaderComponent .vb" />
+    <Compile Include="BytesLoaderComponent.vb" />
+    <Compile Include="ShortLoaderComponent.vb" />
+    <Compile Include="IntegerLoaderComponent.vb" />
     <Compile Include="ISettings.vb" />
-    <Compile Include="IUserInfoService.vb" />
-    <Compile Include="UserInfo.vb" />
+    <Compile Include="LastInsertRowId.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
-    <Compile Include="UserInfoService.vb" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
+    <Compile Include="Util.vb" />
+    <Compile Include="XmlLoaderComponent.vb" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
