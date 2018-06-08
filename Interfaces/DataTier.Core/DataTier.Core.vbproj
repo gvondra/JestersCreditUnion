@@ -72,9 +72,6 @@
     <Compile Include="FormDataSaver.vb" />
     <Compile Include="EventFormDataSaver.vb" />
     <Compile Include="GroupDataFactory.vb" />
-    <Compile Include="IOrganizationDataFactory.vb" />
-    <Compile Include="OrganizationDataFactory.vb" />
-    <Compile Include="OrganizationDataSaver.vb" />
     <Compile Include="GroupDataSaver.vb" />
     <Compile Include="IEventTypeDataFactory.vb" />
     <Compile Include="IFormDataFactory.vb" />

@@ -104,12 +104,10 @@
     <Compile Include="EventTypeTaskTypeDataFactoryTest.vb" />
     <Compile Include="EventTaskDataSaverTest.vb" />
     <Compile Include="FormDataFactoryTest.vb" />
-    <Compile Include="OrganizationDataSaverTest.vb" />
     <Compile Include="TaskDataFactoryTest.vb" />
     <Compile Include="TaskTypeGroupDataFactoryTest.vb" />
     <Compile Include="TaskDataSaverTest.vb" />
     <Compile Include="UnassignedTaskDataFactoryTest.vb" />
-    <Compile Include="OrganizationDataFactoryTest.vb" />
     <Compile Include="WebMetricDataFactoryTest.vb" />
     <Compile Include="UserGroupDataFactoryTest.vb" />
     <Compile Include="EventTypeTaskTypeDataSaverTest.vb" />

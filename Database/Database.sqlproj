@@ -79,14 +79,12 @@
     <Build Include="jcu\Table\Form.sql" />
     <Build Include="jcu\Table\FormType.sql" />
     <Build Include="jcu\Table\Group.sql" />
-    <Build Include="jcu\Table\Organization.sql" />
     <Build Include="jcu\Table\Task.sql" />
     <Build Include="jcu\Table\TaskType.sql" />
     <Build Include="jcu\Table\TaskTypeGroup.sql" />
     <Build Include="jcu\Table\User.sql" />
     <Build Include="jcu\Table\UserAccount.sql" />
     <Build Include="jcu\Table\UserGroup.sql" />
-    <Build Include="jcu\Table\UserOrganization.sql" />
     <Build Include="jcu\Table\WebMetric.sql" />
     <Build Include="jcu\Table\WebMetricAttribute.sql" />
     <Build Include="jcu\Stored Procedure\iEvent.sql" />
@@ -96,7 +94,6 @@
     <Build Include="jcu\Stored Procedure\iEventTypeTaskType.sql" />
     <Build Include="jcu\Stored Procedure\iForm.sql" />
     <Build Include="jcu\Stored Procedure\iGroup.sql" />
-    <Build Include="jcu\Stored Procedure\iOrganization.sql" />
     <Build Include="jcu\Stored Procedure\iTask.sql" />
     <Build Include="jcu\Stored Procedure\iTaskType.sql" />
     <Build Include="jcu\Stored Procedure\iTaskTypeGroup.sql" />
@@ -113,8 +110,6 @@
     <Build Include="jcu\Stored Procedure\sForm.sql" />
     <Build Include="jcu\Stored Procedure\sGroup.sql" />
     <Build Include="jcu\Stored Procedure\sGroupAll.sql" />
-    <Build Include="jcu\Stored Procedure\sOrganization.sql" />
-    <Build Include="jcu\Stored Procedure\sOrganizationSearch.sql" />
     <Build Include="jcu\Stored Procedure\sTask.sql" />
     <Build Include="jcu\Stored Procedure\sTaskByUserId.sql" />
     <Build Include="jcu\Stored Procedure\sTaskFormByTaskId.sql" />
@@ -131,7 +126,6 @@
     <Build Include="jcu\Stored Procedure\uEventType.sql" />
     <Build Include="jcu\Stored Procedure\uEventTypeTaskType.sql" />
     <Build Include="jcu\Stored Procedure\uGroup.sql" />
-    <Build Include="jcu\Stored Procedure\uOrganization.sql" />
     <Build Include="jcu\Stored Procedure\uTask.sql" />
     <Build Include="jcu\Stored Procedure\uTaskType.sql" />
     <Build Include="jcu\Stored Procedure\uTaskTypeGroup.sql" />

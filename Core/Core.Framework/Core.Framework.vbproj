@@ -80,9 +80,6 @@
     <Compile Include="IEventTypeTaskType.vb" />
     <Compile Include="IFormContentTransormFactory.vb" />
     <Compile Include="IFormContentTransform.vb" />
-    <Compile Include="IOrganization.vb" />
-    <Compile Include="IOrganizationFactory.vb" />
-    <Compile Include="IOrganizationSaver.vb" />
     <Compile Include="ITask.vb" />
     <Compile Include="ITaskFactory.vb" />
     <Compile Include="ITaskSaver.vb" />
