@@ -6,6 +6,6 @@ import { AuthService } from './auth/auth.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'Jest Credit Union Operations';
+  title = 'Jester\'s Credit Union Operations';
   constructor(public authService: AuthService) {}
 }
