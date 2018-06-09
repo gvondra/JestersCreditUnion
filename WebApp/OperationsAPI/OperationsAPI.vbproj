@@ -57,6 +57,9 @@
       <HintPath>..\..\packages\AutoMapper.7.0.0\lib\net45\AutoMapper.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="JestersCreditUnion.Core.Form.Style">
+      <HintPath>..\..\Core\Core.Form.Style\JestersCreditUnion.Core.Form.Style.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
       <Private>True</Private>
@@ -191,22 +194,32 @@
     <Compile Include="App_Start\WebApiConfig.vb" />
     <Compile Include="Controllers\EventTypeController.vb" />
     <Compile Include="Controllers\EventTypesController.vb" />
+    <Compile Include="Controllers\FormController.vb" />
     <Compile Include="Controllers\FormsController.vb" />
     <Compile Include="Controllers\GroupController.vb" />
     <Compile Include="Controllers\GroupsController.vb" />
     <Compile Include="Controllers\MenuController.vb" />
+    <Compile Include="Controllers\TaskController.vb" />
+    <Compile Include="Controllers\TasksController.vb" />
     <Compile Include="Controllers\TaskTypeController.vb" />
     <Compile Include="Controllers\TaskTypesController.vb" />
+    <Compile Include="Controllers\UnassignedTaskController.vb" />
+    <Compile Include="Controllers\UnassignedTasksController.vb" />
     <Compile Include="Controllers\UserController.vb" />
     <Compile Include="Controllers\UsersController.vb" />
     <Compile Include="Controllers\WebMetricsController.vb" />
+    <Compile Include="Mappers\FormMapper.vb" />
+    <Compile Include="Mappers\TaskMapper.vb" />
     <Compile Include="Mappers\UserMapper.vb" />
     <Compile Include="Models\EventType.vb" />
+    <Compile Include="Models\Form.vb" />
     <Compile Include="Models\Group.vb" />
     <Compile Include="Models\RoleRequest.vb" />
+    <Compile Include="Models\Task.vb" />
     <Compile Include="Models\TaskType.vb" />
     <Compile Include="Models\TaskTypeEventType.vb" />
     <Compile Include="Models\TaskTypeGroup.vb" />
+    <Compile Include="Models\UnassignedTask.vb" />
     <Compile Include="Models\User.vb" />
     <Compile Include="Models\UserGroup.vb" />
     <Compile Include="Models\WebMetric.vb" />

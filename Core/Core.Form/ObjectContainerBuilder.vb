@@ -6,5 +6,6 @@ Public Class ObjectContainerBuilder
         builder.RegisterType(Of FormFactory)().As(Of IFormFactory)()
         builder.RegisterType(Of FormSaver)().As(Of IFormSaver)()
         builder.RegisterType(Of FormSerializerFactory)().As(Of IFormSerializerFactory)()
+        builder.RegisterType(Of FormContentTransformFactory)().As(Of IFormContentTransormFactory)()
     End Sub
 End Class

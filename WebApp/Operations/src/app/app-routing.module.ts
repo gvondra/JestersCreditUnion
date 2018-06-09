@@ -16,6 +16,9 @@ import { TaskTypeListComponent } from './task-type-list/task-type-list.component
 import { TaskTypeComponent } from './task-type/task-type.component';
 import { TaskTypeEventTypesComponent } from './task-type-event-types/task-type-event-types.component';
 import { TaskTypeGroupsComponent } from './task-type-groups/task-type-groups.component';
+import { UnassignedTasksComponent } from './unassigned-tasks/unassigned-tasks.component';
+import { MyTasksComponent } from './my-tasks/my-tasks.component';
+import { TaskComponent } from './task/task.component';
 const routes: Routes = [
     {
         path: '',
@@ -133,6 +136,27 @@ const routes: Routes = [
       {
         path: 'tasktype',
         component: TaskTypeComponent,
+        canActivate: [
+          AuthGuard
+        ]
+      },
+      {
+        path: 'unassignedtasks',
+        component: UnassignedTasksComponent,
+        canActivate: [
+          AuthGuard
+        ]
+      },
+      {
+        path: 'mytasks',
+        component: MyTasksComponent,
+        canActivate: [
+          AuthGuard
+        ]
+      },
+      {
+        path: 'task/:id',
+        component: TaskComponent,
         canActivate: [
           AuthGuard
         ]

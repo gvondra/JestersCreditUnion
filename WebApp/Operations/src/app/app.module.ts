@@ -23,6 +23,9 @@ import { TaskTypeListComponent } from './task-type-list/task-type-list.component
 import { TaskTypeGroupsComponent } from './task-type-groups/task-type-groups.component';
 import { TaskTypeEventTypesComponent } from './task-type-event-types/task-type-event-types.component';
 import { TaskTypeComponent } from './task-type/task-type.component';
+import { MyTasksComponent } from './my-tasks/my-tasks.component';
+import { UnassignedTasksComponent } from './unassigned-tasks/unassigned-tasks.component';
+import { TaskComponent } from './task/task.component';
 
 
 @NgModule({
@@ -43,7 +46,10 @@ import { TaskTypeComponent } from './task-type/task-type.component';
     TaskTypeListComponent,
     TaskTypeGroupsComponent,
     TaskTypeEventTypesComponent,
-    TaskTypeComponent
+    TaskTypeComponent,
+    MyTasksComponent,
+    UnassignedTasksComponent,
+    TaskComponent
   ],
   imports: [
     BrowserModule,

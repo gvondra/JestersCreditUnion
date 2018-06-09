@@ -17,4 +17,12 @@ export class FormService {
     .toPromise()
   }
 
+  getFormHtml(formId: string): Promise<string> {
+    return this.http.get(environment.baseUrl + "Form/" + formId + "/html", {
+      headers: new Headers({"Authorization": `Bearer ${localStorage.getItem('token')}`})
+    })
+    .toPromise()
+    .then(response => response.text() as string)
+  }
+
 }
