@@ -17,6 +17,8 @@ import { UserSearchComponent } from './user-search/user-search.component';
 import { UserComponent } from './user/user.component';
 import { UserGroupsComponent } from './user-groups/user-groups.component';
 import { WebMetricsComponent } from './web-metrics/web-metrics.component';
+import { EventTypeComponent } from './event-type/event-type.component';
+import { EventTypeListComponent } from './event-type-list/event-type-list.component';
 
 
 @NgModule({
@@ -31,7 +33,9 @@ import { WebMetricsComponent } from './web-metrics/web-metrics.component';
     UserSearchComponent,
     UserComponent,
     UserGroupsComponent,
-    WebMetricsComponent
+    WebMetricsComponent,
+    EventTypeComponent,
+    EventTypeListComponent
   ],
   imports: [
     BrowserModule,

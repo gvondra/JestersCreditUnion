@@ -189,12 +189,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.vb" />
+    <Compile Include="Controllers\EventTypeController.vb" />
+    <Compile Include="Controllers\EventTypesController.vb" />
     <Compile Include="Controllers\FormsController.vb" />
+    <Compile Include="Controllers\GroupController.vb" />
+    <Compile Include="Controllers\GroupsController.vb" />
     <Compile Include="Controllers\MenuController.vb" />
     <Compile Include="Controllers\UserController.vb" />
     <Compile Include="Controllers\UsersController.vb" />
     <Compile Include="Controllers\WebMetricsController.vb" />
     <Compile Include="Mappers\UserMapper.vb" />
+    <Compile Include="Models\EventType.vb" />
+    <Compile Include="Models\Group.vb" />
     <Compile Include="Models\RoleRequest.vb" />
     <Compile Include="Models\User.vb" />
     <Compile Include="Models\UserGroup.vb" />

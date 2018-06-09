@@ -10,6 +10,8 @@ import { UserSearchComponent } from './user-search/user-search.component';
 import { UserComponent } from './user/user.component';
 import { UserGroupsComponent } from './user-groups/user-groups.component';
 import { WebMetricsComponent } from './web-metrics/web-metrics.component';
+import { EventTypeListComponent } from './event-type-list/event-type-list.component';
+import { EventTypeComponent } from './event-type/event-type.component';
 const routes: Routes = [
     {
         path: '',
@@ -27,7 +29,7 @@ const routes: Routes = [
         ]
       },
       {
-        path: 'groups',
+        path: 'grouplist',
         component: GroupsComponent,
         canActivate: [
           AuthGuard
@@ -71,6 +73,27 @@ const routes: Routes = [
       {
         path: 'webmetrics',
         component: WebMetricsComponent,
+        canActivate: [
+          AuthGuard
+        ]
+      },
+      {
+        path: 'eventtypelist',
+        component: EventTypeListComponent,
+        canActivate: [
+          AuthGuard
+        ]
+      },
+      {
+        path: 'eventtype',
+        component: EventTypeComponent,
+        canActivate: [
+          AuthGuard
+        ]
+      },
+      {
+        path: 'eventtype/:id',
+        component: EventTypeComponent,
         canActivate: [
           AuthGuard
         ]
