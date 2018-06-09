@@ -12,6 +12,10 @@ import { UserGroupsComponent } from './user-groups/user-groups.component';
 import { WebMetricsComponent } from './web-metrics/web-metrics.component';
 import { EventTypeListComponent } from './event-type-list/event-type-list.component';
 import { EventTypeComponent } from './event-type/event-type.component';
+import { TaskTypeListComponent } from './task-type-list/task-type-list.component';
+import { TaskTypeComponent } from './task-type/task-type.component';
+import { TaskTypeEventTypesComponent } from './task-type-event-types/task-type-event-types.component';
+import { TaskTypeGroupsComponent } from './task-type-groups/task-type-groups.component';
 const routes: Routes = [
     {
         path: '',
@@ -94,6 +98,41 @@ const routes: Routes = [
       {
         path: 'eventtype/:id',
         component: EventTypeComponent,
+        canActivate: [
+          AuthGuard
+        ]
+      },
+      {
+        path: 'tasktypelist',
+        component: TaskTypeListComponent,
+        canActivate: [
+          AuthGuard
+        ]
+      },
+      {
+        path: 'tasktype/:id/eventtypes',
+        component: TaskTypeEventTypesComponent,
+        canActivate: [
+          AuthGuard
+        ]
+      },
+      {
+        path: 'tasktype/:id/groups',
+        component: TaskTypeGroupsComponent,
+        canActivate: [
+          AuthGuard
+        ]
+      },
+      {
+        path: 'tasktype/:id',
+        component: TaskTypeComponent,
+        canActivate: [
+          AuthGuard
+        ]
+      },
+      {
+        path: 'tasktype',
+        component: TaskTypeComponent,
         canActivate: [
           AuthGuard
         ]

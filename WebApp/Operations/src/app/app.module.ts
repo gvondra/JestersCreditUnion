@@ -19,6 +19,10 @@ import { UserGroupsComponent } from './user-groups/user-groups.component';
 import { WebMetricsComponent } from './web-metrics/web-metrics.component';
 import { EventTypeComponent } from './event-type/event-type.component';
 import { EventTypeListComponent } from './event-type-list/event-type-list.component';
+import { TaskTypeListComponent } from './task-type-list/task-type-list.component';
+import { TaskTypeGroupsComponent } from './task-type-groups/task-type-groups.component';
+import { TaskTypeEventTypesComponent } from './task-type-event-types/task-type-event-types.component';
+import { TaskTypeComponent } from './task-type/task-type.component';
 
 
 @NgModule({
@@ -35,7 +39,11 @@ import { EventTypeListComponent } from './event-type-list/event-type-list.compon
     UserGroupsComponent,
     WebMetricsComponent,
     EventTypeComponent,
-    EventTypeListComponent
+    EventTypeListComponent,
+    TaskTypeListComponent,
+    TaskTypeGroupsComponent,
+    TaskTypeEventTypesComponent,
+    TaskTypeComponent
   ],
   imports: [
     BrowserModule,

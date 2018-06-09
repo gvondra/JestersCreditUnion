@@ -1,0 +1,20 @@
+<h2>Events</h2>  
+<h3 *ngIf="TaskType">{{ TaskType.Title }}</h3>
+<div [hidden]="SpinnerHidden">  
+  <i class="fa fa-cog fa-spin" style="font-size:36px; margin: 25px;"></i>
+</div>
+<p *ngIf="Message">{{Message}}</p>
+<form *ngIf="EventTypes" novalidate="novalidate" name="taskTypeEventTypesForm" #taskTypeEventTypesForm="ngForm">
+<div class="container-fluid">
+    <div *ngFor="let et of EventTypes" class="row">
+        <label>
+        <input type="checkbox" id="IsActive" name="IsActive" [checked]="et.IsActive" (change)="et.IsActive = !et.IsActive"/>
+        {{ et.Title }}</label>
+    </div>  
+    <div class="row">
+      <div class="col-md-6 col-md-offset-3">
+        <button class="btn btn-default" (click)="Submit()">Submit</button>
+      </div>
+    </div>  
+</div>
+</form>
