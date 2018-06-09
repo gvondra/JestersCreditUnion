@@ -190,6 +190,7 @@
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.vb" />
     <Compile Include="Controllers\FormsController.vb" />
+    <Compile Include="Controllers\MenuController.vb" />
     <Compile Include="Models\RoleRequest.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">

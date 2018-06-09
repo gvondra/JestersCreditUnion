@@ -2,9 +2,8 @@
     None = 0
     UserAdministrator = &H1
     TaskAdministrator = &H2
-    OrganizationAdminstrator = &H4
-    FormAdminstrator = &H8
-    TaskProcessor = &H10
+    FormAdminstrator = &H4
+    TaskProcessor = &H8
     SuperUser = &HFF
 End Enum
 

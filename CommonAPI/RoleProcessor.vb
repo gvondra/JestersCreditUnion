@@ -8,7 +8,6 @@ Public NotInheritable Class RoleProcessor
         Dim role As enumRole = enumRole.None
         Dim ns As String = My.Settings.RoleNameSpace.ToLower & "role-"
         Dim roleCodes As New List(Of String)() From {
-            RoleConstants.ORGANIZATION_ADMINISTRATOR,
             RoleConstants.TASK_ADMINISTRATOR,
             RoleConstants.SUPER_USER,
             RoleConstants.USER_ADMINISTRATOR,
@@ -29,11 +28,6 @@ Public NotInheritable Class RoleProcessor
 
     Public Shared Function GetRoleFlags(ByVal code As String) As enumRole
         Dim role As enumRole = enumRole.None
-        If String.Compare(code, RoleConstants.ANY, True) = 0 OrElse
-                String.Compare(code, RoleConstants.ORGANIZATION_ADMINISTRATOR, True) = 0 Then
-
-            role = role Or enumRole.OrganizationAdminstrator
-        End If
         If String.Compare(code, RoleConstants.ANY, True) = 0 OrElse
                 String.Compare(code, RoleConstants.TASK_ADMINISTRATOR, True) = 0 Then
             role = role Or enumRole.TaskAdministrator
