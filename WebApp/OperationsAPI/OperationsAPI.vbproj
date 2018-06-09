@@ -191,8 +191,13 @@
     <Compile Include="App_Start\WebApiConfig.vb" />
     <Compile Include="Controllers\FormsController.vb" />
     <Compile Include="Controllers\MenuController.vb" />
+    <Compile Include="Controllers\UserController.vb" />
+    <Compile Include="Controllers\UsersController.vb" />
     <Compile Include="Controllers\WebMetricsController.vb" />
+    <Compile Include="Mappers\UserMapper.vb" />
     <Compile Include="Models\RoleRequest.vb" />
+    <Compile Include="Models\User.vb" />
+    <Compile Include="Models\UserGroup.vb" />
     <Compile Include="Models\WebMetric.vb" />
     <Compile Include="Models\WebMetricAttribute.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -242,6 +247,10 @@
     <ProjectReference Include="..\..\Core\Core.Utilities.Framework\Core.Utilities.Framework.vbproj">
       <Project>{c19a5ae6-3454-499a-a73b-4ebdcb5c7989}</Project>
       <Name>Core.Utilities.Framework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Core\Core.Utilities\Core.Utilities.vbproj">
+      <Project>{b37692e3-910a-4dee-a1e4-d87ac24bc4eb}</Project>
+      <Name>Core.Utilities</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
