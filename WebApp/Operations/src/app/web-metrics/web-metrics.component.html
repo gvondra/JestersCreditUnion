@@ -1,0 +1,40 @@
+<h2>Web Metrics</h2>
+<form novalidate="novalidate" name="searchForm" #searchForm="ngForm">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-4">
+        <input id="Until" name="Until" #untilInput="ngModel" type="text" required="required" class="form-control" [(ngModel)]="Until"/>
+        <div [hidden]="untilInput.valid || untilInput.pristine" class="alert alert-danger">is required</div>
+        <div *ngIf="UntilMessage" class="alert alert-danger">{{ UntilMessage }}</div>
+      </div>
+      <div class="col-md-3">
+        <button class="btn btn-default" [disabled]="!searchForm.form.valid" (click)="Load()">Load</button>
+      </div>
+    </div>
+  </div>
+</form>
+<div [hidden]="SpinnerHidden">  
+  <i class="fa fa-cog fa-spin" style="font-size:36px; margin: 25px;"></i>
+</div>
+<div *ngIf="WebMetrics">
+  <a [hidden]="PreviousHidden" [routerLink]="['/webmetrics']" [queryParams]="{until: GetUntilISOString(), p: Page - 1}">Prev.</a>
+  <a [routerLink]="['/webmetrics']" [queryParams]="{until: GetUntilISOString(), p: Page + 1}">Next</a>
+  <table>
+    <tr>
+      <th>Create Timestamp</th>
+      <th>Duration</th>
+      <th>Status</th>
+      <th>URL</th>
+      <th>Method</th>
+      <th>Controller</th>
+    </tr>
+    <tr *ngFor="let wm of WebMetrics">
+      <td style="white-space: normal;">{{ FormatTimestamp(wm.CreateTimestamp) }}</td>
+      <td style="white-space: normal;">{{ RoundDuration(wm.Duration) }} sec.</td>
+      <td>{{ wm.Status }}</td>
+      <td style="width: 50%; overflow: hidden;">{{ wm.Url }}</td>
+      <td>{{ wm.Method }}</td>
+      <td>{{ wm.Controller }}</td>
+    </tr>
+  </table>
+</div>

@@ -9,6 +9,7 @@ import { GroupComponent } from './group/group.component';
 import { UserSearchComponent } from './user-search/user-search.component';
 import { UserComponent } from './user/user.component';
 import { UserGroupsComponent } from './user-groups/user-groups.component';
+import { WebMetricsComponent } from './web-metrics/web-metrics.component';
 const routes: Routes = [
     {
         path: '',
@@ -63,6 +64,13 @@ const routes: Routes = [
       {
         path: 'user/:id/groups',
         component: UserGroupsComponent,
+        canActivate: [
+          AuthGuard
+        ]
+      },
+      {
+        path: 'webmetrics',
+        component: WebMetricsComponent,
         canActivate: [
           AuthGuard
         ]

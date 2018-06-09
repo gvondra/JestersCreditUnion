@@ -16,6 +16,7 @@ import { GroupComponent } from './group/group.component';
 import { UserSearchComponent } from './user-search/user-search.component';
 import { UserComponent } from './user/user.component';
 import { UserGroupsComponent } from './user-groups/user-groups.component';
+import { WebMetricsComponent } from './web-metrics/web-metrics.component';
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import { UserGroupsComponent } from './user-groups/user-groups.component';
     GroupComponent,
     UserSearchComponent,
     UserComponent,
-    UserGroupsComponent
+    UserGroupsComponent,
+    WebMetricsComponent
   ],
   imports: [
     BrowserModule,
