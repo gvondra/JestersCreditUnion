@@ -1,16 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-	  <ImplicitUsings>disable</ImplicitUsings>
-	  <Nullable>disable</Nullable>
-	  <AssemblyName>JCU.CommonAPI</AssemblyName>
-	  <RootNamespace>JestersCreditUnion.CommonAPI</RootNamespace>
-	  <Authors>Greg Vondra</Authors>
-	  <Company />
-	  <Product>Jesters Credit Union</Product>
-	  <PackageLicenseExpression>GPL-3.0-only</PackageLicenseExpression>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>disable</ImplicitUsings>
+		<Nullable>disable</Nullable>
+		<AssemblyName>JCU.CommonAPI</AssemblyName>
+		<RootNamespace>JestersCreditUnion.CommonAPI</RootNamespace>
+		<Authors>Greg Vondra</Authors>
+		<Company />
+		<Product>Jesters Credit Union</Product>
+		<PackageLicenseExpression>GPL-3.0-only</PackageLicenseExpression>
+	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<DebugType>none</DebugType>
@@ -22,4 +22,11 @@
 		<Optimize>False</Optimize>
 	</PropertyGroup>
 
+	<ItemGroup>
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.*" />
+	</ItemGroup>
 </Project>
