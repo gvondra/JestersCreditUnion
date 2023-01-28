@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthModule, LogLevel, OidcSecurityService, StsConfigHttpLoader, StsConfigLoader } from 'angular-auth-oidc-client';
+import { from } from 'rxjs';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -10,7 +11,7 @@ import { HomeComponent } from './home/home.component';
 import { AppSettingsService } from './app-settings.service';
 
 export const httpLoaderFactory = (appSettingsService: AppSettingsService) => {  
-  const settings$: any = appSettingsService.LoadSettings()
+  const settings$: Promise<any> = appSettingsService.LoadSettings()
   .then((settings) => 
   {    
     return {
@@ -36,7 +37,7 @@ export const httpLoaderFactory = (appSettingsService: AppSettingsService) => {
     }
   });
 
-  return new StsConfigHttpLoader(settings$);
+  return new StsConfigHttpLoader(from(settings$));
 };
 
 @NgModule({
