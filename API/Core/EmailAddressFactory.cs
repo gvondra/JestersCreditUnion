@@ -1,0 +1,48 @@
+﻿using JestersCreditUnion.CommonCore;
+using JestersCreditUnion.Data;
+using JestersCreditUnion.Data.Models;
+using JestersCreditUnion.Framework;
+using System;
+using System.Threading.Tasks;
+
+namespace JestersCreditUnion.Core
+{
+    public class EmailAddressFactory : IEmailAddressFactory
+    {
+        private readonly IEmailAddressDataFactory _dataFactory;
+        private readonly IEmailAddressDataSaver _dataSaver;
+
+        public EmailAddressFactory(IEmailAddressDataFactory dataFactory, IEmailAddressDataSaver dataSaver)
+        {
+            _dataFactory = dataFactory;
+            _dataSaver = dataSaver;
+        }
+
+        private EmailAddress Create(EmailAddressData data) => new EmailAddress(data, _dataSaver);
+
+        public IEmailAddress Create(string address)
+        {
+            if (string.IsNullOrEmpty(address))
+                throw new ArgumentNullException(nameof(address));
+            return Create(new EmailAddressData() { Address = address });
+        }
+
+        public async Task<IEmailAddress> Get(ISettings settings, Guid id)
+        {
+            IEmailAddress result = null;
+            EmailAddressData data = await _dataFactory.Get(new DataSettings(settings), id);
+            if (data != null)
+                result = Create(data);
+            return result;
+        }
+
+        public async Task<IEmailAddress> Get(ISettings settings, string address)
+        {
+            IEmailAddress result = null;
+            EmailAddressData data = await _dataFactory.Get(new DataSettings(settings), address);
+            if (data != null)
+                result = Create(data);
+            return result;
+        }
+    }
+}

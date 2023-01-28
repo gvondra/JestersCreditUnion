@@ -1,0 +1,11 @@
+﻿CREATE TABLE [jcu].[Phone]
+(
+	[PhoneId] UNIQUEIDENTIFIER NOT NULL,
+	[Number] CHAR(10) NOT NULL,
+	[CreateTimestamp] DATETIME2(4) CONSTRAINT [DF_Phone_CreateTimestamp] DEFAULT (SYSUTCDATETIME()) NOT NULL,
+	CONSTRAINT [PK_Phone] PRIMARY KEY NONCLUSTERED ([PhoneId])
+)
+
+GO
+
+CREATE UNIQUE INDEX [IX_Phone_Number] ON [jcu].[Phone] ([Number])

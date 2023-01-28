@@ -64,6 +64,22 @@
   </ItemGroup>
   <ItemGroup>
     <Build Include="jcu.sql" />
+    <Build Include="Table\jcu.LoanApplication.sql" />
+    <Build Include="Table\jcu.Address.sql" />
+    <Build Include="Stored Procedure\jcu.GetAddress.sql" />
+    <Build Include="Stored Procedure\jcu.GetAddress_by_Hash.sql" />
+    <Build Include="Stored Procedure\jcu.CreateAddress.sql" />
+    <Build Include="Table\jcu.EmailAddress.sql" />
+    <Build Include="Stored Procedure\jcu.GetEmailAddress.sql" />
+    <Build Include="Stored Procedure\jcu.GetEmailAddress_by_Address.sql" />
+    <Build Include="Stored Procedure\jcu.CreateEmailAddress.sql" />
+    <Build Include="Table\jcu.Phone.sql" />
+    <Build Include="Stored Procedure\jcu.GetPhone.sql" />
+    <Build Include="Stored Procedure\jcu.GetPhone_by_Number.sql" />
+    <Build Include="Stored Procedure\jcu.CreatePhone.sql" />
+    <Build Include="Stored Procedure\jcu.GetLoanApplication_by_UserId.sql" />
+    <Build Include="Stored Procedure\jcu.CreateLoanApplication.sql" />
+    <Build Include="Stored Procedure\jcu.UpdateLoanApplication.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="LocalSqlSchemaCompare.scmp" />
