@@ -25,4 +25,8 @@
 		<Optimize>False</Optimize>
 	</PropertyGroup>
 
+	<ItemGroup>
+	  <PackageReference Include="Autofac" Version="6.5.0" />
+	</ItemGroup>
+
 </Project>
