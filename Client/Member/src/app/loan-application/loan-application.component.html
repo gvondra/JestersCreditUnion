@@ -1,0 +1,26 @@
+<h2>Loan Application</h2>
+<div *ngIf="ErrorMessage" class="alert alert-danger" role="alert">
+    {{ ErrorMessage }}
+</div>
+<form (ngSubmit)="Save()" #loanApplicationForm="ngForm">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2">
+                <label for="borrowerName">Borrower Name</label>
+            </div>
+            <div class="col-md-4">
+                <input id="borrowerName" name="borrowerName" #borrowerName="ngModel" class="form-control" type="text" required="true" maxlength="2000" placeholder="Borrower Name" [(ngModel)]="LoanApplication.BorrowerName"/>
+                <div *ngIf="borrowerName.invalid && (borrowerName.dirty || borrowerName.touched)" class="alert alert-danger">
+                    <div *ngIf="borrowerName.errors && borrowerName.errors['required']">
+                        Borrower Name is required.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="offset-md-2 col-md-4" style="padding-top: 0.75em;">
+                <button class="btn btn-primary" type="submit" [disabled]="!loanApplicationForm.form.valid">Save</button>
+            </div>
+        </div>
+    </div>
+</form>

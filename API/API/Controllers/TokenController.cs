@@ -19,7 +19,7 @@ namespace API.Controllers
         public TokenController(IOptions<Settings> settings,
             ISettingsFactory settingsFactory,
             AuthorizationAPI.IUserService userService,
-            ILogger logger,
+            ILogger<TokenController> logger,
             AuthorizationAPI.ITokenService tokenService)
             : base(settings, settingsFactory, userService, logger)
         {

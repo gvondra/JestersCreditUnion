@@ -9,6 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { AppSettingsService } from './app-settings.service';
+import { LoanApplicationComponent } from './loan-application/loan-application.component';
 
 export const httpLoaderFactory = (appSettingsService: AppSettingsService) => {  
   const settings$: Promise<any> = appSettingsService.LoadSettings()
@@ -43,7 +44,8 @@ export const httpLoaderFactory = (appSettingsService: AppSettingsService) => {
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent
+    HomeComponent,
+    LoanApplicationComponent
   ],
   imports: [
     BrowserModule,

@@ -2,6 +2,7 @@
 using JestersCreditUnion.Data.Models;
 using JestersCreditUnion.Framework;
 using System;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace JestersCreditUnion.Core
@@ -23,6 +24,8 @@ namespace JestersCreditUnion.Core
         {
             if (string.IsNullOrEmpty(address))
                 throw new ArgumentNullException(nameof(address));
+            else if (!Regex.IsMatch(address, @".+@.+"))
+                throw new ApplicationException("Invalid email address " + address);
             return Create(new EmailAddressData() { Address = address });
         }
 

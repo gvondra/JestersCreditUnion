@@ -12,7 +12,7 @@ namespace JestersCreditUnion.Data.Internal
         public async Task<MongoClient> CreateClient(IDataSettings dataSettings) 
         {
             MongoServerAddress mongoServerAddress = new MongoServerAddress(dataSettings.Host);
-            MongoCredential credential = MongoCredential.CreatePlainCredential(dataSettings.DatabaseName, dataSettings.DatabaseUser, await dataSettings.GetDatabasePassword());
+            MongoCredential credential = MongoCredential.CreateCredential(dataSettings.DatabaseName, dataSettings.DatabaseUser, await dataSettings.GetDatabasePassword());
             MongoClientSettings clientSettings = new MongoClientSettings()
             {
                 AllowInsecureTls = true,

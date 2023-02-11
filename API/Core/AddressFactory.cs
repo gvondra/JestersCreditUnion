@@ -42,13 +42,13 @@ namespace JestersCreditUnion.Core
             }
             return Create(new AddressData
             {
-                Recipient = recipient,
-                Attention = attention,
-                Delivery = delivery,
-                Secondary = secondary,
-                City = city,
-                State = state,
-                PostalCode = postalCode,
+                Recipient = recipient ?? string.Empty,
+                Attention = attention ?? string.Empty,
+                Delivery = delivery ?? string.Empty,
+                Secondary = secondary ?? string.Empty,
+                City = city ?? string.Empty,
+                State = state ?? string.Empty,
+                PostalCode = postalCode ?? string.Empty,
                 Hash = ComputeHash(recipient, attention, delivery, secondary, city, state, postalCode)
             });
         }

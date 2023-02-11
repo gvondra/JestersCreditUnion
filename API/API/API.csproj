@@ -28,6 +28,7 @@
 	  <PackageReference Include="BrassLoon.Extensions.Logging" Version="1.0.0-beta.*" />
 	  <PackageReference Include="BrassLoon.Interface.Authorization" Version="1.0.*" />
 	  <PackageReference Include="BrassLoon.Interface.Log" Version="2.2.0-prerelease.*" />
+	  <PackageReference Include="JCU.Interface" Version="1.0.0-alpha.*" />
 	  <PackageReference Include="Newtonsoft.Json" Version="13.0.*" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.*" />
   </ItemGroup>

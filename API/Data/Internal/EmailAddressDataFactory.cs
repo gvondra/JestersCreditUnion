@@ -30,9 +30,8 @@ namespace JestersCreditUnion.Data.Internal
 
         public async Task<EmailAddressData> Get(IDataSettings settings, string address)
         {
-            BsonRegularExpression bsonRegularExpression = new BsonRegularExpression(new Regex(@"^address$", RegexOptions.IgnoreCase));
             FilterDefinition<EmailAddressData> filter = Builders<EmailAddressData>.Filter
-                .Regex(ea => ea.Address, bsonRegularExpression) 
+                .Eq(ea => ea.AddressLCase, (address ?? string.Empty).ToLower()) 
                 ;
             return await (await (await _mongoClientFactory.GetDatabase(settings))
                 .GetCollection<EmailAddressData>(Constants.CollectionName.EmailAddress)

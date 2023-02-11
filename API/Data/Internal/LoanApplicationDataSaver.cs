@@ -1,5 +1,6 @@
 ﻿using JestersCreditUnion.Data.Models;
 using MongoDB.Driver;
+using System;
 using System.Threading.Tasks;
 
 namespace JestersCreditUnion.Data.Internal
@@ -15,19 +16,22 @@ namespace JestersCreditUnion.Data.Internal
 
         public async Task Create(IDataSettings settings, LoanApplicationData data)
         {
-            await(await _mongoClientFactory.GetDatabase(settings))
-                .GetCollection<LoanApplicationData>(Constants.CollectionName.Phone)
+            data.CreateTimestamp = DateTime.UtcNow;
+            data.UpdateTimestamp = DateTime.UtcNow;
+            await (await _mongoClientFactory.GetDatabase(settings))
+                .GetCollection<LoanApplicationData>(Constants.CollectionName.LoanApplication)
                 .InsertOneAsync(data);
             ;
         }
 
         public async Task Update(IDataSettings settings, LoanApplicationData data)
         {
+            data.UpdateTimestamp = DateTime.UtcNow;
             FilterDefinition<LoanApplicationData> filter = Builders<LoanApplicationData>.Filter
                 .Eq(la => la.LoanApplicationId, data.LoanApplicationId)
                 ;
             await(await _mongoClientFactory.GetDatabase(settings))
-                .GetCollection<LoanApplicationData>(Constants.CollectionName.Phone)
+                .GetCollection<LoanApplicationData>(Constants.CollectionName.LoanApplication)
                 .ReplaceOneAsync(filter, data);
             ;
         }
