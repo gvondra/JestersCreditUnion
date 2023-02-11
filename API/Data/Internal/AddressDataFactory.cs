@@ -1,49 +1,42 @@
-﻿using BrassLoon.DataClient;
-using JestersCreditUnion.Data.Models;
+﻿using JestersCreditUnion.Data.Models;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace JestersCreditUnion.Data.Internal
 {
-    public class AddressDataFactory : DataFactoryBase<AddressData>, IAddressDataFactory
+    public class AddressDataFactory : IAddressDataFactory
     {
-        public AddressDataFactory(ISqlDbProviderFactory providerFactory) : base(providerFactory) { }
+        private readonly IMongoClientFactory _mongoClientFactory;
 
-        protected override AddressData Create() => new AddressData();
-
-        public async Task<AddressData> Get(ISqlSettings settings, Guid id)
+        public AddressDataFactory(IMongoClientFactory mongoClientFactory) 
         {
-            IDataParameter[] parameters = new IDataParameter[]
-            {
-                DataUtil.CreateParameter(this.ProviderFactory, "id", DbType.Guid, id)
-            };
-            return (await GenericDataFactory.GetData(
-                settings,
-                this.ProviderFactory,
-                "[jcu].[GetAddress]",
-                this.Create,
-                DataUtil.AssignDataStateManager,
-                parameters
-                )).FirstOrDefault();
+            _mongoClientFactory = mongoClientFactory;
         }
 
-        public Task<IEnumerable<AddressData>> GetByHash(ISqlSettings settings, byte[] hash)
+        public async Task<AddressData> Get(IDataSettings settings, Guid id)
         {
-            IDataParameter[] parameters = new IDataParameter[]
-            {
-                DataUtil.CreateParameter(this.ProviderFactory, "hash", DbType.Binary, hash)
-            };
-            return GenericDataFactory.GetData(
-                settings,
-                this.ProviderFactory,
-                "[jcu].[GetAddress_by_Hash]",
-                this.Create,
-                DataUtil.AssignDataStateManager,
-                parameters
-                );
+            FilterDefinition<AddressData> filter = Builders<AddressData>.Filter
+                .Eq(a => a.AddressId, id)
+                ;
+            return await (await (await _mongoClientFactory.GetDatabase(settings))
+                .GetCollection<AddressData>(Constants.CollectionName.Address)
+                .FindAsync(filter))
+                .FirstOrDefaultAsync()
+                ;
+        }
+
+        public async Task<IEnumerable<AddressData>> GetByHash(IDataSettings settings, byte[] hash)
+        {
+            FilterDefinition<AddressData> filter = Builders<AddressData>.Filter
+                .Eq(a => a.Hash, hash)
+                ;
+            return (await(await _mongoClientFactory.GetDatabase(settings))
+                .GetCollection<AddressData>(Constants.CollectionName.Address)
+                .FindAsync(filter))
+                .ToEnumerable()
+                ;
         }
     }
 }

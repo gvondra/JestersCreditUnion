@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace JestersCreditUnion.CommonCore
+namespace JestersCreditUnion.Framework
 {
     public interface ISettings
     {

@@ -1,5 +1,5 @@
-﻿using BrassLoon.DataClient;
-using JestersCreditUnion.Data.Models;
+﻿using JestersCreditUnion.Data.Models;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -9,42 +9,37 @@ using System.Threading.Tasks;
 
 namespace JestersCreditUnion.Data.Internal
 {
-    public class PhoneDataFactory : DataFactoryBase<PhoneData>, IPhoneDataFactory
+    public class PhoneDataFactory : IPhoneDataFactory
     {
-        public PhoneDataFactory(ISqlDbProviderFactory providerFactory) : base(providerFactory) { }
+        private readonly IMongoClientFactory _mongoClientFactory;
 
-        protected override PhoneData Create() => new PhoneData();
-
-        public async Task<PhoneData> Get(ISqlSettings settings, Guid id)
+        public PhoneDataFactory(IMongoClientFactory mongoClientFactory) 
         {
-            IDataParameter[] parameters = new IDataParameter[]
-            {
-                DataUtil.CreateParameter(this.ProviderFactory, "id", DbType.Guid, id)
-            };
-            return (await GenericDataFactory.GetData(
-                settings,
-                this.ProviderFactory,
-                "[jcu].[GetPhone]",
-                this.Create,
-                DataUtil.AssignDataStateManager,
-                parameters
-                )).FirstOrDefault();
+            _mongoClientFactory = mongoClientFactory;
         }
 
-        public async Task<PhoneData> Get(ISqlSettings settings, string number)
+        public async Task<PhoneData> Get(IDataSettings settings, Guid id)
         {
-            IDataParameter[] parameters = new IDataParameter[]
-            {
-                DataUtil.CreateParameter(this.ProviderFactory, "number", DbType.AnsiString, number)
-            };
-            return (await GenericDataFactory.GetData(
-                settings,
-                this.ProviderFactory,
-                "[jcu].[GetPhone_by_Number]",
-                this.Create,
-                DataUtil.AssignDataStateManager,
-                parameters
-                )).FirstOrDefault();
+            FilterDefinition<PhoneData> filter = Builders<PhoneData>.Filter
+                .Eq(p => p.PhoneId, id)
+                ;
+            return await (await (await _mongoClientFactory.GetDatabase(settings))
+                .GetCollection<PhoneData>(Constants.CollectionName.Phone)
+                .FindAsync(filter))
+                .FirstOrDefaultAsync()
+                ;
+        }
+
+        public async Task<PhoneData> Get(IDataSettings settings, string number)
+        {
+            FilterDefinition<PhoneData> filter = Builders<PhoneData>.Filter
+                .Eq(p => p.Number, number)
+                ;
+            return await (await (await _mongoClientFactory.GetDatabase(settings))
+                .GetCollection<PhoneData>(Constants.CollectionName.Phone)
+                .FindAsync(filter))
+                .FirstOrDefaultAsync()
+                ;
         }
     }
 }

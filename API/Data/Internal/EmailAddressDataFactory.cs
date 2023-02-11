@@ -1,50 +1,44 @@
-﻿using BrassLoon.DataClient;
-using JestersCreditUnion.Data.Models;
+﻿using JestersCreditUnion.Data.Models;
+using MongoDB.Bson;
+using MongoDB.Driver;
 using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace JestersCreditUnion.Data.Internal
 {
-    public class EmailAddressDataFactory : DataFactoryBase<EmailAddressData>, IEmailAddressDataFactory
+    public class EmailAddressDataFactory : IEmailAddressDataFactory
     {
-        public EmailAddressDataFactory(ISqlDbProviderFactory providerFactory) : base(providerFactory) { }
+        private readonly IMongoClientFactory _mongoClientFactory;
 
-        protected override EmailAddressData Create() => new EmailAddressData();
-
-        public async Task<EmailAddressData> Get(ISqlSettings settings, Guid id)
+        public EmailAddressDataFactory(IMongoClientFactory mongoClientFactory) 
         {
-            IDataParameter[] parameters = new IDataParameter[]
-            {
-                DataUtil.CreateParameter(this.ProviderFactory, "id", DbType.Guid, id)
-            };
-            return (await GenericDataFactory.GetData(
-                settings,
-                this.ProviderFactory,
-                "[jcu].[GetEmailAddress]",
-                this.Create,
-                DataUtil.AssignDataStateManager,
-                parameters
-                )).FirstOrDefault();
+            _mongoClientFactory = mongoClientFactory;
         }
 
-        public async Task<EmailAddressData> Get(ISqlSettings settings, string address)
+        public async Task<EmailAddressData> Get(IDataSettings settings, Guid id)
         {
-            IDataParameter[] parameters = new IDataParameter[]
-            {
-                DataUtil.CreateParameter(this.ProviderFactory, "address", DbType.AnsiString, address)
-            };
-            return (await GenericDataFactory.GetData(
-                settings,
-                this.ProviderFactory,
-                "[jcu].[GetEmailAddress_by_Address]",
-                this.Create,
-                DataUtil.AssignDataStateManager,
-                parameters
-                )).FirstOrDefault();
+            FilterDefinition<EmailAddressData> filter = Builders<EmailAddressData>.Filter
+                .Eq(ea => ea.EmailAddressId, id)
+                ;
+            return await (await (await _mongoClientFactory.GetDatabase(settings))
+                .GetCollection<EmailAddressData>(Constants.CollectionName.EmailAddress)
+                .FindAsync(filter))
+                .FirstOrDefaultAsync()
+                ;
+        }
+
+        public async Task<EmailAddressData> Get(IDataSettings settings, string address)
+        {
+            BsonRegularExpression bsonRegularExpression = new BsonRegularExpression(new Regex(@"^address$", RegexOptions.IgnoreCase));
+            FilterDefinition<EmailAddressData> filter = Builders<EmailAddressData>.Filter
+                .Regex(ea => ea.Address, bsonRegularExpression) 
+                ;
+            return await (await (await _mongoClientFactory.GetDatabase(settings))
+                .GetCollection<EmailAddressData>(Constants.CollectionName.EmailAddress)
+                .FindAsync(filter))
+                .FirstOrDefaultAsync()
+                ;
         }
     }
 }

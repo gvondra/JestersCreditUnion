@@ -1,19 +1,19 @@
-﻿using BrassLoon.DataClient;
+﻿using MongoDB.Bson.Serialization.Attributes;
 using System;
 
 namespace JestersCreditUnion.Data.Models
 {
-	public class AddressData : DataManagedStateBase
+	public class AddressData
     {
-        [ColumnMapping(IsPrimaryKey = true)] public Guid AddressId { get; set; }
-		[ColumnMapping()] public byte[] Hash { get; set; }
-		[ColumnMapping()] public string Recipient { get; set; }
-		[ColumnMapping()] public string Attention { get; set; }
-		[ColumnMapping()] public string Delivery { get; set; }
-		[ColumnMapping()] public string Secondary { get; set; }
-		[ColumnMapping()] public string City { get; set; }
-		[ColumnMapping()] public string State { get; set; }
-		[ColumnMapping()] public string PostalCode { get; set; }
-		[ColumnMapping(IsUtc = true)] public DateTime CreateTimestamp { get; set; }
+        [BsonId()] public Guid AddressId { get; set; }
+		public byte[] Hash { get; set; }
+		public string Recipient { get; set; }
+		public string Attention { get; set; }
+		public string Delivery { get; set; }
+		public string Secondary { get; set; }
+		public string City { get; set; }
+		public string State { get; set; }
+		public string PostalCode { get; set; }
+		[BsonDateTimeOptions(Kind = DateTimeKind.Utc)] public DateTime CreateTimestamp { get; set; }
     }
 }

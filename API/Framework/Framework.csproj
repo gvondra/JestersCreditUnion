@@ -22,8 +22,4 @@
 		<Optimize>False</Optimize>
 	</PropertyGroup>
 
-	<ItemGroup>
-	  <ProjectReference Include="..\CommonCore\CommonCore.csproj" />
-	</ItemGroup>
-
 </Project>

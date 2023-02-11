@@ -1,5 +1,4 @@
-﻿using JestersCreditUnion.CommonCore;
-using JestersCreditUnion.Data;
+﻿using JestersCreditUnion.Data;
 using JestersCreditUnion.Data.Models;
 using JestersCreditUnion.Framework;
 using System;
@@ -24,6 +23,6 @@ namespace JestersCreditUnion.Core
 
         public DateTime CreateTimestamp => _data.CreateTimestamp;
 
-        public Task Create(ITransactionHandler transactionHandler) => _dataSaver.Create(transactionHandler, _data);
+        public Task Create(ISettings settings) => _dataSaver.Create(new DataSettings(settings), _data);
     }
 }

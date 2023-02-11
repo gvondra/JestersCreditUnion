@@ -1,5 +1,4 @@
-﻿using JestersCreditUnion.CommonCore;
-using System;
+﻿using System;
 using System.Threading.Tasks;
 
 namespace JestersCreditUnion.Framework
@@ -17,6 +16,6 @@ namespace JestersCreditUnion.Framework
         string PostalCode { get; }
         DateTime CreateTimestamp { get; }
 
-        Task Create(ITransactionHandler transactionHandler);
+        Task Create(ISettings settings);
     }
 }

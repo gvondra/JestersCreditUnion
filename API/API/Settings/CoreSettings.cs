@@ -1,8 +1,7 @@
 ﻿using Azure.Core;
 using Azure.Identity;
 using Azure.Security.KeyVault.Secrets;
-using JestersCreditUnion.CommonCore;
-using Microsoft.Data.SqlClient;
+using JestersCreditUnion.Framework;
 using Microsoft.Extensions.Caching.Memory;
 using Polly;
 using Polly.Caching;
@@ -10,26 +9,22 @@ using Polly.Caching.Memory;
 using System;
 using System.Threading.Tasks;
 
-namespace JestersCreditUnion.CommonAPI
+namespace API
 {
     public class CoreSettings : ISettings
     {
         private static Policy _cache = Policy.Cache(new MemoryCacheProvider(new MemoryCache(new MemoryCacheOptions())), new RelativeTtl(TimeSpan.FromMinutes(6)));
-        public string ConnectionString { get; set; }
-        public bool EnableDatabaseAccessToken { get; set; }
-        public string ConnectionStringUser { get; set; }
         public string KeyVaultAddress { get; set; }
+        public string DatabaseHost { get; set; }
+        public string DatabaseName { get; set; }
+        public string DatabaseUser { get; set; }
 
-        public bool UseDefaultAzureSqlToken => EnableDatabaseAccessToken && string.IsNullOrEmpty(ConnectionStringUser);
-
-        public async Task<string> GetConnetionString()
+        public async Task<string> GetDatabasePassword()
         {
-            string result = ConnectionString;
-            if (!string.IsNullOrEmpty(KeyVaultAddress) && !string.IsNullOrEmpty(ConnectionStringUser))
+            string result = string.Empty;
+            if (!string.IsNullOrEmpty(KeyVaultAddress) && !string.IsNullOrEmpty(DatabaseUser))
             {
-                SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder(ConnectionString);
-                builder.UserID = ConnectionStringUser;
-                builder.Password = await _cache.Execute<Task<string>>(async context =>
+                result = await _cache.Execute<Task<string>>(async context =>
                 {
                     SecretClientOptions options = new SecretClientOptions()
                     {
@@ -56,18 +51,12 @@ namespace JestersCreditUnion.CommonAPI
                             })
                         , options)
                     ;
-                    KeyVaultSecret secret = await client.GetSecretAsync(ConnectionStringUser);
+                    KeyVaultSecret secret = await client.GetSecretAsync(DatabaseUser);
                     return secret.Value;
                 },
-                new Context(ConnectionString.ToLower().Trim().Replace(" ", string.Empty)));
-                result = builder.ConnectionString;
+                new Context(string.Format("{0} | {1} | {1}", DatabaseHost, DatabaseName, DatabaseUser).ToLower()));
             }
             return result;
-        }
-
-        public Func<Task<string>> GetDatabaseAccessToken()
-        {
-            return null;
         }
     }
 }

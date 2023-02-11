@@ -30,8 +30,10 @@ namespace API
         {
             return new CoreSettings()
             {
-                ConnectionString = settings.ConnectionString,
-                EnableDatabaseAccessToken = settings.EnableDatabaseAccessToken
+                DatabaseHost = settings.DatabaseHost,
+                DatabaseName = settings.DatabaseName,
+                DatabaseUser = settings.DatabaseUser,
+                KeyVaultAddress = settings.KeyVaultAddress
             };
         }
 

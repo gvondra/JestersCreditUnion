@@ -1,5 +1,4 @@
-﻿using JestersCreditUnion.CommonCore;
-using JestersCreditUnion.Data;
+﻿using JestersCreditUnion.Data;
 using JestersCreditUnion.Data.Models;
 using JestersCreditUnion.Framework;
 using System;

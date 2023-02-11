@@ -1,12 +1,12 @@
-﻿using BrassLoon.DataClient;
+﻿using MongoDB.Bson.Serialization.Attributes;
 using System;
 
 namespace JestersCreditUnion.Data.Models
-{
-    public class PhoneData : DataManagedStateBase
+{    
+    public class PhoneData 
     {
-        [ColumnMapping(IsPrimaryKey = true)] public Guid PhoneId { get; set; }
-        [ColumnMapping()] public string Number { get; set; }
-        [ColumnMapping(IsUtc = true)] public DateTime CreateTimestamp { get; set; }
+        [BsonId()] public Guid PhoneId { get; set; }
+        public string Number { get; set; }
+        [BsonDateTimeOptions(Kind = DateTimeKind.Utc)] public DateTime CreateTimestamp { get; set; }
     }
 }

@@ -34,7 +34,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CommonAPI\CommonAPI.csproj" />
-    <ProjectReference Include="..\CommonCore\CommonCore.csproj" />
     <ProjectReference Include="..\Core\Core.csproj" />
     <ProjectReference Include="..\Framework\Framework.csproj" />
   </ItemGroup>
