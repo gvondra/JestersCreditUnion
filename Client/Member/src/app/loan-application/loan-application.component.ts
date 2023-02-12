@@ -17,10 +17,14 @@ export class LoanApplicationComponent implements OnInit {
   InputColumnClass: string = "col-md-4"
   BorrowerBirthDate: string | null = null;
   BorrowerHireDate: string | null = null;
+  CoBorrowerBirthDate: string | null = null;
+  CoBorrowerHireDate: string | null = null;
+  IncludeCoBorrower: boolean = false;
 
   constructor(public loanApplicationService: LoanApplicationService) { }
 
   ngOnInit(): void {
+    this.IncludeCoBorrower = false;
     this.LoanApplication = new LoanApplication();
     this.InitializeLoanApplication(this.LoanApplication);
   }
@@ -43,6 +47,20 @@ export class LoanApplicationComponent implements OnInit {
     if (!loanApplication.BorrowerAddress) {
       loanApplication.BorrowerAddress = new Address();
     }
+    if (loanApplication.CoBorrowerBirthDate) {
+      let birth: Date = new Date(loanApplication.CoBorrowerBirthDate);
+      this.CoBorrowerBirthDate = `${birth.getFullYear()}-${(birth.getMonth()+1).toString().padStart(2, "0")}-${birth.getDate().toString().padStart(2, "0")}`;      
+    }
+    if (loanApplication.CoBorrowerEmploymentHireDate) {
+      let hire: Date = new Date(loanApplication.CoBorrowerEmploymentHireDate);
+      this.BorrowerHireDate = `${hire.getFullYear()}-${(hire.getMonth()+1).toString().padStart(2, "0")}-${hire.getDate().toString().padStart(2, "0")}`;      
+    }
+    if (loanApplication.CoBorrowerPhone) {
+      let re = new RegExp("^\\d{10}$", "i");
+      if (re.exec(loanApplication.CoBorrowerPhone)) {
+        loanApplication.CoBorrowerPhone = loanApplication.CoBorrowerPhone.slice(0, 3) + "-" + loanApplication.CoBorrowerPhone.slice(3, 6) + "-" + loanApplication.CoBorrowerPhone.slice(-4);
+      }
+    }
   }
 
   Save(): void {
@@ -53,6 +71,12 @@ export class LoanApplicationComponent implements OnInit {
     }
     if (this.BorrowerHireDate) {
       this.LoanApplication.BorrowerEmploymentHireDate = this.BorrowerHireDate;
+    }
+    if (this.CoBorrowerBirthDate) {
+      this.LoanApplication.CoBorrowerBirthDate = this.CoBorrowerBirthDate;
+    }
+    if (this.CoBorrowerHireDate) {
+      this.LoanApplication.CoBorrowerEmploymentHireDate = this.CoBorrowerHireDate;
     }
     firstValueFrom(this.loanApplicationService.Create(this.LoanApplication))
     .then(app => {
@@ -67,8 +91,10 @@ export class LoanApplicationComponent implements OnInit {
     ;
   }
 
-  GetEventValue(event: any) {
-    console.log(event.target);
-    return event.target.value;
+  EnableCoBorrower() {
+    this.IncludeCoBorrower = true;
+    if (!this.LoanApplication.CoBorrowerAddress) {
+      this.LoanApplication.CoBorrowerAddress = new Address();
+    }
   }
 }

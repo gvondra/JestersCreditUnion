@@ -168,7 +168,7 @@
                 <label for="borrowerEmployerName">Employer Name</label>
             </div>
             <div [class]="InputColumnClass">
-                <input id="borrowerEmployerName" name="borrowerEmployerName" #borrowerEmployerName="ngModel" class="form-control" type="text" maxlength="10" [(ngModel)]="LoanApplication.BorrowerEmployerName"/>
+                <input id="borrowerEmployerName" name="borrowerEmployerName" #borrowerEmployerName="ngModel" class="form-control" type="text" maxlength="1000" [(ngModel)]="LoanApplication.BorrowerEmployerName"/>
             </div>
         </div>
         <div class="row">
@@ -189,23 +189,178 @@
         </div>
         <div class="row">
             <p>Next, fill in information about expenses you may have.</p>
-            <div class="row">
-                <div class="col-md-2">
-                    <label for="mortgagePayment">Monthly Mortgage Payment</label>
-                </div>
-                <div [class]="InputColumnClass">
-                    <input id="mortgagePayment" name="mortgagePayment" #mortgagePayment="ngModel" class="form-control" type="number" maxlength="10" [(ngModel)]="LoanApplication.MortgagePayment"/>
-                </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <label for="mortgagePayment">Monthly Mortgage Payment</label>
             </div>
-            <div class="row">
-                <div class="col-md-2">
-                    <label for="rentPayment">Monthly Rent Payment</label>
-                </div>
-                <div [class]="InputColumnClass">
-                    <input id="rentPayment" name="rentPayment" #rentPayment="ngModel" class="form-control" type="number" maxlength="10" [(ngModel)]="LoanApplication.RentPayment"/>
-                </div>
+            <div [class]="InputColumnClass">
+                <input id="mortgagePayment" name="mortgagePayment" #mortgagePayment="ngModel" class="form-control" type="number" maxlength="10" [(ngModel)]="LoanApplication.MortgagePayment"/>
             </div>
         </div>
+        <div class="row">
+            <div class="col-md-2">
+                <label for="rentPayment">Monthly Rent Payment</label>
+            </div>
+            <div [class]="InputColumnClass">
+                <input id="rentPayment" name="rentPayment" #rentPayment="ngModel" class="form-control" type="number" maxlength="10" [(ngModel)]="LoanApplication.RentPayment"/>
+            </div>
+        </div>
+        <div *ngIf="!IncludeCoBorrower" class="row">
+            <div class="col-md-4">
+                <button class="btn btn-secondary" type="button" (click)="EnableCoBorrower()">Add Co-Borrower</button>
+            </div>
+        </div>
+        <ng-container *ngIf="IncludeCoBorrower">
+            <div class="row">
+                <h3>Co-Borrower</h3>
+                <p>Describe your co-borrower and how we can contact them?</p>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <label for="coborrowerName">Co-Borrower Name</label>
+                </div>
+                <div [class]="InputColumnClass">
+                    <input id="coborrowerName" name="coborrowerName" #coborrowerName="ngModel" class="form-control" type="text" required="true" maxlength="2000" placeholder="Name" [(ngModel)]="LoanApplication.CoBorrowerName"/>
+                    <div *ngIf="coborrowerName.invalid && (coborrowerName.dirty || coborrowerName.touched)" class="alert alert-danger">
+                        <div *ngIf="coborrowerName.errors && coborrowerName.errors['required']">
+                            Co-Borrower Name is required.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <label for="coborrowerBirth">Birth Date</label>
+                </div>
+                <div [class]="InputColumnClass">
+                    <input id="coborrowerBirth" name="coborrowerBirth" #coborrowerBirth="ngModel" class="form-control" type="date" required="true" placeholder="Birth Date" 
+                        [(ngModel)]="CoBorrowerBirthDate"/>
+                    <div *ngIf="coborrowerBirth.invalid && (coborrowerBirth.dirty || coborrowerBirth.touched)" class="alert alert-danger">
+                        <div *ngIf="coborrowerBirth.errors && coborrowerBirth.errors['required']">
+                            Co-Borrower Birth Date is required.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <label for="coborrowerEmail">Email</label>
+                </div>
+                <div [class]="InputColumnClass">
+                    <input id="coborrowerEmail" name="coborrowerEmail" #coborrowerEmail="ngModel" class="form-control" type="text" required="true" pattern=".+@.+" maxlength="2000" placeholder="Email" [(ngModel)]="LoanApplication.CoBorrowerEmailAddress"/>
+                    <div *ngIf="coborrowerEmail.invalid && (coborrowerEmail.dirty || coborrowerEmail.touched)" class="alert alert-danger">
+                        <div *ngIf="coborrowerEmail.errors && coborrowerEmail.errors['required']">
+                            Co-Borrower email address is required.
+                        </div>
+                        <div *ngIf="coborrowerEmail.errors && coborrowerEmail.errors['pattern']">
+                            Co-Borrower email address is invalid.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <label for="coborrowerPhone">Phone</label>
+                </div>
+                <div [class]="InputColumnClass">
+                    <input id="coborrowerPhone" name="coborrowerPhone" #coborrowerPhone="ngModel" class="form-control" type="text" required="true" pattern="^\d{3}-?\d{3}-?\d{4}$" maxlength="2000" placeholder="999-555-1234" [(ngModel)]="LoanApplication.CoBorrowerPhone"/>
+                    <div *ngIf="coborrowerPhone.invalid && (coborrowerPhone.dirty || coborrowerPhone.touched)" class="alert alert-danger">
+                        <div *ngIf="coborrowerPhone.errors && coborrowerPhone.errors['required']">
+                            Co-Borrower phone number is required.
+                        </div>
+                        <div *ngIf="coborrowerPhone.errors && coborrowerPhone.errors['pattern']">
+                            Co-Borrower phone number is invalid.
+                        </div>
+                    </div>
+                </div>
+            </div>        
+            <div *ngIf="LoanApplication.CoBorrowerAddress" class="row">
+                <div class="col-md-2">
+                    <label for="coborrowerAddress">Address</label>
+                </div>
+                <div [class]="InputColumnClass">
+                    <input id="coborrowerAddress" name="coborrowerAddress" #coborrowerAddress="ngModel" class="form-control" type="text" required="true" maxlength="2000" [(ngModel)]="LoanApplication.CoBorrowerAddress.Delivery"/>
+                    <div *ngIf="coborrowerAddress.invalid && (coborrowerAddress.dirty || coborrowerAddress.touched)" class="alert alert-danger">
+                        <div *ngIf="coborrowerAddress.errors && coborrowerAddress.errors['required']">
+                            Co-Borrower address is required.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="LoanApplication.CoBorrowerAddress" class="row">
+                <div class="col-md-2">
+                    <label for="coborrowerCity">City</label>
+                </div>
+                <div [class]="InputColumnClass">
+                    <input id="coborrowerCity" name="coborrowerCity" #coborrowerCity="ngModel" class="form-control" type="text" required="true" maxlength="2000" placeholder="City" [(ngModel)]="LoanApplication.CoBorrowerAddress.City"/>
+                    <div *ngIf="coborrowerCity.invalid && (coborrowerCity.dirty || coborrowerCity.touched)" class="alert alert-danger">
+                        <div *ngIf="coborrowerCity.errors && coborrowerCity.errors['required']">
+                            Co-Borrower City is required.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="LoanApplication.CoBorrowerAddress" class="row">
+                <div class="col-md-2">
+                    <label for="coborrowerState">State</label>
+                </div>
+                <div [class]="InputColumnClass">
+                    <input id="coborrowerState" name="coborrowerState" #coborrowerState="ngModel" class="form-control" type="text" required="true" pattern="^\w{2}$" maxlength="2" [(ngModel)]="LoanApplication.CoBorrowerAddress.State"/>
+                    <div *ngIf="coborrowerState.invalid && (coborrowerState.dirty || coborrowerState.touched)" class="alert alert-danger">
+                        <div *ngIf="coborrowerState.errors && coborrowerState.errors['required']">
+                            Co-Borrower State is required.
+                        </div>
+                        <div *ngIf="coborrowerState.errors && coborrowerState.errors['pattern']">
+                            Co-Borrower State is invalid.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="LoanApplication.CoBorrowerAddress" class="row">
+                <div class="col-md-2">
+                    <label for="coborrowerPostalCode">Postal Code</label>
+                </div>
+                <div [class]="InputColumnClass">
+                    <input id="coborrowerPostalCode" name="coborrowerPostalCode" #coborrowerPostalCode="ngModel" class="form-control" type="text" required="true" pattern="^\d{5}(-?\d{4})?$" maxlength="10" [(ngModel)]="LoanApplication.CoBorrowerAddress.PostalCode"/>
+                    <div *ngIf="coborrowerPostalCode.invalid && (coborrowerPostalCode.dirty || coborrowerPostalCode.touched)" class="alert alert-danger">
+                        <div *ngIf="coborrowerPostalCode.errors && coborrowerPostalCode.errors['required']">
+                            Co-Borrower postal code is required.
+                        </div>
+                        <div *ngIf="coborrowerPostalCode.errors && coborrowerPostalCode.errors['pattern']">
+                            Co-Borrower postal code is invalid.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <p>Next, fill in information about their primary employer.</p>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <label for="coborrowerEmployerName">Employer Name</label>
+                </div>
+                <div [class]="InputColumnClass">
+                    <input id="coborrowerEmployerName" name="coborrowerEmployerName" #coborrowerEmployerName="ngModel" class="form-control" type="text" maxlength="1000" [(ngModel)]="LoanApplication.CoBorrowerEmployerName"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <label for="coborrowerHireDate">Hire Date</label>
+                </div>
+                <div [class]="InputColumnClass">
+                    <input id="coborrowerHireDate" name="coborrowerHireDate" #coborrowerHireDate="ngModel" class="form-control" type="date" maxlength="10" [(ngModel)]="CoBorrowerHireDate"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <label for="coborrowerIncome">Annual Income</label>
+                </div>
+                <div [class]="InputColumnClass">
+                    <input id="coborrowerIncome" name="coborrowerIncome" #coborrowerIncome="ngModel" class="form-control" type="number" maxlength="10" [(ngModel)]="LoanApplication.CoBorrowerIncome"/>
+                </div>
+            </div>
+        </ng-container>
         <div class="row">
             <div class="offset-md-2 col-md-4" style="padding-top: 0.75em;">
                 <button class="btn btn-primary" type="submit" [disabled]="!loanApplicationForm.form.valid || Saving">
