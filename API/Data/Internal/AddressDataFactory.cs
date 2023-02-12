@@ -35,7 +35,7 @@ namespace JestersCreditUnion.Data.Internal
             return (await(await _mongoClientFactory.GetDatabase(settings))
                 .GetCollection<AddressData>(Constants.CollectionName.Address)
                 .FindAsync(filter))
-                .ToEnumerable()
+                .ToList()
                 ;
         }
     }

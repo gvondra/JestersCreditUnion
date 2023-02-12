@@ -5,8 +5,11 @@ namespace JestersCreditUnion.Data.Models
 {    
     public class PhoneData 
     {
-        [BsonId()] public Guid PhoneId { get; set; }
+        [BsonId()] 
+        public Guid PhoneId { get; set; }
+        [BsonRequired()]
         public string Number { get; set; }
-        [BsonDateTimeOptions(Kind = DateTimeKind.Utc)] public DateTime CreateTimestamp { get; set; }
+        [BsonDateTimeOptions(Kind = DateTimeKind.Utc)] 
+        public DateTime CreateTimestamp { get; set; }
     }
 }

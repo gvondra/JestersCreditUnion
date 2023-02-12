@@ -42,6 +42,7 @@ namespace JestersCreditUnion.Core
             }
             return Create(new AddressData
             {
+                AddressId = Guid.NewGuid(),
                 Recipient = recipient ?? string.Empty,
                 Attention = attention ?? string.Empty,
                 Delivery = delivery ?? string.Empty,
@@ -57,13 +58,13 @@ namespace JestersCreditUnion.Core
         {
             string[] values = new string[]
             {
-                recipient ?? string.Empty,
-                attention ?? string.Empty,
-                delivery ?? string.Empty,
-                secondary ?? string.Empty,
-                city ?? string.Empty,
-                state ?? string.Empty,
-                postalCode ?? string.Empty
+                (recipient ?? string.Empty).ToLower(),
+                (attention ?? string.Empty).ToLower(),
+                (delivery ?? string.Empty).ToLower(),
+                (secondary ?? string.Empty).ToLower(),
+                (city ?? string.Empty).ToLower(),
+                (state ?? string.Empty).ToUpper(),
+                (postalCode ?? string.Empty).ToLower()
             };
             string json = JsonConvert.SerializeObject(values, CreateSerializerSettings());
             using (SHA512 sha512 = SHA512.Create())

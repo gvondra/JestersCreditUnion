@@ -26,7 +26,7 @@ namespace JestersCreditUnion.Core
                 throw new ArgumentNullException(nameof(address));
             else if (!Regex.IsMatch(address, @".+@.+"))
                 throw new ApplicationException("Invalid email address " + address);
-            return Create(new EmailAddressData() { Address = address });
+            return Create(new EmailAddressData() { EmailAddressId = Guid.NewGuid(), Address = address });
         }
 
         public async Task<IEmailAddress> Get(ISettings settings, Guid id)

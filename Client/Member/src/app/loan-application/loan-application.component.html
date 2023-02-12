@@ -5,11 +5,50 @@
 <form (ngSubmit)="Save()" #loanApplicationForm="ngForm">
     <div class="container">
         <div class="row">
+            <p>Start by describing the loan you need.</p>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <label for="principal">Amount</label>
+            </div>
+            <div [class]="InputColumnClass">
+                <input id="principal" name="principal" #principal="ngModel" class="form-control" type="number" required="true" maxlength="20" placeholder="Principal" [(ngModel)]="LoanApplication.Amount"/>
+                <div *ngIf="principal.invalid && (principal.dirty || principal.touched)" class="alert alert-danger">
+                    <div *ngIf="borrowerName.errors && borrowerName.errors['required']">
+                        Loan Amount is required.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <label for="purpose">Purpose</label>
+            </div>
+            <div [class]="InputColumnClass">
+                <textarea id="purpose" name="purpose" #purpose="ngModel" class="form-control" required="true" maxlength="2000" rows="5" [(ngModel)]="LoanApplication.Purpose">
+                </textarea>
+                <div *ngIf="purpose.invalid && (purpose.dirty || purpose.touched)" class="alert alert-danger">
+                    <div *ngIf="borrowerName.errors && borrowerName.errors['required']">
+                        Loan Amount is required.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="offset-md-2 col-md-4">
+                <p style="font-size: small;">Describe why you need a loan and what you'll be using the money to buy.</p>
+            </div>            
+        </div>
+        <div class="row">
+            <h3>Primary Borrower</h3>
+            <p>Describe yourself and how we can contact you?</p>
+        </div>
+        <div class="row">
             <div class="col-md-2">
                 <label for="borrowerName">Borrower Name</label>
             </div>
-            <div class="col-md-4">
-                <input id="borrowerName" name="borrowerName" #borrowerName="ngModel" class="form-control" type="text" required="true" maxlength="2000" placeholder="Borrower Name" [(ngModel)]="LoanApplication.BorrowerName"/>
+            <div [class]="InputColumnClass">
+                <input id="borrowerName" name="borrowerName" #borrowerName="ngModel" class="form-control" type="text" required="true" maxlength="2000" placeholder="Name" [(ngModel)]="LoanApplication.BorrowerName"/>
                 <div *ngIf="borrowerName.invalid && (borrowerName.dirty || borrowerName.touched)" class="alert alert-danger">
                     <div *ngIf="borrowerName.errors && borrowerName.errors['required']">
                         Borrower Name is required.
@@ -18,8 +57,163 @@
             </div>
         </div>
         <div class="row">
+            <div class="col-md-2">
+                <label for="borrowerBirth">Birth Date</label>
+            </div>
+            <div [class]="InputColumnClass">
+                <input id="borrowerBirth" name="borrowerBirth" #borrowerBirth="ngModel" class="form-control" type="date" required="true" placeholder="Birth Date" 
+                    [(ngModel)]="BorrowerBirthDate"/>
+                <div *ngIf="borrowerBirth.invalid && (borrowerBirth.dirty || borrowerBirth.touched)" class="alert alert-danger">
+                    <div *ngIf="borrowerBirth.errors && borrowerBirth.errors['required']">
+                        Borrower Birth Date is required.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <label for="borrowerEmail">Email</label>
+            </div>
+            <div [class]="InputColumnClass">
+                <input id="borrowerEmail" name="borrowerEmail" #borrowerEmail="ngModel" class="form-control" type="text" required="true" pattern=".+@.+" maxlength="2000" placeholder="Email" [(ngModel)]="LoanApplication.BorrowerEmailAddress"/>
+                <div *ngIf="borrowerEmail.invalid && (borrowerEmail.dirty || borrowerEmail.touched)" class="alert alert-danger">
+                    <div *ngIf="borrowerEmail.errors && borrowerEmail.errors['required']">
+                        Borrower email address is required.
+                    </div>
+                    <div *ngIf="borrowerEmail.errors && borrowerEmail.errors['pattern']">
+                        Borrower email address is invalid.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <label for="borrowerPhone">Phone</label>
+            </div>
+            <div [class]="InputColumnClass">
+                <input id="borrowerPhone" name="borrowerPhone" #borrowerPhone="ngModel" class="form-control" type="text" required="true" pattern="^\d{3}-?\d{3}-?\d{4}$" maxlength="2000" placeholder="999-555-1234" [(ngModel)]="LoanApplication.BorrowerPhone"/>
+                <div *ngIf="borrowerPhone.invalid && (borrowerPhone.dirty || borrowerPhone.touched)" class="alert alert-danger">
+                    <div *ngIf="borrowerPhone.errors && borrowerPhone.errors['required']">
+                        Borrower phone number is required.
+                    </div>
+                    <div *ngIf="borrowerPhone.errors && borrowerPhone.errors['pattern']">
+                        Borrower phone number is invalid.
+                    </div>
+                </div>
+            </div>
+        </div>        
+        <div *ngIf="LoanApplication.BorrowerAddress" class="row">
+            <div class="col-md-2">
+                <label for="borrowerAddress">Address</label>
+            </div>
+            <div [class]="InputColumnClass">
+                <input id="borrowerAddress" name="borrowerAddress" #borrowerAddress="ngModel" class="form-control" type="text" required="true" maxlength="2000" [(ngModel)]="LoanApplication.BorrowerAddress.Delivery"/>
+                <div *ngIf="borrowerAddress.invalid && (borrowerAddress.dirty || borrowerAddress.touched)" class="alert alert-danger">
+                    <div *ngIf="borrowerAddress.errors && borrowerAddress.errors['required']">
+                        Borrower address is required.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="LoanApplication.BorrowerAddress" class="row">
+            <div class="col-md-2">
+                <label for="borrowerCity">City</label>
+            </div>
+            <div [class]="InputColumnClass">
+                <input id="borrowerCity" name="borrowerCity" #borrowerCity="ngModel" class="form-control" type="text" required="true" maxlength="2000" placeholder="City" [(ngModel)]="LoanApplication.BorrowerAddress.City"/>
+                <div *ngIf="borrowerCity.invalid && (borrowerCity.dirty || borrowerCity.touched)" class="alert alert-danger">
+                    <div *ngIf="borrowerCity.errors && borrowerCity.errors['required']">
+                        Borrower City is required.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="LoanApplication.BorrowerAddress" class="row">
+            <div class="col-md-2">
+                <label for="borrowerState">State</label>
+            </div>
+            <div [class]="InputColumnClass">
+                <input id="borrowerState" name="borrowerState" #borrowerState="ngModel" class="form-control" type="text" required="true" pattern="^\w{2}$" maxlength="2" [(ngModel)]="LoanApplication.BorrowerAddress.State"/>
+                <div *ngIf="borrowerState.invalid && (borrowerState.dirty || borrowerState.touched)" class="alert alert-danger">
+                    <div *ngIf="borrowerState.errors && borrowerState.errors['required']">
+                        Borrower State is required.
+                    </div>
+                    <div *ngIf="borrowerState.errors && borrowerState.errors['pattern']">
+                        Borrower State is invalid.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="LoanApplication.BorrowerAddress" class="row">
+            <div class="col-md-2">
+                <label for="borrowerPostalCode">Postal Code</label>
+            </div>
+            <div [class]="InputColumnClass">
+                <input id="borrowerPostalCode" name="borrowerPostalCode" #borrowerPostalCode="ngModel" class="form-control" type="text" required="true" pattern="^\d{5}(-?\d{4})?$" maxlength="10" [(ngModel)]="LoanApplication.BorrowerAddress.PostalCode"/>
+                <div *ngIf="borrowerPostalCode.invalid && (borrowerPostalCode.dirty || borrowerPostalCode.touched)" class="alert alert-danger">
+                    <div *ngIf="borrowerPostalCode.errors && borrowerPostalCode.errors['required']">
+                        Borrower postal code is required.
+                    </div>
+                    <div *ngIf="borrowerPostalCode.errors && borrowerPostalCode.errors['pattern']">
+                        Borrower postal code is invalid.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <p>Next, fill in information about your primary employer.</p>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <label for="borrowerEmployerName">Employer Name</label>
+            </div>
+            <div [class]="InputColumnClass">
+                <input id="borrowerEmployerName" name="borrowerEmployerName" #borrowerEmployerName="ngModel" class="form-control" type="text" maxlength="10" [(ngModel)]="LoanApplication.BorrowerEmployerName"/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <label for="borrowerHireDate">Hire Date</label>
+            </div>
+            <div [class]="InputColumnClass">
+                <input id="borrowerHireDate" name="borrowerHireDate" #borrowerHireDate="ngModel" class="form-control" type="date" maxlength="10" [(ngModel)]="BorrowerHireDate"/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <label for="borrowerIncome">Annual Income</label>
+            </div>
+            <div [class]="InputColumnClass">
+                <input id="borrowerIncome" name="borrowerIncome" #borrowerIncome="ngModel" class="form-control" type="number" maxlength="10" [(ngModel)]="LoanApplication.BorrowerIncome"/>
+            </div>
+        </div>
+        <div class="row">
+            <p>Next, fill in information about expenses you may have.</p>
+            <div class="row">
+                <div class="col-md-2">
+                    <label for="mortgagePayment">Monthly Mortgage Payment</label>
+                </div>
+                <div [class]="InputColumnClass">
+                    <input id="mortgagePayment" name="mortgagePayment" #mortgagePayment="ngModel" class="form-control" type="number" maxlength="10" [(ngModel)]="LoanApplication.MortgagePayment"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <label for="rentPayment">Monthly Rent Payment</label>
+                </div>
+                <div [class]="InputColumnClass">
+                    <input id="rentPayment" name="rentPayment" #rentPayment="ngModel" class="form-control" type="number" maxlength="10" [(ngModel)]="LoanApplication.RentPayment"/>
+                </div>
+            </div>
+        </div>
+        <div class="row">
             <div class="offset-md-2 col-md-4" style="padding-top: 0.75em;">
-                <button class="btn btn-primary" type="submit" [disabled]="!loanApplicationForm.form.valid">Save</button>
+                <button class="btn btn-primary" type="submit" [disabled]="!loanApplicationForm.form.valid || Saving">
+                    Submit                    
+                    <div *ngIf="!ErrorMessage && Saving" class="spinner-border spinner-border-sm text-secondary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </button>
             </div>
         </div>
     </div>

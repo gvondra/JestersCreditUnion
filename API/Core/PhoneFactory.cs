@@ -27,7 +27,7 @@ namespace JestersCreditUnion.Core
             number = Regex.Replace(number, @"[^0-9]+", string.Empty, RegexOptions.IgnoreCase);
             if (!Regex.IsMatch(number, @"^[0-9]{10}$", RegexOptions.IgnoreCase))
                 throw new ApplicationException("Invalid phone number " + number);
-            return Create(new PhoneData() { Number = number });
+            return Create(new PhoneData() { PhoneId = Guid.NewGuid(), Number = number });
         }
 
         public async Task<IPhone> Get(ISettings settings, Guid id)
@@ -41,6 +41,9 @@ namespace JestersCreditUnion.Core
 
         public async Task<IPhone> Get(ISettings settings, string number)
         {
+            if (number == null)
+                throw new ArgumentNullException(nameof(number));
+            number = Regex.Replace(number, @"[^0-9]+", string.Empty, RegexOptions.IgnoreCase);
             IPhone result = null;
             PhoneData data = await _dataFactory.Get(new DataSettings(settings), number);
             if (data != null)

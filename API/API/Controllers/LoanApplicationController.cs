@@ -99,7 +99,10 @@ namespace API.Controllers
             {
                 innerPhone = await _phoneFactory.Get(settings, number);
                 if (innerPhone == null)
+                {
                     innerPhone = _phoneFactory.Create(ref number);
+                    await innerPhone.Create(settings);
+                }   
             }
             return innerPhone;
         }
@@ -112,7 +115,11 @@ namespace API.Controllers
             {
                 innerEmailAddress = await _emailAddressFactory.Get(settings, address);
                 if (innerEmailAddress == null)
+                {
                     innerEmailAddress = _emailAddressFactory.Create(address);
+                    await innerEmailAddress.Create(settings);
+                }
+                    
             }
             return innerEmailAddress;
         }
@@ -129,7 +136,13 @@ namespace API.Controllers
 
                 IAddress existingAddress = await _addressFactory.GetByHash(settings, innerAddress.Hash);
                 if (existingAddress != null)
+                {
                     innerAddress = existingAddress;
+                }
+                else
+                {
+                    await innerAddress.Create(settings);
+                }
             }
             return innerAddress;
         }

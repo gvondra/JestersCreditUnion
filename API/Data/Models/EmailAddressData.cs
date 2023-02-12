@@ -7,7 +7,9 @@ namespace JestersCreditUnion.Data.Models
     {
         private string _address;
 
-        [BsonId()] public Guid EmailAddressId { get; set; }
+        [BsonId()] 
+        public Guid EmailAddressId { get; set; }
+        [BsonRequired()]
         public string Address 
         { 
             get => _address ?? string.Empty; 
@@ -17,7 +19,9 @@ namespace JestersCreditUnion.Data.Models
                 AddressLCase = _address.ToLower();
             }
         }
+        [BsonRequired()]
         public string AddressLCase { get; set; }
-        [BsonDateTimeOptions(Kind = DateTimeKind.Utc)] public DateTime CreateTimestamp { get; set; }
+        [BsonDateTimeOptions(Kind = DateTimeKind.Utc)] 
+        public DateTime CreateTimestamp { get; set; }
     }
 }

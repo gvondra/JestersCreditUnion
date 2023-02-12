@@ -1,4 +1,5 @@
 ﻿using JestersCreditUnion.Data.Models;
+using System;
 using System.Threading.Tasks;
 
 namespace JestersCreditUnion.Data.Internal
@@ -14,6 +15,7 @@ namespace JestersCreditUnion.Data.Internal
 
         public async Task Create(IDataSettings settings, PhoneData data)
         {
+            data.CreateTimestamp = DateTime.UtcNow;
             await (await _mongoClientFactory.GetDatabase(settings))
                 .GetCollection<PhoneData>(Constants.CollectionName.Phone)
                 .InsertOneAsync(data);
