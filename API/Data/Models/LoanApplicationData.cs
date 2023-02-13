@@ -12,6 +12,9 @@ namespace JestersCreditUnion.Data.Models
 		[BsonRequired()]
 		[BsonDefaultValue(0)]
 		public short Status { get; set; }
+        [BsonRequired()]
+        [BsonDateTimeOptions(DateOnly = true)]
+        public DateTime ApplicationDate { get; set; }
         [BsonDefaultValue("")]
         [BsonIgnoreIfDefault()]
         [BsonIgnoreIfNull()]

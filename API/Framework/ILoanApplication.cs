@@ -9,6 +9,7 @@ namespace JestersCreditUnion.Framework
         Guid LoanApplicationId { get; }
         Guid UserId { get; }
         LoanApplicationStatus Status { get; set; }
+        DateTime ApplicationDate { get; }
         string BorrowerName { get; set; }
         DateTime BorrowerBirthDate { get; set; }
         Guid? BorrowerAddressId { get; set; }

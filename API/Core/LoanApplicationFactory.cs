@@ -2,10 +2,6 @@
 using JestersCreditUnion.Data.Models;
 using JestersCreditUnion.Framework;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace JestersCreditUnion.Core
 {
@@ -26,7 +22,8 @@ namespace JestersCreditUnion.Core
                 new LoanApplicationData
                 {
                     LoanApplicationId = Guid.NewGuid(),
-                    UserId = userId
+                    UserId = userId,
+                    ApplicationDate = DateTime.Today
                 });
         }
     }

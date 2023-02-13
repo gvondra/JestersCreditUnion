@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace JestersCreditUnion.Interface.Models
 {
     public class LoanApplication
     {
         public Guid? LoanApplicationId { get; set; }
+        public short? Status { get; set; }
+        public DateTime? ApplicationDate { get; set; }
         public string BorrowerName { get; set; }
         public DateTime? BorrowerBirthDate { get; set; }
         public Address BorrowerAddress { get; set; }
