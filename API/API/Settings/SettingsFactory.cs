@@ -45,5 +45,15 @@ namespace API
                 settings.BrassLoonLogClientId,
                 settings.BrassLoonLogClientSecret);
         }
+
+        public WorkTaskSettings CreateWorkTask(Settings settings, string token)
+        {
+            return new WorkTaskSettings(_tokenService,
+                settings.BrassLoonWorkTaskApiBaseAddress,
+                settings.BrassLoonAccountApiBaseAddress,
+                settings.BrassLoonLogClientId,
+                settings.BrassLoonLogClientSecret
+                );
+        }
     }
 }
