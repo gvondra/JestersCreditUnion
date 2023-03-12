@@ -1,19 +1,19 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-	  <ImplicitUsings>disable</ImplicitUsings>
-	  <Nullable>disable</Nullable>
-	  <AssemblyName>JCU.Interface</AssemblyName>
-	  <RootNamespace>JestersCreditUnion.Interface</RootNamespace>
-	  <Authors>Greg Vondra</Authors>
-	  <Company />
-	  <Product>Jesters Credit Union</Product>
-	  <PackageLicenseExpression>GPL-3.0-only</PackageLicenseExpression>
-	  <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-	  <Version>1.0.0-alpha.4</Version>
-	  <AssemblyVersion>1.0.0.4</AssemblyVersion>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFrameworks>net6.0;netstandard2.0;net48</TargetFrameworks>
+		<ImplicitUsings>disable</ImplicitUsings>
+		<Nullable>disable</Nullable>
+		<AssemblyName>JestersCreditUnion.Interface</AssemblyName>
+		<RootNamespace>JestersCreditUnion.Interface</RootNamespace>
+		<Authors>Greg Vondra</Authors>
+		<Company />
+		<Product>Jesters Credit Union</Product>
+		<PackageLicenseExpression>GPL-3.0-only</PackageLicenseExpression>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<Version>1.0.0-alpha.8</Version>
+		<AssemblyVersion>1.0.0.8</AssemblyVersion>
+	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<DebugType>none</DebugType>
@@ -26,7 +26,12 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="Autofac" Version="6.5.0" />
+		<PackageReference Include="Autofac" Version="[6.5.0,7.0)" />
+		<PackageReference Include="BrassLoon.RestClient" Version="[3.1.0,4.0)" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)' == 'net48'">
+		<Reference Include="System.Net.Http" Version="4.0.0" />
 	</ItemGroup>
 
 </Project>
