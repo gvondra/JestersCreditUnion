@@ -8,6 +8,6 @@ namespace API
         LogSettings CreateLog(Settings settings);
         AuthorizationSettings CreateAuthorization(Settings settings);
         AuthorizationSettings CreateAuthorization(Settings settings, string token);
-        WorkTaskSettings CreateWorkTask(Settings settings, string token);
+        WorkTaskSettings CreateWorkTask(Settings settings);
     }
 }
