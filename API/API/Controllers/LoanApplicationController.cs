@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BrassLoon.Interface.WorkTask.Models;
 using JestersCreditUnion.CommonAPI;
 using JestersCreditUnion.Framework;
 using JestersCreditUnion.Interface.Models;
@@ -11,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AuthorizationAPI = BrassLoon.Interface.Authorization;
+using WorkTaskAPI = BrassLoon.Interface.WorkTask;
 
 namespace API.Controllers
 {
@@ -22,6 +24,7 @@ namespace API.Controllers
         private readonly IAddressFactory _addressFactory;
         private readonly IEmailAddressFactory _emailAddressFactory;
         private readonly IPhoneFactory _phoneFactory;
+        private readonly WorkTaskAPI.IWorkTaskService _workTaskService;
 
         public LoanApplicationController(IOptions<Settings> settings,
             ISettingsFactory settingsFactory,
@@ -30,13 +33,15 @@ namespace API.Controllers
             ILoanApplicationFactory loanApplicationFactory,
             IAddressFactory addressFactory,
             IEmailAddressFactory emailAddressFactory,
-            IPhoneFactory phoneFactory)
+            IPhoneFactory phoneFactory,
+            WorkTaskAPI.IWorkTaskService workTaskService)
             : base(settings, settingsFactory, userService, logger)
         {
             _loanApplicationFactory = loanApplicationFactory;
             _addressFactory = addressFactory;
             _emailAddressFactory = emailAddressFactory;
             _phoneFactory = phoneFactory;
+            _workTaskService = workTaskService;
         }
 
         [Authorize(Constants.POLICY_BL_AUTH)]

@@ -40,7 +40,7 @@ namespace JestersCreditUnion.CommonAPI
             string googleIdIssuer = configuration["GoogleIdIssuer"];
             string idIssuer = configuration["IdIssuer"];
             List<string> authenticationSchemes = new List<string>();
-            authenticationSchemes.Add(Constants.AUTH_SCHEMA_YARD_LIGHT);
+            authenticationSchemes.Add(Constants.AUTH_SCHEMA_JCU);
             if (!string.IsNullOrEmpty(googleIdIssuer))
                 authenticationSchemes.Add(Constants.AUTH_SCHEME_GOOGLE);
             services.AddAuthorization(o =>
@@ -67,40 +67,21 @@ namespace JestersCreditUnion.CommonAPI
                         configure =>
                         {
                             configure.AddRequirements(new AuthorizationRequirement(Constants.POLICY_BL_AUTH, idIssuer))
-                            .AddAuthenticationSchemes(Constants.AUTH_SCHEMA_YARD_LIGHT)
+                            .AddAuthenticationSchemes(Constants.AUTH_SCHEMA_JCU)
                             .Build();
                         });
-                    //AddPolicy(o, Constants.POLICY_CLIENT_EDIT, Constants.AUTH_SCHEMA_YARD_LIGHT, idIssuer);
-                    //AddPolicy(o, Constants.POLICY_CLIENT_READ, Constants.AUTH_SCHEMA_YARD_LIGHT, idIssuer);
-                    //AddPolicy(o, Constants.POLICY_LOG_READ, Constants.AUTH_SCHEMA_YARD_LIGHT, idIssuer, _additionalLogWritePolicies);
-                    //AddPolicy(o, Constants.POLICY_LOG_WRITE, Constants.AUTH_SCHEMA_YARD_LIGHT, idIssuer, _additionalLogWritePolicies);
-                    //AddPolicy(o, Constants.POLICY_ROLE_EDIT, Constants.AUTH_SCHEMA_YARD_LIGHT, idIssuer);
-                    //AddPolicy(o, Constants.POLICY_USER_EDIT, Constants.AUTH_SCHEMA_YARD_LIGHT, idIssuer);
-                    //AddPolicy(o, Constants.POLICY_USER_READ, Constants.AUTH_SCHEMA_YARD_LIGHT, idIssuer);
+                    AddPolicy(o, Constants.POLICY_WORKTASK_TYPE_READ, Constants.AUTH_SCHEMA_JCU, idIssuer);
+                    AddPolicy(o, Constants.POLICY_WORKTASK_TYPE_EDIT, Constants.AUTH_SCHEMA_JCU, idIssuer, _workTaskTypeEditPolicies);
                 }
             });
             return services;
         }
 
-        //// tokens including any of the listed policies also get log read and log write access
-        //private static string[] _additionalLogWritePolicies = new string[]
-        //{
-        //    Constants.POLICY_CLIENT_EDIT,
-        //    Constants.POLICY_CLIENT_READ,
-        //    Constants.POLICY_ROLE_EDIT,
-        //    Constants.POLICY_USER_EDIT,
-        //    Constants.POLICY_USER_READ
-        //};
-
-        //// tokens incloding any of the listed policies also get config read access
-        //private static string[] _additionalConfigReadPolicies = new string[]
-        //{
-        //    Constants.POLICY_CLIENT_EDIT,
-        //    Constants.POLICY_CLIENT_READ,
-        //    Constants.POLICY_ROLE_EDIT,
-        //    Constants.POLICY_USER_EDIT,
-        //    Constants.POLICY_USER_READ
-        //};
+        private static string[] _workTaskTypeEditPolicies = new string[]
+        {
+            Constants.POLICY_WORKTASK_TYPE_EDIT,
+            Constants.POLICY_WORKTASK_TYPE_READ
+        };
 
         private static void AddPolicy(AuthorizationOptions authorizationOptions, string policyName, string schema, string issuer, IEnumerable<string> additinalPolicies = null)
         {
@@ -127,7 +108,7 @@ namespace JestersCreditUnion.CommonAPI
             JsonWebKeySet keySet = JsonWebKeySet.Create(
                 documentRetriever.GetDocumentAsync(configuration["JwkAddress"], new System.Threading.CancellationToken()).Result
                 );
-            builder.AddJwtBearer(Constants.AUTH_SCHEMA_YARD_LIGHT, o =>
+            builder.AddJwtBearer(Constants.AUTH_SCHEMA_JCU, o =>
             {
                 o.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
                 {
