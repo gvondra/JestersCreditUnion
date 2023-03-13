@@ -70,12 +70,22 @@ namespace JestersCreditUnion.CommonAPI
                             .AddAuthenticationSchemes(Constants.AUTH_SCHEMA_JCU)
                             .Build();
                         });
+                    AddPolicy(o, Constants.POLICY_USER_READ, Constants.AUTH_SCHEMA_JCU, idIssuer);
+                    AddPolicy(o, Constants.POLICY_USER_EDIT, Constants.AUTH_SCHEMA_JCU, idIssuer, _userEditPolicies);
+                    AddPolicy(o, Constants.POLICY_ROLE_EDIT, Constants.AUTH_SCHEMA_JCU, idIssuer);
+                    AddPolicy(o, Constants.POLICY_LOG_READ, Constants.AUTH_SCHEMA_JCU, idIssuer);
                     AddPolicy(o, Constants.POLICY_WORKTASK_TYPE_READ, Constants.AUTH_SCHEMA_JCU, idIssuer);
                     AddPolicy(o, Constants.POLICY_WORKTASK_TYPE_EDIT, Constants.AUTH_SCHEMA_JCU, idIssuer, _workTaskTypeEditPolicies);
                 }
             });
             return services;
         }
+
+        private static string[] _userEditPolicies = new string[]
+        {
+            Constants.POLICY_USER_EDIT,
+            Constants.POLICY_USER_READ
+        };
 
         private static string[] _workTaskTypeEditPolicies = new string[]
         {

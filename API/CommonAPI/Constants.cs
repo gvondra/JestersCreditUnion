@@ -8,5 +8,9 @@
         public const string POLICY_TOKEN_CREATE = "TOKEN:CREATE";
         public const string POLICY_WORKTASK_TYPE_READ = "WORKTASKTYPE:READ";
         public const string POLICY_WORKTASK_TYPE_EDIT = "WORKTASKTYPE:EDIT";
+        public const string POLICY_USER_EDIT = "USER:EDIT";
+        public const string POLICY_USER_READ = "USER:READ";
+        public const string POLICY_ROLE_EDIT = "ROLE:EDIT";
+        public const string POLICY_LOG_READ = "LOG:READ";
     }
 }
