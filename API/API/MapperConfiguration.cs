@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using JestersCreditUnion.Framework;
 using JestersCreditUnion.Interface.Models;
+using LogAPI = BrassLoon.Interface.Log.Models;
 using WorkTaskAPI = BrassLoon.Interface.WorkTask.Models;
 
 namespace API
@@ -19,6 +20,9 @@ namespace API
             exp.CreateMap<ILoanApplication, LoanApplication>();
             exp.CreateMap<LoanApplication, ILoanApplication>();
             exp.CreateMap<IAddress, Address>();
+
+            exp.CreateMap<LogAPI.Exception, Exception>();
+            exp.CreateMap<LogAPI.Metric, Metric>();
 
             exp.CreateMap<WorkTaskType, WorkTaskAPI.WorkTaskType>();
             exp.CreateMap<WorkTaskAPI.WorkTaskType, WorkTaskType>();

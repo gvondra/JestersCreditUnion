@@ -1,17 +1,17 @@
 ﻿using AutoMapper;
+using JestersCreditUnion.CommonAPI;
 using JestersCreditUnion.Interface.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using AuthorizationAPI = BrassLoon.Interface.Authorization;
 using WorkTaskAPI = BrassLoon.Interface.WorkTask;
-using JestersCreditUnion.CommonAPI;
-using System.Linq;
 
 namespace API.Controllers
 {
@@ -67,7 +67,7 @@ namespace API.Controllers
                 WriteException(ex);
                 result = StatusCode((int)ex.StatusCode);
             }
-            catch (Exception ex)
+            catch (System.Exception ex)
             {
                 WriteException(ex);
                 result = StatusCode(StatusCodes.Status500InternalServerError);
@@ -110,7 +110,7 @@ namespace API.Controllers
                 WriteException(ex);
                 result = StatusCode((int)ex.StatusCode);
             }
-            catch (Exception ex)
+            catch (System.Exception ex)
             {
                 WriteException(ex);
                 result = StatusCode(StatusCodes.Status500InternalServerError);
@@ -148,7 +148,7 @@ namespace API.Controllers
                 WriteException(ex);
                 result = StatusCode((int)ex.StatusCode);
             }
-            catch (Exception ex)
+            catch (System.Exception ex)
             {
                 WriteException(ex);
                 result = StatusCode(StatusCodes.Status500InternalServerError);
@@ -201,7 +201,7 @@ namespace API.Controllers
                 WriteException(ex);
                 result = StatusCode((int)ex.StatusCode);
             }
-            catch (Exception ex)
+            catch (System.Exception ex)
             {
                 WriteException(ex);
                 result = StatusCode(StatusCodes.Status500InternalServerError);
@@ -243,7 +243,7 @@ namespace API.Controllers
                 WriteException(ex);
                 result = StatusCode((int)ex.StatusCode);
             }
-            catch (Exception ex)
+            catch (System.Exception ex)
             {
                 WriteException(ex);
                 result = StatusCode(StatusCodes.Status500InternalServerError);
