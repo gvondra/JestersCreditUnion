@@ -117,7 +117,7 @@ namespace JCU.Internal
 
             // Starts the code exchange at the Token Endpoint.
             await PerformCodeExchange(code, code_verifier, redirectURI);
-            await GetYardLightToken();
+            await GetApiToken();
             this.Close();
         }
 
@@ -184,7 +184,7 @@ namespace JCU.Internal
             }
         }
 
-        private async Task GetYardLightToken()
+        private async Task GetApiToken()
         {
             try
             {
