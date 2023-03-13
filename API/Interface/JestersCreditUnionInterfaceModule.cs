@@ -10,7 +10,13 @@ namespace JestersCreditUnion.Interface
             base.Load(builder);
             builder.RegisterType<Service>().As<IService>().SingleInstance();
             builder.RegisterType<RestUtil>().SingleInstance();
+            builder.RegisterType<ExceptionService>().As<IExceptionService>();
+            builder.RegisterType<MetricService>().As<IMetricService>();
+            builder.RegisterType<RoleService>().As<IRoleService>();
             builder.RegisterType<TokenService>().As<ITokenService>();
+            builder.RegisterType<UserService>().As<IUserService>();
+            builder.RegisterType<WorkTaskStatusService>().As<IWorkTaskStatusService>();
+            builder.RegisterType<WorkTaskTypeService>().As<IWorkTaskTypeService>();
         }
     }
 }

@@ -1,14 +1,11 @@
 ﻿using BrassLoon.RestClient;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace JestersCreditUnion.Interface
 {
-    public class TokenService
+    public class TokenService : ITokenService
     {
         private readonly RestUtil _restUtil;
         private readonly IService _service;
