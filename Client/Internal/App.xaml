@@ -6,7 +6,7 @@
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <sys:Double x:Key="DefaultFontSize">12</sys:Double>
-        <FontFamily x:Key="DefaultFont">Georgia</FontFamily>
+        <FontFamily x:Key="DefaultFont">Verdana</FontFamily>
         <Style x:Key="DefaultWindowStyle" TargetType="Window">
             <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
             <Setter Property="FontFamily" Value="{StaticResource DefaultFont}"/>
