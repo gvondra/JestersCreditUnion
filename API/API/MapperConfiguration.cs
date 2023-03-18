@@ -23,9 +23,11 @@ namespace API
             exp.CreateMap<IAddress, Address>();
 
             exp.CreateMap<AuthorizationAPI.AppliedRole, AppliedRole>();
+            exp.CreateMap<AppliedRole, AuthorizationAPI.AppliedRole>();
             exp.CreateMap<AuthorizationAPI.Role, Role>();
             exp.CreateMap<Role, AuthorizationAPI.Role>();
             exp.CreateMap<AuthorizationAPI.User, User>();
+            exp.CreateMap<User, AuthorizationAPI.User>();
 
             exp.CreateMap<LogAPI.Exception, Exception>();
             exp.CreateMap<LogAPI.Metric, Metric>();
