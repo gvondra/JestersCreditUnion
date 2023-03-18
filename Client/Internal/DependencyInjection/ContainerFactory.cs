@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using JCU.Internal.Behaviors;
 
 namespace JCU.Internal.DependencyInjection
 {
@@ -10,6 +11,9 @@ namespace JCU.Internal.DependencyInjection
         {
             ContainerBuilder builder = new ContainerBuilder();
             builder.RegisterModule(new InternalModule());
+
+            builder.RegisterType<RoleSaver>();
+
             _container = builder.Build();
         }
 
