@@ -22,6 +22,7 @@ namespace API
             exp.CreateMap<LoanApplication, ILoanApplication>();
             exp.CreateMap<IAddress, Address>();
 
+            exp.CreateMap<AuthorizationAPI.AppliedRole, AppliedRole>();
             exp.CreateMap<AuthorizationAPI.Role, Role>();
             exp.CreateMap<Role, AuthorizationAPI.Role>();
             exp.CreateMap<AuthorizationAPI.User, User>();
