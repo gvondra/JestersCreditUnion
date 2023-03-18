@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Autofac;
+using JCU.Internal.ViewModel;
+using JestersCreditUnion.Interface;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,7 +25,24 @@ namespace JCU.Internal.NavigationPage.Log
     {
         public ErrorLog()
         {
+            NavigationCommands.BrowseBack.InputGestures.Clear();
+            NavigationCommands.BrowseForward.InputGestures.Clear();
             InitializeComponent();
+            DataContext = null;
+            this.Loaded += ErrorLog_Loaded;
+        }
+
+        private ErrorLogVM ErrorLogVM { get; set; }
+
+        private void ErrorLog_Loaded(object sender, RoutedEventArgs e)
+        {
+            using (ILifetimeScope scope = DependencyInjection.ContainerFactory.Container.BeginLifetimeScope())
+            {
+                ISettingsFactory settingsFactory = scope.Resolve<ISettingsFactory>();
+                IExceptionService exceptionService = scope.Resolve<IExceptionService>();
+                ErrorLogVM = ErrorLogVM.Create(settingsFactory, exceptionService);
+                DataContext = ErrorLogVM;
+            }
         }
     }
 }
