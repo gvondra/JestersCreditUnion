@@ -48,7 +48,10 @@ namespace JCU.Internal.NavigationPage
 
         private void AddHyperlink_Click(object sender, RoutedEventArgs e)
         {
-            RoleVM roleVM = new RoleVM();
+            RoleVM roleVM = new RoleVM()
+            {
+                IsNew = true
+            };
             RolesVM.Roles.Add(roleVM);
             RolesVM.SelectedRole = roleVM;
         }
