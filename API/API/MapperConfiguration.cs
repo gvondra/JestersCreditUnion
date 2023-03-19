@@ -30,7 +30,9 @@ namespace API
             exp.CreateMap<User, AuthorizationAPI.User>();
 
             exp.CreateMap<LogAPI.Exception, Exception>();
+            exp.CreateMap<LogAPI.EventId, EventId>();
             exp.CreateMap<LogAPI.Metric, Metric>();
+            exp.CreateMap<LogAPI.Trace, Trace>();
 
             exp.CreateMap<WorkTaskType, WorkTaskAPI.WorkTaskType>();
             exp.CreateMap<WorkTaskAPI.WorkTaskType, WorkTaskType>();
