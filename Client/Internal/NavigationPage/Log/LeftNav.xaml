@@ -9,5 +9,6 @@
     <StackPanel Orientation="Vertical" Margin="15">
         <TextBlock><Hyperlink Command="NavigationCommands.GoToPage" CommandParameter="NavigationPage/Log/MetricLog.xaml">Metrics</Hyperlink></TextBlock>
         <TextBlock><Hyperlink Command="NavigationCommands.GoToPage" CommandParameter="NavigationPage/Log/ErrorLog.xaml">Errors</Hyperlink></TextBlock>
+        <TextBlock><Hyperlink Command="NavigationCommands.GoToPage" CommandParameter="NavigationPage/Log/TraceLog.xaml">Trace</Hyperlink></TextBlock>
     </StackPanel>
 </UserControl>

@@ -1,12 +1,16 @@
 ﻿using JCU.Internal.Behaviors;
 using JestersCreditUnion.Interface;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace JCU.Internal.ViewModel
 {
-    public class MetricLogVM : ViewModelBase
+    public class TraceLogVM : ViewModelBase
     {
         private readonly ObservableCollection<string> _eventCodes = new ObservableCollection<string>();
         private readonly ObservableCollection<object> _items = new ObservableCollection<object>();
@@ -44,12 +48,12 @@ namespace JCU.Internal.ViewModel
         }
 
         // factory method for MetricLogVM
-        public static MetricLogVM Create(
+        public static TraceLogVM Create(
             ISettingsFactory settingsFactory,
-            IMetricService metricService)
+            ITraceService traceService)
         {
-            MetricLogVM vm = new MetricLogVM();
-            MetricLogLoader loader = new MetricLogLoader(vm, settingsFactory, metricService);
+            TraceLogVM vm = new TraceLogVM();
+            TraceLogLoader loader = new TraceLogLoader(vm, settingsFactory, traceService);
             vm.AddBehavior(loader);
             loader.LoadEventCodes();
             return vm;
