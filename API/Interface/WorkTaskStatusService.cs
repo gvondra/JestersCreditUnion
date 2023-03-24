@@ -54,7 +54,7 @@ namespace JestersCreditUnion.Interface
             if (workTaskTypeId.Equals(Guid.Empty))
                 throw new ArgumentNullException(nameof(workTaskTypeId));
             IRequest request = _service.CreateRequest(new Uri(settings.BaseAddress), HttpMethod.Get)
-                .AddPath("WorkTaskType/{workTaskTypeId}/Status/{id}")
+                .AddPath("WorkTaskType/{workTaskTypeId}/Status")
                 .AddPathParameter("workTaskTypeId", workTaskTypeId.ToString("N"))
                 .AddJwtAuthorizationToken(settings.GetToken)
                 ;
