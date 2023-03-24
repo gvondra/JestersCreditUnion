@@ -44,8 +44,8 @@
     <Reference Include="FontAwesome.WPF, Version=4.7.0.37774, Culture=neutral, PublicKeyToken=0758b07a11a4f466, processorArchitecture=MSIL">
       <HintPath>packages\FontAwesome.WPF.4.7.0.9\lib\net40\FontAwesome.WPF.dll</HintPath>
     </Reference>
-    <Reference Include="JestersCreditUnion.Interface, Version=1.0.0.11, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\JestersCreditUnion.Interface.1.0.0-alpha.11\lib\net48\JestersCreditUnion.Interface.dll</HintPath>
+    <Reference Include="JestersCreditUnion.Interface, Version=1.0.0.14, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\JestersCreditUnion.Interface.1.0.0-alpha.14\lib\net48\JestersCreditUnion.Interface.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Bcl.AsyncInterfaces.1.1.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
@@ -65,20 +65,20 @@
     <Reference Include="Microsoft.Extensions.Primitives, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Extensions.Primitives.2.2.0\lib\netstandard2.0\Microsoft.Extensions.Primitives.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.IdentityModel.Abstractions, Version=6.26.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>packages\Microsoft.IdentityModel.Abstractions.6.26.1\lib\net472\Microsoft.IdentityModel.Abstractions.dll</HintPath>
+    <Reference Include="Microsoft.IdentityModel.Abstractions, Version=6.27.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.IdentityModel.Abstractions.6.27.0\lib\net472\Microsoft.IdentityModel.Abstractions.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.IdentityModel.JsonWebTokens, Version=6.26.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>packages\Microsoft.IdentityModel.JsonWebTokens.6.26.1\lib\net472\Microsoft.IdentityModel.JsonWebTokens.dll</HintPath>
+    <Reference Include="Microsoft.IdentityModel.JsonWebTokens, Version=6.27.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.IdentityModel.JsonWebTokens.6.27.0\lib\net472\Microsoft.IdentityModel.JsonWebTokens.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.IdentityModel.Logging, Version=6.26.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>packages\Microsoft.IdentityModel.Logging.6.26.1\lib\net472\Microsoft.IdentityModel.Logging.dll</HintPath>
+    <Reference Include="Microsoft.IdentityModel.Logging, Version=6.27.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.IdentityModel.Logging.6.27.0\lib\net472\Microsoft.IdentityModel.Logging.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.IdentityModel.Tokens, Version=6.26.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>packages\Microsoft.IdentityModel.Tokens.6.26.1\lib\net472\Microsoft.IdentityModel.Tokens.dll</HintPath>
+    <Reference Include="Microsoft.IdentityModel.Tokens, Version=6.27.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.IdentityModel.Tokens.6.27.0\lib\net472\Microsoft.IdentityModel.Tokens.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>packages\Newtonsoft.Json.13.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Polly, Version=7.0.0.0, Culture=neutral, PublicKeyToken=c8a3ffc3f8f825cc, processorArchitecture=MSIL">
       <HintPath>packages\Polly.7.2.3\lib\net472\Polly.dll</HintPath>
@@ -91,7 +91,7 @@
       <HintPath>packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
     </Reference>
     <Reference Include="System.ComponentModel.Annotations, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>packages\System.ComponentModel.Annotations.4.5.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
+      <HintPath>packages\System.ComponentModel.Annotations.4.7.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
     </Reference>
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
@@ -99,11 +99,11 @@
     <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\System.Diagnostics.DiagnosticSource.4.7.1\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
     </Reference>
-    <Reference Include="System.IdentityModel.Tokens.Jwt, Version=6.26.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>packages\System.IdentityModel.Tokens.Jwt.6.26.1\lib\net472\System.IdentityModel.Tokens.Jwt.dll</HintPath>
+    <Reference Include="System.IdentityModel.Tokens.Jwt, Version=6.27.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\System.IdentityModel.Tokens.Jwt.6.27.0\lib\net472\System.IdentityModel.Tokens.Jwt.dll</HintPath>
     </Reference>
-    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
+    <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
     </Reference>
     <Reference Include="System.Numerics" />
     <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -143,20 +143,92 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AccessToken.cs" />
+    <Compile Include="Behaviors\ExceptionLogLoader.cs" />
+    <Compile Include="Behaviors\FindUserLoader.cs" />
+    <Compile Include="Behaviors\FindUserSaver.cs" />
+    <Compile Include="Behaviors\MetricLogLoader.cs" />
+    <Compile Include="Behaviors\RoleSaver.cs" />
+    <Compile Include="Behaviors\RolesLoader.cs" />
+    <Compile Include="Behaviors\RoleValidator.cs" />
+    <Compile Include="Behaviors\TraceLogLoader.cs" />
+    <Compile Include="Behaviors\WorkTaskStatusesLoader.cs" />
+    <Compile Include="Behaviors\WorkTaskStatusSaver.cs" />
+    <Compile Include="Behaviors\WorkTaskTypeSave.cs" />
+    <Compile Include="Behaviors\WorkTaskTypesLoader.cs" />
+    <Compile Include="Behaviors\WorkTaskTypeValidator.cs" />
+    <Compile Include="Control\ExceptionItem.xaml.cs">
+      <DependentUpon>ExceptionItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Control\WorkTaskStatus.xaml.cs">
+      <DependentUpon>WorkTaskStatus.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DependencyInjection\ContainerFactory.cs" />
     <Compile Include="DependencyInjection\InternalModule.cs" />
+    <Compile Include="ErrorWindow.xaml.cs">
+      <DependentUpon>ErrorWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="GoogleLogin.xaml.cs">
       <DependentUpon>GoogleLogin.xaml</DependentUpon>
     </Compile>
     <Compile Include="NavigationPage\Home.xaml.cs">
       <DependentUpon>Home.xaml</DependentUpon>
     </Compile>
+    <Compile Include="NavigationPage\Log\ErrorLog.xaml.cs">
+      <DependentUpon>ErrorLog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NavigationPage\Log\LeftNav.xaml.cs">
+      <DependentUpon>LeftNav.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NavigationPage\Log\MetricLog.xaml.cs">
+      <DependentUpon>MetricLog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NavigationPage\Log\TraceLog.xaml.cs">
+      <DependentUpon>TraceLog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NavigationPage\Roles.xaml.cs">
+      <DependentUpon>Roles.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NavigationPage\User.xaml.cs">
+      <DependentUpon>User.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NavigationPage\WorkTaskType.xaml.cs">
+      <DependentUpon>WorkTaskType.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NavigationPage\WorkTaskTypes.xaml.cs">
+      <DependentUpon>WorkTaskTypes.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Settings\APISettings.cs" />
     <Compile Include="Settings\ISettingsFactory.cs" />
     <Compile Include="Settings\Settings.cs" />
     <Compile Include="Settings\SettingsFactory.cs" />
     <Compile Include="ViewModelBase.cs" />
+    <Compile Include="ViewModel\ErrorLogVM.cs" />
+    <Compile Include="ViewModel\ExceptionLogItemVM.cs" />
+    <Compile Include="ViewModel\FindUserRoleVM.cs" />
+    <Compile Include="ViewModel\FindUserVM.cs" />
     <Compile Include="ViewModel\MainWindowVM.cs" />
+    <Compile Include="ViewModel\MetricLogItemVM.cs" />
+    <Compile Include="ViewModel\MetricLogVM.cs" />
+    <Compile Include="ViewModel\RolesVM.cs" />
+    <Compile Include="ViewModel\RoleVM.cs" />
+    <Compile Include="ViewModel\TraceLogItemVM.cs" />
+    <Compile Include="ViewModel\TraceLogVM.cs" />
+    <Compile Include="ViewModel\WorkTaskStatusesVM.cs" />
+    <Compile Include="ViewModel\WorkTaskStatusVM.cs" />
+    <Compile Include="ViewModel\WorkTaskTypesVM.cs" />
+    <Compile Include="ViewModel\WorkTaskTypeVM.cs" />
+    <Page Include="Control\ExceptionItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Control\WorkTaskStatus.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ErrorWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="GoogleLogin.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -174,6 +246,38 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="NavigationPage\Home.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NavigationPage\Log\ErrorLog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NavigationPage\Log\LeftNav.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NavigationPage\Log\MetricLog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NavigationPage\Log\TraceLog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NavigationPage\Roles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NavigationPage\User.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NavigationPage\WorkTaskType.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NavigationPage\WorkTaskTypes.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
