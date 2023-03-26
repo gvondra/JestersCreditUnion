@@ -16,6 +16,7 @@ namespace API
         protected readonly IOptions<Settings> _settings;
         private CoreSettings _coreSettings;
         private AuthorizationSettings _authorizationSettings;
+        private ConfigurationSettings _configSettings;
         private WorkTaskSettings _workTaskSettings;
 
         public APIControllerBase(
@@ -83,6 +84,13 @@ namespace API
             if (_authorizationSettings == null)
                 _authorizationSettings = _settingsFactory.CreateAuthorization(_settings.Value);
             return _authorizationSettings;
+        }
+
+        protected virtual ConfigurationSettings GetConfigurationSettings()
+        {
+            if (_configSettings == null)
+                _configSettings = _settingsFactory.CreateConfiguration(_settings.Value);
+            return _configSettings;
         }
 
         protected virtual WorkTaskSettings GetWorkTaskSettings()

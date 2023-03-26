@@ -25,7 +25,16 @@ namespace API
                 settings.BrassLoonLogClientId,
                 settings.BrassLoonLogClientSecret);
         }
-            
+
+        public ConfigurationSettings CreateConfiguration(Settings settings)
+        {
+            return new ConfigurationSettings(_tokenService,
+                settings.BrassLoonConfigApiBaseAddress,
+                settings.BrassLoonAccountApiBaseAddress,
+                settings.BrassLoonLogClientId,
+                settings.BrassLoonLogClientSecret);
+        }
+
         public CoreSettings CreateCore(Settings settings)
         {
             return new CoreSettings()

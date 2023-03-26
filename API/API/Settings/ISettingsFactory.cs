@@ -4,6 +4,7 @@ namespace API
 {
     public interface ISettingsFactory
     {
+        ConfigurationSettings CreateConfiguration(Settings settings);
         CoreSettings CreateCore(Settings settings);
         LogSettings CreateLog(Settings settings);
         AuthorizationSettings CreateAuthorization(Settings settings);
