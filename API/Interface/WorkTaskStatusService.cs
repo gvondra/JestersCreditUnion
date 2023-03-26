@@ -34,6 +34,22 @@ namespace JestersCreditUnion.Interface
             return _restUtil.Send<WorkTaskStatus>(_service, request);
         }
 
+        public async Task Delete(ISettings settings, Guid workTaskTypeId, Guid id)
+        {
+            if (workTaskTypeId.Equals(Guid.Empty))
+                throw new ArgumentNullException(nameof(workTaskTypeId));
+            if (id.Equals(Guid.Empty))
+                throw new ArgumentNullException(nameof(id));
+            IRequest request = _service.CreateRequest(new Uri(settings.BaseAddress), HttpMethod.Delete)
+                .AddPath("WorkTaskType/{workTaskTypeId}/Status/{id}")
+                .AddPathParameter("workTaskTypeId", workTaskTypeId.ToString("N"))
+                .AddPathParameter("id", id.ToString("N"))
+                .AddJwtAuthorizationToken(settings.GetToken)
+                ;
+            IResponse response = await _service.Send(request);
+            _restUtil.CheckSuccess(response);
+        }
+
         public Task<WorkTaskStatus> Get(ISettings settings, Guid workTaskTypeId, Guid id)
         {
             if (workTaskTypeId.Equals(Guid.Empty))

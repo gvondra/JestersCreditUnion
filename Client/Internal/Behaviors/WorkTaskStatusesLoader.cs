@@ -55,7 +55,7 @@ namespace JCU.Internal.Behaviors
                 workTaskStatusesVM.Items.Clear();
                 foreach (WorkTaskStatus workTaskStatus in await load) 
                 { 
-                    workTaskStatusesVM.Items.Add(WorkTaskStatusVM.Create(workTaskStatus, _settingsFactory, _workTaskStatusService));
+                    workTaskStatusesVM.Items.Add(WorkTaskStatusVM.Create(workTaskStatus, workTaskStatusesVM.WorkTaskTypeVM, _settingsFactory, _workTaskStatusService));
                 }
                 if (workTaskStatusesVM.Items.Count > 0)
                     workTaskStatusesVM.SelectedItem = workTaskStatusesVM.Items[0];

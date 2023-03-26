@@ -11,5 +11,6 @@ namespace JestersCreditUnion.Interface
         Task<WorkTaskStatus> Get(ISettings settings, Guid workTaskTypeId, Guid id);
         Task<WorkTaskStatus> Create(ISettings settings, WorkTaskStatus workTaskStatus);
         Task<WorkTaskStatus> Update(ISettings settings, WorkTaskStatus workTaskStatus);
+        Task Delete(ISettings settings, Guid workTaskTypeId, Guid id);
     }
 }

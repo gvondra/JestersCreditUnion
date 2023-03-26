@@ -50,17 +50,31 @@
         <CheckBox Grid.Column="1" Grid.Row="5" IsChecked="{Binding IsDefaultStatus}" />
         <Label Grid.Column="0" Grid.Row="6">Is Closed</Label>
         <CheckBox Grid.Column="1" Grid.Row="6" IsChecked="{Binding IsClosedStatus}" />
-        <Button Grid.Column="1" Grid.Row="8" Command="{Binding WorkTaskStatusSaver}" CommandParameter="{Binding .}">            
-            <Button.Style>                
-                <Style TargetType="Button" BasedOn="{StaticResource SaveButtonStyle}">                    
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding HasErrors}" Value="True">
-                            <Setter Property="IsEnabled" Value="False" />
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </Button.Style>
-            <TextBlock>Save Status</TextBlock>
-        </Button>
+        <StackPanel Grid.Column="1" Grid.Row="8" Orientation="Horizontal">
+            <Button Command="{Binding WorkTaskStatusSaver}" CommandParameter="{Binding .}" Margin="5,5">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource SaveButtonStyle}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding HasErrors}" Value="True">
+                                <Setter Property="IsEnabled" Value="False" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+                <TextBlock>Save Status</TextBlock>
+            </Button>
+            <Button Command="{Binding WorkTaskStatusDeleter}" CommandParameter="{Binding .}" Margin="5,5">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource SaveButtonStyle}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding CanDelete}" Value="False">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+                <TextBlock>Delete Status</TextBlock>
+            </Button>
+        </StackPanel>
     </Grid>
 </UserControl>

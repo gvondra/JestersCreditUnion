@@ -197,5 +197,31 @@ namespace API.Controllers
             }
             return result;
         }
+
+        [HttpDelete("{id}")]
+        [Authorize(Constants.POLICY_BL_AUTH)]
+        public async Task<IActionResult> Delete([FromRoute] Guid? workTaskTypeId, [FromRoute] Guid? id)
+        {
+            IActionResult result = null;
+            try
+            {
+                if (result == null && (!id.HasValue || id.Value.Equals(Guid.Empty)))
+                    result = BadRequest("Missing id parameter value");
+                if (result == null && (!workTaskTypeId.HasValue || workTaskTypeId.Value.Equals(Guid.Empty)))
+                    result = BadRequest("Missing work task type id parameter value");
+                if (result == null)
+                {
+                    WorkTaskSettings settings = GetWorkTaskSettings();
+                    await _workTaskStatusService.Delete(settings, _settings.Value.WorkTaskDomainId.Value, workTaskTypeId.Value, id.Value);
+                    result = Ok();
+                }
+            }
+            catch (System.Exception ex)
+            {
+                WriteException(ex);
+                result = StatusCode(StatusCodes.Status500InternalServerError);
+            }
+            return result;
+        }
     }
 }

@@ -12,15 +12,20 @@ namespace JCU.Internal.ViewModel
     public class WorkTaskStatusVM : ViewModelBase
     {
         private readonly WorkTaskStatus _innerWorkTaskStatus;
+        private readonly WorkTaskTypeVM _workTaskTypeVM;
         private bool _isNew = false;
         private WorkTaskStatusSaver _saver;
+        private WorkTaskStatusDeleter _deleter;
 
-        private WorkTaskStatusVM(WorkTaskStatus taskStatus)
+        private WorkTaskStatusVM(WorkTaskStatus taskStatus, WorkTaskTypeVM workTaskTypeVM)
         {
             _innerWorkTaskStatus = taskStatus;
+            _workTaskTypeVM = workTaskTypeVM;
         }
 
         internal WorkTaskStatus InnerWorkTaskStatus => _innerWorkTaskStatus;
+
+        public WorkTaskTypeVM WorkTaskTypeVM => _workTaskTypeVM;
 
         public WorkTaskStatusSaver WorkTaskStatusSaver
         {
@@ -28,6 +33,16 @@ namespace JCU.Internal.ViewModel
             set
             {
                 _saver = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public WorkTaskStatusDeleter WorkTaskStatusDeleter
+        {
+            get => _deleter;
+            set
+            {
+                _deleter = value;
                 NotifyPropertyChanged();
             }
         }
@@ -120,6 +135,8 @@ namespace JCU.Internal.ViewModel
             }
         }
 
+        public bool CanDelete => !_isNew && WorkTaskCount == 0;
+
         public int WorkTaskCount => _innerWorkTaskStatus.WorkTaskCount ?? 0;
 
         public DateTime CreateTimestamp
@@ -153,6 +170,7 @@ namespace JCU.Internal.ViewModel
                     IsClosedStatus = false,
                     IsDefaultStatus = false
                 },
+                workTaskTypeVM,
                 settingsFactory,
                 workTaskStatusService
                 );
@@ -160,10 +178,11 @@ namespace JCU.Internal.ViewModel
             return vm;
         }
 
-        public static WorkTaskStatusVM Create(WorkTaskStatus workTaskStatus, ISettingsFactory settingsFactory, IWorkTaskStatusService workTaskStatusService)
+        public static WorkTaskStatusVM Create(WorkTaskStatus workTaskStatus, WorkTaskTypeVM workTaskTypeVM, ISettingsFactory settingsFactory, IWorkTaskStatusService workTaskStatusService)
         {
-            WorkTaskStatusVM vm = new WorkTaskStatusVM(workTaskStatus);
+            WorkTaskStatusVM vm = new WorkTaskStatusVM(workTaskStatus, workTaskTypeVM);
             vm.WorkTaskStatusSaver = new WorkTaskStatusSaver(settingsFactory, workTaskStatusService);
+            vm.WorkTaskStatusDeleter = new WorkTaskStatusDeleter(settingsFactory, workTaskStatusService);
             return vm;
         }
     }
