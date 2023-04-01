@@ -144,6 +144,10 @@ namespace JestersCreditUnion.CommonAPI
 
         public static AuthenticationBuilder AddGoogleAuthentication(this AuthenticationBuilder builder, IConfiguration configuration)
         {
+            List<string> audiences = configuration.GetSection("GoogleIdAudiences")
+                .GetChildren()
+                .Select(c => c.Value)
+                .ToList();
             HttpDocumentRetriever documentRetriever = new HttpDocumentRetriever() { RequireHttps = false };
             JsonWebKeySet keySet = JsonWebKeySet.Create(
                 documentRetriever.GetDocumentAsync(configuration["GoogleJwksUrl"], new System.Threading.CancellationToken()).Result
@@ -161,7 +165,7 @@ namespace JestersCreditUnion.CommonAPI
                     RequireAudience = false,
                     RequireExpirationTime = true,
                     RequireSignedTokens = true,
-                    ValidAudience = configuration["GoogleIdAudience"],
+                    ValidAudiences = audiences,
                     ValidIssuer = configuration["GoogleIdIssuer"],
                     IssuerSigningKeys = keySet.GetSigningKeys(),
                     TryAllIssuerSigningKeys = true
