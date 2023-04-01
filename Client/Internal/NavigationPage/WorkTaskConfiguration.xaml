@@ -1,0 +1,45 @@
+﻿<Page x:Class="JCU.Internal.NavigationPage.WorkTaskConfiguration"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:JCU.Internal.NavigationPage"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="JCU: Work Task Configuration" Style="{StaticResource DefaultPageStyle}">
+
+    <ScrollViewer>
+        <DockPanel>
+            <Grid DockPanel.Dock="Top">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Style="{StaticResource PageTitle}">Work Task Configuration</TextBlock>
+            </Grid>
+            <StackPanel DockPanel.Dock="Bottom" Orientation="Vertical">
+                <Button Command="{Binding WorkTaskConfigurationSaver}" CommandParameter="{Binding .}" Margin="10,5">
+                    <Button.Style>
+                        <Style TargetType="Button" BasedOn="{StaticResource SaveButtonStyle}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding HasErrors}" Value="True">
+                                    <Setter Property="IsEnabled" Value="False" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </StackPanel>
+            <Grid Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="99">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <Label Grid.Column="0" Grid.Row="0">New Loan Application Task Type Code</Label>
+                <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding NewLoanApplicationTaskTypeCode, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" MaxLength="512" Style="{StaticResource TextBoxWithError}" />
+            </Grid>
+        </DockPanel>
+    </ScrollViewer>
+</Page>

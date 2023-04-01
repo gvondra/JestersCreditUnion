@@ -32,7 +32,7 @@ namespace JCU.Internal.NavigationPage
             this.Loaded += WorkTaskTypes_Loaded;
         }
 
-        WorkTaskTypesVM WorkTaskTypesVM { get; set; }
+        private WorkTaskTypesVM WorkTaskTypesVM { get; set; }
 
         private void WorkTaskTypes_Loaded(object sender, RoutedEventArgs e)
         {

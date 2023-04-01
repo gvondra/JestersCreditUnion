@@ -23,6 +23,7 @@
                     <MenuItem Header="Roles" Visibility="{Binding ShowUserRole}" Command="NavigationCommands.GoToPage" CommandParameter="NavigationPage/Roles.xaml"/>
                 </MenuItem>
                 <MenuItem Header="_Work Tasks Types" Visibility="{Binding ShowWorkTaskTypeEdit}" Command="NavigationCommands.GoToPage" CommandParameter="NavigationPage/WorkTaskTypes.xaml"/>
+                <MenuItem Header="_Work Task Configuration" Visibility="{Binding ShowWorkTaskTypeEdit}" Command="NavigationCommands.GoToPage" CommandParameter="NavigationPage/WorkTaskConfiguration.xaml"/>
                 <MenuItem Header="Close" Command="ApplicationCommands.Close"/>
             </MenuItem>
         </Menu>
