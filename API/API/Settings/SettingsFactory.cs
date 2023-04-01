@@ -36,15 +36,7 @@ namespace API
         }
 
         public CoreSettings CreateCore(Settings settings)
-        {
-            return new CoreSettings()
-            {
-                DatabaseHost = settings.DatabaseHost,
-                DatabaseName = settings.DatabaseName,
-                DatabaseUser = settings.DatabaseUser,
-                KeyVaultAddress = settings.KeyVaultAddress
-            };
-        }
+            => new CoreSettings(settings);
 
         public LogSettings CreateLog(Settings settings)
         {

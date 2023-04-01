@@ -1,17 +1,16 @@
-﻿using AutoMapper;
+﻿using BrassLoon.Interface.Config.Models;
+using JestersCreditUnion.CommonAPI;
+using JestersCreditUnion.Framework.Constants;
+using JestersCreditUnion.Interface.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using System;
+using System.Threading.Tasks;
 using AuthorizationAPI = BrassLoon.Interface.Authorization;
 using ConfigAPI = BrassLoon.Interface.Config;
-using JestersCreditUnion.CommonAPI;
-using JestersCreditUnion.Interface.Models;
-using BrassLoon.Interface.Config.Models;
 
 namespace API.Controllers
 {
@@ -46,7 +45,7 @@ namespace API.Controllers
                     WorkTaskConfiguration workTaskConfiguration = new WorkTaskConfiguration();
                     if (data != null)
                     {
-                        workTaskConfiguration.NewLoanApplicationTaskTypeCode = data["NewLoanApplicationTaskTypeCode"] ?? string.Empty;
+                        workTaskConfiguration.NewLoanApplicationTaskTypeCode = data[WorkTaskConfigurationFields.NewLoanApplicationTaskTypeCode] ?? string.Empty;
                     }
                     result = Ok(workTaskConfiguration);
                 }
@@ -80,13 +79,7 @@ namespace API.Controllers
                 if (result == null)
                 {
                     ConfigurationSettings settings = GetConfigurationSettings();
-                    Item item = new Item
-                    {
-                        DomainId = _settings.Value.ConfigDomainId.Value,
-                        Code = _settings.Value.WorkTaskConfigurationCode,                        
-                        Data = workTaskConfiguration
-                    };                    
-                    item = await _itemService.Save(settings, _settings.Value.ConfigDomainId.Value, _settings.Value.WorkTaskConfigurationCode, item);
+                    Item item = await _itemService.Save(settings, _settings.Value.ConfigDomainId.Value, _settings.Value.WorkTaskConfigurationCode, workTaskConfiguration);
                     result = Ok(workTaskConfiguration);
                 }
             }

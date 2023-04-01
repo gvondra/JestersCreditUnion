@@ -21,6 +21,7 @@ namespace API.Controllers
     public class LoanApplicationController : APIControllerBase
     {
         private readonly ILoanApplicationFactory _loanApplicationFactory;
+        private readonly ILoanApplicationSaver _loanApplicationSaver;
         private readonly IAddressFactory _addressFactory;
         private readonly IEmailAddressFactory _emailAddressFactory;
         private readonly IPhoneFactory _phoneFactory;
@@ -31,6 +32,7 @@ namespace API.Controllers
             AuthorizationAPI.IUserService userService,
             ILogger<LoanApplicationController> logger,
             ILoanApplicationFactory loanApplicationFactory,
+            ILoanApplicationSaver loanApplicationSaver,
             IAddressFactory addressFactory,
             IEmailAddressFactory emailAddressFactory,
             IPhoneFactory phoneFactory,
@@ -38,6 +40,7 @@ namespace API.Controllers
             : base(settings, settingsFactory, userService, logger)
         {
             _loanApplicationFactory = loanApplicationFactory;
+            _loanApplicationSaver = loanApplicationSaver;
             _addressFactory = addressFactory;
             _emailAddressFactory = emailAddressFactory;
             _phoneFactory = phoneFactory;
@@ -71,7 +74,7 @@ namespace API.Controllers
                     innerLoanApplication.BorrowerPhoneId = borrowerPhone?.PhoneId;
                     innerLoanApplication.CoBorrowerPhoneId = coborrowerPhone?.PhoneId;
 
-                    await innerLoanApplication.Create(settings);
+                    await _loanApplicationSaver.Create(settings, innerLoanApplication);
 
                     loanApplication = mapper.Map<LoanApplication>(innerLoanApplication);
                     loanApplication.BorrowerAddress = borrowerAddress != null ? mapper.Map<Address>(borrowerAddress) : null;
