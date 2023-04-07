@@ -11,13 +11,13 @@ using System.Windows.Input;
 
 namespace JCU.Internal.Behaviors
 {
-    public class WorkTaskTypeSave : ICommand
+    public class WorkTaskTypeSaver : ICommand
     {
         private readonly ISettingsFactory _settingsFactory;
         private readonly IWorkTaskTypeService _workTaskTypeService;
         private bool _canExecute = true;
 
-        public WorkTaskTypeSave(ISettingsFactory settingsFactory,
+        public WorkTaskTypeSaver(ISettingsFactory settingsFactory,
             IWorkTaskTypeService workTaskTypeService)
         {
             _settingsFactory = settingsFactory;

@@ -62,6 +62,8 @@ namespace JCU.Internal.NavigationPage
                     NavigationService navigationService = NavigationService.GetNavigationService(this);
                     WorkTaskType workTaskType = new WorkTaskType(WorkTaskTypeVM.Create(settingsFactory, workTaskTypeService, workTaskStatusService));
                     navigationService.Navigate(workTaskType);
+                    this.WorkTaskTypesVM = null;
+                    this.DataContext = null;
                 }
             }
             catch(Exception ex)

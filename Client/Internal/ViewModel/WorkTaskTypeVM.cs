@@ -13,7 +13,7 @@ namespace JCU.Internal.ViewModel
     {
         private readonly WorkTaskType _innerWorkTaskType;
         private bool _isNew = false;
-        private WorkTaskTypeSave _workTaskTypeSave;
+        private WorkTaskTypeSaver _workTaskTypeSave;
         private WorkTaskStatusesVM _workTaskStatusesVM;
 
         private WorkTaskTypeVM(WorkTaskType innerWorkTaskType)
@@ -29,7 +29,7 @@ namespace JCU.Internal.ViewModel
 
         public WorkTaskType InnerWorkTaskType => _innerWorkTaskType;
 
-        public WorkTaskTypeSave WorkTaskTypeSave
+        public WorkTaskTypeSaver WorkTaskTypeSave
         {
             get => _workTaskTypeSave;
             set
@@ -153,7 +153,7 @@ namespace JCU.Internal.ViewModel
             IWorkTaskStatusService workTaskStatusService)
         {
             WorkTaskTypeVM vm = new WorkTaskTypeVM(workTaskType);
-            vm.WorkTaskTypeSave = new WorkTaskTypeSave(settingsFactory, workTaskTypeService);
+            vm.WorkTaskTypeSave = new WorkTaskTypeSaver(settingsFactory, workTaskTypeService);
             WorkTaskTypeValidator validator = new WorkTaskTypeValidator(vm);
             vm.AddBehavior(validator);
             vm.WorkTaskStatusesVM = WorkTaskStatusesVM.Create(vm, settingsFactory, workTaskStatusService);

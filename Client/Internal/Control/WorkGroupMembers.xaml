@@ -1,0 +1,69 @@
+﻿<UserControl x:Class="JCU.Internal.Control.WorkGroupMembers"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:JCU.Internal.Control"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <DockPanel>
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Column="0" Grid.Row="0">Email Address</Label>
+            <TextBox Grid.Column="1" Grid.Row="0" MinWidth="250" MaxLength="1024" Text="{Binding FindMemberEmailAddress}"/>
+            <Button Grid.Column="2" Grid.Row="0" HorizontalAlignment="Left" Padding="5,2" Command="{Binding MembersFind}" CommandParameter="{Binding .}">_Find</Button>
+        </Grid>
+        <Border DockPanel.Dock="Top" BorderThickness="0,2,0,2" BorderBrush="DarkGray" Margin="0,5" Padding="0,5">
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding FoundMember}" Value="{x:Null}">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Label Grid.Column="0" Grid.Row="0">Found User:</Label>
+                <Label Grid.Column="1" Grid.Row="0">
+                    <TextBlock Text="{Binding FoundMember.Name}"/>
+                </Label>
+                <Button Grid.Column="2" Grid.Row="0" HorizontalAlignment="Left" Padding="5,2" Command="{Binding MemberAdd}" CommandParameter="{Binding .}">_Add to Group</Button>
+            </Grid>
+        </Border>
+        <ScrollViewer VerticalScrollBarVisibility="Visible" Margin="0,5,0,0">
+            <StackPanel Orientation="Vertical">
+                <Label>
+                    <TextBlock TextDecorations="Underline">Group Members</TextBlock>
+                </Label>
+                <ItemsControl ItemsSource="{Binding Members}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Label>
+                                <TextBlock>
+                                <TextBlock Text="{Binding Name}"/>
+                                <Hyperlink Command="{Binding MemberRemove}" CommandParameter="{Binding .}">remove</Hyperlink>
+                            </TextBlock>
+                            </Label>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </ScrollViewer>
+    </DockPanel>
+</UserControl>

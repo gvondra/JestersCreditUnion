@@ -90,7 +90,8 @@ namespace JestersCreditUnion.CommonAPI
         private static string[] _workTaskTypeEditPolicies = new string[]
         {
             Constants.POLICY_WORKTASK_TYPE_EDIT,
-            Constants.POLICY_WORKTASK_TYPE_READ
+            Constants.POLICY_WORKTASK_TYPE_READ,
+            Constants.POLICY_USER_READ // allow to read users becuase task type editors can add users to work groups
         };
 
         private static void AddPolicy(AuthorizationOptions authorizationOptions, string policyName, string schema, string issuer, IEnumerable<string> additinalPolicies = null)

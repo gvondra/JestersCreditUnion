@@ -37,7 +37,7 @@ namespace JCU.Internal.Behaviors
             }).ContinueWith(LoadCallback, null, TaskScheduler.FromCurrentSynchronizationContext());
         }
 
-        public async Task LoadCallback(Task<List<WorkTaskType>> load, object state)
+        private async Task LoadCallback(Task<List<WorkTaskType>> load, object state)
         {
             try
             {

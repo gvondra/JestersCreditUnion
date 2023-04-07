@@ -22,8 +22,11 @@
                     <MenuItem Header="Find User" Visibility="{Binding ShowUserRole}" Command="NavigationCommands.GoToPage" CommandParameter="NavigationPage/User.xaml"/>
                     <MenuItem Header="Roles" Visibility="{Binding ShowUserRole}" Command="NavigationCommands.GoToPage" CommandParameter="NavigationPage/Roles.xaml"/>
                 </MenuItem>
-                <MenuItem Header="_Work Tasks Types" Visibility="{Binding ShowWorkTaskTypeEdit}" Command="NavigationCommands.GoToPage" CommandParameter="NavigationPage/WorkTaskTypes.xaml"/>
-                <MenuItem Header="_Work Task Configuration" Visibility="{Binding ShowWorkTaskTypeEdit}" Command="NavigationCommands.GoToPage" CommandParameter="NavigationPage/WorkTaskConfiguration.xaml"/>
+                <MenuItem Header="_Work Task Setup" Visibility="{Binding ShowWorkTaskTypeEdit}">
+                    <MenuItem Header="_Types" Visibility="{Binding ShowWorkTaskTypeEdit}" Command="NavigationCommands.GoToPage" CommandParameter="NavigationPage/WorkTaskTypes.xaml"/>
+                    <MenuItem Header="_Groups" Visibility="{Binding ShowWorkTaskTypeEdit}" Command="NavigationCommands.GoToPage" CommandParameter="NavigationPage/WorkGroups.xaml" />
+                    <MenuItem Header="_Configuration" Visibility="{Binding ShowWorkTaskTypeEdit}" Command="NavigationCommands.GoToPage" CommandParameter="NavigationPage/WorkTaskConfiguration.xaml"/>
+                </MenuItem>                
                 <MenuItem Header="Close" Command="ApplicationCommands.Close"/>
             </MenuItem>
         </Menu>

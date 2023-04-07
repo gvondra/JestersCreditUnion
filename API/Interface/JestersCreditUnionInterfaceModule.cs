@@ -8,7 +8,7 @@ namespace JestersCreditUnion.Interface
         protected override void Load(ContainerBuilder builder)
         {
             base.Load(builder);
-            builder.RegisterType<Service>().As<IService>().SingleInstance();
+            builder.RegisterType<Service>().As<IService>().InstancePerLifetimeScope();
             builder.RegisterType<RestUtil>().SingleInstance();
             builder.RegisterType<ExceptionService>().As<IExceptionService>();
             builder.RegisterType<MetricService>().As<IMetricService>();
@@ -16,6 +16,7 @@ namespace JestersCreditUnion.Interface
             builder.RegisterType<TokenService>().As<ITokenService>();
             builder.RegisterType<TraceService>().As<ITraceService>();
             builder.RegisterType<UserService>().As<IUserService>();
+            builder.RegisterType<WorkGroupService>().As<IWorkGroupService>();
             builder.RegisterType<WorkTaskConfigurationService>().As<IWorkTaskConfigurationService>();
             builder.RegisterType<WorkTaskStatusService>().As<IWorkTaskStatusService>();
             builder.RegisterType<WorkTaskTypeService>().As<IWorkTaskTypeService>();
