@@ -21,8 +21,8 @@ namespace JestersCreditUnion.Interface
         public async Task AddWorkTaskTypeLink(ISettings settings, Guid workGroupId, Guid workTaskTypeId)
         {
             IRequest request = _service.CreateRequest(new Uri(settings.BaseAddress), HttpMethod.Post)
-                .AddPath("WorkGroup")
-                .AddPath(workGroupId.ToString("N"))
+                .AddPath("WorkGroup/{id}/WorkTaskType")
+                .AddPathParameter("id", workGroupId.ToString("N"))
                 .AddQueryParameter("workTaskTypeId", workTaskTypeId.ToString("N"))
                 .AddJwtAuthorizationToken(settings.GetToken)
                 ;
@@ -44,8 +44,8 @@ namespace JestersCreditUnion.Interface
         public async Task DeleteWorkTaskTypeLink(ISettings settings, Guid workGroupId, Guid workTaskTypeId)
         {
             IRequest request = _service.CreateRequest(new Uri(settings.BaseAddress), HttpMethod.Delete)
-                .AddPath("WorkGroup")
-                .AddPath(workGroupId.ToString("N"))
+                .AddPath("WorkGroup/{id}/WorkTaskType")
+                .AddPathParameter("id", workGroupId.ToString("N"))
                 .AddQueryParameter("workTaskTypeId", workTaskTypeId.ToString("N"))
                 .AddJwtAuthorizationToken(settings.GetToken)
                 ;

@@ -43,7 +43,8 @@ namespace JCU.Internal.NavigationPage
                     ISettingsFactory settingsFactory = scope.Resolve<ISettingsFactory>();
                     IWorkGroupService workGroupService = scope.Resolve<IWorkGroupService>();
                     IUserService userService = scope.Resolve<IUserService>();
-                    this.WorkGroupsVM = WorkGroupsVM.Create(settingsFactory, workGroupService, userService);
+                    IWorkTaskTypeService workTaskTypeService = scope.Resolve<IWorkTaskTypeService>();
+                    this.WorkGroupsVM = WorkGroupsVM.Create(settingsFactory, workGroupService, userService, workTaskTypeService);
                     this.DataContext = this.WorkGroupsVM;
                 }
             }
@@ -58,8 +59,9 @@ namespace JCU.Internal.NavigationPage
                     ISettingsFactory settingsFactory = scope.Resolve<ISettingsFactory>();
                     IWorkGroupService workGroupService = scope.Resolve<IWorkGroupService>();
                     IUserService userService = scope.Resolve<IUserService>();
+                    IWorkTaskTypeService workTaskTypeService = scope.Resolve<IWorkTaskTypeService>();
                     NavigationService navigationService = NavigationService.GetNavigationService(this);
-                    WorkGroup workGroup = new WorkGroup(WorkGroupVM.Create(settingsFactory, workGroupService, userService));
+                    WorkGroup workGroup = new WorkGroup(WorkGroupVM.Create(settingsFactory, workGroupService, userService, workTaskTypeService));
                     navigationService.Navigate(workGroup);
                     this.WorkGroupsVM = null;
                     this.DataContext = null;
@@ -82,6 +84,8 @@ namespace JCU.Internal.NavigationPage
                     WorkGroupVM workGroupVM = (WorkGroupVM)dataGrid.SelectedItem;
                     if (workGroupVM.LoadMembers != null)
                         workGroupVM.LoadMembers();
+                    if (workGroupVM.LoadTypes != null)
+                        workGroupVM.LoadTypes();
                     WorkGroup workGroup = new WorkGroup(workGroupVM);
                     navigationService.Navigate(workGroup);
                 }

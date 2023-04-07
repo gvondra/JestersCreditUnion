@@ -43,7 +43,7 @@
                 <ctrl:WorkGroupMembers />
             </TabItem>
             <TabItem Header="Task Types">
-                
+                <ctrl:WorkGroupTaskTypes />
             </TabItem>
         </TabControl>
     </DockPanel>

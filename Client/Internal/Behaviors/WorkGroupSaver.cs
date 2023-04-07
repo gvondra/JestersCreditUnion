@@ -41,6 +41,9 @@ namespace JCU.Internal.Behaviors
                 WorkGroupVM vm = (WorkGroupVM)parameter;
                 WorkGroup workGroup = vm.InnerWorkGroup;
                 workGroup.MemberUserIds = vm.Members.Select(m => m.UserId.ToString("D")).ToList();
+                workGroup.WorkTaskTypeIds = vm.TaskTypes
+                .Where(tt => tt.Selected)
+                .Select(tt => tt.WorkTaskTypeId).ToList();
                 if (workGroup.WorkGroupId.HasValue)
                     return _workGroupService.Update(settings, workGroup).Result;
                 else

@@ -129,6 +129,8 @@ namespace API.Controllers
                     WorkTaskAPI.Models.WorkGroup innerWorkGroup = mapper.Map<WorkTaskAPI.Models.WorkGroup>(workGroup);
                     innerWorkGroup.DomainId = _settings.Value.WorkTaskDomainId.Value;
                     innerWorkGroup = await _workGroupService.Create(settings, innerWorkGroup);
+                    await this.ApplyTaskTypeLinkChanges(innerWorkGroup.WorkGroupId.Value, innerWorkGroup.WorkTaskTypeIds, workGroup.WorkTaskTypeIds);
+                    innerWorkGroup.WorkTaskTypeIds = workGroup.WorkTaskTypeIds;
                     result = Ok(mapper.Map<WorkGroup>(innerWorkGroup));
                 }
             }
@@ -169,6 +171,8 @@ namespace API.Controllers
                     WorkTaskAPI.Models.WorkGroup innerWorkGroup = mapper.Map<WorkTaskAPI.Models.WorkGroup>(workGroup);
                     innerWorkGroup.DomainId = _settings.Value.WorkTaskDomainId.Value;
                     innerWorkGroup = await _workGroupService.Update(settings, innerWorkGroup);
+                    await this.ApplyTaskTypeLinkChanges(innerWorkGroup.WorkGroupId.Value, innerWorkGroup.WorkTaskTypeIds, workGroup.WorkTaskTypeIds);
+                    innerWorkGroup.WorkTaskTypeIds = workGroup.WorkTaskTypeIds;
                     result = Ok(mapper.Map<WorkGroup>(innerWorkGroup));
                 }
             }
@@ -249,6 +253,26 @@ namespace API.Controllers
                 await WriteMetrics("delete-work-group-type-link", start, result);
             }
             return result;
+        }
+
+        [NonAction]
+        private async Task ApplyTaskTypeLinkChanges(Guid workGroupId, List<Guid> currentWorkTaskIds, List<Guid> targetWorkTaskIds)
+        {
+            if (currentWorkTaskIds == null)
+                currentWorkTaskIds = new List<Guid>();
+            if (targetWorkTaskIds == null)
+                targetWorkTaskIds = new List<Guid>();
+            WorkTaskSettings settings = GetWorkTaskSettings();
+            List<Task> tasks = new List<Task>();
+            foreach (Guid workTaskId in currentWorkTaskIds.Except(targetWorkTaskIds))
+            {
+                tasks.Add(_workGroupService.DeleteWorkTaskTypeLink(settings, _settings.Value.WorkTaskDomainId.Value, workGroupId, workTaskId));
+            }
+            foreach (Guid workTaskId in targetWorkTaskIds.Except(currentWorkTaskIds))
+            {
+                tasks.Add(_workGroupService.AddWorkTaskTypeLink(settings, _settings.Value.WorkTaskDomainId.Value, workGroupId, workTaskId));
+            }
+            await Task.WhenAll(tasks);
         }
     }
 }

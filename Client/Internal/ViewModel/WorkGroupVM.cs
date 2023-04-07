@@ -12,6 +12,7 @@ namespace JCU.Internal.ViewModel
     {
         private readonly WorkGroup _innerWorkGroup;
         private readonly ObservableCollection<WorkGroupMemberVM> _members = new ObservableCollection<WorkGroupMemberVM>();
+        private readonly ObservableCollection<WorkGroupTaskTypeVM> _taskTypes = new ObservableCollection<WorkGroupTaskTypeVM>();
         private WorkGroupSaver _saver;
         private string _findMemberEmailAddress;
         private WorkGroupMembersFind _membersFind;
@@ -65,6 +66,7 @@ namespace JCU.Internal.ViewModel
         }
 
         public Action LoadMembers { get; private set; }
+        public Action LoadTypes { get; private set; }
 
         public WorkGroupMembersFind MembersFind
         {
@@ -77,6 +79,8 @@ namespace JCU.Internal.ViewModel
         }
 
         public ObservableCollection<WorkGroupMemberVM> Members => _members;
+
+        public ObservableCollection<WorkGroupTaskTypeVM> TaskTypes => _taskTypes;
 
         public Guid? WorkGroupId
         {
@@ -163,9 +167,12 @@ namespace JCU.Internal.ViewModel
                 _innerWorkGroup.MemberUserIds.Add(userId);
         }
 
+        public List<Guid> WorkTaskTypeIds => _innerWorkGroup.WorkTaskTypeIds ?? new List<Guid>();
+
         public static WorkGroupVM Create(ISettingsFactory settingsFactory, 
             IWorkGroupService workGroupService,
-            IUserService userService)
+            IUserService userService,
+            IWorkTaskTypeService workTaskTypeService)
         {
             return Create(new WorkGroup
             {
@@ -173,21 +180,24 @@ namespace JCU.Internal.ViewModel
             },
             settingsFactory,
             workGroupService,
-            userService);
+            userService,
+            workTaskTypeService);
         }
 
         public static WorkGroupVM Create(WorkGroup workGroup, 
             ISettingsFactory settingsFactory, 
             IWorkGroupService workGroupService,
-            IUserService userService)
+            IUserService userService,
+            IWorkTaskTypeService workTaskTypeService)
         {
             WorkGroupVM vm = new WorkGroupVM(workGroup);
             vm.WorkGroupSave = new WorkGroupSaver(settingsFactory, workGroupService);
             WorkGroupValidator validator = new WorkGroupValidator(vm);
             vm.AddBehavior(validator);
-            WorkGroupLoader loader = new WorkGroupLoader(vm, settingsFactory, userService);
+            WorkGroupLoader loader = new WorkGroupLoader(vm, settingsFactory, userService, workTaskTypeService);
             vm.AddBehavior(loader);
             vm.LoadMembers = loader.LoadMembers;
+            vm.LoadTypes = loader.LoadTaskTypes;
             vm.MembersFind = new WorkGroupMembersFind(settingsFactory, userService);
             vm.MemberAdd = new WorkGroupMemberAdd();
             return vm;

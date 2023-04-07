@@ -14,12 +14,17 @@ namespace JCU.Internal.Behaviors
         private readonly WorkGroupVM _workGroupVM;
         private readonly ISettingsFactory _settingsFactory;
         private readonly IUserService _userService;
+        private readonly IWorkTaskTypeService _workTaskTypeService;
 
-        public WorkGroupLoader(WorkGroupVM workGroupVM, ISettingsFactory settingsFactory, IUserService userService)
+        public WorkGroupLoader(WorkGroupVM workGroupVM, 
+            ISettingsFactory settingsFactory, 
+            IUserService userService,
+            IWorkTaskTypeService workTaskTypeService)
         {
             _workGroupVM = workGroupVM;
             _settingsFactory = settingsFactory;
             _userService = userService;
+            _workTaskTypeService = workTaskTypeService;
         }
 
         public void LoadMembers()
@@ -48,6 +53,35 @@ namespace JCU.Internal.Behaviors
                 foreach (User user in await loadUsers)
                 {
                     _workGroupVM.Members.Add(WorkGroupMemberVM.Create(user, _workGroupVM));
+                }
+            }
+            catch (System.Exception ex)
+            {
+                ErrorWindow.Open(ex);
+            }
+        }
+
+        public void LoadTaskTypes()
+        {
+            _workGroupVM.TaskTypes.Clear();
+            Task.Run(() =>
+            {
+                ISettings settings = _settingsFactory.CreateApi();
+                return _workTaskTypeService.GetAll(settings).Result;
+            })
+                .ContinueWith(LoadTaskTypesCallback, null, TaskScheduler.FromCurrentSynchronizationContext());
+        }
+
+        private async Task LoadTaskTypesCallback(Task<List<WorkTaskType>> loadTaskTypes, object state)
+        {
+            try
+            {
+                _workGroupVM.TaskTypes.Clear();
+                foreach (WorkTaskType workTaskType in await loadTaskTypes)
+                {
+                    WorkGroupTaskTypeVM vm = WorkGroupTaskTypeVM.Create(workTaskType);
+                    vm.Selected = _workGroupVM.WorkTaskTypeIds.Any(id => id.Equals(workTaskType.WorkTaskTypeId.Value));
+                    _workGroupVM.TaskTypes.Add(vm);
                 }
             }
             catch (System.Exception ex)

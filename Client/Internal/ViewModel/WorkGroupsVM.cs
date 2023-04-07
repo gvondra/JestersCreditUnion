@@ -27,10 +27,11 @@ namespace JCU.Internal.ViewModel
 
         public static WorkGroupsVM Create(ISettingsFactory settingsFactory,
             IWorkGroupService workGroupService,
-            IUserService userService)
+            IUserService userService,
+            IWorkTaskTypeService workTaskTypeService)
         {
             WorkGroupsVM vm = new WorkGroupsVM();
-            WorkGroupsLoader loader = new WorkGroupsLoader(vm, settingsFactory, workGroupService, userService);
+            WorkGroupsLoader loader = new WorkGroupsLoader(vm, settingsFactory, workGroupService, userService, workTaskTypeService);
             vm.AddBehavior(loader);
             loader.Load();
             return vm;

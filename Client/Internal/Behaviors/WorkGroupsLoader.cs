@@ -15,16 +15,19 @@ namespace JCU.Internal.Behaviors
         private readonly ISettingsFactory _settingsFactory;
         private readonly IWorkGroupService _workGroupService;
         private readonly IUserService _userService;
+        private readonly IWorkTaskTypeService _workTaskTypeService;
 
         public WorkGroupsLoader(WorkGroupsVM workGroupsVM,
             ISettingsFactory settingsFactory,
             IWorkGroupService workGroupService,
-            IUserService userService)
+            IUserService userService,
+            IWorkTaskTypeService workTaskTypeService)
         {
             _workGroupsVM = workGroupsVM;
             _settingsFactory = settingsFactory;
             _workGroupService = workGroupService;
             _userService = userService;
+            _workTaskTypeService = workTaskTypeService;
         }
 
         public void Load()
@@ -45,7 +48,7 @@ namespace JCU.Internal.Behaviors
                 _workGroupsVM.Items.Clear();
                 foreach (WorkGroup workGroup in await load)
                 {
-                    _workGroupsVM.Items.Add(WorkGroupVM.Create(workGroup, _settingsFactory, _workGroupService, _userService));
+                    _workGroupsVM.Items.Add(WorkGroupVM.Create(workGroup, _settingsFactory, _workGroupService, _userService, _workTaskTypeService));
                 }
             }
             catch (System.Exception ex)
