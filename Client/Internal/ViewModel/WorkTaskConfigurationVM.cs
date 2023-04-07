@@ -1,11 +1,7 @@
 ﻿using JCU.Internal.Behaviors;
 using JestersCreditUnion.Interface;
 using JestersCreditUnion.Interface.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows;
 
 namespace JCU.Internal.ViewModel
 {
@@ -13,10 +9,24 @@ namespace JCU.Internal.ViewModel
     {
         private readonly WorkTaskConfiguration _innerConfiguration;
         private WorkTaskConfigurationSaver _saver;
+        private Visibility _busyVisibility = Visibility.Collapsed;
 
         private WorkTaskConfigurationVM(WorkTaskConfiguration innerConfiguration)
         {
             _innerConfiguration = innerConfiguration;
+        }
+
+        public Visibility BusyVisibility
+        {
+            get => _busyVisibility;
+            set
+            {
+                if (_busyVisibility != value)
+                {
+                    _busyVisibility = value;
+                    NotifyPropertyChanged();
+                }
+            }
         }
 
         public WorkTaskConfigurationSaver WorkTaskConfigurationSaver

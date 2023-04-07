@@ -22,7 +22,7 @@ namespace JCU.Internal.Behaviors
         }
 
         public void Load(Action<WorkTaskConfigurationVM> callback)
-        {
+        {   
             Task.Run(() =>
             {
                 ISettings settings = _settingsFactory.CreateApi();
