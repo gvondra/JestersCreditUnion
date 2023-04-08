@@ -34,7 +34,7 @@ namespace API.Controllers
         [HttpGet()]
         [Authorize(Constants.POLICY_WORKTASK_TYPE_READ)]
         [ProducesResponseType(typeof(List<WorkGroup>), 200)]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery] string userId = null)
         {
             DateTime start = DateTime.UtcNow;
             IActionResult result = null;
@@ -44,9 +44,17 @@ namespace API.Controllers
                 {
                     WorkTaskSettings settings = GetWorkTaskSettings();
                     IMapper mapper = MapperConfiguration.CreateMapper();
+                    List<WorkTaskAPI.Models.WorkGroup> innerWorkGroups;
+                    if (!string.IsNullOrEmpty(userId))
+                    {
+                        innerWorkGroups = await _workGroupService.GetByMemberUserId(settings, _settings.Value.WorkTaskDomainId.Value, userId);
+                    }
+                    else
+                    {
+                        innerWorkGroups = await _workGroupService.GetAll(settings, _settings.Value.WorkTaskDomainId.Value);
+                    }
                     result = Ok(
-                        (await _workGroupService.GetAll(settings, _settings.Value.WorkTaskDomainId.Value))
-                        .Select<WorkTaskAPI.Models.WorkGroup, WorkGroup>(t => mapper.Map<WorkGroup>(t))
+                        innerWorkGroups.Select<WorkTaskAPI.Models.WorkGroup, WorkGroup>(t => mapper.Map<WorkGroup>(t))
                         );
                 }
             }

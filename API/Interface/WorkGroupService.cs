@@ -65,14 +65,22 @@ namespace JestersCreditUnion.Interface
             return _restUtil.Send<WorkGroup>(_service, request);
         }
 
-        public Task<List<WorkGroup>> GetAll(ISettings settings)
+        private Task<List<WorkGroup>> InnerGetAll(ISettings settings, string userId = null)
         {
             IRequest request = _service.CreateRequest(new Uri(settings.BaseAddress), HttpMethod.Get)
                 .AddPath("WorkGroup")
                 .AddJwtAuthorizationToken(settings.GetToken)
                 ;
+            if (!string.IsNullOrEmpty(userId))
+            {
+                request.AddQueryParameter("userId", userId);
+            }
             return _restUtil.Send<List<WorkGroup>>(_service, request);
         }
+
+        public Task<List<WorkGroup>> GetAll(ISettings settings) => InnerGetAll(settings);
+
+        public Task<List<WorkGroup>> GetByMemberUserId(ISettings settings, string userId) => InnerGetAll(settings, userId);
 
         public Task<WorkGroup> Update(ISettings settings, WorkGroup workGroup)
         {

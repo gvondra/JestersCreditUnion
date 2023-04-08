@@ -10,6 +10,7 @@ namespace JestersCreditUnion.Interface
     public interface IWorkGroupService
     {
         Task<List<WorkGroup>> GetAll(ISettings settings);
+        Task<List<WorkGroup>> GetByMemberUserId(ISettings settings,string userId);
         Task<WorkGroup> Get(ISettings settings, Guid id);
         Task<WorkGroup> Create(ISettings settings, WorkGroup workGroup);
         Task<WorkGroup> Update(ISettings settings, WorkGroup workGroup);
