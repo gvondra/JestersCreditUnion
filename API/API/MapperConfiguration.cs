@@ -34,8 +34,14 @@ namespace API
             exp.CreateMap<LogAPI.Metric, Metric>();
             exp.CreateMap<LogAPI.Trace, Trace>();
 
+            exp.CreateMap<ClaimWorkTaskResponse, WorkTaskAPI.ClaimWorkTaskResponse>();
+            exp.CreateMap<WorkTaskAPI.ClaimWorkTaskResponse, ClaimWorkTaskResponse>();
             exp.CreateMap<WorkGroup, WorkTaskAPI.WorkGroup>();
             exp.CreateMap<WorkTaskAPI.WorkGroup, WorkGroup>();
+            exp.CreateMap<WorkTask, WorkTaskAPI.WorkTask>();
+            exp.CreateMap<WorkTaskAPI.WorkTask, WorkTask>();
+            exp.CreateMap<WorkTaskContext, WorkTaskAPI.WorkTaskContext>();
+            exp.CreateMap<WorkTaskAPI.WorkTaskContext, WorkTaskContext>();
             exp.CreateMap<WorkTaskType, WorkTaskAPI.WorkTaskType>();
             exp.CreateMap<WorkTaskAPI.WorkTaskType, WorkTaskType>();
             exp.CreateMap<WorkTaskStatus, WorkTaskAPI.WorkTaskStatus>();

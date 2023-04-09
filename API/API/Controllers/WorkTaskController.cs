@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using BrassLoon.Interface.WorkTask.Models;
 using JestersCreditUnion.CommonAPI;
+using JestersCreditUnion.Interface.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -65,6 +65,42 @@ namespace API.Controllers
             finally
             {
                 await WriteMetrics("get-worktasks-by-workgroupid", start, result);
+            }
+            return result;
+        }
+
+        [HttpPut("{id}/AssignTo")]
+        [Authorize(Constants.POLICY_BL_AUTH)]
+        [ProducesResponseType(typeof(ClaimWorkTaskResponse), 200)]
+        public async Task<IActionResult> Claim([FromRoute] Guid? id, [FromQuery] string assignToUserId)
+        {
+            DateTime start = DateTime.UtcNow;
+            IActionResult result = null;
+            try
+            {
+                if (result == null && (!id.HasValue || id.Value.Equals(Guid.Empty)))
+                    result = BadRequest("Missing id parameter value");
+                if (result == null)
+                {
+                    WorkTaskSettings settings = GetWorkTaskSettings();
+                    WorkTaskAPI.Models.ClaimWorkTaskResponse response = await _workTaskService.Claim(settings, _settings.Value.WorkTaskDomainId.Value, id.Value, assignToUserId ?? string.Empty);
+                    IMapper mapper = MapperConfiguration.CreateMapper();
+                    result = Ok(mapper.Map<ClaimWorkTaskResponse>(response));
+                }
+            }
+            catch (BrassLoon.RestClient.Exceptions.RequestError ex)
+            {
+                WriteException(ex);
+                result = StatusCode((int)ex.StatusCode);
+            }
+            catch (System.Exception ex)
+            {
+                WriteException(ex);
+                result = StatusCode(StatusCodes.Status500InternalServerError);
+            }
+            finally
+            {
+                await WriteMetrics("claim-worktask", start, result);
             }
             return result;
         }

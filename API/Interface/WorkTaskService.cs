@@ -20,6 +20,21 @@ namespace JestersCreditUnion.Interface
             _service = service;
         }
 
+        public Task<ClaimWorkTaskResponse> Claim(ISettings settings, Guid id, string assignToUserId)
+        {
+            if (id.Equals(Guid.Empty))
+                throw new ArgumentNullException(nameof(id));
+            if (assignToUserId == null)
+                assignToUserId = string.Empty;
+            IRequest request = _service.CreateRequest(new Uri(settings.BaseAddress), HttpMethod.Put)
+                .AddPath("WorkTask/{id}/AssignTo")
+                .AddPathParameter("id", id.ToString("N"))
+                .AddQueryParameter("assignToUserId", assignToUserId)
+                .AddJwtAuthorizationToken(settings.GetToken)
+                ;
+            return _restUtil.Send<ClaimWorkTaskResponse>(_service, request);
+        }
+
         public Task<List<WorkTask>> GetByWorkGroupId(ISettings settings, Guid workGroupId, bool? includeClosed = null)
         {
             if (workGroupId.Equals(Guid.Empty))
