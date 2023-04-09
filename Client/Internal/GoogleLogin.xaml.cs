@@ -158,7 +158,7 @@ namespace JCU.Internal
                     // converts to dictionary
                     Dictionary<string, string> tokenEndpointDecoded = JsonConvert.DeserializeObject<Dictionary<string, string>>(responseText);
 
-                    AccessToken.GoogleToken = tokenEndpointDecoded;
+                    AccessToken.Get.GoogleToken = tokenEndpointDecoded;
 
                     //string access_token = tokenEndpointDecoded["access_token"];
                     //UserinfoCall(access_token);
@@ -192,7 +192,7 @@ namespace JCU.Internal
                 {
                     ISettingsFactory settingsFactory = scope.Resolve<ISettingsFactory>();
                     ITokenService tokenService = scope.Resolve<ITokenService>();
-                    AccessToken.Token = await tokenService.Create(settingsFactory.CreateApi(AccessToken.GetGoogleIdToken()));
+                    AccessToken.Get.Token = await tokenService.Create(settingsFactory.CreateApi(AccessToken.Get.GetGoogleIdToken()));
                     NotifyOwner();
                     Output("Token received");
                 }
@@ -269,7 +269,7 @@ namespace JCU.Internal
 
         public static void ShowLoginDialog(bool checkAccessToken = true, Window owner = null)
         {
-            if (!checkAccessToken || string.IsNullOrEmpty(AccessToken.Token))
+            if (!checkAccessToken || string.IsNullOrEmpty(AccessToken.Get?.Token))
             {
                 GoogleLogin googleLogin = new GoogleLogin() { Owner = owner };
                 googleLogin.ShowDialog();

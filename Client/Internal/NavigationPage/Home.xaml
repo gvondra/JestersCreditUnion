@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:JCU.Internal.NavigationPage"
+      xmlns:ctrl="clr-namespace:JCU.Internal.Control"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Jester's Credit Union" Style="{StaticResource DefaultPageStyle}">
@@ -14,7 +15,10 @@
             <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
         </Style>
     </Page.Resources>
-    <Grid>
+    <DockPanel>
+        <Border DockPanel.Dock="Right" Visibility="{Binding WorkTasksHomeVisibility}" BorderBrush="DarkGray" BorderThickness="2" Padding="5,0">
+            <ctrl:WorkTasksHome DataContext="{Binding WorkTasksHomeVM}" />
+        </Border>
         <FlowDocumentScrollViewer>
             <FlowDocument Style="{StaticResource FlowDocumentStyle}">
                 <Paragraph>
@@ -22,5 +26,5 @@
                 </Paragraph>
             </FlowDocument>
         </FlowDocumentScrollViewer>
-    </Grid>
+    </DockPanel>
 </Page>

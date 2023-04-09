@@ -10,9 +10,9 @@ namespace JCU.Internal
     {
         public JestersCreditUnion.Interface.ISettings CreateApi()
         {
-            if (string.IsNullOrEmpty(AccessToken.Token))
+            if (string.IsNullOrEmpty(AccessToken.Get.Token))
                 throw new ArgumentNullException(nameof(AccessToken.Token));
-            return CreateApi(AccessToken.Token);
+            return CreateApi(AccessToken.Get.Token);
         }
 
         public JestersCreditUnion.Interface.ISettings CreateApi(string token)

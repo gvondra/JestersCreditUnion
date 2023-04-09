@@ -57,9 +57,9 @@ namespace JCU.Internal
 
         public void AfterTokenRefresh()
         {
-            MainWindowVM.ShowUserRole = BoolToVisibility(AccessToken.UserHasUserAdminRoleAccess());
-            MainWindowVM.ShowLogs = BoolToVisibility(AccessToken.UserHasLogReadAccess());
-            MainWindowVM.ShowWorkTaskTypeEdit = BoolToVisibility(AccessToken.UserHasTaskTypeEditAccess());
+            MainWindowVM.ShowUserRole = BoolToVisibility(AccessToken.Get.UserHasUserAdminRoleAccess());
+            MainWindowVM.ShowLogs = BoolToVisibility(AccessToken.Get.UserHasLogReadAccess());
+            MainWindowVM.ShowWorkTaskTypeEdit = BoolToVisibility(AccessToken.Get.UserHasTaskTypeEditAccess());
         }
 
         private Visibility BoolToVisibility(bool value) => value ? Visibility.Visible : Visibility.Collapsed;

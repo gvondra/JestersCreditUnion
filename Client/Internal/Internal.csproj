@@ -44,8 +44,8 @@
     <Reference Include="FontAwesome.WPF, Version=4.7.0.37774, Culture=neutral, PublicKeyToken=0758b07a11a4f466, processorArchitecture=MSIL">
       <HintPath>packages\FontAwesome.WPF.4.7.0.9\lib\net40\FontAwesome.WPF.dll</HintPath>
     </Reference>
-    <Reference Include="JestersCreditUnion.Interface, Version=1.0.0.19, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\JestersCreditUnion.Interface.1.0.0-alpha.19\lib\net48\JestersCreditUnion.Interface.dll</HintPath>
+    <Reference Include="JestersCreditUnion.Interface, Version=1.0.0.25, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\JestersCreditUnion.Interface.1.0.0-alpha.25\lib\net48\JestersCreditUnion.Interface.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Bcl.AsyncInterfaces.1.1.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
@@ -158,8 +158,10 @@
     <Compile Include="Behaviors\WorkGroupSaver.cs" />
     <Compile Include="Behaviors\WorkGroupsLoader.cs" />
     <Compile Include="Behaviors\WorkGroupValidator.cs" />
+    <Compile Include="Behaviors\WorkTaskClaim.cs" />
     <Compile Include="Behaviors\WorkTaskConfigurationLoader.cs" />
     <Compile Include="Behaviors\WorkTaskConfigurationSaver.cs" />
+    <Compile Include="Behaviors\WorkTasksHomeLoader.cs" />
     <Compile Include="Behaviors\WorkTaskStatusDeleter.cs" />
     <Compile Include="Behaviors\WorkTaskStatusesLoader.cs" />
     <Compile Include="Behaviors\WorkTaskStatusSaver.cs" />
@@ -177,6 +179,9 @@
     </Compile>
     <Compile Include="Control\WorkGroupTaskTypes.xaml.cs">
       <DependentUpon>WorkGroupTaskTypes.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Control\WorkTasksHome.xaml.cs">
+      <DependentUpon>WorkTasksHome.xaml</DependentUpon>
     </Compile>
     <Compile Include="Control\WorkTaskStatus.xaml.cs">
       <DependentUpon>WorkTaskStatus.xaml</DependentUpon>
@@ -234,6 +239,7 @@
     <Compile Include="ViewModel\ExceptionLogItemVM.cs" />
     <Compile Include="ViewModel\FindUserRoleVM.cs" />
     <Compile Include="ViewModel\FindUserVM.cs" />
+    <Compile Include="ViewModel\HomeVM.cs" />
     <Compile Include="ViewModel\MainWindowVM.cs" />
     <Compile Include="ViewModel\MetricLogItemVM.cs" />
     <Compile Include="ViewModel\MetricLogVM.cs" />
@@ -246,6 +252,10 @@
     <Compile Include="ViewModel\WorkGroupTaskTypeVM.cs" />
     <Compile Include="ViewModel\WorkGroupVM.cs" />
     <Compile Include="ViewModel\WorkTaskConfigurationVM.cs" />
+    <Compile Include="ViewModel\WorkTasksHomeVM.cs" />
+    <Compile Include="ViewModel\WorkTasksHome\WorkTaskStatusVM.cs" />
+    <Compile Include="ViewModel\WorkTasksHome\WorkTaskTypeVM.cs" />
+    <Compile Include="ViewModel\WorkTasksHome\WorkTaskVM.cs" />
     <Compile Include="ViewModel\WorkTaskStatusesVM.cs" />
     <Compile Include="ViewModel\WorkTaskStatusVM.cs" />
     <Compile Include="ViewModel\WorkTaskTypesVM.cs" />
@@ -263,6 +273,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Control\WorkGroupTaskTypes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Control\WorkTasksHome.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

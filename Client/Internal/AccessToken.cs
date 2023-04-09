@@ -1,19 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.CompilerServices;
 
 namespace JCU.Internal
 {
-    public static class AccessToken
+    public class AccessToken
     {
+        private static AccessToken _instance;
         private const string Issuer = "urn:brassloon-derived";
         private static string _token;
-        private static JwtSecurityToken _jwtSecurityToken;
-        public static Dictionary<string, string> GoogleToken { get; set; }
-        public static string Token
+        private JwtSecurityToken _jwtSecurityToken;
+        private Dictionary<string, string> _googleToken;
+
+        static AccessToken()
+        {
+            _instance = new AccessToken();
+        }
+
+        private AccessToken() { }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public static AccessToken Get => _instance;
+
+        public Dictionary<string, string> GoogleToken 
+        { 
+            get => _googleToken;
+            set
+            {
+                _googleToken = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public string Token
         {
             get => _token;
             set
@@ -21,20 +44,21 @@ namespace JCU.Internal
                 _token = value;
                 if (!string.IsNullOrEmpty(value))
                     _jwtSecurityToken = new JwtSecurityToken(value);
+                NotifyPropertyChanged();
             }
         }
 
-        public static string GetGoogleIdToken() => GoogleToken?["id_token"];
+        public string GetGoogleIdToken() => GoogleToken?["id_token"];
 
-        public static bool UserHasTaskTypeReadAccess() => UserHasRoleAccess("WORKTASKTYPE:READ");
+        public bool UserHasTaskTypeReadAccess() => UserHasRoleAccess("WORKTASKTYPE:READ");
 
-        public static bool UserHasTaskTypeEditAccess() => UserHasRoleAccess("WORKTASKTYPE:EDIT");
+        public bool UserHasTaskTypeEditAccess() => UserHasRoleAccess("WORKTASKTYPE:EDIT");
 
-        public static bool UserHasUserAdminRoleAccess() => UserHasRoleAccess("ROLE:EDIT");
+        public bool UserHasUserAdminRoleAccess() => UserHasRoleAccess("ROLE:EDIT");
 
-        public static bool UserHasLogReadAccess() => UserHasRoleAccess("LOG:READ");
+        public bool UserHasLogReadAccess() => UserHasRoleAccess("LOG:READ");
 
-        public static bool UserHasRoleAccess(string role)
+        public bool UserHasRoleAccess(string role)
         {
             return _jwtSecurityToken != null
                 && _jwtSecurityToken.Claims.Any(
@@ -42,6 +66,11 @@ namespace JCU.Internal
                     && string.Equals(clm.Type, "role", StringComparison.OrdinalIgnoreCase)
                     && string.Equals(clm.Value, role, StringComparison.OrdinalIgnoreCase)
                     );
+        }
+
+        protected void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Autofac;
+using JCU.Internal.ViewModel;
+using JestersCreditUnion.Interface;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,7 +25,61 @@ namespace JCU.Internal.NavigationPage
     {
         public Home()
         {
+            NavigationCommands.BrowseBack.InputGestures.Clear();
+            NavigationCommands.BrowseForward.InputGestures.Clear();
             InitializeComponent();
+            DataContext = null;
+            this.Loaded += Home_Loaded;
+            AccessToken.Get.PropertyChanged += AccessToken_PropertyChanged;
+        }
+
+        private HomeVM HomeVM { get; set; }
+
+        private void AccessToken_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case nameof(AccessToken.Token):
+                    UpdateAccessBasedVisibility();
+                    break;
+            }
+        }
+
+        private void UpdateAccessBasedVisibility()
+        {
+            if (HomeVM != null)
+            {
+                if (string.IsNullOrEmpty(AccessToken.Get.Token))
+                {
+                    HomeVM.WorkTasksHomeVisibility = Visibility.Collapsed;
+                }
+                else
+                {
+                    HomeVM.WorkTasksHomeVisibility = Visibility.Visible;
+                    if (HomeVM.LoadWorkTasks != null)
+                        HomeVM.LoadWorkTasks();
+                }
+            }
+        }
+
+        private void Home_Loaded(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                using (ILifetimeScope scope = DependencyInjection.ContainerFactory.Container.BeginLifetimeScope())
+                {
+                    HomeVM = HomeVM.Create(scope.Resolve<ISettingsFactory>(),
+                        scope.Resolve<IWorkGroupService>(),
+                        scope.Resolve<IUserService>(),
+                        scope.Resolve<IWorkTaskService>());
+                    DataContext = HomeVM;
+                    UpdateAccessBasedVisibility();
+                }
+            }
+            catch (System.Exception ex)
+            {
+                ErrorWindow.Open(ex, Window.GetWindow(this));
+            }
         }
     }
 }
