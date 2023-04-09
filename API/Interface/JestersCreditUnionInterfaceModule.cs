@@ -18,6 +18,7 @@ namespace JestersCreditUnion.Interface
             builder.RegisterType<UserService>().As<IUserService>();
             builder.RegisterType<WorkGroupService>().As<IWorkGroupService>();
             builder.RegisterType<WorkTaskConfigurationService>().As<IWorkTaskConfigurationService>();
+            builder.RegisterType<WorkTaskService>().As<IWorkTaskService>();
             builder.RegisterType<WorkTaskStatusService>().As<IWorkTaskStatusService>();
             builder.RegisterType<WorkTaskTypeService>().As<IWorkTaskTypeService>();
         }
