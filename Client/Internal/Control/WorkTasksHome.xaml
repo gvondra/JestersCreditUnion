@@ -29,7 +29,19 @@
                         </Style>
                     </TextBlock.Style>
                     <Hyperlink Command="{Binding WorkTaskClaim}" CommandParameter="{Binding .}">claim</Hyperlink>
-                </TextBlock>                
+                </TextBlock>
+                <TextBlock>
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding CanClaim}" Value="True">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                    <Hyperlink Click="OpenHyperlink_Click">open</Hyperlink>
+                </TextBlock>       
             </TextBlock>            
         </HierarchicalDataTemplate>
     </UserControl.Resources>

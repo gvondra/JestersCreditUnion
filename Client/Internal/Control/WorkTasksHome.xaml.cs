@@ -1,4 +1,6 @@
-﻿using System;
+﻿using JCU.Internal.NavigationPage;
+using JCU.Internal.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +25,22 @@ namespace JCU.Internal.Control
         public WorkTasksHome()
         {
             InitializeComponent();
+        }
+
+        private void OpenHyperlink_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                JCU.Internal.ViewModel.WorkTasksHome.WorkTaskVM vm = (JCU.Internal.ViewModel.WorkTasksHome.WorkTaskVM)((Hyperlink)sender).DataContext;
+                WorkTaskVM workTaskVM = WorkTaskVM.Create(vm.InnerWorkTask);
+                NavigationService navigationService = NavigationService.GetNavigationService(this.Parent);
+                WorkTaskFrame workTask = new WorkTaskFrame(workTaskVM);
+                navigationService.Navigate(workTask);
+            }
+            catch (System.Exception ex)
+            {
+                ErrorWindow.Open(ex, Window.GetWindow(this));
+            }
         }
     }
 }

@@ -19,6 +19,8 @@ namespace JCU.Internal.ViewModel.WorkTasksHome
             WorkTaskClaim = new WorkTaskClaim();
         }
 
+        public WorkTask InnerWorkTask => _workTask;
+
         public WorkTaskClaim WorkTaskClaim { get; set; }
 
         public Guid WorkTaskId => _workTask.WorkTaskId.Value;

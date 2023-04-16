@@ -35,5 +35,12 @@ namespace JestersCreditUnion.Framework
 
         Task Create(ISettings settings);
         Task Update(ISettings settings);
+
+        Task<IAddress> GetBorrowerAddress(ISettings settings);
+        Task<IAddress> GetCoBorrowerAddress(ISettings settings);
+        Task<IEmailAddress> GetBorrowerEmailAddress(ISettings settings);
+        Task<IEmailAddress> GetCoBorrowerEmailAddress(ISettings settings);
+        Task<IPhone> GetBorrowerPhone(ISettings settings);
+        Task<IPhone> GetCoBorrowerPhone(ISettings settings);
     }
 }

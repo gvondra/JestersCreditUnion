@@ -72,7 +72,7 @@ namespace API.Controllers
         [HttpPut("{id}/AssignTo")]
         [Authorize(Constants.POLICY_BL_AUTH)]
         [ProducesResponseType(typeof(ClaimWorkTaskResponse), 200)]
-        public async Task<IActionResult> Claim([FromRoute] Guid? id, [FromQuery] string assignToUserId)
+        public async Task<IActionResult> Claim([FromRoute] Guid? id, [FromQuery] string assignToUserId, [FromQuery] DateTime? assignedDate = null)
         {
             DateTime start = DateTime.UtcNow;
             IActionResult result = null;
@@ -83,7 +83,7 @@ namespace API.Controllers
                 if (result == null)
                 {
                     WorkTaskSettings settings = GetWorkTaskSettings();
-                    WorkTaskAPI.Models.ClaimWorkTaskResponse response = await _workTaskService.Claim(settings, _settings.Value.WorkTaskDomainId.Value, id.Value, assignToUserId ?? string.Empty);
+                    WorkTaskAPI.Models.ClaimWorkTaskResponse response = await _workTaskService.Claim(settings, _settings.Value.WorkTaskDomainId.Value, id.Value, assignToUserId ?? string.Empty, assignedDate);
                     IMapper mapper = MapperConfiguration.CreateMapper();
                     result = Ok(mapper.Map<ClaimWorkTaskResponse>(response));
                 }

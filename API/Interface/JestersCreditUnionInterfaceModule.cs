@@ -11,6 +11,7 @@ namespace JestersCreditUnion.Interface
             builder.RegisterType<Service>().As<IService>().InstancePerLifetimeScope();
             builder.RegisterType<RestUtil>().SingleInstance();
             builder.RegisterType<ExceptionService>().As<IExceptionService>();
+            builder.RegisterType<LoanApplicationService>().As<ILoanApplicationService>();
             builder.RegisterType<MetricService>().As<IMetricService>();
             builder.RegisterType<RoleService>().As<IRoleService>();
             builder.RegisterType<TokenService>().As<ITokenService>();

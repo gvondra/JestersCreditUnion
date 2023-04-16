@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using BrassLoon.Interface.WorkTask.Models;
 using JestersCreditUnion.CommonAPI;
 using JestersCreditUnion.Framework;
 using JestersCreditUnion.Interface.Models;
@@ -9,10 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using AuthorizationAPI = BrassLoon.Interface.Authorization;
-using WorkTaskAPI = BrassLoon.Interface.WorkTask;
 
 namespace API.Controllers
 {
@@ -25,7 +22,6 @@ namespace API.Controllers
         private readonly IAddressFactory _addressFactory;
         private readonly IEmailAddressFactory _emailAddressFactory;
         private readonly IPhoneFactory _phoneFactory;
-        private readonly WorkTaskAPI.IWorkTaskService _workTaskService;
 
         public LoanApplicationController(IOptions<Settings> settings,
             ISettingsFactory settingsFactory,
@@ -35,8 +31,7 @@ namespace API.Controllers
             ILoanApplicationSaver loanApplicationSaver,
             IAddressFactory addressFactory,
             IEmailAddressFactory emailAddressFactory,
-            IPhoneFactory phoneFactory,
-            WorkTaskAPI.IWorkTaskService workTaskService)
+            IPhoneFactory phoneFactory)
             : base(settings, settingsFactory, userService, logger)
         {
             _loanApplicationFactory = loanApplicationFactory;
@@ -44,7 +39,62 @@ namespace API.Controllers
             _addressFactory = addressFactory;
             _emailAddressFactory = emailAddressFactory;
             _phoneFactory = phoneFactory;
-            _workTaskService = workTaskService;
+        }
+
+        [Authorize(Constants.POLICY_BL_AUTH)]
+        [ProducesResponseType(typeof(LoanApplication), 200)]
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get([FromRoute] Guid? id)
+        {
+            DateTime start = DateTime.UtcNow;
+            IActionResult result = null;
+            try
+            {
+                CoreSettings settings = GetCoreSettings();
+                ILoanApplication innerLoanApplication = null;
+                if (result == null && (!id.HasValue || id.Value.Equals(Guid.Empty)))
+                    result = BadRequest("Missing id parameter value");
+                if (result == null)
+                {
+                    innerLoanApplication = await _loanApplicationFactory.Get(settings, id.Value);
+                    if (innerLoanApplication == null)
+                        result = NotFound();
+                }
+                if (result == null)
+                {
+                    IMapper mapper = MapperConfiguration.CreateMapper();
+                    result = Ok(await Map(mapper, settings, innerLoanApplication));
+                }
+            }
+            catch (System.Exception ex)
+            {
+                WriteException(ex);
+                result = StatusCode(StatusCodes.Status500InternalServerError);
+            }
+            finally
+            {
+                await WriteMetrics("get-loan-application", start, result);
+            }
+            return result;
+        }
+
+        private async Task<LoanApplication> Map(IMapper mapper, CoreSettings settings, ILoanApplication innerLoanApplication)
+        {
+            IAddress borrowerAddress = await innerLoanApplication.GetBorrowerAddress(settings);
+            IAddress coborrowerAddress = await innerLoanApplication.GetCoBorrowerAddress(settings);
+            IEmailAddress borrowerEmailAddress = await innerLoanApplication.GetBorrowerEmailAddress(settings);
+            IEmailAddress coborrowerEmailAddress = await innerLoanApplication.GetCoBorrowerEmailAddress(settings);
+            IPhone borrowerPhone = await innerLoanApplication.GetBorrowerPhone(settings);
+            IPhone coborrowerPhone = await innerLoanApplication.GetCoBorrowerPhone(settings);
+
+            LoanApplication loanApplication = mapper.Map<LoanApplication>(innerLoanApplication);
+            loanApplication.BorrowerAddress = borrowerAddress != null ? mapper.Map<Address>(borrowerAddress) : null;
+            loanApplication.CoBorrowerAddress = coborrowerAddress != null ? mapper.Map<Address>(coborrowerAddress) : null;
+            loanApplication.BorrowerEmailAddress = borrowerEmailAddress != null ? borrowerEmailAddress.Address : string.Empty;
+            loanApplication.CoBorrowerEmailAddress = coborrowerEmailAddress != null ? coborrowerEmailAddress.Address : string.Empty;
+            loanApplication.BorrowerPhone = borrowerPhone != null ? borrowerPhone.Number : string.Empty;
+            loanApplication.CoBorrowerPhone = coborrowerPhone != null ? coborrowerPhone.Number : string.Empty;
+            return loanApplication;
         }
 
         [Authorize(Constants.POLICY_BL_AUTH)]
@@ -76,13 +126,7 @@ namespace API.Controllers
 
                     await _loanApplicationSaver.Create(settings, innerLoanApplication);
 
-                    loanApplication = mapper.Map<LoanApplication>(innerLoanApplication);
-                    loanApplication.BorrowerAddress = borrowerAddress != null ? mapper.Map<Address>(borrowerAddress) : null;
-                    loanApplication.CoBorrowerAddress = coborrowerAddress != null ? mapper.Map<Address>(coborrowerAddress) : null;
-                    loanApplication.BorrowerEmailAddress = borrowerEmailAddress != null ? borrowerEmailAddress.Address : string.Empty;
-                    loanApplication.CoBorrowerEmailAddress = coborrowerEmailAddress != null ? coborrowerEmailAddress.Address : string.Empty;
-                    loanApplication.BorrowerPhone = borrowerPhone != null ? borrowerPhone.Number : string.Empty;
-                    loanApplication.CoBorrowerPhone = coborrowerPhone != null ? coborrowerPhone.Number : string.Empty;
+                    loanApplication = await Map(mapper, settings, innerLoanApplication);
 
                     result = Ok(loanApplication);
                 }

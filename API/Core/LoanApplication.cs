@@ -14,11 +14,19 @@ namespace JestersCreditUnion.Core
     {
         private readonly LoanApplicationData _data;
         private readonly ILoanApplicationDataSaver _dataSaver;
+        private readonly ILoanApplicationFactory _factory;
+        private IAddress _borrowerAddress = null;
+        private IAddress _coborrowerAddress = null;
+        private IEmailAddress _borrowerEmailAddress = null;
+        private IEmailAddress _coborrowerEmailAddress = null;
+        private IPhone _borrowerPhone = null;
+        private IPhone _coborrowerPhone = null;
 
-        public LoanApplication(LoanApplicationData data, ILoanApplicationDataSaver dataSaver)
+        public LoanApplication(LoanApplicationData data, ILoanApplicationDataSaver dataSaver, ILoanApplicationFactory factory)
         {
             _data = data;
             _dataSaver = dataSaver;
+            _factory = factory;
         }
 
         public Guid LoanApplicationId => _data.LoanApplicationId;
@@ -54,6 +62,60 @@ namespace JestersCreditUnion.Core
         public DateTime ApplicationDate => _data.ApplicationDate;
 
         public Task Create(ISettings settings) => _dataSaver.Create(new DataSettings(settings), _data);
+
+        public async Task<IAddress> GetBorrowerAddress(ISettings settings)
+        {
+            if (BorrowerAddressId.HasValue && (_borrowerAddress == null || !_borrowerAddress.AddressId.Equals(BorrowerAddressId.Value)))
+            {
+                _borrowerAddress = await _factory.AddressFactory.Get(settings, BorrowerAddressId.Value);
+            }
+            return _borrowerAddress;
+        }
+
+        public async Task<IEmailAddress> GetBorrowerEmailAddress(ISettings settings)
+        {
+            if (BorrowerEmailAddressId.HasValue && (_borrowerEmailAddress == null || !_borrowerEmailAddress.EmailAddressId.Equals(BorrowerEmailAddressId.Value)))
+            {
+                _borrowerEmailAddress = await _factory.EmailAddressFactory.Get(settings, BorrowerEmailAddressId.Value);
+            }
+            return _borrowerEmailAddress;
+        }
+
+        public async Task<IPhone> GetBorrowerPhone(ISettings settings)
+        {
+            if (BorrowerPhoneId.HasValue && (_borrowerPhone == null || !_borrowerPhone.PhoneId.Equals(BorrowerPhoneId.Value)))
+            {
+                _borrowerPhone = await _factory.PhoneFactory.Get(settings, BorrowerPhoneId.Value);
+            }
+            return _borrowerPhone;
+        }
+
+        public async Task<IAddress> GetCoBorrowerAddress(ISettings settings)
+        {
+            if (CoBorrowerAddressId.HasValue && (_coborrowerAddress == null || !_coborrowerAddress.AddressId.Equals(CoBorrowerAddressId.Value)))
+            {
+                _coborrowerAddress = await _factory.AddressFactory.Get(settings, CoBorrowerAddressId.Value);
+            }
+            return _coborrowerAddress;
+        }
+
+        public async Task<IEmailAddress> GetCoBorrowerEmailAddress(ISettings settings)
+        {
+            if (CoBorrowerEmailAddressId.HasValue && (_coborrowerEmailAddress == null || !_coborrowerEmailAddress.EmailAddressId.Equals(CoBorrowerEmailAddressId.Value)))
+            {
+                _coborrowerEmailAddress = await _factory.EmailAddressFactory.Get(settings, CoBorrowerEmailAddressId.Value);
+            }
+            return _coborrowerEmailAddress;
+        }
+
+        public async Task<IPhone> GetCoBorrowerPhone(ISettings settings)
+        {
+            if (CoBorrowerPhoneId.HasValue && (_coborrowerPhone == null || !_coborrowerPhone.PhoneId.Equals(CoBorrowerPhoneId.Value)))
+            {
+                _coborrowerPhone = await _factory.PhoneFactory.Get(settings, CoBorrowerPhoneId.Value);
+            }
+            return _coborrowerPhone;
+        }
 
         public Task Update(ISettings settings) => _dataSaver.Update(new DataSettings(settings), _data);
     }

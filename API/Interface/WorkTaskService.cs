@@ -2,9 +2,7 @@
 using JestersCreditUnion.Interface.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace JestersCreditUnion.Interface
@@ -20,7 +18,7 @@ namespace JestersCreditUnion.Interface
             _service = service;
         }
 
-        public Task<ClaimWorkTaskResponse> Claim(ISettings settings, Guid id, string assignToUserId)
+        public Task<ClaimWorkTaskResponse> Claim(ISettings settings, Guid id, string assignToUserId, DateTime? assignedDate = null)
         {
             if (id.Equals(Guid.Empty))
                 throw new ArgumentNullException(nameof(id));
@@ -32,6 +30,10 @@ namespace JestersCreditUnion.Interface
                 .AddQueryParameter("assignToUserId", assignToUserId)
                 .AddJwtAuthorizationToken(settings.GetToken)
                 ;
+            if (assignedDate.HasValue)
+            {
+                request.AddQueryParameter("assignedDate", assignedDate.Value.Date.ToString("O"));
+            }
             return _restUtil.Send<ClaimWorkTaskResponse>(_service, request);
         }
 
