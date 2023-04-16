@@ -146,6 +146,7 @@
     <Compile Include="Behaviors\ExceptionLogLoader.cs" />
     <Compile Include="Behaviors\FindUserLoader.cs" />
     <Compile Include="Behaviors\FindUserSaver.cs" />
+    <Compile Include="Behaviors\LoanApplicationValidator.cs" />
     <Compile Include="Behaviors\MetricLogLoader.cs" />
     <Compile Include="Behaviors\RoleSaver.cs" />
     <Compile Include="Behaviors\RolesLoader.cs" />

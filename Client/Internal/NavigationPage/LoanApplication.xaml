@@ -9,11 +9,27 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="LoanApplication">
 
-
     <DockPanel>
         <StackPanel DockPanel.Dock="Top" Orientation="Vertical">
             <TextBlock Style="{StaticResource PageTitle}">Loan Application</TextBlock>
             <fa:ImageAwesome Icon="CircleOutlineNotch" Spin="True" Height="24" Width="24" Visibility="{Binding BusyVisibility}" Foreground="Navy" HorizontalAlignment="Left" />
         </StackPanel>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Column="0" Grid.Row="0">Applicatin Date</Label>
+            <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding ApplicationDate, StringFormat='yyyy-MM-dd', ValidatesOnDataErrors=True, NotifyOnValidationError=True}" MaxLength="10" Style="{StaticResource TextBoxWithError}" />
+            <Label Grid.Column="0" Grid.Row="1">Borrower Name</Label>
+            <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding BorrowerName, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" MaxLength="1024" Style="{StaticResource TextBoxWithError}" />
+            <Label Grid.Column="0" Grid.Row="2">Borrower Birth Date</Label>
+            <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding BorrowerBirthDate, StringFormat='yyyy-MM-dd', ValidatesOnDataErrors=True, NotifyOnValidationError=True}" MaxLength="10" Style="{StaticResource TextBoxWithError}" />
+        </Grid>
     </DockPanel>
 </Page>
