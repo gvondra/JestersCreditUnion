@@ -34,6 +34,9 @@ namespace JCU.Internal.Behaviors
                     RequiredDateField(e.PropertyName, _loanApplicationVM.BorrowerBirthDate);
                     DateRange(e.PropertyName, _loanApplicationVM.BorrowerBirthDate, null, DateTime.Today);
                     break;
+                case nameof(LoanApplicationVM.Amount):
+                    RequiredDecimalField(e.PropertyName, _loanApplicationVM.Amount);
+                    break;
             }
         }
 
@@ -44,6 +47,12 @@ namespace JCU.Internal.Behaviors
         }
 
         private void RequiredDateField(string propertyName, DateTime? value)
+        {
+            if (!value.HasValue)
+                _loanApplicationVM[propertyName] = "Is required";
+        }
+
+        private void RequiredDecimalField(string propertyName, decimal? value)
         {
             if (!value.HasValue)
                 _loanApplicationVM[propertyName] = "Is required";
