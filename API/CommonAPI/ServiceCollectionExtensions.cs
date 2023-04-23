@@ -76,6 +76,7 @@ namespace JestersCreditUnion.CommonAPI
                     AddPolicy(o, Constants.POLICY_LOG_READ, Constants.AUTH_SCHEMA_JCU, idIssuer);
                     AddPolicy(o, Constants.POLICY_WORKTASK_TYPE_READ, Constants.AUTH_SCHEMA_JCU, idIssuer);
                     AddPolicy(o, Constants.POLICY_WORKTASK_TYPE_EDIT, Constants.AUTH_SCHEMA_JCU, idIssuer, _workTaskTypeEditPolicies);
+                    AddPolicy(o, Constants.POLICY_LOOKUP_EDIT, Constants.AUTH_SCHEMA_JCU, idIssuer);
                 }
             });
             return services;

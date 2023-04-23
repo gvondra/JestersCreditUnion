@@ -54,6 +54,8 @@ namespace JCU.Internal
 
         public bool UserHasTaskTypeEditAccess() => UserHasRoleAccess("WORKTASKTYPE:EDIT");
 
+        public bool UserHasLookupEditAccess() => UserHasRoleAccess("LOOKUP:EDIT");
+
         public bool UserHasUserAdminRoleAccess() => UserHasRoleAccess("ROLE:EDIT");
 
         public bool UserHasLogReadAccess() => UserHasRoleAccess("LOG:READ");

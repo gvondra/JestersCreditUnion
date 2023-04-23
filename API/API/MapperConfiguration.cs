@@ -2,6 +2,7 @@
 using JestersCreditUnion.Framework;
 using JestersCreditUnion.Interface.Models;
 using AuthorizationAPI = BrassLoon.Interface.Authorization.Models;
+using ConfigAPI = BrassLoon.Interface.Config.Models;
 using LogAPI = BrassLoon.Interface.Log.Models;
 using WorkTaskAPI = BrassLoon.Interface.WorkTask.Models;
 
@@ -28,6 +29,9 @@ namespace API
             exp.CreateMap<Role, AuthorizationAPI.Role>();
             exp.CreateMap<AuthorizationAPI.User, User>();
             exp.CreateMap<User, AuthorizationAPI.User>();
+
+            exp.CreateMap<ConfigAPI.Lookup, Lookup>();
+            exp.CreateMap<Lookup, ConfigAPI.Lookup>();
 
             exp.CreateMap<LogAPI.Exception, Exception>();
             exp.CreateMap<LogAPI.EventId, EventId>();

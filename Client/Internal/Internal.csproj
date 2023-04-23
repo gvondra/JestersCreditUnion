@@ -44,8 +44,8 @@
     <Reference Include="FontAwesome.WPF, Version=4.7.0.37774, Culture=neutral, PublicKeyToken=0758b07a11a4f466, processorArchitecture=MSIL">
       <HintPath>packages\FontAwesome.WPF.4.7.0.9\lib\net40\FontAwesome.WPF.dll</HintPath>
     </Reference>
-    <Reference Include="JestersCreditUnion.Interface, Version=1.0.0.28, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\JestersCreditUnion.Interface.1.0.0-alpha.28\lib\net48\JestersCreditUnion.Interface.dll</HintPath>
+    <Reference Include="JestersCreditUnion.Interface, Version=1.0.0.30, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\JestersCreditUnion.Interface.1.0.0-alpha.30\lib\net48\JestersCreditUnion.Interface.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Bcl.AsyncInterfaces.1.1.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
@@ -65,17 +65,17 @@
     <Reference Include="Microsoft.Extensions.Primitives, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Extensions.Primitives.2.2.0\lib\netstandard2.0\Microsoft.Extensions.Primitives.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.IdentityModel.Abstractions, Version=6.27.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>packages\Microsoft.IdentityModel.Abstractions.6.27.0\lib\net472\Microsoft.IdentityModel.Abstractions.dll</HintPath>
+    <Reference Include="Microsoft.IdentityModel.Abstractions, Version=6.29.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.IdentityModel.Abstractions.6.29.0\lib\net472\Microsoft.IdentityModel.Abstractions.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.IdentityModel.JsonWebTokens, Version=6.27.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>packages\Microsoft.IdentityModel.JsonWebTokens.6.27.0\lib\net472\Microsoft.IdentityModel.JsonWebTokens.dll</HintPath>
+    <Reference Include="Microsoft.IdentityModel.JsonWebTokens, Version=6.29.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.IdentityModel.JsonWebTokens.6.29.0\lib\net472\Microsoft.IdentityModel.JsonWebTokens.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.IdentityModel.Logging, Version=6.27.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>packages\Microsoft.IdentityModel.Logging.6.27.0\lib\net472\Microsoft.IdentityModel.Logging.dll</HintPath>
+    <Reference Include="Microsoft.IdentityModel.Logging, Version=6.29.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.IdentityModel.Logging.6.29.0\lib\net472\Microsoft.IdentityModel.Logging.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.IdentityModel.Tokens, Version=6.27.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>packages\Microsoft.IdentityModel.Tokens.6.27.0\lib\net472\Microsoft.IdentityModel.Tokens.dll</HintPath>
+    <Reference Include="Microsoft.IdentityModel.Tokens, Version=6.29.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.IdentityModel.Tokens.6.29.0\lib\net472\Microsoft.IdentityModel.Tokens.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -99,8 +99,8 @@
     <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\System.Diagnostics.DiagnosticSource.4.7.1\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
     </Reference>
-    <Reference Include="System.IdentityModel.Tokens.Jwt, Version=6.27.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>packages\System.IdentityModel.Tokens.Jwt.6.27.0\lib\net472\System.IdentityModel.Tokens.Jwt.dll</HintPath>
+    <Reference Include="System.IdentityModel.Tokens.Jwt, Version=6.29.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\System.IdentityModel.Tokens.Jwt.6.29.0\lib\net472\System.IdentityModel.Tokens.Jwt.dll</HintPath>
     </Reference>
     <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
@@ -147,6 +147,10 @@
     <Compile Include="Behaviors\FindUserLoader.cs" />
     <Compile Include="Behaviors\FindUserSaver.cs" />
     <Compile Include="Behaviors\LoanApplicationValidator.cs" />
+    <Compile Include="Behaviors\LookupsAdd.cs" />
+    <Compile Include="Behaviors\LookupSave.cs" />
+    <Compile Include="Behaviors\LookupsLoader.cs" />
+    <Compile Include="Behaviors\LookupValueAdd.cs" />
     <Compile Include="Behaviors\MetricLogLoader.cs" />
     <Compile Include="Behaviors\RoleSaver.cs" />
     <Compile Include="Behaviors\RolesLoader.cs" />
@@ -171,6 +175,9 @@
     <Compile Include="Behaviors\WorkTaskTypeValidator.cs" />
     <Compile Include="Control\ExceptionItem.xaml.cs">
       <DependentUpon>ExceptionItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Control\LookupEdit.xaml.cs">
+      <DependentUpon>LookupEdit.xaml</DependentUpon>
     </Compile>
     <Compile Include="Control\WorkGroupDetail.xaml.cs">
       <DependentUpon>WorkGroupDetail.xaml</DependentUpon>
@@ -213,6 +220,9 @@
     <Compile Include="NavigationPage\Log\TraceLog.xaml.cs">
       <DependentUpon>TraceLog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="NavigationPage\Lookups.xaml.cs">
+      <DependentUpon>Lookups.xaml</DependentUpon>
+    </Compile>
     <Compile Include="NavigationPage\Roles.xaml.cs">
       <DependentUpon>Roles.xaml</DependentUpon>
     </Compile>
@@ -248,6 +258,8 @@
     <Compile Include="ViewModel\FindUserVM.cs" />
     <Compile Include="ViewModel\HomeVM.cs" />
     <Compile Include="ViewModel\LoanApplicationVM.cs" />
+    <Compile Include="ViewModel\LookupsVM.cs" />
+    <Compile Include="ViewModel\LookupVM.cs" />
     <Compile Include="ViewModel\MainWindowVM.cs" />
     <Compile Include="ViewModel\MetricLogItemVM.cs" />
     <Compile Include="ViewModel\MetricLogVM.cs" />
@@ -270,6 +282,10 @@
     <Compile Include="ViewModel\WorkTaskTypeVM.cs" />
     <Compile Include="ViewModel\WorkTaskVM.cs" />
     <Page Include="Control\ExceptionItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Control\LookupEdit.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -334,6 +350,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="NavigationPage\Log\TraceLog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NavigationPage\Lookups.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

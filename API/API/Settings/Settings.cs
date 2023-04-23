@@ -20,5 +20,6 @@ namespace API
         public string DatabaseName { get; set; }
         public string DatabaseUser { get; set; }
         public string WorkTaskConfigurationCode { get; set; }
+        public string LookupIndexConfigurationCode { get; set; }
     }
 }

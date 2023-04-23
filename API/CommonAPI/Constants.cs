@@ -12,5 +12,6 @@
         public const string POLICY_USER_READ = "USER:READ";
         public const string POLICY_ROLE_EDIT = "ROLE:EDIT";
         public const string POLICY_LOG_READ = "LOG:READ";
+        public const string POLICY_LOOKUP_EDIT = "LOOKUP:EDIT";
     }
 }

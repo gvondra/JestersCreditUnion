@@ -60,6 +60,7 @@ namespace JCU.Internal
             MainWindowVM.ShowUserRole = BoolToVisibility(AccessToken.Get.UserHasUserAdminRoleAccess());
             MainWindowVM.ShowLogs = BoolToVisibility(AccessToken.Get.UserHasLogReadAccess());
             MainWindowVM.ShowWorkTaskTypeEdit = BoolToVisibility(AccessToken.Get.UserHasTaskTypeEditAccess());
+            MainWindowVM.ShowLookups = BoolToVisibility(AccessToken.Get.UserHasLookupEditAccess());
         }
 
         private Visibility BoolToVisibility(bool value) => value ? Visibility.Visible : Visibility.Collapsed;

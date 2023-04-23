@@ -1,5 +1,4 @@
 ﻿using Autofac;
-using JCU.Internal.Properties;
 using System;
 using System.Collections.Generic;
 using System.IO;

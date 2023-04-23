@@ -8,6 +8,20 @@ namespace JCU.Internal.ViewModel
         private Visibility _showUserRole = Visibility.Collapsed;
         private Visibility _showLogs = Visibility.Collapsed;
         private Visibility _showWorkTaskTypeEdit = Visibility.Collapsed;
+        private Visibility _showLookups = Visibility.Collapsed;
+
+        public Visibility ShowLookups
+        {
+            get => _showLookups;
+            set
+            {
+                if (_showLookups != value)
+                {
+                    _showLookups = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
 
         public Visibility ShowWorkTaskTypeEdit
         {

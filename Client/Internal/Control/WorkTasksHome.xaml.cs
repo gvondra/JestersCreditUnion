@@ -25,6 +25,12 @@ namespace JCU.Internal.Control
         public WorkTasksHome()
         {
             InitializeComponent();
+            this.Loaded += WorkTasksHome_Loaded;
+        }
+
+        private void WorkTasksHome_Loaded(object sender, RoutedEventArgs e)
+        {
+            GoogleLogin.ShowLoginDialog(true, Window.GetWindow(this));
         }
 
         private void OpenHyperlink_Click(object sender, RoutedEventArgs e)
