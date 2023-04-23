@@ -33,6 +33,8 @@ namespace JCU.Internal.ViewModel
             }
         }
 
+        public string ApplicationStatusDescription => _loanApplication.StatusDescription;
+
         public DateTime? ApplicationDate 
         { 
             get => _loanApplication.ApplicationDate;

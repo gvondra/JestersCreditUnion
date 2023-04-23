@@ -15,6 +15,7 @@ namespace JestersCreditUnion.Core
         private readonly LoanApplicationData _data;
         private readonly ILoanApplicationDataSaver _dataSaver;
         private readonly ILoanApplicationFactory _factory;
+        private readonly ILookupFactory _lookupFactory;
         private IAddress _borrowerAddress = null;
         private IAddress _coborrowerAddress = null;
         private IEmailAddress _borrowerEmailAddress = null;
@@ -22,11 +23,15 @@ namespace JestersCreditUnion.Core
         private IPhone _borrowerPhone = null;
         private IPhone _coborrowerPhone = null;
 
-        public LoanApplication(LoanApplicationData data, ILoanApplicationDataSaver dataSaver, ILoanApplicationFactory factory)
+        public LoanApplication(LoanApplicationData data, 
+            ILoanApplicationDataSaver dataSaver, 
+            ILoanApplicationFactory factory, 
+            ILookupFactory lookupFactory)
         {
             _data = data;
             _dataSaver = dataSaver;
             _factory = factory;
+            _lookupFactory = lookupFactory;
         }
 
         public Guid LoanApplicationId => _data.LoanApplicationId;
@@ -115,6 +120,17 @@ namespace JestersCreditUnion.Core
                 _coborrowerPhone = await _factory.PhoneFactory.Get(settings, CoBorrowerPhoneId.Value);
             }
             return _coborrowerPhone;
+        }
+
+        public async Task<string> GetStatusDescription(ISettings settings)
+        {
+            string result = null;
+            ILookup lookup = await _lookupFactory.GetLookup(settings, typeof(LoanApplicationStatus));
+            if (lookup != null)
+            {
+                result = lookup.GetDataValue(Status);
+            }
+            return result;
         }
 
         public Task Update(ISettings settings) => _dataSaver.Update(new DataSettings(settings), _data);

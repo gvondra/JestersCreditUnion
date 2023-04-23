@@ -16,6 +16,7 @@ namespace JestersCreditUnion.Core
                 .As<ILoanApplicationFactory>()
                 .PropertiesAutowired();
             builder.RegisterType<LoanApplicationSaver>().As<ILoanApplicationSaver>();
+            builder.RegisterType<LookupFactory>().As<ILookupFactory>();
             builder.RegisterType<PhoneFactory>().As<IPhoneFactory>();
         }
     }

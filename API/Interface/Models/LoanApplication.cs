@@ -6,6 +6,7 @@ namespace JestersCreditUnion.Interface.Models
     {
         public Guid? LoanApplicationId { get; set; }
         public short? Status { get; set; }
+        public string StatusDescription { get; set; }
         public DateTime? ApplicationDate { get; set; }
         public string BorrowerName { get; set; }
         public DateTime? BorrowerBirthDate { get; set; }

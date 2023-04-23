@@ -19,6 +19,20 @@ namespace JestersCreditUnion.Interface
             _restUtil = restUtil;
             _service = service;
         }
+
+        public async Task Delete(ISettings settings, string code)
+        {
+            if (string.IsNullOrEmpty(code))
+                throw new ArgumentNullException(nameof(code));
+            IRequest request = _service.CreateRequest(new Uri(settings.BaseAddress), HttpMethod.Delete)
+                .AddPath("Lookup/{code}")
+                .AddPathParameter("code", code)
+                .AddJwtAuthorizationToken(settings.GetToken)
+                ;
+            IResponse response = await _service.Send(request);
+            _restUtil.CheckSuccess(response);
+        }
+
         public Task<Lookup> Get(ISettings settings, string code)
         {
             if (string.IsNullOrEmpty(code))

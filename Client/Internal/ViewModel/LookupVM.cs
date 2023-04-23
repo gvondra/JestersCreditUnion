@@ -1,29 +1,43 @@
 ﻿using JCU.Internal.Behaviors;
 using JestersCreditUnion.Interface.Models;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace JCU.Internal.ViewModel
 {
     public class LookupVM : ViewModelBase
-    {        
+    {
+        private readonly LookupsVM _lookupVM;
         private readonly Lookup _lookup;
         private readonly ObservableCollection<Item> _items = new ObservableCollection<Item>();
         private LookupValueAdd _valueAdd;
         private LookupSave _save;
+        private LookupDelete _delete;
 
-        private LookupVM(Lookup lookup)
+        private LookupVM(Lookup lookup, LookupsVM lookupVM)
         {
             _lookup = lookup;
+            _lookupVM = lookupVM;
         }
+
+        public LookupsVM LookupsVM => _lookupVM;
 
         public string Code => _lookup.Code;
 
         public ObservableCollection<Item> Items => _items;
+
+        public LookupDelete Delete
+        {
+            get => _delete;
+            set
+            {
+                if (_delete != value)
+                {
+                    _delete = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
 
         public LookupSave Save
         {
@@ -61,11 +75,12 @@ namespace JCU.Internal.ViewModel
             }
         }
 
-        public static LookupVM Create(Lookup lookup)
+        public static LookupVM Create(Lookup lookup, LookupsVM lookupsVM)
         {
-            LookupVM vm = new LookupVM(lookup);
+            LookupVM vm = new LookupVM(lookup, lookupsVM);
             vm.ValueAdd = new LookupValueAdd();
             vm.Save = new LookupSave();
+            vm.Delete = new LookupDelete();
             foreach (KeyValuePair<string, string> pair in vm.Data)
             {
                 vm.Items.Add(new Item(pair.Key, pair.Value));

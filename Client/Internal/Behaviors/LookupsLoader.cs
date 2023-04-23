@@ -83,7 +83,7 @@ namespace JCU.Internal.Behaviors
                         Data = new Dictionary<string, string>()
                     };
                 }
-                _lookupsVM.SelectedLookup = LookupVM.Create(lookup);
+                _lookupsVM.SelectedLookup = LookupVM.Create(lookup, _lookupsVM);
             }
             catch (System.Exception ex)
             {

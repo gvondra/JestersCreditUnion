@@ -94,6 +94,7 @@ namespace API.Controllers
             loanApplication.CoBorrowerEmailAddress = coborrowerEmailAddress != null ? coborrowerEmailAddress.Address : string.Empty;
             loanApplication.BorrowerPhone = borrowerPhone != null ? borrowerPhone.Number : string.Empty;
             loanApplication.CoBorrowerPhone = coborrowerPhone != null ? coborrowerPhone.Number : string.Empty;
+            loanApplication.StatusDescription = await innerLoanApplication.GetStatusDescription(settings);
             return loanApplication;
         }
 

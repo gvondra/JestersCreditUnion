@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using JestersCreditUnion.CommonAPI;
+using JestersCreditUnion.Framework;
+using JestersCreditUnion.Framework.Constants;
 using JestersCreditUnion.Interface.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -22,17 +24,20 @@ namespace API.Controllers
     {
         private readonly ConfigAPI.ILookupService _lookupService;
         private readonly ConfigAPI.IItemService _itemService;
+        private readonly ILookupFactory _lookupFactory;
 
         public LookupController(IOptions<Settings> settings,
             ISettingsFactory settingsFactory,
             AuthorizationAPI.IUserService userService,
             ILogger<LoanApplicationController> logger,
             ConfigAPI.ILookupService lookupService,
-            ConfigAPI.IItemService itemService)
+            ConfigAPI.IItemService itemService,
+            ILookupFactory lookupFactory)
             : base(settings, settingsFactory, userService, logger)
         {
             _lookupService = lookupService;
             _itemService = itemService;
+            _lookupFactory = lookupFactory;
         }
 
         [NonAction]
@@ -62,23 +67,14 @@ namespace API.Controllers
                     codes.Add(code);
                 }
             }
+            foreach (string code in EnumerationDesriptionLookup.Map.Select(m => m.Item1))
+            {
+                if (!codes.Any(c => string.Equals(c, code, StringComparison.OrdinalIgnoreCase)))
+                {
+                    codes.Add(code);
+                }
+            }
             return codes;
-        }
-
-        [NonAction]
-        private async Task<ConfigAPI.Models.Lookup> GetLookupByCode(ConfigAPI.ISettings settings, string code)
-        {
-            try
-            {
-                return await _lookupService.GetByCode(settings, _settings.Value.ConfigDomainId.Value, code);
-            }
-            catch (BrassLoon.RestClient.Exceptions.RequestError ex)
-            {
-                if (ex.StatusCode == HttpStatusCode.NotFound)
-                    return null;
-                else
-                    throw;
-            }
         }
 
         [HttpGet("/api/LookupIndex")]
@@ -128,9 +124,10 @@ namespace API.Controllers
                     result = BadRequest("Missing code parameter value");
                 if (result == null)
                 {
+                    CoreSettings coreSettings = GetCoreSettings();
                     ConfigurationSettings settings = GetConfigurationSettings();
                     Task<ConfigAPI.Models.Item> lookupIndexTask = GetIndexItem(settings);
-                    ConfigAPI.Models.Lookup lookup = await GetLookupByCode(settings, code);
+                    ILookup lookup = await _lookupFactory.GetLookup(coreSettings, code);
                     List<string> lookupIndex = GetIndex(await lookupIndexTask);
                     if (lookup == null || !lookupIndex.Any(k => string.Equals(k, lookup.Code, StringComparison.OrdinalIgnoreCase)))
                     {
@@ -175,7 +172,7 @@ namespace API.Controllers
                 {
                     ConfigurationSettings settings = GetConfigurationSettings();
                     Task updateIndex = UpdateIndex(settings, code);
-                    ConfigAPI.Models.Lookup lookup = await _lookupService.Save(settings, _settings.Value.ConfigDomainId.Value, code, data);                    
+                    ConfigAPI.Models.Lookup lookup = await _lookupService.Save(settings, _settings.Value.ConfigDomainId.Value, code, data);                                        
                     await updateIndex;                                                               
                     IMapper mapper = MapperConfiguration.CreateMapper();
                     result = Ok(mapper.Map<Lookup>(lookup));
@@ -207,6 +204,53 @@ namespace API.Controllers
                 lookupIndex.Add(code);
                 await _itemService.Save(settings, _settings.Value.ConfigDomainId.Value, _settings.Value.LookupIndexConfigurationCode, lookupIndex);
             }
+        }
+
+        [NonAction]
+        private async Task DeleteFromIndex(ConfigAPI.ISettings settings, string code)
+        {
+            List<string> lookupIndex = GetIndex(await GetIndexItem(settings));
+            code = lookupIndex.FirstOrDefault(i => string.Equals(i, code, StringComparison.OrdinalIgnoreCase));
+            if (code != null)
+            {
+                lookupIndex.Remove(code);
+                await _itemService.Save(settings, _settings.Value.ConfigDomainId.Value, _settings.Value.LookupIndexConfigurationCode, lookupIndex);
+            }
+        }
+
+        [HttpDelete("{code}")]
+        [Authorize(Constants.POLICY_LOOKUP_EDIT)]
+        public async Task<IActionResult> Delete([FromRoute] string code)
+        {
+            DateTime start = DateTime.UtcNow;
+            IActionResult result = null;
+            try
+            {
+                if (result == null && string.IsNullOrEmpty(code))
+                    result = BadRequest("Missing code parameter value");
+                if (result == null)
+                {
+                    ConfigurationSettings settings = GetConfigurationSettings();
+                    await _lookupService.Delete(settings, _settings.Value.ConfigDomainId.Value, code);
+                    await DeleteFromIndex(settings, code);
+                    result = Ok();
+                }
+            }
+            catch (BrassLoon.RestClient.Exceptions.RequestError ex)
+            {
+                WriteException(ex);
+                result = StatusCode((int)ex.StatusCode);
+            }
+            catch (System.Exception ex)
+            {
+                WriteException(ex);
+                result = StatusCode(StatusCodes.Status500InternalServerError);
+            }
+            finally
+            {
+                await WriteMetrics("delete-lookup-by-code", start, result);
+            }
+            return result;
         }
     }
 }
