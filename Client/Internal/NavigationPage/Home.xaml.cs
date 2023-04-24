@@ -49,15 +49,15 @@ namespace JCU.Internal.NavigationPage
         {
             if (HomeVM != null)
             {
-                if (string.IsNullOrEmpty(AccessToken.Get.Token))
-                {
-                    HomeVM.WorkTasksHomeVisibility = Visibility.Collapsed;
-                }
-                else
+                if (AccessToken.Get.UserHasClaimWorkTaskAccess())
                 {
                     HomeVM.WorkTasksHomeVisibility = Visibility.Visible;
                     if (HomeVM.LoadWorkTasks != null)
                         HomeVM.LoadWorkTasks();
+                }
+                else
+                {
+                    HomeVM.WorkTasksHomeVisibility = Visibility.Collapsed;
                 }
             }
         }
