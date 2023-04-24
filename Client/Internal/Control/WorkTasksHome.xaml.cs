@@ -1,5 +1,7 @@
-﻿using JCU.Internal.NavigationPage;
+﻿using Autofac;
+using JCU.Internal.NavigationPage;
 using JCU.Internal.ViewModel;
+using JestersCreditUnion.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,11 +39,22 @@ namespace JCU.Internal.Control
         {
             try
             {
-                JCU.Internal.ViewModel.WorkTasksHome.WorkTaskVM vm = (JCU.Internal.ViewModel.WorkTasksHome.WorkTaskVM)((Hyperlink)sender).DataContext;
-                WorkTaskVM workTaskVM = WorkTaskVM.Create(vm.InnerWorkTask);
-                NavigationService navigationService = NavigationService.GetNavigationService(this.Parent);
-                WorkTaskFrame workTask = new WorkTaskFrame(workTaskVM);
-                navigationService.Navigate(workTask);
+                using (ILifetimeScope scope = DependencyInjection.ContainerFactory.Container.BeginLifetimeScope())
+                {
+                    JCU.Internal.ViewModel.WorkTasksHome.WorkTaskVM vm = (JCU.Internal.ViewModel.WorkTasksHome.WorkTaskVM)((Hyperlink)sender).DataContext;
+                    ISettingsFactory settingsFactory = scope.Resolve<ISettingsFactory>();
+                    IWorkTaskTypeService workTaskTypeService = scope.Resolve<IWorkTaskTypeService>();
+                    IWorkTaskStatusService workTaskStatusService = scope.Resolve<IWorkTaskStatusService>();
+                    WorkTaskVM workTaskVM = WorkTaskVM.Create(vm.InnerWorkTask, settingsFactory, workTaskTypeService, workTaskStatusService);
+                    if (workTaskVM.WorkTaskTypeMV.WorkTaskStatusesVM.WorkTaskStatusesLoader != null)
+                    {
+                        workTaskVM.WorkTaskTypeMV.WorkTaskStatusesVM.WorkTaskStatusesLoader.SelectedStatusId = workTaskVM.WorkTaskStatusVM?.WorkTaskStatusId;
+                        workTaskVM.WorkTaskTypeMV.WorkTaskStatusesVM.WorkTaskStatusesLoader.Execute(workTaskVM.WorkTaskTypeMV.WorkTaskStatusesVM);
+                    }                        
+                    NavigationService navigationService = NavigationService.GetNavigationService(this.Parent);
+                    WorkTaskFrame workTask = new WorkTaskFrame(workTaskVM);
+                    navigationService.Navigate(workTask);
+                }                    
             }
             catch (System.Exception ex)
             {

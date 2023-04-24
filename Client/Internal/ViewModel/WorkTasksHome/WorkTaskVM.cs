@@ -43,6 +43,20 @@ namespace JCU.Internal.ViewModel.WorkTasksHome
             }
         }
 
+        public DateTime? AssignedDate
+        {
+            get => _workTask.AssignedDate;
+            set
+            {
+                if (_workTask.AssignedDate.HasValue != value.HasValue
+                    || (value.HasValue && _workTask.AssignedDate.Value != value.Value))
+                {
+                    _workTask.AssignedDate = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
         public bool IsExpanded
         {
             get => _isExpanded;

@@ -23,12 +23,20 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <Label Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="99" HorizontalAlignment="Center">
                     <TextBlock TextDecorations="Underline" FontSize="14">Work Task</TextBlock>
                 </Label>
                 <Label Grid.Column="0" Grid.Row="1" VerticalAlignment="Center">Title</Label>
                 <TextBox Grid.Column="1" Grid.Row="1" MinWidth="150" BorderBrush="{x:Null}" Text="{Binding Title}" />
+                <Label Grid.Column="0" Grid.Row="2" VerticalAlignment="Center">Assigned</Label>
+                <TextBox Grid.Column="1" Grid.Row="2" MinWidth="150" BorderBrush="{x:Null}" Text="{Binding AssignedDate, Mode=OneWay, StringFormat='yyyy-MM-dd'}" IsReadOnly="True" />
+                <Label Grid.Column="0" Grid.Row="3" VerticalAlignment="Center">Status</Label>
+                <ComboBox Grid.Column="1" Grid.Row="3" ItemsSource="{Binding WorkTaskTypeMV.WorkTaskStatusesVM.Items}" DisplayMemberPath="Name" SelectedItem="{Binding WorkTaskTypeMV.WorkTaskStatusesVM.SelectedItem}" />
+                <TextBox Grid.Column="1" Grid.Row="4" MinWidth="150" BorderBrush="{x:Null}" Text="{Binding Text}" />
             </Grid>
         </Border>
     </Grid>

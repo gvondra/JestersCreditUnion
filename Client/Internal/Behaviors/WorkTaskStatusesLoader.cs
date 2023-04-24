@@ -26,6 +26,8 @@ namespace JCU.Internal.Behaviors
 
         public bool CanExecute(object parameter) => true;
 
+        public Guid? SelectedStatusId { get; set; }
+
         public void Execute(object parameter)
         {
             if (parameter == null)
@@ -57,7 +59,15 @@ namespace JCU.Internal.Behaviors
                 { 
                     workTaskStatusesVM.Items.Add(WorkTaskStatusVM.Create(workTaskStatus, workTaskStatusesVM.WorkTaskTypeVM, _settingsFactory, _workTaskStatusService));
                 }
-                if (workTaskStatusesVM.Items.Count > 0)
+                if (SelectedStatusId.HasValue)
+                {
+                    WorkTaskStatusVM workTaskStatusVM = workTaskStatusesVM.Items.FirstOrDefault(s => s.WorkTaskStatusId.Value.Equals(SelectedStatusId.Value));
+                    if (workTaskStatusVM != null)
+                    {
+                        workTaskStatusesVM.SelectedItem = workTaskStatusVM;
+                    }
+                }
+                if (workTaskStatusesVM.SelectedItem == null && workTaskStatusesVM.Items.Count > 0)
                     workTaskStatusesVM.SelectedItem = workTaskStatusesVM.Items[0];
             }
             catch (System.Exception ex)

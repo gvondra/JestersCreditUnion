@@ -129,8 +129,7 @@ namespace JCU.Internal.ViewModel
                 _innerWorkTaskType.UpdateTimestamp = value;
                 NotifyPropertyChanged();
             }
-        }
-        
+        }        
 
         public static WorkTaskTypeVM Create(ISettingsFactory settingsFactory, 
             IWorkTaskTypeService workTaskTypeService,
@@ -147,6 +146,7 @@ namespace JCU.Internal.ViewModel
             vm.IsNew = true;
             return vm;
         }
+
         public static WorkTaskTypeVM Create(WorkTaskType workTaskType, 
             ISettingsFactory settingsFactory, 
             IWorkTaskTypeService workTaskTypeService,

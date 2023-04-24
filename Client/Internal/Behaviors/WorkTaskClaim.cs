@@ -56,6 +56,7 @@ namespace JCU.Internal.Behaviors
                 {
                     workTaskVM.AssignedToUserId = response.AssignedToUserId; 
                 }
+                workTaskVM.AssignedDate = response.AssignedDate;
                 MessageBox.Show(response.Message, "Claim Work Task", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (System.Exception ex)
