@@ -1,5 +1,6 @@
 ﻿using JCU.Internal.Behaviors;
 using System.Collections.ObjectModel;
+using System.Windows;
 
 namespace JCU.Internal.ViewModel
 {
@@ -10,10 +11,24 @@ namespace JCU.Internal.ViewModel
         private string _newCode;
         private string _selectedLookupCode;
         private LookupVM _selectedLookup;
+        private Visibility _busyVisibility = Visibility.Collapsed;
 
         private LookupsVM() { }
 
         public ObservableCollection<string> LookupCodes => _lookupCodes;
+
+        public Visibility BusyVisibility
+        {
+            get => _busyVisibility;
+            set
+            {
+                if (_busyVisibility != value)
+                {
+                    _busyVisibility = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
 
         public string SelectedLookupCode
         {

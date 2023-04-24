@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace JCU.Internal.Behaviors
 {
@@ -93,6 +94,7 @@ namespace JCU.Internal.Behaviors
 
         public void Load()
         {
+            _lookupsVM.BusyVisibility = Visibility.Visible;
             _lookupsVM.LookupCodes.Clear();
             Task.Run(() =>
             {
@@ -121,6 +123,10 @@ namespace JCU.Internal.Behaviors
             catch (System.Exception ex)
             {
                 ErrorWindow.Open(ex);
+            }
+            finally
+            {
+                _lookupsVM.BusyVisibility = Visibility.Collapsed;
             }
         }
     }
