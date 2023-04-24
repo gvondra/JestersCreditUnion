@@ -63,5 +63,15 @@ namespace JCU.Internal.NavigationPage
         }
 
         public WorkTaskVM WorkTaskVM { get; private set; }
+
+        private void ReleaseHyperlink_Click(object sender, RoutedEventArgs e)
+        {
+            if (this.WorkTaskVM?.Release != null)
+            {
+                this.WorkTaskVM.Release.Execute(this.WorkTaskVM);
+                NavigationService navigationService = NavigationService.GetNavigationService(this);
+                navigationService.Navigate(new Uri("NavigationPage/Home.xaml", UriKind.Relative));
+            }
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using JestersCreditUnion.Interface;
+﻿using JCU.Internal.Behaviors;
+using JestersCreditUnion.Interface;
 using JestersCreditUnion.Interface.Models;
 using System;
 
@@ -9,6 +10,8 @@ namespace JCU.Internal.ViewModel
         private readonly WorkTask _workTask;
         private WorkTaskTypeVM _workTaskTypeVM;
         private WorkTaskStatusVM _workTaskStatusVM;
+        private WorkTaskRelease _release;
+        private WorkTaskSave _save;
 
         private WorkTaskVM(WorkTask workTask)
         {
@@ -16,6 +19,34 @@ namespace JCU.Internal.ViewModel
         }
 
         public WorkTask InnerWorkTask => _workTask;
+
+        public Guid WorkTaskId => _workTask.WorkTaskId.Value;
+
+        public WorkTaskSave Save
+        {
+            get => _save;
+            set
+            {
+                if (_save != value)
+                {
+                    _save = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+        public WorkTaskRelease Release
+        {
+            get => _release;
+            set
+            {
+                if (_release != value)
+                {
+                    _release = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
 
         public WorkTaskTypeVM WorkTaskTypeMV
         {
@@ -69,6 +100,19 @@ namespace JCU.Internal.ViewModel
             }
         }
 
+        public string AssignedToUserId
+        {
+            get => _workTask.AssignedToUserId;
+            set
+            {
+                if (_workTask.AssignedToUserId != value)
+                {
+                    _workTask.AssignedToUserId = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
         public DateTime? AssignedDate
         {
             get => _workTask.AssignedDate;
@@ -89,6 +133,8 @@ namespace JCU.Internal.ViewModel
             IWorkTaskStatusService workTaskStatusService)
         {
             WorkTaskVM vm = new WorkTaskVM(workTask);
+            vm.Release = new WorkTaskRelease();
+            vm.Save = new WorkTaskSave();
             vm.WorkTaskTypeMV = WorkTaskTypeVM.Create(workTask.WorkTaskType, settingsFactory, workTaskTypeService, workTaskStatusService);
             vm.WorkTaskStatusVM = WorkTaskStatusVM.Create(workTask.WorkTaskStatus, vm.WorkTaskTypeMV, settingsFactory, workTaskStatusService);
             return vm;

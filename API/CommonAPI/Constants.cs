@@ -13,5 +13,8 @@
         public const string POLICY_ROLE_EDIT = "ROLE:EDIT";
         public const string POLICY_LOG_READ = "LOG:READ";
         public const string POLICY_LOOKUP_EDIT = "LOOKUP:EDIT";
+        public const string POLICY_WORKTASK_READ = "WORKTASK:READ";
+        public const string POLICY_WORKTASK_EDIT = "WORKTASK:EDIT";
+        public const string POLICY_WORKTASK_CLAIM = "WORKTASK:CLAIM";
     }
 }

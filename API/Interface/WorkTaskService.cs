@@ -50,5 +50,19 @@ namespace JestersCreditUnion.Interface
                 request.AddQueryParameter("includeClosed", includeClosed.Value.ToString());
             return _restUtil.Send<List<Models.WorkTask>>(_service, request);
         }
+
+        public Task<WorkTask> Update(ISettings settings, WorkTask workTask)
+        {
+            if (workTask == null)
+                throw new ArgumentNullException(nameof(workTask));
+            if (!workTask.WorkTaskId.HasValue || workTask.WorkTaskId.Value.Equals(Guid.Empty))
+                throw new ArgumentNullException(nameof(WorkTask.WorkTaskId));
+            IRequest request = _service.CreateRequest(new Uri(settings.BaseAddress), HttpMethod.Put, workTask)
+                .AddPath("WorkTask/{id}")
+                .AddPathParameter("id", workTask.WorkTaskId.Value.ToString("N"))
+                .AddJwtAuthorizationToken(settings.GetToken)
+                ;
+            return _restUtil.Send<Models.WorkTask>(_service, request);
+        }
     }
 }

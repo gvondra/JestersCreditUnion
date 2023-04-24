@@ -15,29 +15,35 @@
         </Grid.ColumnDefinitions>
         <Frame Grid.Column="0" x:Name="navigationFrame" Margin="0,0,0,15" NavigationUIVisibility="Hidden" JournalOwnership="OwnsJournal" />
         <Border Grid.Column="1" BorderBrush="DarkGray" BorderThickness="2" Padding="5,0">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-                <Label Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="99" HorizontalAlignment="Center">
-                    <TextBlock TextDecorations="Underline" FontSize="14">Work Task</TextBlock>
-                </Label>
-                <Label Grid.Column="0" Grid.Row="1" VerticalAlignment="Center">Title</Label>
-                <TextBox Grid.Column="1" Grid.Row="1" MinWidth="150" BorderBrush="{x:Null}" Text="{Binding Title}" />
-                <Label Grid.Column="0" Grid.Row="2" VerticalAlignment="Center">Assigned</Label>
-                <TextBox Grid.Column="1" Grid.Row="2" MinWidth="150" BorderBrush="{x:Null}" Text="{Binding AssignedDate, Mode=OneWay, StringFormat='yyyy-MM-dd'}" IsReadOnly="True" />
-                <Label Grid.Column="0" Grid.Row="3" VerticalAlignment="Center">Status</Label>
-                <ComboBox Grid.Column="1" Grid.Row="3" ItemsSource="{Binding WorkTaskTypeMV.WorkTaskStatusesVM.Items}" DisplayMemberPath="Name" SelectedItem="{Binding WorkTaskTypeMV.WorkTaskStatusesVM.SelectedItem}" />
-                <TextBox Grid.Column="1" Grid.Row="4" MinWidth="150" BorderBrush="{x:Null}" Text="{Binding Text}" />
-            </Grid>
+            <StackPanel Orientation="Vertical">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Label Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="99" HorizontalAlignment="Center">
+                        <TextBlock TextDecorations="Underline" FontSize="14">Work Task</TextBlock>
+                    </Label>
+                    <Label Grid.Column="0" Grid.Row="1" VerticalAlignment="Center">Title</Label>
+                    <TextBox Grid.Column="1" Grid.Row="1" MinWidth="150" BorderBrush="{x:Null}" Text="{Binding Title}" MaxLength="1024" />
+                    <Label Grid.Column="0" Grid.Row="2" VerticalAlignment="Center">Assigned</Label>
+                    <TextBox Grid.Column="1" Grid.Row="2" MinWidth="150" BorderBrush="{x:Null}" Text="{Binding AssignedDate, Mode=OneWay, StringFormat='yyyy-MM-dd'}" IsReadOnly="True" />
+                    <Label Grid.Column="0" Grid.Row="3" VerticalAlignment="Center">Status</Label>
+                    <ComboBox Grid.Column="1" Grid.Row="3" ItemsSource="{Binding WorkTaskTypeMV.WorkTaskStatusesVM.Items}" DisplayMemberPath="Name" SelectedItem="{Binding WorkTaskTypeMV.WorkTaskStatusesVM.SelectedItem}" />
+                    <TextBox Grid.Column="1" Grid.Row="4" MinWidth="150" BorderBrush="{x:Null}" Text="{Binding Text}" MaxLength="10240" AcceptsReturn="True" />
+                </Grid>
+                <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="2,5,2,0">
+                    <TextBlock Margin="0,0,5,0"><Hyperlink Command="{Binding Save}" CommandParameter="{Binding .}">Save</Hyperlink></TextBlock>
+                    <TextBlock Margin="0,0,5,0"><Hyperlink Click="ReleaseHyperlink_Click">Release</Hyperlink></TextBlock>
+                </StackPanel>
+            </StackPanel>
         </Border>
     </Grid>
 </Page>

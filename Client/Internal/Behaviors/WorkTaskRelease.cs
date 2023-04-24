@@ -1,5 +1,5 @@
 ﻿using Autofac;
-using JCU.Internal.ViewModel.WorkTasksHome;
+using JCU.Internal.ViewModel;
 using JestersCreditUnion.Interface;
 using JestersCreditUnion.Interface.Models;
 using System;
@@ -9,7 +9,7 @@ using System.Windows.Input;
 
 namespace JCU.Internal.Behaviors
 {
-    public class WorkTaskClaim : ICommand
+    public class WorkTaskRelease : ICommand
     {
         private bool _canExecute = true;
 
@@ -24,7 +24,8 @@ namespace JCU.Internal.Behaviors
             if (typeof(WorkTaskVM).IsAssignableFrom(parameter.GetType()))
             {
                 _canExecute = false;
-                this.CanExecuteChanged.Invoke(this, new EventArgs());
+                if (this.CanExecuteChanged != null)
+                    this.CanExecuteChanged.Invoke(this, new EventArgs());
                 Task.Run(() => AssignWorkTask((WorkTaskVM)parameter))
                     .ContinueWith(AssignWorkTaskCallback, parameter, TaskScheduler.FromCurrentSynchronizationContext());
             }
@@ -38,8 +39,7 @@ namespace JCU.Internal.Behaviors
                 ISettings settings = settingsFactory.CreateApi();
                 IWorkTaskService workTaskService = scope.Resolve<IWorkTaskService>();
                 IUserService userService = scope.Resolve<IUserService>();
-                User user = userService.Get(settings).Result;
-                return workTaskService.Claim(settings, workTaskVM.WorkTaskId, user.UserId.Value.ToString("D")).Result;
+                return workTaskService.Claim(settings, workTaskVM.WorkTaskId, string.Empty).Result;
             }
         }
 
@@ -54,7 +54,7 @@ namespace JCU.Internal.Behaviors
                     workTaskVM.AssignedToUserId = response.AssignedToUserId; 
                 }
                 workTaskVM.AssignedDate = response.AssignedDate;
-                MessageBox.Show(response.Message, "Claim Work Task", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Work Task Released", "Work Task", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (System.Exception ex)
             {
@@ -63,7 +63,8 @@ namespace JCU.Internal.Behaviors
             finally
             {
                 _canExecute = true;
-                this.CanExecuteChanged.Invoke(this, new EventArgs());
+                if (this.CanExecuteChanged != null)
+                    this.CanExecuteChanged.Invoke(this, new EventArgs());
             }
         }
     }
