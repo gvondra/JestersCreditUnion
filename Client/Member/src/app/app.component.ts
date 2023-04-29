@@ -23,17 +23,14 @@ export class AppComponent {
       .checkAuth()
       .subscribe((isAuthenticated) => {
           console.log(`app checkAuth ${isAuthenticated.isAuthenticated}`)
-          /*if (!isAuthenticated.isAuthenticated) {
+          if (!isAuthenticated.isAuthenticated) {
               this.UserImageSource = null;
-              this.httpClientUtilService.DropCache();
-              if (!window.location.pathname.endsWith('autologin')) {
-                  this.write('redirect', window.location.pathname);
-                  this.router.navigate(['/autologin']);
-              }
+              //this.httpClientUtilService.DropCache();
+              this.Login();
           }
           if (isAuthenticated.isAuthenticated) {
               this.navigateToStoredEndpoint();
-          }*/ 
+          }
       });
       this.oidcSecurityService.isAuthenticated$.subscribe(isAuthenticated => {
         console.log(`app authenticated ${isAuthenticated.isAuthenticated}`)
@@ -51,9 +48,50 @@ export class AppComponent {
   {
       this.router.navigate(["/"]);
   }
+
+  private navigateToStoredEndpoint() {
+      const path: string = this.read('redirect');
+      const href: any = this.read('redirect-href');
+      this.write("redirect", null);
+      this.write("redirect-href", null);
+      if (path && path != "")
+      {
+          if (this.router.url === path) {
+              return;
+          }
   
+          if (path.toString().includes('/unauthorized')) {
+              this.router.navigate(['/']);
+          } 
+          else if (href && href != '') {
+            console.log(`navigate to url ${href}`);
+            window.location = href;
+          }
+          else {
+              this.router.navigate([path]);
+          }
+      }
+  }
+
+  private read(key: string): any {
+      const data = localStorage.getItem(key);
+      if (data) {
+          return JSON.parse(data);
+      }
+
+      return;
+  }
+
+  private write(key: string, value: any): void {
+      localStorage.setItem(key, JSON.stringify(value));
+  }
+
   Login() {
-    this.oidcSecurityService.authorize();
+    if ('/autologin' !== window.location.pathname) {
+      this.write("redirect", window.location.pathname);
+      this.write("redirect-href", window.location.href);
+      this.router.navigate(['/autologin']);
+    }
   }
 
   private GetUserImageSource() {
