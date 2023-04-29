@@ -2,6 +2,8 @@
 using JestersCreditUnion.Data.Models;
 using JestersCreditUnion.Framework;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace JestersCreditUnion.Core
@@ -42,6 +44,18 @@ namespace JestersCreditUnion.Core
         {
             LoanApplicationData data = await _dataFactory.Get(new DataSettings(settings), id);
             return data != null ? Create(data) : null;
+        }
+
+        public async Task<IEnumerable<ILoanApplication>> GetByUserId(ISettings settings, Guid userId)
+        {
+            return (await _dataFactory.GetByUserId(new DataSettings(settings), userId))
+                .Select<LoanApplicationData, ILoanApplication>(Create);
+        }
+
+        public async Task<IEnumerable<ILoanApplication>> GetAll(ISettings settings)
+        {
+            return (await _dataFactory.GetAll(new DataSettings(settings)))
+                .Select<LoanApplicationData, ILoanApplication>(Create);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using JestersCreditUnion.Data.Models;
 using MongoDB.Driver;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace JestersCreditUnion.Data.Internal
@@ -19,11 +20,36 @@ namespace JestersCreditUnion.Data.Internal
             FilterDefinition<LoanApplicationData> filter = Builders<LoanApplicationData>.Filter
                 .Eq(a => a.LoanApplicationId, id)
                 ;
-            return await(await(await _mongoClientFactory.GetDatabase(settings))
+            return (await(await _mongoClientFactory.GetDatabase(settings))
                 .GetCollection<LoanApplicationData>(Constants.CollectionName.LoanApplication)
                 .FindAsync(filter))
-                .FirstOrDefaultAsync()
+                .FirstOrDefault()
                 ;
+        }
+
+        public async Task<IEnumerable<LoanApplicationData>> GetAll(IDataSettings settings)
+        {
+            SortDefinition<LoanApplicationData> sort = Builders<LoanApplicationData>.Sort.Descending(a => a.UpdateTimestamp);
+            FindOptions<LoanApplicationData> findOptions = new FindOptions<LoanApplicationData>()
+            {
+                Sort = sort
+            };
+            
+            return (await (await _mongoClientFactory.GetDatabase(settings))
+                .GetCollection<LoanApplicationData>(Constants.CollectionName.LoanApplication)
+                .FindAsync(Builders<LoanApplicationData>.Filter.Empty, findOptions))                
+                .ToList();
+        }
+
+        public async Task<IEnumerable<LoanApplicationData>> GetByUserId(IDataSettings settings, Guid userId)
+        {
+            FilterDefinition<LoanApplicationData> filter = Builders<LoanApplicationData>.Filter
+                .Eq(a => a.UserId, userId)
+                ;
+            return (await (await _mongoClientFactory.GetDatabase(settings))
+                .GetCollection<LoanApplicationData>(Constants.CollectionName.LoanApplication)
+                .FindAsync(filter))
+                .ToList();
         }
     }
 }

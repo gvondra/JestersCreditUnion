@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AuthorizationAPI = BrassLoon.Interface.Authorization;
 
@@ -42,6 +44,57 @@ namespace API.Controllers
         }
 
         [Authorize(Constants.POLICY_BL_AUTH)]
+        [ProducesResponseType(typeof(LoanApplication[]), 200)]
+        [HttpGet()]
+        public async Task<IActionResult> Search([FromQuery] bool byRequestor = false, [FromQuery] Guid? userId = null)
+        {
+            DateTime start = DateTime.UtcNow;
+            IActionResult result = null;            
+            try
+            {
+                if (userId.HasValue && userId.Value.Equals(Guid.Empty))
+                {
+                    userId = null;
+                }
+                if (!userId.HasValue && byRequestor)
+                {
+                    userId = await GetCurrentUserId();
+                }
+                IEnumerable<ILoanApplication> innerLoanApplications = new List<ILoanApplication>();
+                CoreSettings settings = GetCoreSettings();
+                if (result == null && userId.HasValue)
+                {
+                    innerLoanApplications = await _loanApplicationFactory.GetByUserId(settings, userId.Value);
+                }
+                else if (result == null)
+                {
+                    innerLoanApplications = await _loanApplicationFactory.GetAll(settings);
+                }
+                if (result == null)
+                {
+                    IMapper mapper = MapperConfiguration.CreateMapper();
+                    List<LoanApplication> loanApplications = new List<LoanApplication>();
+                    foreach (ILoanApplication innerLoanApplication in innerLoanApplications)
+                    {
+                        if (await CanAccessLoanApplication(innerLoanApplication))
+                            loanApplications.Add(await Map(mapper, settings, innerLoanApplication));
+                    }
+                    result = Ok(loanApplications);
+                }
+            }
+            catch (System.Exception ex)
+            {
+                WriteException(ex);
+                result = StatusCode(StatusCodes.Status500InternalServerError);
+            }
+            finally
+            {
+                await WriteMetrics("search-loan-application", start, result);
+            }
+            return result;
+        }
+
+        [Authorize(Constants.POLICY_BL_AUTH)]
         [ProducesResponseType(typeof(LoanApplication), 200)]
         [HttpGet("{id}")]
         public async Task<IActionResult> Get([FromRoute] Guid? id)
@@ -57,7 +110,7 @@ namespace API.Controllers
                 if (result == null)
                 {
                     innerLoanApplication = await _loanApplicationFactory.Get(settings, id.Value);
-                    if (innerLoanApplication == null)
+                    if (innerLoanApplication == null || !(await CanAccessLoanApplication(innerLoanApplication)))
                         result = NotFound();
                 }
                 if (result == null)
@@ -78,6 +131,21 @@ namespace API.Controllers
             return result;
         }
 
+        [NonAction]
+        private async Task<bool> CanAccessLoanApplication(ILoanApplication loanApplication)
+        {            
+            bool canAccess = UserHasRole(Constants.POLICY_LOAN_APPLICATION_EDIT)
+                || UserHasRole(Constants.POLICY_LOAN_APPLICATION_READ);
+            if (!canAccess)
+            {
+                Guid? userId = await GetCurrentUserId();
+                if (userId.HasValue)
+                    canAccess = userId.Value.Equals(loanApplication.UserId);
+            }
+            return canAccess;
+        }
+
+        [NonAction]
         private async Task<LoanApplication> Map(IMapper mapper, CoreSettings settings, ILoanApplication innerLoanApplication)
         {
             IAddress borrowerAddress = await innerLoanApplication.GetBorrowerAddress(settings);
