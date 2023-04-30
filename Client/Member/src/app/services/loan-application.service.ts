@@ -4,6 +4,7 @@ import { mergeMap, Observable } from 'rxjs';
 import { HttpClientUtilService } from '../http-client-util.service';
 import { LoanApplication } from '../models/loan-application';
 import { TokenService } from './token.service';
+import { LoanApplicationComment } from '../models/loan-application-comment';
 
 @Injectable({
   providedIn: 'root'
@@ -30,6 +31,14 @@ export class LoanApplicationService {
     return this.httpClientUtil.CreateAuthHeader(this.tokenService).pipe(
       mergeMap((httpHeaders: HttpHeaders) => {
         return this.httpClient.post<LoanApplication>(`${this.httpClientUtil.GetApiBaseAddress()}LoanApplication`, loanApplication, {headers: httpHeaders})
+      })
+    );
+  }
+
+  AppendComment(id: string, comment: LoanApplicationComment) : Observable<any> {
+    return this.httpClientUtil.CreateAuthHeader(this.tokenService).pipe(
+      mergeMap((httpHeaders: HttpHeaders) => {
+        return this.httpClient.post(`${this.httpClientUtil.GetApiBaseAddress()}LoanApplication/${id}/Comment`, comment, {headers: httpHeaders})
       })
     );
   }

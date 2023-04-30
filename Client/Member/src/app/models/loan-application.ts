@@ -1,5 +1,7 @@
 import { Address } from './address';
+import { LoanApplicationComment } from './loan-application-comment';
 export class LoanApplication {
+    StatusDescription: string | null = null;
     LoanApplicationId: string | null = null;
     BorrowerName: string = "";
     BorrowerBirthDate: string | null = null;
@@ -23,4 +25,5 @@ export class LoanApplication {
     RentPayment: number | null = null;
     CreateTimestamp: string | null = null;
     UpdateTimestamp: string | null = null;
+    Comments: LoanApplicationComment[] | null = [];
 }
