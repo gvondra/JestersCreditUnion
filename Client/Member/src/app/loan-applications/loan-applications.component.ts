@@ -13,6 +13,7 @@ export class LoanApplicationsComponent implements OnInit {
 
   ErrorMessage: string | null = null;
   LoanApplications: LoanApplication[] | null = null;
+  SelectedLoanApplication: LoanApplication | null = null;
 
   constructor(
     private loanApplicationService: LoanApplicationService
@@ -20,6 +21,8 @@ export class LoanApplicationsComponent implements OnInit {
 
   ngOnInit(): void {
     this.LoanApplications = null;
+    this.SelectedLoanApplication = null;
+    this.ErrorMessage = null;
     firstValueFrom(this.loanApplicationService.Search())
     .then(loanApplications => this.LoanApplications = loanApplications)
     .catch(err => {
@@ -34,6 +37,11 @@ export class LoanApplicationsComponent implements OnInit {
       result = date.toLocaleDateString();
     }
     return result;
+  }
+
+  Select(loanApplication: LoanApplication) {
+    this.ErrorMessage = null;
+    this.SelectedLoanApplication = loanApplication;
   }
 
 }

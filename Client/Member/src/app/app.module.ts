@@ -12,6 +12,7 @@ import { AppSettingsService } from './app-settings.service';
 import { LoanApplicationComponent } from './loan-application/loan-application.component';
 import { LoanApplicationsComponent } from './loan-applications/loan-applications.component';
 import { AutoLoginComponent } from './auto-login/auto-login.component';
+import { LoanApplicationViewComponent } from './loan-application-view/loan-application-view.component';
 
 export const httpLoaderFactory = (appSettingsService: AppSettingsService) => {  
   const settings$: Promise<any> = appSettingsService.LoadSettings()
@@ -49,7 +50,8 @@ export const httpLoaderFactory = (appSettingsService: AppSettingsService) => {
     HomeComponent,
     LoanApplicationComponent,
     LoanApplicationsComponent,
-    AutoLoginComponent
+    AutoLoginComponent,
+    LoanApplicationViewComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,260 @@
+<div *ngIf="LoanApplication" class="container">
+    <div class="row">
+        <div [class]="LabelColumnClass">
+            <label for="status">Status</label>
+        </div>
+        <div [class]="InputColumnClass">
+            <input id="status" name="status" class="form-control" placeholder="Status" readonly="true" [value]="LoanApplication.StatusDescription"/>            
+        </div>
+    </div>
+    <div class="row">
+        <div [class]="LabelColumnClass">
+            <label for="principal">Amount</label>
+        </div>
+        <div [class]="InputColumnClass">
+            <input id="principal" name="principal" class="form-control" type="number" placeholder="Principal" readonly="true" [value]="LoanApplication.Amount"/>            
+        </div>
+    </div>
+    <div class="row">
+        <div [class]="LabelColumnClass">
+            <label for="purpose">Purpose</label>
+        </div>
+        <div [class]="InputColumnClass">
+            <textarea id="purpose" name="purpose" class="form-control" readonly="true" rows="5" [value]="LoanApplication.Purpose">
+            </textarea>
+        </div>
+    </div>
+    <div class="row">
+        <h3>Primary Borrower</h3>
+    </div>
+    <div class="row">
+        <div [class]="LabelColumnClass">
+            <label for="borrowerName">Borrower Name</label>
+        </div>
+        <div [class]="InputColumnClass">
+            <input id="borrowerName" name="borrowerName" class="form-control" type="text" readonly="true" placeholder="Name" [value]="LoanApplication.BorrowerName"/>
+        </div>
+    </div>
+    <div class="row">
+        <div [class]="LabelColumnClass">
+            <label for="borrowerBirth">Birth Date</label>
+        </div>
+        <div [class]="InputColumnClass">
+            <input id="borrowerBirth" name="borrowerBirth" class="form-control" type="date" readonly="true" placeholder="Birth Date" 
+                [value]="BorrowerBirthDate"/>
+        </div>
+    </div>
+    <div class="row">
+        <div [class]="LabelColumnClass">
+            <label for="borrowerEmail">Email</label>
+        </div>
+        <div [class]="InputColumnClass">
+            <input id="borrowerEmail" name="borrowerEmail" class="form-control" type="text" readonly="true" placeholder="Email" [value]="LoanApplication.BorrowerEmailAddress"/>            
+        </div>
+    </div>
+    <div class="row">
+        <div [class]="LabelColumnClass">
+            <label for="borrowerPhone">Phone</label>
+        </div>
+        <div [class]="InputColumnClass">
+            <input id="borrowerPhone" name="borrowerPhone" class="form-control" type="text" readonly="true" [value]="BorrowerPhone"/>
+        </div>
+    </div>        
+    <div *ngIf="LoanApplication.BorrowerAddress" class="row">
+        <div [class]="LabelColumnClass">
+            <label for="borrowerAddress">Address</label>
+        </div>
+        <div [class]="InputColumnClass">
+            <input id="borrowerAddress" name="borrowerAddress" class="form-control" type="text" readonly="true" [value]="LoanApplication.BorrowerAddress.Delivery"/>            
+        </div>
+    </div>
+    <div *ngIf="LoanApplication.BorrowerAddress" class="row">
+        <div [class]="LabelColumnClass">
+            <label for="borrowerCity">City</label>
+        </div>
+        <div [class]="InputColumnClass">
+            <input id="borrowerCity" name="borrowerCity" class="form-control" type="text" required="true" readonly="true" placeholder="City" [value]="LoanApplication.BorrowerAddress.City"/>            
+        </div>
+    </div>
+    <div *ngIf="LoanApplication.BorrowerAddress" class="row">
+        <div [class]="LabelColumnClass">
+            <label for="borrowerState">State</label>
+        </div>
+        <div [class]="InputColumnClass">
+            <input id="borrowerState" name="borrowerState" class="form-control" type="text" readonly="true" [value]="LoanApplication.BorrowerAddress.State"/>            
+        </div>
+    </div>
+    <div *ngIf="LoanApplication.BorrowerAddress" class="row">
+        <div [class]="LabelColumnClass">
+            <label for="borrowerPostalCode">Postal Code</label>
+        </div>
+        <div [class]="InputColumnClass">
+            <input id="borrowerPostalCode" name="borrowerPostalCode" class="form-control" type="text" readonly="true" [value]="LoanApplication.BorrowerAddress.PostalCode"/>            
+        </div>
+    </div>
+    <div class="row">
+        <p>Employment Information</p>
+    </div>
+    <div class="row">
+        <div [class]="LabelColumnClass">
+            <label for="borrowerEmployerName">Employer Name</label>
+        </div>
+        <div [class]="InputColumnClass">
+            <input id="borrowerEmployerName" name="borrowerEmployerName" class="form-control" type="text" readonly="true" [value]="LoanApplication.BorrowerEmployerName"/>
+        </div>
+    </div>
+    <div class="row">
+        <div [class]="LabelColumnClass">
+            <label for="borrowerHireDate">Hire Date</label>
+        </div>
+        <div [class]="InputColumnClass">
+            <input id="borrowerHireDate" name="borrowerHireDate" class="form-control" type="date" readonly="true" [value]="BorrowerHireDate"/>
+        </div>
+    </div>
+    <div class="row">
+        <div [class]="LabelColumnClass">
+            <label for="borrowerIncome">Annual Income</label>
+        </div>
+        <div [class]="InputColumnClass">
+            <input id="borrowerIncome" name="borrowerIncome" class="form-control" type="number" readonly="true" [value]="LoanApplication.BorrowerIncome"/>
+        </div>
+    </div>
+    <div class="row">
+        <p>Expense Information</p>
+    </div>
+    <div class="row">
+        <div [class]="LabelColumnClass">
+            <label for="mortgagePayment">Monthly Mortgage Payment</label>
+        </div>
+        <div [class]="InputColumnClass">
+            <input id="mortgagePayment" name="mortgagePayment" class="form-control" type="number" readonly="true" [value]="LoanApplication.MortgagePayment"/>
+        </div>
+    </div>
+    <div class="row">
+        <div [class]="LabelColumnClass">
+            <label for="rentPayment">Monthly Rent Payment</label>
+        </div>
+        <div [class]="InputColumnClass">
+            <input id="rentPayment" name="rentPayment" class="form-control" type="number" readonly="true" [value]="LoanApplication.RentPayment"/>
+        </div>
+    </div>
+    <ng-container *ngIf="IncludeCoBorrower">
+        <div class="row">
+            <h3>Co-Borrower</h3>
+        </div>
+        <div class="row">
+            <div [class]="LabelColumnClass">
+                <label for="coborrowerName">Co-Borrower Name</label>
+            </div>
+            <div [class]="InputColumnClass">
+                <input id="coborrowerName" name="coborrowerName" class="form-control" type="text" readonly="true" placeholder="Name" [value]="LoanApplication.CoBorrowerName"/>                
+            </div>
+        </div>
+        <div class="row">
+            <div [class]="LabelColumnClass">
+                <label for="coborrowerBirth">Birth Date</label>
+            </div>
+            <div [class]="InputColumnClass">
+                <input id="coborrowerBirth" name="coborrowerBirth" class="form-control" type="date" readonly="true" placeholder="Birth Date" 
+                    [value]="CoBorrowerBirthDate"/>
+            </div>
+        </div>
+        <div class="row">
+            <div [class]="LabelColumnClass">
+                <label for="coborrowerEmail">Email</label>
+            </div>
+            <div [class]="InputColumnClass">
+                <input id="coborrowerEmail" name="coborrowerEmail" class="form-control" type="text" readonly="true" placeholder="Email" [value]="LoanApplication.CoBorrowerEmailAddress"/>                
+            </div>
+        </div>
+        <div class="row">
+            <div [class]="LabelColumnClass">
+                <label for="coborrowerPhone">Phone</label>
+            </div>
+            <div [class]="InputColumnClass">
+                <input id="coborrowerPhone" name="coborrowerPhone" class="form-control" type="text" readonly="true" placeholder="999-555-1234" [value]="CoBorrowerPhone"/>                
+            </div>
+        </div>        
+        <div *ngIf="LoanApplication.CoBorrowerAddress" class="row">
+            <div [class]="LabelColumnClass">
+                <label for="coborrowerAddress">Address</label>
+            </div>
+            <div [class]="InputColumnClass">
+                <input id="coborrowerAddress" name="coborrowerAddress" class="form-control" type="text" readonly="true" [value]="LoanApplication.CoBorrowerAddress.Delivery"/>                
+            </div>
+        </div>
+        <div *ngIf="LoanApplication.CoBorrowerAddress" class="row">
+            <div [class]="LabelColumnClass">
+                <label for="coborrowerCity">City</label>
+            </div>
+            <div [class]="InputColumnClass">
+                <input id="coborrowerCity" name="coborrowerCity" class="form-control" type="text" readonly="true" placeholder="City" [value]="LoanApplication.CoBorrowerAddress.City"/>                
+            </div>
+        </div>
+        <div *ngIf="LoanApplication.CoBorrowerAddress" class="row">
+            <div [class]="LabelColumnClass">
+                <label for="coborrowerState">State</label>
+            </div>
+            <div [class]="InputColumnClass">
+                <input id="coborrowerState" name="coborrowerState" class="form-control" type="text" readonly="true" [value]="LoanApplication.CoBorrowerAddress.State"/>                
+            </div>
+        </div>
+        <div *ngIf="LoanApplication.CoBorrowerAddress" class="row">
+            <div [class]="LabelColumnClass">
+                <label for="coborrowerPostalCode">Postal Code</label>
+            </div>
+            <div [class]="InputColumnClass">
+                <input id="coborrowerPostalCode" name="coborrowerPostalCode" class="form-control" type="text" readonly="true" [value]="LoanApplication.CoBorrowerAddress.PostalCode"/>                
+            </div>
+        </div>
+        <div class="row">
+            <p>Employment Information</p>
+        </div>
+        <div class="row">
+            <div [class]="LabelColumnClass">
+                <label for="coborrowerEmployerName">Employer Name</label>
+            </div>
+            <div [class]="InputColumnClass">
+                <input id="coborrowerEmployerName" name="coborrowerEmployerName" class="form-control" type="text" readonly="true" [value]="LoanApplication.CoBorrowerEmployerName"/>
+            </div>
+        </div>
+        <div class="row">
+            <div [class]="LabelColumnClass">
+                <label for="coborrowerHireDate">Hire Date</label>
+            </div>
+            <div [class]="InputColumnClass">
+                <input id="coborrowerHireDate" name="coborrowerHireDate" class="form-control" type="date" readonly="true" [value]="CoBorrowerHireDate"/>
+            </div>
+        </div>
+        <div class="row">
+            <div [class]="LabelColumnClass">
+                <label for="coborrowerIncome">Annual Income</label>
+            </div>
+            <div [class]="InputColumnClass">
+                <input id="coborrowerIncome" name="coborrowerIncome" class="form-control" type="number" readonly="true" [value]="LoanApplication.CoBorrowerIncome"/>
+            </div>
+        </div>
+    </ng-container>
+    <ng-container *ngIf="LoanApplication?.Comments">
+        <div *ngFor="let comment of LoanApplication?.Comments" class="row">
+            <div [class]="LabelColumnClass">
+                <label>Comment</label>
+            </div>
+            <div [class]="InputColumnClass">
+                <span>{{ ToLocalDateString(comment.CreateTimestamp) }}</span>
+                <p>{{ comment.Text }}</p>
+            </div>
+        </div>
+    </ng-container>
+    <div class="row">
+        <div [class]="LabelColumnClass">
+            <label for="newCommentText">Add Comment</label>
+        </div>
+        <div class="col-md-5">
+            <textarea id="newCommentText" name="newCommentText" maxlength="2000" rows="5" [value]="CommentText" (change)="UpdateCommentText($event)"></textarea>
+        </div>
+        <div class="col-md-3">
+            <button type="button" class="btn btn-primary" (click)="AddComment()">Add Comment</button>
+        </div>
+    </div>
+</div>
