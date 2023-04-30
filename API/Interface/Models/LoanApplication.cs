@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace JestersCreditUnion.Interface.Models
 {
@@ -28,6 +29,7 @@ namespace JestersCreditUnion.Interface.Models
         public string Purpose { get; set; }
         public decimal? MortgagePayment { get; set; }
         public decimal? RentPayment { get; set; }
+        public List<LoanApplicationComment> Comments { get; set; }
         public DateTime? CreateTimestamp { get; set; }
         public DateTime? UpdateTimestamp { get; set; }
     }
