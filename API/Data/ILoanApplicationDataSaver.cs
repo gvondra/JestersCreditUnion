@@ -1,4 +1,5 @@
 ﻿using JestersCreditUnion.Data.Models;
+using System;
 using System.Threading.Tasks;
 
 namespace JestersCreditUnion.Data
@@ -7,5 +8,6 @@ namespace JestersCreditUnion.Data
     {
         Task Create(IDataSettings settings, LoanApplicationData data);
         Task Update(IDataSettings settings, LoanApplicationData data);
+        Task AppendComment(IDataSettings settings, Guid id, LoanApplicationCommentData data);
     }
 }

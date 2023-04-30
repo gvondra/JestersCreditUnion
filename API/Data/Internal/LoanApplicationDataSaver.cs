@@ -14,6 +14,20 @@ namespace JestersCreditUnion.Data.Internal
             _mongoClientFactory = mongoClientFactory;
         }
 
+        public async Task AppendComment(IDataSettings settings, Guid id, LoanApplicationCommentData data)
+        {            
+            FilterDefinition<LoanApplicationData> filter = Builders<LoanApplicationData>.Filter
+                .Eq(la => la.LoanApplicationId, id)
+                ;
+            UpdateDefinition<LoanApplicationData> update = Builders<LoanApplicationData>.Update
+                .Set(la => la.UpdateTimestamp, DateTime.UtcNow)
+                .Push(la => la.Comments, data);
+            await(await _mongoClientFactory.GetDatabase(settings))
+                .GetCollection<LoanApplicationData>(Constants.CollectionName.LoanApplication)
+                .UpdateOneAsync(filter, update);
+            ;
+        }
+
         public async Task Create(IDataSettings settings, LoanApplicationData data)
         {
             data.CreateTimestamp = DateTime.UtcNow;

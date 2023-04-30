@@ -5,7 +5,6 @@ using JestersCreditUnion.Framework.Enumerations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace JestersCreditUnion.Core
@@ -22,6 +21,7 @@ namespace JestersCreditUnion.Core
         private IEmailAddress _coborrowerEmailAddress = null;
         private IPhone _borrowerPhone = null;
         private IPhone _coborrowerPhone = null;
+        private List<ILoanApplicationComment> _comments = null;
 
         public LoanApplication(LoanApplicationData data, 
             ILoanApplicationDataSaver dataSaver, 
@@ -32,6 +32,7 @@ namespace JestersCreditUnion.Core
             _dataSaver = dataSaver;
             _factory = factory;
             _lookupFactory = lookupFactory;
+            _comments = InitiallizeComments(data.Comments, dataSaver);
         }
 
         public Guid LoanApplicationId => _data.LoanApplicationId;
@@ -66,7 +67,22 @@ namespace JestersCreditUnion.Core
 
         public DateTime ApplicationDate => _data.ApplicationDate;
 
+        public List<ILoanApplicationComment> Comments => _comments;
+
         public Task Create(ISettings settings) => _dataSaver.Create(new DataSettings(settings), _data);
+
+        public ILoanApplicationComment CreateComment(string text, Guid userId, bool isInternal = true)
+        {
+            LoanApplicationCommentData data = new LoanApplicationCommentData
+            {
+                IsInternal = isInternal,
+                Text = text,
+                LoanApplicationCommentId = Guid.NewGuid(),
+                UserId = userId,
+                CreateTimestamp = DateTime.UtcNow
+            };
+            return new LoanApplicationComment(data, _dataSaver, this);
+        }
 
         public async Task<IAddress> GetBorrowerAddress(ISettings settings)
         {
@@ -134,5 +150,14 @@ namespace JestersCreditUnion.Core
         }
 
         public Task Update(ISettings settings) => _dataSaver.Update(new DataSettings(settings), _data);
+
+        private static List<ILoanApplicationComment> InitiallizeComments(IEnumerable<LoanApplicationCommentData> commentData, ILoanApplicationDataSaver dataSaver)
+        {
+            if (commentData != null)
+                return commentData.Select<LoanApplicationCommentData, ILoanApplicationComment>(d => new LoanApplicationComment(d, dataSaver))
+                    .ToList();
+            else
+                return new List<ILoanApplicationComment>();
+        }
     }
 }

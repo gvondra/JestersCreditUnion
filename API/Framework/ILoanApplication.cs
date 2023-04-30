@@ -1,5 +1,6 @@
 ﻿using JestersCreditUnion.Framework.Enumerations;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace JestersCreditUnion.Framework
@@ -32,6 +33,7 @@ namespace JestersCreditUnion.Framework
         decimal? RentPayment { get; set; }
         DateTime CreateTimestamp { get; }
         DateTime UpdateTimestamp { get; }
+        List<ILoanApplicationComment> Comments { get; }
 
         Task Create(ISettings settings);
         Task Update(ISettings settings);
@@ -43,5 +45,6 @@ namespace JestersCreditUnion.Framework
         Task<IPhone> GetBorrowerPhone(ISettings settings);
         Task<IPhone> GetCoBorrowerPhone(ISettings settings);
         Task<string> GetStatusDescription(ISettings settings);
+        ILoanApplicationComment CreateComment(string text, Guid userId, bool isInternal = true);
     }
 }

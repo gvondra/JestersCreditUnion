@@ -1,5 +1,6 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 using System;
+using System.Collections.Generic;
 
 namespace JestersCreditUnion.Data.Models
 {
@@ -66,6 +67,8 @@ namespace JestersCreditUnion.Data.Models
         public decimal? MortgagePayment { get; set; }
 		[BsonIgnoreIfNull()]
 		public decimal? RentPayment { get; set; }
+        [BsonIgnoreIfNull]
+        public List<LoanApplicationCommentData> Comments { get; set; }
 		[BsonDateTimeOptions(Kind = DateTimeKind.Utc)] public DateTime CreateTimestamp { get; set; }
 		[BsonDateTimeOptions(Kind = DateTimeKind.Utc)] public DateTime UpdateTimestamp { get; set; }
 	}
