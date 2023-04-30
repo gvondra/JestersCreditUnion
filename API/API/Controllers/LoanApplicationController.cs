@@ -49,7 +49,7 @@ namespace API.Controllers
         public async Task<IActionResult> Search([FromQuery] bool byRequestor = false, [FromQuery] Guid? userId = null)
         {
             DateTime start = DateTime.UtcNow;
-            IActionResult result = null;            
+            IActionResult result = null;
             try
             {
                 if (userId.HasValue && userId.Value.Equals(Guid.Empty))
@@ -133,7 +133,7 @@ namespace API.Controllers
 
         [NonAction]
         private async Task<bool> CanAccessLoanApplication(ILoanApplication loanApplication)
-        {            
+        {
             bool canAccess = UserHasRole(Constants.POLICY_LOAN_APPLICATION_EDIT)
                 || UserHasRole(Constants.POLICY_LOAN_APPLICATION_READ);
             if (!canAccess)
@@ -143,6 +143,29 @@ namespace API.Controllers
                     canAccess = userId.Value.Equals(loanApplication.UserId);
             }
             return canAccess;
+        }
+
+        [NonAction]
+        private async Task<bool> CanAccessLoanApplicationComment(ILoanApplicationComment comment)
+        {
+            bool canAccess = !comment.IsInternal
+                || UserHasRole(Constants.POLICY_LOAN_APPLICATION_EDIT)
+                || UserHasRole(Constants.POLICY_LOAN_APPLICATION_READ);
+            if (!canAccess)
+            {
+                Guid? userId = await GetCurrentUserId();
+                if (userId.HasValue)
+                    canAccess = userId.Value.Equals(comment.UserId);
+            }
+            return canAccess;
+        }
+
+        [NonAction]
+        private bool IsInternalComment()
+        {
+            bool isInternal = UserHasRole(Constants.POLICY_LOAN_APPLICATION_EDIT)
+                || UserHasRole(Constants.POLICY_LOAN_APPLICATION_READ);
+            return isInternal;
         }
 
         [NonAction]
@@ -163,7 +186,26 @@ namespace API.Controllers
             loanApplication.BorrowerPhone = borrowerPhone != null ? borrowerPhone.Number : string.Empty;
             loanApplication.CoBorrowerPhone = coborrowerPhone != null ? coborrowerPhone.Number : string.Empty;
             loanApplication.StatusDescription = await innerLoanApplication.GetStatusDescription(settings);
+            
+            await MapComments(mapper, innerLoanApplication, loanApplication);
+
             return loanApplication;
+        }
+
+        [NonAction]
+        private async Task MapComments(IMapper mapper, ILoanApplication innerLoanApplication, LoanApplication loanApplication)
+        {
+            if (innerLoanApplication.Comments != null)
+            {
+                loanApplication.Comments = new List<LoanApplicationComment>();
+                foreach (ILoanApplicationComment innerComment in innerLoanApplication.Comments.OrderByDescending(c => c.CreateTimestamp))
+                {
+                    if (await CanAccessLoanApplicationComment(innerComment))
+                    {
+                        loanApplication.Comments.Add(mapper.Map<LoanApplicationComment>(innerComment));
+                    }
+                }
+            }
         }
 
         [Authorize(Constants.POLICY_BL_AUTH)]
@@ -266,6 +308,47 @@ namespace API.Controllers
                 }
             }
             return innerAddress;
+        }
+
+        [Authorize(Constants.POLICY_BL_AUTH)]
+        [ProducesResponseType(200)]
+        [HttpPost("{id}/Comment")]
+        public async Task<IActionResult> AppendComment([FromRoute] Guid? id, [FromBody] LoanApplicationComment comment)
+        {
+            DateTime start = DateTime.UtcNow;
+            IActionResult result = null;
+            try
+            {
+                ILoanApplication innerLoanApplication = null;
+                CoreSettings settings = GetCoreSettings();
+                if (result == null && string.IsNullOrEmpty(comment?.Text))
+                    result = Ok();
+                if (result == null && (!id.HasValue || id.Value.Equals(Guid.Empty)))
+                    result = BadRequest("Missing id paramter value");
+                if (result == null)
+                {
+                    innerLoanApplication = await _loanApplicationFactory.Get(settings, id.Value);
+                    if (!(await CanAccessLoanApplication(innerLoanApplication)))
+                        result = NotFound();
+                }
+                if (result == null && innerLoanApplication != null)
+                {
+                    Guid? userId = await GetCurrentUserId();
+                    ILoanApplicationComment innerComment = innerLoanApplication.CreateComment(comment.Text, userId.Value, IsInternalComment());
+                    await innerComment.Create(settings);
+                    result = Ok();
+                }
+            }
+            catch (System.Exception ex)
+            {
+                WriteException(ex);
+                result = StatusCode(StatusCodes.Status500InternalServerError);
+            }
+            finally
+            {
+                await WriteMetrics("append-loan-application-comment", start, result);
+            }
+            return result;
         }
     }
 }

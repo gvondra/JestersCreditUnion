@@ -19,8 +19,12 @@ namespace API
 
         private static void Initialize(IMapperConfigurationExpression exp)
         {
-            exp.CreateMap<ILoanApplication, LoanApplication>();
-            exp.CreateMap<LoanApplication, ILoanApplication>();
+            exp.CreateMap<ILoanApplication, LoanApplication>()
+                .ForMember(la => la.Comments, exp => exp.Ignore()); // comments require authorization
+            exp.CreateMap<LoanApplication, ILoanApplication>()
+                .ForMember(la => la.Comments, exp => exp.Ignore()); // prevent incoming comments from overwriting saved comments
+            exp.CreateMap<ILoanApplicationComment, LoanApplicationComment>();
+            exp.CreateMap<LoanApplicationComment, ILoanApplicationComment>();
             exp.CreateMap<IAddress, Address>();
             exp.CreateMap<ILookup, Lookup>();
 
