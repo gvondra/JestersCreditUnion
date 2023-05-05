@@ -23,7 +23,8 @@ namespace API.Controllers
         private readonly ILoanApplicationSaver _loanApplicationSaver;
         private readonly IAddressFactory _addressFactory;
         private readonly IEmailAddressFactory _emailAddressFactory;
-        private readonly IPhoneFactory _phoneFactory;
+        private readonly IPhoneFactory _phoneFactory; 
+        private readonly AuthorizationAPI.IUserService _userService;
 
         public LoanApplicationController(IOptions<Settings> settings,
             ISettingsFactory settingsFactory,
@@ -41,6 +42,7 @@ namespace API.Controllers
             _addressFactory = addressFactory;
             _emailAddressFactory = emailAddressFactory;
             _phoneFactory = phoneFactory;
+            _userService = userService;
         }
 
         [Authorize(Constants.POLICY_BL_AUTH)]
@@ -197,15 +199,25 @@ namespace API.Controllers
         {
             if (innerLoanApplication.Comments != null)
             {
+                AuthorizationAPI.ISettings settings = GetAuthorizationSettings();
                 loanApplication.Comments = new List<LoanApplicationComment>();
                 foreach (ILoanApplicationComment innerComment in innerLoanApplication.Comments.OrderByDescending(c => c.CreateTimestamp))
                 {
                     if (await CanAccessLoanApplicationComment(innerComment))
                     {
-                        loanApplication.Comments.Add(mapper.Map<LoanApplicationComment>(innerComment));
+                        loanApplication.Comments.Add(
+                            await MapComment(mapper, settings, innerComment));
                     }
                 }
             }
+        }
+
+        [NonAction]
+        private async Task<LoanApplicationComment> MapComment(IMapper mapper, AuthorizationAPI.ISettings settings, ILoanApplicationComment innerComment)
+        {
+            LoanApplicationComment comment = mapper.Map<LoanApplicationComment>(innerComment);
+            comment.UserName = await _userService.GetName(settings, _settings.Value.AuthorizationDomainId.Value, innerComment.UserId);
+            return comment;
         }
 
         [Authorize(Constants.POLICY_BL_AUTH)]
@@ -336,7 +348,9 @@ namespace API.Controllers
                     Guid? userId = await GetCurrentUserId();
                     ILoanApplicationComment innerComment = innerLoanApplication.CreateComment(comment.Text, userId.Value, IsInternalComment());
                     await innerComment.Create(settings);
-                    result = Ok();
+                    IMapper mapper = MapperConfiguration.CreateMapper();
+                    result = Ok(
+                        await MapComment(mapper, GetAuthorizationSettings(), innerComment));
                 }
             }
             catch (System.Exception ex)

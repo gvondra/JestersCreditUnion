@@ -17,6 +17,20 @@ namespace JestersCreditUnion.Interface
             _service = service;
         }
 
+        public Task<LoanApplicationComment> AppendComent(ISettings settings, Guid id, LoanApplicationComment comment)
+        {
+            if (id.Equals(Guid.Empty))
+                throw new ArgumentNullException(nameof(id));
+            if (string.IsNullOrEmpty(comment.Text))
+                throw new ApplicationException("Comment Text is required");
+            IRequest request = _service.CreateRequest(new Uri(settings.BaseAddress), HttpMethod.Post, comment)
+                .AddPath("LoanApplication/{id}/Comment")
+                .AddPathParameter("id", id.ToString("N"))
+                .AddJwtAuthorizationToken(settings.GetToken)
+                ;
+            return _restUtil.Send<LoanApplicationComment>(_service, request);
+        }
+
         public Task<LoanApplication> Get(ISettings settings, Guid id)
         {
             if (id.Equals(Guid.Empty))

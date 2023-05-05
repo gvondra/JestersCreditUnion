@@ -13,11 +13,11 @@
         <Style x:Key="SubHeader" TargetType="Label">
             <Setter Property="FontSize" Value="14"/>
             <Setter Property="Margin" Value="0,15,0,0"/>
-        </Style>
+        </Style>        
     </Page.Resources>
     <ScrollViewer VerticalScrollBarVisibility="Visible">
         <DockPanel>
-            <StackPanel DockPanel.Dock="Top" Orientation="Vertical">
+            <StackPanel DockPanel.Dock="Top" Orientation="Vertical" >
                 <TextBlock Style="{StaticResource PageTitle}">Loan Application</TextBlock>
                 <fa:ImageAwesome Icon="CircleOutlineNotch" Spin="True" Height="24" Width="24" Visibility="{Binding BusyVisibility}" Foreground="Navy" HorizontalAlignment="Left" />
             </StackPanel>
@@ -27,6 +27,9 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
@@ -122,6 +125,30 @@
                 <TextBox Grid.Column="1" Grid.Row="31" Text="{Binding CoBorrowerEmploymentHireDate, StringFormat='yyyy-MM-dd', ValidatesOnDataErrors=True, NotifyOnValidationError=True, TargetNullValue=''}" MaxLength="10" Style="{StaticResource TextBoxWithError}" />
                 <Label Grid.Column="0" Grid.Row="32">Annual Income</Label>
                 <TextBox Grid.Column="1" Grid.Row="32" Text="{Binding CoBorrowerIncome, StringFormat='###,###,###,##0.00#', ValidatesOnDataErrors=True, NotifyOnValidationError=True, TargetNullValue=''}" MaxLength="128" Style="{StaticResource TextBoxWithError}" />
+                <Label Grid.Column="0" Grid.Row="33">Comments</Label>
+                <ItemsControl Grid.Column="1" Grid.Row="33" ItemsSource="{Binding Comments}" Margin="0,5">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Vertical"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderBrush="DarkGray" BorderThickness="0,1,0,0">
+                                <StackPanel>
+                                    <TextBlock>
+                                        <TextBlock Text="{Binding CreateTimestamp, StringFormat='yyyy-MM-dd'}"/>
+                                        <TextBlock Text="{Binding UserName}" />
+                                    </TextBlock>
+                                    <TextBlock Margin="5,0" Text="{Binding Text}" />
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <Label Grid.Column="0" Grid.Row="34">Add Comment</Label>
+                <TextBox Grid.Column="1" Grid.Row="34" Text="{Binding NewCommentText, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" AcceptsReturn="True" MinHeight="40" MaxLength="1024" Style="{StaticResource TextBoxWithError}" />
+                <Button Grid.Column="1" Grid.Row="35" HorizontalAlignment="Left" Padding="2,2" Command="{Binding CreateComment}" CommandParameter="{Binding .}">Add Comment</Button>
             </Grid>
         </DockPanel>
     </ScrollViewer>

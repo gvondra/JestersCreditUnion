@@ -2,6 +2,7 @@
 using JestersCreditUnion.Interface.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -14,10 +15,43 @@ namespace JCU.Internal.ViewModel
     {
         private readonly LoanApplication _loanApplication;
         private Visibility _busyVisibility = Visibility.Collapsed;
+        private ObservableCollection<LoanApplicationCommentVM> _comments = new ObservableCollection<LoanApplicationCommentVM>();
+        private string _newCommentText;
+        private CreateLoanApplicationComment _createComment;
 
         private LoanApplicationVM(LoanApplication loanApplication)
         {
             _loanApplication = loanApplication;
+        }
+
+        public Guid? LoanApplicationId => _loanApplication.LoanApplicationId;
+
+        public ObservableCollection<LoanApplicationCommentVM> Comments => _comments;
+
+        public CreateLoanApplicationComment CreateComment
+        {
+            get => _createComment;
+            set
+            {
+                if (_createComment != value)
+                {
+                    _createComment = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+        public string NewCommentText
+        {
+            get => _newCommentText;
+            set
+            {
+                if (_newCommentText != value)
+                {
+                    _newCommentText = value;
+                    NotifyPropertyChanged();
+                }
+            }
         }
 
         public Visibility BusyVisibility 
@@ -396,6 +430,14 @@ namespace JCU.Internal.ViewModel
             LoanApplicationVM vm = new LoanApplicationVM(loanApplication);
             LoanApplicationValidator validator = new LoanApplicationValidator(vm);
             vm.AddBehavior(validator);
+            vm.CreateComment = new CreateLoanApplicationComment();
+            if (loanApplication.Comments != null)
+            {
+                foreach (LoanApplicationComment comment in loanApplication.Comments)
+                {
+                    vm.Comments.Add(LoanApplicationCommentVM.Create(comment, vm));
+                }
+            }
             return vm;
         }
     }
