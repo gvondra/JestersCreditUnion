@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -171,6 +172,25 @@ namespace API.Controllers
         }
 
         [NonAction]
+        private async Task Map(IMapper mapper, CoreSettings settings, LoanApplication loanApplication, ILoanApplication innerLoanApplication)
+        {
+            IAddress borrowerAddress = await GetAddress(settings, loanApplication.BorrowerAddress);
+            IAddress coborrowerAddress = await GetAddress(settings, loanApplication.CoBorrowerAddress);
+            IEmailAddress borrowerEmailAddress = await GetEmailAddress(settings, loanApplication.BorrowerEmailAddress);
+            IEmailAddress coborrowerEmailAddress = await GetEmailAddress(settings, loanApplication.CoBorrowerEmailAddress);
+            IPhone borrowerPhone = await GetPhone(settings, loanApplication.BorrowerPhone);
+            IPhone coborrowerPhone = await GetPhone(settings, loanApplication.CoBorrowerPhone);
+            
+            mapper.Map(loanApplication, innerLoanApplication);
+            innerLoanApplication.BorrowerAddressId = borrowerAddress?.AddressId;
+            innerLoanApplication.CoBorrowerAddressId = coborrowerAddress?.AddressId;
+            innerLoanApplication.BorrowerEmailAddressId = borrowerEmailAddress?.EmailAddressId;
+            innerLoanApplication.CoBorrowerEmailAddressId = coborrowerEmailAddress?.EmailAddressId;
+            innerLoanApplication.BorrowerPhoneId = borrowerPhone?.PhoneId;
+            innerLoanApplication.CoBorrowerPhoneId = coborrowerPhone?.PhoneId;
+        }
+
+        [NonAction]
         private async Task<LoanApplication> Map(IMapper mapper, CoreSettings settings, ILoanApplication innerLoanApplication)
         {
             IAddress borrowerAddress = await innerLoanApplication.GetBorrowerAddress(settings);
@@ -229,30 +249,15 @@ namespace API.Controllers
             try
             {
                 CoreSettings settings = GetCoreSettings();
-                IAddress borrowerAddress = await GetAddress(settings, loanApplication.BorrowerAddress);
-                IAddress coborrowerAddress = await GetAddress(settings, loanApplication.CoBorrowerAddress);
-                IEmailAddress borrowerEmailAddress = await GetEmailAddress(settings, loanApplication.BorrowerEmailAddress);
-                IEmailAddress coborrowerEmailAddress = await GetEmailAddress(settings, loanApplication.CoBorrowerEmailAddress);
-                IPhone borrowerPhone = await GetPhone(settings, loanApplication.BorrowerPhone);
-                IPhone coborrowerPhone = await GetPhone(settings, loanApplication.CoBorrowerPhone);
-                if (result == null)
-                {
-                    ILoanApplication innerLoanApplication = _loanApplicationFactory.Create((await GetCurrentUserId()).Value);
-                    IMapper mapper = MapperConfiguration.CreateMapper();
-                    mapper.Map(loanApplication, innerLoanApplication);
-                    innerLoanApplication.BorrowerAddressId = borrowerAddress?.AddressId;
-                    innerLoanApplication.CoBorrowerAddressId = coborrowerAddress?.AddressId;
-                    innerLoanApplication.BorrowerEmailAddressId = borrowerEmailAddress?.EmailAddressId;
-                    innerLoanApplication.CoBorrowerEmailAddressId = coborrowerEmailAddress?.EmailAddressId;
-                    innerLoanApplication.BorrowerPhoneId = borrowerPhone?.PhoneId;
-                    innerLoanApplication.CoBorrowerPhoneId = coborrowerPhone?.PhoneId;
+                ILoanApplication innerLoanApplication = _loanApplicationFactory.Create((await GetCurrentUserId()).Value);
+                IMapper mapper = MapperConfiguration.CreateMapper();
+                await Map(mapper, settings, loanApplication, innerLoanApplication);
 
-                    await _loanApplicationSaver.Create(settings, innerLoanApplication);
+                await _loanApplicationSaver.Create(settings, innerLoanApplication);
 
-                    loanApplication = await Map(mapper, settings, innerLoanApplication);
+                loanApplication = await Map(mapper, settings, innerLoanApplication);
 
-                    result = Ok(loanApplication);
-                }
+                result = Ok(loanApplication);
             }
             catch (System.Exception ex)
             {
@@ -323,7 +328,7 @@ namespace API.Controllers
         }
 
         [Authorize(Constants.POLICY_BL_AUTH)]
-        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(LoanApplicationComment), 200)]
         [HttpPost("{id}/Comment")]
         public async Task<IActionResult> AppendComment([FromRoute] Guid? id, [FromBody] LoanApplicationComment comment, [FromQuery] bool isPublic = false)
         {
@@ -364,6 +369,47 @@ namespace API.Controllers
             finally
             {
                 await WriteMetrics("append-loan-application-comment", start, result);
+            }
+            return result;
+        }
+
+        [Authorize(Constants.POLICY_BL_AUTH)]
+        [ProducesResponseType(typeof(LoanApplication), 200)]
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update([FromRoute] Guid? id, [FromBody] LoanApplication loanApplication)
+        {
+            DateTime start = DateTime.UtcNow;
+            IActionResult result = null;
+            try
+            {
+                CoreSettings settings = GetCoreSettings();
+                ILoanApplication innerLoanApplication = null;
+                if (result == null && (!id.HasValue || id.Value.Equals(Guid.Empty)))
+                    result = BadRequest("Missing id parameter value");
+                if (result == null && loanApplication == null)
+                    result = BadRequest("Missing loan application details");
+                if (result == null)
+                {
+                    innerLoanApplication = await _loanApplicationFactory.Get(settings, id.Value);
+                    if (innerLoanApplication == null || !(await CanAccessLoanApplication(innerLoanApplication)))
+                        result = NotFound();
+                }
+                if (result == null && innerLoanApplication != null)
+                {
+                    IMapper mapper = MapperConfiguration.CreateMapper();
+                    await Map(mapper, settings, loanApplication, innerLoanApplication);
+                    await innerLoanApplication.Update(settings);
+                    result = Ok(await Map(mapper, settings, innerLoanApplication));
+                }
+            }
+            catch (System.Exception ex)
+            {
+                WriteException(ex);
+                result = StatusCode(StatusCodes.Status500InternalServerError);
+            }
+            finally
+            {
+                await WriteMetrics("update-loan-application", start, result);
             }
             return result;
         }

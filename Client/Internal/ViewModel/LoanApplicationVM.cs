@@ -15,6 +15,7 @@ namespace JCU.Internal.ViewModel
         private string _newCommentText;
         private bool _newCommentIsPublic = false;
         private CreateLoanApplicationComment _createComment;
+        private LoanApplicationUnderReview _underReview;
 
         private LoanApplicationVM(LoanApplication loanApplication)
         {
@@ -24,6 +25,21 @@ namespace JCU.Internal.ViewModel
         public Guid? LoanApplicationId => _loanApplication.LoanApplicationId;
 
         public ObservableCollection<LoanApplicationCommentVM> Comments => _comments;
+
+        public LoanApplication InnerLoanApplication => _loanApplication;
+
+        public LoanApplicationUnderReview UnderReview
+        {
+            get => _underReview;
+            set
+            {
+                if (_underReview != value)
+                {
+                    _underReview = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
 
         public CreateLoanApplicationComment CreateComment
         {
@@ -77,7 +93,31 @@ namespace JCU.Internal.ViewModel
             }
         }
 
-        public string ApplicationStatusDescription => _loanApplication.StatusDescription;
+        public short Status
+        {
+            get => _loanApplication.Status ?? 0;
+            set
+            {
+                if (!_loanApplication.Status.HasValue || _loanApplication.Status.Value != value)
+                {
+                    _loanApplication.Status = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+        public string ApplicationStatusDescription
+        {
+            get => _loanApplication.StatusDescription;
+            set
+            {
+                if (_loanApplication.StatusDescription != value)
+                {
+                    _loanApplication.StatusDescription = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }        
 
         public DateTime? ApplicationDate 
         { 
@@ -441,6 +481,7 @@ namespace JCU.Internal.ViewModel
             LoanApplicationValidator validator = new LoanApplicationValidator(vm);
             vm.AddBehavior(validator);
             vm.CreateComment = new CreateLoanApplicationComment();
+            vm.UnderReview = new LoanApplicationUnderReview();
             if (loanApplication.Comments != null)
             {
                 foreach (LoanApplicationComment comment in loanApplication.Comments)

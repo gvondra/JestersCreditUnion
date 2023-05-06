@@ -13,14 +13,21 @@
         <Style x:Key="SubHeader" TargetType="Label">
             <Setter Property="FontSize" Value="14"/>
             <Setter Property="Margin" Value="0,15,0,0"/>
-        </Style>        
+        </Style>
     </Page.Resources>
-    <ScrollViewer VerticalScrollBarVisibility="Visible">
-        <DockPanel>
-            <StackPanel DockPanel.Dock="Top" Orientation="Vertical" >
-                <TextBlock Style="{StaticResource PageTitle}">Loan Application</TextBlock>
-                <fa:ImageAwesome Icon="CircleOutlineNotch" Spin="True" Height="24" Width="24" Visibility="{Binding BusyVisibility}" Foreground="Navy" HorizontalAlignment="Left" />
+    <DockPanel>
+        <ScrollViewer DockPanel.Dock="Left" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Padding="5,0">
+            <StackPanel Orientation="Vertical">
+                <TextBlock>
+                        <Hyperlink Command="{Binding UnderReview}" CommandParameter="{Binding .}">Change Status To Under Review</Hyperlink>
+                </TextBlock>
             </StackPanel>
+        </ScrollViewer>
+        <StackPanel DockPanel.Dock="Top" Orientation="Vertical" >
+            <TextBlock Style="{StaticResource PageTitle}">Loan Application</TextBlock>
+            <fa:ImageAwesome Icon="CircleOutlineNotch" Spin="True" Height="24" Width="24" Visibility="{Binding BusyVisibility}" Foreground="Navy" HorizontalAlignment="Left" />
+        </StackPanel>
+        <ScrollViewer VerticalScrollBarVisibility="Visible">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -138,9 +145,9 @@
                             <Border BorderBrush="DarkGray" BorderThickness="0,1,0,0">
                                 <StackPanel>
                                     <TextBlock>
-                                        <TextBlock Text="{Binding CreateTimestamp, StringFormat='yyyy-MM-dd'}"/>
-                                        <TextBlock Text="{Binding UserName}" />
-                                    </TextBlock>
+                                            <TextBlock Text="{Binding CreateTimestamp, StringFormat='yyyy-MM-dd'}"/>
+                                            <TextBlock Text="{Binding UserName}" />
+                                        </TextBlock>
                                     <TextBlock Margin="5,0" Text="{Binding Text}" />
                                 </StackPanel>
                             </Border>
@@ -152,6 +159,6 @@
                 <CheckBox Grid.Column="1" Grid.Row="35" IsChecked="{Binding NewCommentIsPublic}">Is Public</CheckBox>
                 <Button Grid.Column="1" Grid.Row="36" HorizontalAlignment="Left" Padding="2,2" Margin="0,5" Command="{Binding CreateComment}" CommandParameter="{Binding .}">Add Comment</Button>
             </Grid>
-        </DockPanel>
-    </ScrollViewer>
+        </ScrollViewer>
+    </DockPanel>
 </Page>

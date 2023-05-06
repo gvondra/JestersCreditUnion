@@ -7,6 +7,7 @@ namespace JestersCreditUnion.Interface
     public interface ILoanApplicationService
     {
         Task<LoanApplication> Get(ISettings settings, Guid id);
+        Task<LoanApplication> Update(ISettings settings, LoanApplication loanApplication);
         Task<LoanApplicationComment> AppendComent(ISettings settings, Guid id, LoanApplicationComment comment, bool isPublic = false);
     }
 }
