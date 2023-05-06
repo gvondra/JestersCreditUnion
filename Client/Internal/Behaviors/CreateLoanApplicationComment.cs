@@ -36,12 +36,12 @@ namespace JCU.Internal.Behaviors
                 _canExecute = false;
                 this.CanExecuteChanged.Invoke(this, new EventArgs());
                 loanApplicationVM[nameof(LoanApplicationVM.NewCommentText)] = null;
-                Task.Run(() => CreateComment(loanApplicationVM.LoanApplicationId.Value, loanApplicationVM.NewCommentText))
+                Task.Run(() => CreateComment(loanApplicationVM.LoanApplicationId.Value, loanApplicationVM.NewCommentText, loanApplicationVM.NewCommentIsPublic))
                     .ContinueWith(CreateCommentCallback, loanApplicationVM, TaskScheduler.FromCurrentSynchronizationContext());
             }
         }
 
-        private LoanApplicationComment CreateComment(Guid id, string text)
+        private LoanApplicationComment CreateComment(Guid id, string text, bool isPublic)
         {
             using (ILifetimeScope scope = DependencyInjection.ContainerFactory.Container.BeginLifetimeScope())
             {
@@ -54,7 +54,8 @@ namespace JCU.Internal.Behaviors
                 return loanApplicationService.AppendComent(
                     settingsFactory.CreateApi(),
                     id,
-                    comment).Result;
+                    comment,
+                    isPublic).Result;
             }
         }
 

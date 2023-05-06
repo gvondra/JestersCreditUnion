@@ -2,6 +2,7 @@
 using JestersCreditUnion.Interface.Models;
 using System;
 using System.Net.Http;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace JestersCreditUnion.Interface
@@ -17,7 +18,7 @@ namespace JestersCreditUnion.Interface
             _service = service;
         }
 
-        public Task<LoanApplicationComment> AppendComent(ISettings settings, Guid id, LoanApplicationComment comment)
+        public Task<LoanApplicationComment> AppendComent(ISettings settings, Guid id, LoanApplicationComment comment, bool isPublic = false)
         {
             if (id.Equals(Guid.Empty))
                 throw new ArgumentNullException(nameof(id));
@@ -28,6 +29,8 @@ namespace JestersCreditUnion.Interface
                 .AddPathParameter("id", id.ToString("N"))
                 .AddJwtAuthorizationToken(settings.GetToken)
                 ;
+            if (isPublic)
+                request.AddQueryParameter("isPublic", isPublic.ToString());
             return _restUtil.Send<LoanApplicationComment>(_service, request);
         }
 

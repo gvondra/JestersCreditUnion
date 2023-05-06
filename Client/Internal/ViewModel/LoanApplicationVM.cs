@@ -1,12 +1,8 @@
 ﻿using JCU.Internal.Behaviors;
 using JestersCreditUnion.Interface.Models;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace JCU.Internal.ViewModel
@@ -17,6 +13,7 @@ namespace JCU.Internal.ViewModel
         private Visibility _busyVisibility = Visibility.Collapsed;
         private ObservableCollection<LoanApplicationCommentVM> _comments = new ObservableCollection<LoanApplicationCommentVM>();
         private string _newCommentText;
+        private bool _newCommentIsPublic = false;
         private CreateLoanApplicationComment _createComment;
 
         private LoanApplicationVM(LoanApplication loanApplication)
@@ -36,6 +33,19 @@ namespace JCU.Internal.ViewModel
                 if (_createComment != value)
                 {
                     _createComment = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+        public bool NewCommentIsPublic
+        {
+            get => _newCommentIsPublic;
+            set
+            {
+                if (_newCommentIsPublic != value)
+                {
+                    _newCommentIsPublic = value;
                     NotifyPropertyChanged();
                 }
             }

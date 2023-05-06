@@ -63,6 +63,7 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <Label Grid.Column="0" Grid.Row="0">Application Date</Label>
                 <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding ApplicationDate, StringFormat='yyyy-MM-dd', ValidatesOnDataErrors=True, NotifyOnValidationError=True}" MaxLength="10" Style="{StaticResource TextBoxWithError}" />
@@ -148,7 +149,8 @@
                 </ItemsControl>
                 <Label Grid.Column="0" Grid.Row="34">Add Comment</Label>
                 <TextBox Grid.Column="1" Grid.Row="34" Text="{Binding NewCommentText, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" AcceptsReturn="True" MinHeight="40" MaxLength="1024" Style="{StaticResource TextBoxWithError}" />
-                <Button Grid.Column="1" Grid.Row="35" HorizontalAlignment="Left" Padding="2,2" Command="{Binding CreateComment}" CommandParameter="{Binding .}">Add Comment</Button>
+                <CheckBox Grid.Column="1" Grid.Row="35" IsChecked="{Binding NewCommentIsPublic}">Is Public</CheckBox>
+                <Button Grid.Column="1" Grid.Row="36" HorizontalAlignment="Left" Padding="2,2" Margin="0,5" Command="{Binding CreateComment}" CommandParameter="{Binding .}">Add Comment</Button>
             </Grid>
         </DockPanel>
     </ScrollViewer>

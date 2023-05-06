@@ -325,7 +325,7 @@ namespace API.Controllers
         [Authorize(Constants.POLICY_BL_AUTH)]
         [ProducesResponseType(200)]
         [HttpPost("{id}/Comment")]
-        public async Task<IActionResult> AppendComment([FromRoute] Guid? id, [FromBody] LoanApplicationComment comment)
+        public async Task<IActionResult> AppendComment([FromRoute] Guid? id, [FromBody] LoanApplicationComment comment, [FromQuery] bool isPublic = false)
         {
             DateTime start = DateTime.UtcNow;
             IActionResult result = null;
@@ -346,7 +346,10 @@ namespace API.Controllers
                 if (result == null && innerLoanApplication != null)
                 {
                     Guid? userId = await GetCurrentUserId();
-                    ILoanApplicationComment innerComment = innerLoanApplication.CreateComment(comment.Text, userId.Value, IsInternalComment());
+                    bool isInternal = !isPublic;
+                    if (!isPublic)
+                        isInternal = IsInternalComment();
+                    ILoanApplicationComment innerComment = innerLoanApplication.CreateComment(comment.Text, userId.Value, isInternal);
                     await innerComment.Create(settings);
                     IMapper mapper = MapperConfiguration.CreateMapper();
                     result = Ok(

@@ -35,10 +35,14 @@ export class LoanApplicationService {
     );
   }
 
-  AppendComment(id: string, comment: LoanApplicationComment) : Observable<any> {
+  AppendComment(id: string, comment: LoanApplicationComment, isPublic: boolean = true) : Observable<any> {
+    let params: HttpParams = new HttpParams();
+    if (isPublic) {
+      params = params.append("isPublic", "true")
+    }
     return this.httpClientUtil.CreateAuthHeader(this.tokenService).pipe(
       mergeMap((httpHeaders: HttpHeaders) => {
-        return this.httpClient.post(`${this.httpClientUtil.GetApiBaseAddress()}LoanApplication/${id}/Comment`, comment, {headers: httpHeaders})
+        return this.httpClient.post(`${this.httpClientUtil.GetApiBaseAddress()}LoanApplication/${id}/Comment`, comment, {headers: httpHeaders, params: params})
       })
     );
   }
