@@ -36,9 +36,11 @@ namespace JCU.Internal.Behaviors
             using(ILifetimeScope scope = DependencyInjection.ContainerFactory.Container.BeginLifetimeScope())
             {
                 workTaskVM.WorkTaskStatusVM = workTaskVM?.WorkTaskTypeMV?.WorkTaskStatusesVM?.SelectedItem;
+                WorkTask workTask = workTaskVM.InnerWorkTask;
+                workTask.WorkTaskStatus = workTaskVM.WorkTaskStatusVM.InnerWorkTaskStatus;
                 ISettingsFactory settingsFactory = scope.Resolve<ISettingsFactory>();
                 IWorkTaskService workTaskService = scope.Resolve<IWorkTaskService>();
-                return workTaskService.Update(settingsFactory.CreateApi(), workTaskVM.InnerWorkTask).Result;
+                return workTaskService.Update(settingsFactory.CreateApi(), workTask).Result;
             }
         }
 
