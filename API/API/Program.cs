@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 
 namespace API
@@ -22,9 +23,12 @@ namespace API
 
             // Add services to the container.
             builder.Services.Configure<Settings>(builder.Configuration);
-
+                        
             builder.Services.AddLogging(b =>
             {
+#if !DEBUG
+                b.ClearProviders();
+#endif
                 Settings settings = new Settings();
                 builder.Configuration.Bind(settings);
                 if (settings.LogDomainId.HasValue && !string.IsNullOrEmpty(settings.BrassLoonLogApiBaseAddress) && settings.BrassLoonLogClientId.HasValue)
