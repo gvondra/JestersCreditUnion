@@ -13,7 +13,8 @@ namespace JestersCreditUnion.Framework.Constants
     {
         public static readonly List<(string, Type)> Map = new List<(string, Type)>
         {
-            ("loan-application-status", typeof(LoanApplicationStatus))
+            ("loan-application-status", typeof(LoanApplicationStatus)),
+            ("loan-app-denial-reason", typeof(LoanApplicationDenialReason))
         };
     }
 }

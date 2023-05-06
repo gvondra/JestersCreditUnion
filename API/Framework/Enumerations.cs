@@ -14,4 +14,13 @@
         Unset = 0,
         LoanApplicationId = 1
     }
+
+    public enum LoanApplicationDenialReason : short
+    {
+        Other = 0,
+        Unemployed = 1,
+        ExistingDebt = 2,
+        Income = 3,
+        Residency = 4
+    }
 }

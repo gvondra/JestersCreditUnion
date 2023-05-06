@@ -69,6 +69,8 @@ namespace JestersCreditUnion.Data.Models
 		public decimal? RentPayment { get; set; }
         [BsonIgnoreIfNull]
         public List<LoanApplicationCommentData> Comments { get; set; }
+        [BsonIgnoreIfNull()]
+        public LoanApplicationDenialData Denial { get; set; }
 		[BsonDateTimeOptions(Kind = DateTimeKind.Utc)] public DateTime CreateTimestamp { get; set; }
 		[BsonDateTimeOptions(Kind = DateTimeKind.Utc)] public DateTime UpdateTimestamp { get; set; }
 	}
