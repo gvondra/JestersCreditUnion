@@ -1,15 +1,12 @@
 ﻿using BrassLoon.Interface.WorkTask.Models;
 using JestersCreditUnion.Framework;
-using JestersCreditUnion.Framework.Constants;
 using JestersCreditUnion.Framework.Enumerations;
 using Polly;
 using Polly.Retry;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using ConfigAPI = BrassLoon.Interface.Config;
 using WorkTaskAPI = BrassLoon.Interface.WorkTask;
 
 namespace JestersCreditUnion.Core
@@ -17,22 +14,22 @@ namespace JestersCreditUnion.Core
     public class LoanApplicationSaver : ILoanApplicationSaver
     {
         private readonly SettingsFactory _settingsFactory;
-        private readonly ConfigAPI.IItemService _itemService;
         private readonly WorkTaskAPI.IWorkTaskService _workTaskService;
         private readonly WorkTaskAPI.IWorkTaskTypeService _workTaskTypeService;
         private readonly WorkTaskAPI.IWorkTaskStatusService _workTaskStatusService;
+        private readonly WorkTaskTypeCodeLookup _workTaskTypeCodeLookup;
 
         public LoanApplicationSaver(SettingsFactory settingsFactory, 
-            ConfigAPI.IItemService itemService,
             WorkTaskAPI.IWorkTaskService workTaskService,
             WorkTaskAPI.IWorkTaskTypeService workTaskTypeService,
-            WorkTaskAPI.IWorkTaskStatusService workTaskStatusService)
+            WorkTaskAPI.IWorkTaskStatusService workTaskStatusService,
+            WorkTaskTypeCodeLookup workTaskTypeCodeLookup)
         {
             _settingsFactory = settingsFactory;
-            _itemService = itemService;
             _workTaskService = workTaskService;
             _workTaskTypeService = workTaskTypeService;
             _workTaskStatusService = workTaskStatusService;
+            _workTaskTypeCodeLookup = workTaskTypeCodeLookup;
         }
 
         public async Task Create(ISettings settings, ILoanApplication loanApplication)
@@ -40,7 +37,7 @@ namespace JestersCreditUnion.Core
             WorkTaskSettings workTaskSettings = _settingsFactory.CreateWorkTask(settings);
             WorkTaskType workTaskType = null;
             WorkTaskStatus workTaskStatus = null;
-            string taskTypeCode = await GetNewLoanApplicationWorkTaskTypeCode(settings);
+            string taskTypeCode = await _workTaskTypeCodeLookup.GetNewLoanApplicationWorkTaskTypeCode(settings);
             if (!string.IsNullOrEmpty(taskTypeCode))
             {
                 workTaskType = await _workTaskTypeService.GetByCode(workTaskSettings, settings.WorkTaskDomainId.Value, taskTypeCode);                
@@ -60,10 +57,42 @@ namespace JestersCreditUnion.Core
             if (workTaskType != null && workTaskStatus != null)
             {
                 AsyncRetryPolicy retry = Policy.Handle<Exception>()
-                    .WaitAndRetryAsync(new TimeSpan[] { TimeSpan.FromSeconds(0.5), TimeSpan.FromSeconds(0.66) });
+                    .WaitAndRetryAsync(new TimeSpan[] { TimeSpan.FromSeconds(0.5), TimeSpan.FromSeconds(0.667) });
                 await retry.ExecuteAsync(
                     () => CreateNewLoanApplicationWorkTask(settings, workTaskType, workTaskStatus, loanApplication.LoanApplicationId)
                     );
+            }
+        }
+
+        public async Task Deny(ISettings settings, ILoanApplication loanApplication)
+        {
+            ILoanApplicationDenial denial = loanApplication.Denial;
+            if (denial != null)
+            {
+                WorkTaskSettings workTaskSettings = _settingsFactory.CreateWorkTask(settings);
+                WorkTaskType workTaskType = null;
+                WorkTaskStatus workTaskStatus = null;
+                string taskTypeCode = await _workTaskTypeCodeLookup.GetSendDeinalCorrespondenceWorkTaskTypeCode(settings);
+                if (!string.IsNullOrEmpty(taskTypeCode))
+                {
+                    workTaskType = await _workTaskTypeService.GetByCode(workTaskSettings, settings.WorkTaskDomainId.Value, taskTypeCode);
+                }
+                if (workTaskType?.WorkTaskTypeId.HasValue ?? false)
+                {
+                    workTaskStatus = (await _workTaskStatusService.GetAll(workTaskSettings, settings.WorkTaskDomainId.Value, workTaskType.WorkTaskTypeId.Value))
+                        .FirstOrDefault(s => s.IsDefaultStatus ?? false);
+                }
+
+                await denial.Save(settings, loanApplication.LoanApplicationId, loanApplication.Status);
+
+                if (workTaskType != null && workTaskStatus != null)
+                {
+                    AsyncRetryPolicy retry = Policy.Handle<Exception>()
+                        .WaitAndRetryAsync(new TimeSpan[] { TimeSpan.FromSeconds(0.5), TimeSpan.FromSeconds(0.667) });
+                    await retry.ExecuteAsync(
+                        () => CreateSendDenialCorrespondenceWorkTask(settings, workTaskType, workTaskStatus, loanApplication.LoanApplicationId)
+                        );
+                }
             }
         }
 
@@ -94,14 +123,31 @@ namespace JestersCreditUnion.Core
             await _workTaskService.Create(workTaskSettings, workTask);
         }
 
-        private async Task<string> GetNewLoanApplicationWorkTaskTypeCode(ISettings settings)
+        private async Task CreateSendDenialCorrespondenceWorkTask(
+            ISettings settings,
+            WorkTaskType workTaskType,
+            WorkTaskStatus workTaskStatus,
+            Guid loanApplicationId)
         {
-            string result = string.Empty;
-            ConfigurationSettings configurationSettings = _settingsFactory.CreateConfiguration(settings);
-            dynamic configData = await _itemService.GetDataByCode(configurationSettings, settings.ConfigDomainId.Value, settings.WorkTaskConfigurationCode);
-            if (configData != null)
-                result = configData[WorkTaskConfigurationFields.NewLoanApplicationTaskTypeCode] ?? string.Empty;
-            return result;
+            WorkTaskSettings workTaskSettings = _settingsFactory.CreateWorkTask(settings);
+            WorkTask workTask = new WorkTask
+            {
+                DomainId = settings.WorkTaskDomainId,
+                Text = "Send denial correspondence",
+                Title = "Send denial correspondence",
+                WorkTaskType = workTaskType,
+                WorkTaskStatus = workTaskStatus,
+                WorkTaskContexts = new List<WorkTaskContext>
+                {
+                    new WorkTaskContext
+                    {
+                        DomainId= settings.WorkTaskDomainId,
+                        ReferenceType = (short)WorkTaskContextReferenceType.LoanApplicationId,
+                        ReferenceValue = loanApplicationId.ToString("D")
+                    }
+                }
+            };
+            await _workTaskService.Create(workTaskSettings, workTask);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using JCU.Internal.ViewModel;
 using JestersCreditUnion.Interface;
+using JestersCreditUnion.Interface.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,9 +25,14 @@ namespace JCU.Internal.NavigationPage
     /// </summary>
     public partial class LoanApplication : Page
     {
+        private Guid? _loanApplicationId;
+
         public LoanApplication()
         {
+            NavigationCommands.BrowseBack.InputGestures.Clear();
+            NavigationCommands.BrowseForward.InputGestures.Clear();
             InitializeComponent();
+            this.Loaded += LoanApplication_Loaded;
         }
 
         public LoanApplication(Guid loanApplicationId)
@@ -34,11 +40,19 @@ namespace JCU.Internal.NavigationPage
         {
             this.DataContext = null;
             this.LoanApplicationVM = null;
-            Task.Run(() => Load(loanApplicationId))
-                .ContinueWith(LoadCallback, loanApplicationId, TaskScheduler.FromCurrentSynchronizationContext());
+            _loanApplicationId = loanApplicationId;
         }
 
         LoanApplicationVM LoanApplicationVM { get; set; }
+
+        private void LoanApplication_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (_loanApplicationId.HasValue)
+            {
+                Task.Run(() => Load(_loanApplicationId.Value))
+                    .ContinueWith(LoadCallback, _loanApplicationId.Value, TaskScheduler.FromCurrentSynchronizationContext());
+            }
+        }
 
         private Models.LoanApplication Load(Guid loanApplicationId)
         {
@@ -58,6 +72,21 @@ namespace JCU.Internal.NavigationPage
                 this.LoanApplicationVM = LoanApplicationVM.Create(loanApplication);
                 this.DataContext = this.LoanApplicationVM;
                 this.LoanApplicationVM.BusyVisibility = Visibility.Collapsed;
+                this.LoanApplicationVM.CommandsVisibility = Visibility.Visible;
+            }
+            catch (System.Exception ex)
+            {
+                ErrorWindow.Open(ex, Window.GetWindow(this));
+            }
+        }
+
+        private void DenyHyperlink_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                NavigationService navigationService = NavigationService.GetNavigationService(this);
+                LoanApplicationDenial loanApplicationDenial = new LoanApplicationDenial(LoanApplicationDenialVM.Create(this.LoanApplicationVM.InnerLoanApplication));
+                navigationService.Navigate(loanApplicationDenial);
             }
             catch (System.Exception ex)
             {

@@ -51,7 +51,20 @@ namespace JCU.Internal.ViewModel
                     _innerConfiguration.NewLoanApplicationTaskTypeCode = value;
                     NotifyPropertyChanged();
                 }
-            } 
+            }
+        }
+
+        public string SendDenialCorrespondenceTaskTypeCode
+        {
+            get => _innerConfiguration.SendDenialCorrespondenceTaskTypeCode ?? string.Empty;
+            set
+            {
+                if (_innerConfiguration.SendDenialCorrespondenceTaskTypeCode == null || _innerConfiguration.NewLoanApplicationTaskTypeCode != value)
+                {
+                    _innerConfiguration.SendDenialCorrespondenceTaskTypeCode = value;
+                    NotifyPropertyChanged();
+                }
+            }
         }
 
         public static WorkTaskConfigurationVM Create(WorkTaskConfiguration workTaskConfiguration, ISettingsFactory settingsFactory, IWorkTaskConfigurationService configService)

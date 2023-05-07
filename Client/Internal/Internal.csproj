@@ -46,8 +46,8 @@
     <Reference Include="FontAwesome.WPF, Version=4.7.0.37774, Culture=neutral, PublicKeyToken=0758b07a11a4f466, processorArchitecture=MSIL">
       <HintPath>packages\FontAwesome.WPF.4.7.0.9\lib\net40\FontAwesome.WPF.dll</HintPath>
     </Reference>
-    <Reference Include="JestersCreditUnion.Interface, Version=1.0.0.40, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\JestersCreditUnion.Interface.1.0.0-alpha.40\lib\net48\JestersCreditUnion.Interface.dll</HintPath>
+    <Reference Include="JestersCreditUnion.Interface, Version=1.0.0.43, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\JestersCreditUnion.Interface.1.0.0-alpha.43\lib\net48\JestersCreditUnion.Interface.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Bcl.AsyncInterfaces.6.0.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
@@ -152,6 +152,9 @@
     <Compile Include="Behaviors\ExceptionLogLoader.cs" />
     <Compile Include="Behaviors\FindUserLoader.cs" />
     <Compile Include="Behaviors\FindUserSaver.cs" />
+    <Compile Include="Behaviors\LoanApplicationDenialLoader.cs" />
+    <Compile Include="Behaviors\LoanApplicationDenialSave.cs" />
+    <Compile Include="Behaviors\LoanApplicationDenialValidator.cs" />
     <Compile Include="Behaviors\LoanApplicationUnderReview.cs" />
     <Compile Include="Behaviors\LoanApplicationValidator.cs" />
     <Compile Include="Behaviors\LookupDelete.cs" />
@@ -218,6 +221,9 @@
     <Compile Include="NavigationPage\LoanApplication.xaml.cs">
       <DependentUpon>LoanApplication.xaml</DependentUpon>
     </Compile>
+    <Compile Include="NavigationPage\LoanApplicationDenial.xaml.cs">
+      <DependentUpon>LoanApplicationDenial.xaml</DependentUpon>
+    </Compile>
     <Compile Include="NavigationPage\Log\ErrorLog.xaml.cs">
       <DependentUpon>ErrorLog.xaml</DependentUpon>
     </Compile>
@@ -268,6 +274,7 @@
     <Compile Include="ViewModel\FindUserVM.cs" />
     <Compile Include="ViewModel\HomeVM.cs" />
     <Compile Include="ViewModel\LoanApplicationCommentVM.cs" />
+    <Compile Include="ViewModel\LoanApplicationDenialVM.cs" />
     <Compile Include="ViewModel\LoanApplicationVM.cs" />
     <Compile Include="ViewModel\LookupsVM.cs" />
     <Compile Include="ViewModel\LookupVM.cs" />
@@ -345,6 +352,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="NavigationPage\LoanApplication.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NavigationPage\LoanApplicationDenial.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

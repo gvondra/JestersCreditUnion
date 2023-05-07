@@ -9,5 +9,6 @@ namespace JestersCreditUnion.Data
         Task Create(IDataSettings settings, LoanApplicationData data);
         Task Update(IDataSettings settings, LoanApplicationData data);
         Task AppendComment(IDataSettings settings, Guid id, LoanApplicationCommentData data);
+        Task SetDenial(IDataSettings settings, Guid id, short loanApplicationStatus, LoanApplicationDenialData denial);
     }
 }

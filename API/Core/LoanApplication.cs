@@ -22,6 +22,7 @@ namespace JestersCreditUnion.Core
         private IPhone _borrowerPhone = null;
         private IPhone _coborrowerPhone = null;
         private List<ILoanApplicationComment> _comments = null;
+        private ILoanApplicationDenial _loanApplicationDenial = null;
 
         public LoanApplication(LoanApplicationData data, 
             ILoanApplicationDataSaver dataSaver, 
@@ -68,6 +69,16 @@ namespace JestersCreditUnion.Core
         public DateTime ApplicationDate => _data.ApplicationDate;
 
         public List<ILoanApplicationComment> Comments => _comments;
+
+        public ILoanApplicationDenial Denial 
+        { 
+            get
+            {
+                if (_loanApplicationDenial == null && _data.Denial != null)
+                    _loanApplicationDenial = new LoanApplicationDenial(_data.Denial, _dataSaver, _lookupFactory);
+                return _loanApplicationDenial;
+            }
+        }
 
         public Task Create(ISettings settings) => _dataSaver.Create(new DataSettings(settings), _data);
 
@@ -158,6 +169,20 @@ namespace JestersCreditUnion.Core
                     .ToList();
             else
                 return new List<ILoanApplicationComment>();
+        }
+
+        public void SetDenial(LoanApplicationDenialReason reason, DateTime date, Guid userId, string text)
+        {
+            _loanApplicationDenial = null;
+            _data.Denial = new LoanApplicationDenialData
+            {
+                Date = date,
+                UserId = userId,
+                Text = text,
+                Reason = (short)reason
+            };
+            if (!string.IsNullOrEmpty(text)) 
+                Status = LoanApplicationStatus.Denied;
         }
     }
 }

@@ -11,6 +11,7 @@ namespace JCU.Internal.ViewModel
     {
         private readonly LoanApplication _loanApplication;
         private Visibility _busyVisibility = Visibility.Collapsed;
+        private Visibility _commandsVisibility = Visibility.Hidden;
         private ObservableCollection<LoanApplicationCommentVM> _comments = new ObservableCollection<LoanApplicationCommentVM>();
         private string _newCommentText;
         private bool _newCommentIsPublic = false;
@@ -75,6 +76,19 @@ namespace JCU.Internal.ViewModel
                 if (_newCommentText != value)
                 {
                     _newCommentText = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+        public Visibility CommandsVisibility
+        {
+            get => _commandsVisibility;
+            set
+            {
+                if (_commandsVisibility != value)
+                {
+                    _commandsVisibility = value;
                     NotifyPropertyChanged();
                 }
             }

@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using BrassLoon.Interface.WorkTask.Models;
 using JestersCreditUnion.CommonAPI;
 using JestersCreditUnion.Framework;
+using JestersCreditUnion.Framework.Enumerations;
 using JestersCreditUnion.Interface.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -211,6 +213,13 @@ namespace API.Controllers
             
             await MapComments(mapper, innerLoanApplication, loanApplication);
 
+            if (loanApplication.Denial != null && loanApplication.Denial.UserId.HasValue)
+                loanApplication.Denial.UserName = await _userService.GetName(GetAuthorizationSettings(), _settings.Value.AuthorizationDomainId.Value, loanApplication.Denial.UserId.Value);
+            if (loanApplication.Denial != null)
+            {
+                loanApplication.Denial.ReasonDescription = await innerLoanApplication.Denial.GetReasonDescription(settings);
+            }
+
             return loanApplication;
         }
 
@@ -373,7 +382,7 @@ namespace API.Controllers
             return result;
         }
 
-        [Authorize(Constants.POLICY_BL_AUTH)]
+        [Authorize(Constants.POLICY_LOAN_APPLICATION_EDIT)]
         [ProducesResponseType(typeof(LoanApplication), 200)]
         [HttpPut("{id}")]
         public async Task<IActionResult> Update([FromRoute] Guid? id, [FromBody] LoanApplication loanApplication)
@@ -410,6 +419,48 @@ namespace API.Controllers
             finally
             {
                 await WriteMetrics("update-loan-application", start, result);
+            }
+            return result;
+        }
+
+        [Authorize(Constants.POLICY_LOAN_APPLICATION_EDIT)]
+        [ProducesResponseType(200)]
+        [HttpPut("{id}/Denial")]
+        public async Task<IActionResult> Deny([FromRoute] Guid? id, [FromBody] LoanApplicationDenial denial)
+        {
+            DateTime start = DateTime.UtcNow;
+            IActionResult result = null;
+            try
+            {
+                CoreSettings settings = GetCoreSettings();
+                ILoanApplication innerLoanApplication = null;
+                if (result == null && (!id.HasValue || id.Value.Equals(Guid.Empty)))
+                    result = BadRequest("Missing id parameter value");
+                if (result == null && denial == null)
+                    result = BadRequest("Missing loan application denail details");
+                if (result == null && string.IsNullOrEmpty(denial.Text))
+                    result = BadRequest("Missing denial text");
+                if (result == null)
+                {
+                    innerLoanApplication = await _loanApplicationFactory.Get(settings, id.Value);
+                    if (innerLoanApplication == null)
+                        result = NotFound();
+                }
+                if (result == null && innerLoanApplication != null)
+                {
+                    innerLoanApplication.SetDenial((LoanApplicationDenialReason)denial.Reason, denial.Date ?? DateTime.Today, (await GetCurrentUserId()).Value, denial.Text);                    
+                    await _loanApplicationSaver.Deny(settings, innerLoanApplication);
+                    result = Ok();
+                }
+            }
+            catch (System.Exception ex)
+            {
+                WriteException(ex);
+                result = StatusCode(StatusCodes.Status500InternalServerError);
+            }
+            finally
+            {
+                await WriteMetrics("deny-loan-application", start, result);
             }
             return result;
         }

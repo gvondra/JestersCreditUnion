@@ -25,6 +25,8 @@ namespace API
                 .ForMember(la => la.Comments, exp => exp.Ignore()); // prevent incoming comments from overwriting saved comments
             exp.CreateMap<ILoanApplicationComment, LoanApplicationComment>();
             exp.CreateMap<LoanApplicationComment, ILoanApplicationComment>();
+            exp.CreateMap<ILoanApplicationDenial, LoanApplicationDenial>();
+            exp.CreateMap<LoanApplicationDenial, ILoanApplicationDenial>();
             exp.CreateMap<IAddress, Address>();
             exp.CreateMap<ILookup, Lookup>();
 

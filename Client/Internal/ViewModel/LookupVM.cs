@@ -20,6 +20,10 @@ namespace JCU.Internal.ViewModel
             _lookupVM = lookupVM;
         }
 
+        private LookupVM(Lookup lookup)
+            : this(lookup, null)
+        {}
+
         public LookupsVM LookupsVM => _lookupVM;
 
         public string Code => _lookup.Code;
@@ -81,6 +85,16 @@ namespace JCU.Internal.ViewModel
             vm.ValueAdd = new LookupValueAdd();
             vm.Save = new LookupSave();
             vm.Delete = new LookupDelete();
+            foreach (KeyValuePair<string, string> pair in vm.Data)
+            {
+                vm.Items.Add(new Item(pair.Key, pair.Value));
+            }
+            return vm;
+        }
+
+        public static LookupVM Create(Lookup lookup)
+        {
+            LookupVM vm = new LookupVM(lookup);
             foreach (KeyValuePair<string, string> pair in vm.Data)
             {
                 vm.Items.Add(new Item(pair.Key, pair.Value));

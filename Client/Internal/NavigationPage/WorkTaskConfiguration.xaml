@@ -49,9 +49,12 @@
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
                 <Label Grid.Column="0" Grid.Row="0">New Loan Application Task Type Code</Label>
                 <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding NewLoanApplicationTaskTypeCode, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" MaxLength="512" Style="{StaticResource TextBoxWithError}" />
+                <Label Grid.Column="0" Grid.Row="1">Send Denial Correspondence Task Type Code</Label>
+                <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding SendDenialCorrespondenceTaskTypeCode, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" MaxLength="512" Style="{StaticResource TextBoxWithError}" />
             </Grid>
         </DockPanel>
     </ScrollViewer>

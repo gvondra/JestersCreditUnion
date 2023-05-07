@@ -46,6 +46,7 @@ namespace API.Controllers
                     if (data != null)
                     {
                         workTaskConfiguration.NewLoanApplicationTaskTypeCode = data[WorkTaskConfigurationFields.NewLoanApplicationTaskTypeCode] ?? string.Empty;
+                        workTaskConfiguration.SendDenialCorrespondenceTaskTypeCode = data[WorkTaskConfigurationFields.SendDenialCorrespondenceTaskTypeCode] ?? string.Empty;
                     }
                     result = Ok(workTaskConfiguration);
                 }

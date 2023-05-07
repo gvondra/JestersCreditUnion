@@ -28,6 +28,21 @@ namespace JestersCreditUnion.Data.Internal
             ;
         }
 
+        public async Task SetDenial(IDataSettings settings, Guid id, short loanApplicationStatus, LoanApplicationDenialData denial)
+        {
+            FilterDefinition<LoanApplicationData> filter = Builders<LoanApplicationData>.Filter
+                .Eq(la => la.LoanApplicationId, id)
+                ;
+            UpdateDefinition<LoanApplicationData> update = Builders<LoanApplicationData>.Update
+                .Set(la => la.UpdateTimestamp, DateTime.UtcNow)
+                .Set(la => la.Status, loanApplicationStatus)
+                .Set(la => la.Denial, denial);
+            await (await _mongoClientFactory.GetDatabase(settings))
+                .GetCollection<LoanApplicationData>(Constants.CollectionName.LoanApplication)
+                .UpdateOneAsync(filter, update);
+            ;
+        }
+
         public async Task Create(IDataSettings settings, LoanApplicationData data)
         {
             data.CreateTimestamp = DateTime.UtcNow;

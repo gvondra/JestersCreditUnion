@@ -1,0 +1,44 @@
+﻿<Page x:Class="JCU.Internal.NavigationPage.LoanApplicationDenial"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:JCU.Internal.NavigationPage"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="JCU: Loan Application Denial" Style="{StaticResource DefaultPageStyle}">
+
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Top" Orientation="Vertical" >
+            <TextBlock>
+                <Hyperlink Command="NavigationCommands.BrowseBack">back</Hyperlink>
+            </TextBlock>
+            <TextBlock Style="{StaticResource PageTitle}">Loan Application: Denial</TextBlock>
+        </StackPanel>
+        <StackPanel DockPanel.Dock="Bottom" Margin="5,0" Orientation="Horizontal">
+            <Button Style="{StaticResource SaveButtonStyle}" Command="{Binding Save}" CommandParameter="{Binding .}" />
+        </StackPanel>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Column="0" Grid.Row="0">Current Loan Application Status</Label>
+            <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding StatusDescription, Mode=OneWay}" IsReadOnly="True" BorderBrush="{x:Null}" BorderThickness="0" />
+            <Label Grid.Column="0" Grid.Row="1">Date</Label>
+            <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Date, StringFormat='yyyy-MM-dd', Mode=OneWay}" IsReadOnly="True" BorderBrush="{x:Null}" BorderThickness="0" />
+            <Label Grid.Column="0" Grid.Row="2">User</Label>
+            <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding UserName, Mode=OneWay}" IsReadOnly="True" BorderBrush="{x:Null}" BorderThickness="0" />
+            <Label Grid.Column="0" Grid.Row="3">Reason</Label>
+            <ComboBox Grid.Column="1" Grid.Row="3" ItemsSource="{Binding ReasonLookup.Items}" DisplayMemberPath="Value" SelectedValuePath="Key" SelectedValue="{Binding Reason}" HorizontalAlignment="Left" MinWidth="100" />
+            <TextBox Grid.Column="1" Grid.Row="4" Text="{Binding Text, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" Style="{StaticResource TextBoxWithError}" AcceptsReturn="True" MinHeight="40" />
+        </Grid>
+    </DockPanel>
+</Page>
