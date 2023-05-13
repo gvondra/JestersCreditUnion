@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace JestersCreditUnion.Data.Internal
 {
-    public class LoanApplicationDataFactory : ILoanApplicationDataFactory
+    public class LoanApplicationDataFactory : BaseDataFactory, ILoanApplicationDataFactory
     {
         private readonly IMongoClientFactory _mongoClientFactory;
 
         public LoanApplicationDataFactory(IMongoClientFactory mongoClientFactory)
+            : base(mongoClientFactory)
         {
             _mongoClientFactory = mongoClientFactory;
         }
@@ -20,8 +21,7 @@ namespace JestersCreditUnion.Data.Internal
             FilterDefinition<LoanApplicationData> filter = Builders<LoanApplicationData>.Filter
                 .Eq(a => a.LoanApplicationId, id)
                 ;
-            return (await(await _mongoClientFactory.GetDatabase(settings))
-                .GetCollection<LoanApplicationData>(Constants.CollectionName.LoanApplication)
+            return (await (await GetCollection<LoanApplicationData>(settings, Constants.CollectionName.LoanApplication))
                 .FindAsync(filter))
                 .FirstOrDefault()
                 ;
@@ -35,8 +35,7 @@ namespace JestersCreditUnion.Data.Internal
                 Sort = sort
             };
             
-            return (await (await _mongoClientFactory.GetDatabase(settings))
-                .GetCollection<LoanApplicationData>(Constants.CollectionName.LoanApplication)
+            return (await (await GetCollection<LoanApplicationData>(settings, Constants.CollectionName.LoanApplication))
                 .FindAsync(Builders<LoanApplicationData>.Filter.Empty, findOptions))                
                 .ToList();
         }
@@ -46,8 +45,7 @@ namespace JestersCreditUnion.Data.Internal
             FilterDefinition<LoanApplicationData> filter = Builders<LoanApplicationData>.Filter
                 .Eq(a => a.UserId, userId)
                 ;
-            return (await (await _mongoClientFactory.GetDatabase(settings))
-                .GetCollection<LoanApplicationData>(Constants.CollectionName.LoanApplication)
+            return (await (await GetCollection<LoanApplicationData>(settings, Constants.CollectionName.LoanApplication))
                 .FindAsync(filter))
                 .ToList();
         }

@@ -15,6 +15,8 @@ namespace JestersCreditUnion.Data
             builder.RegisterType<EmailAddressDataSaver>().As<IEmailAddressDataSaver>();
             builder.RegisterType<LoanApplicationDataFactory>().As<ILoanApplicationDataFactory>();
             builder.RegisterType<LoanApplicationDataSaver>().As<ILoanApplicationDataSaver>();
+            builder.RegisterType<LoanDataFactory>().As<ILoanDataFactory>();
+            builder.RegisterType<LoanDataSaver>().As<ILoanDataSaver>();
             builder.RegisterType<PhoneDataFactory>().As<IPhoneDataFactory>();
             builder.RegisterType<PhoneDataSaver>().As<IPhoneDataSaver>();
         }

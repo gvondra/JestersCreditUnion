@@ -9,6 +9,16 @@
         NoDecision = 4
     }
 
+    public enum LoanAgrementStatus : short
+    {
+        Unset = 0,
+        New = 1,
+        PendingSignoff = 2,
+        Agreed = 3,
+        Rejected = 4,
+        Abandonded = 5
+    }
+
     public enum WorkTaskContextReferenceType : short
     {
         Unset = 0,
