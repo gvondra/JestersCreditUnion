@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace JestersCreditUnion.Framework
 {
@@ -11,5 +12,7 @@ namespace JestersCreditUnion.Framework
         public DateTime? InitialDisbursementDate { get; set; }
         public DateTime CreateTimestamp { get; }
         public DateTime UpdateTimestamp { get; }
+
+        Task Create(ISettings settings);
     }
 }

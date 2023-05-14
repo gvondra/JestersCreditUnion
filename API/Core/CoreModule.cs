@@ -19,6 +19,7 @@ namespace JestersCreditUnion.Core
             builder.RegisterType<LoanFactory>()
                 .As<ILoanFactory>()
                 .PropertiesAutowired();
+            builder.RegisterType<LoanNumberGenerator>().InstancePerLifetimeScope();
             builder.RegisterType<LookupFactory>().As<ILookupFactory>();
             builder.RegisterType<PhoneFactory>().As<IPhoneFactory>();
             builder.RegisterType<WorkTaskTypeCodeLookup>().InstancePerLifetimeScope();

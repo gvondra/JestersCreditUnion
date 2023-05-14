@@ -1,4 +1,6 @@
-﻿namespace JestersCreditUnion.Framework
+﻿using System.Threading.Tasks;
+
+namespace JestersCreditUnion.Framework
 {
     public interface ILoanFactory
     {
@@ -7,5 +9,6 @@
         IPhoneFactory PhoneFactory { get; set; }
 
         ILoan Create(ILoanApplication loanApplication);
+        Task<ILoan> GetByNumber(ISettings settings, string number);
     }
 }
