@@ -29,8 +29,14 @@ namespace JestersCreditUnion.Core
         {
             get
             {
-                if (_agreement == null && _data.Agreement != null) 
+                if (_agreement == null)
+                {
+                    if (_data.Agreement == null)
+                    {
+                        _data.Agreement = new LoanAgreementData();
+                    }
                     _agreement = new LoanAgreement(_data.Agreement);
+                }
                 return _agreement;
             }
         }

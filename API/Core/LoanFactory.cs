@@ -34,20 +34,10 @@ namespace JestersCreditUnion.Core
                 {
                     LoanId = Guid.NewGuid(),
                     Number = _numberGenerator.Generate(),
+                    LoanApplicationId = loanApplication.LoanApplicationId,
                     Agreement = new LoanAgreementData
                     {
-                        AgreementDate = DateTime.Today,
-                        BorrowerAddressId = loanApplication.BorrowerAddressId,
-                        BorrowerBirthDate = loanApplication.BorrowerBirthDate,
-                        BorrowerEmailAddressId = loanApplication.BorrowerEmailAddressId,
-                        BorrowerName = loanApplication.BorrowerName,
-                        BorrowerPhoneId = loanApplication.BorrowerPhoneId,
-                        CoBorrowerAddressId = loanApplication.CoBorrowerAddressId,
-                        CoBorrowerBirthDate = loanApplication.CoBorrowerBirthDate,
-                        CoBorrowerEmailAddressId = loanApplication.CoBorrowerEmailAddressId,
-                        CoBorrowerName = loanApplication.CoBorrowerName,
-                        CoBorrowerPhoneId = loanApplication.CoBorrowerPhoneId,
-                        OriginalAmount = loanApplication.Amount
+                        CreateDate = DateTime.Today
                     }
                 });
         }
