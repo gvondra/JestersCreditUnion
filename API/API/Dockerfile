@@ -6,6 +6,7 @@ FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 COPY . .
 WORKDIR "/src/API/API" 
+RUN ls
 RUN dotnet nuget add source "/src/NugetPackages" -n "LocalPackages" --configfile "nuget.config"
 RUN dotnet build "API.csproj" -c Release -r linux-x64 --no-self-contained --configfile "nuget.config"
 
