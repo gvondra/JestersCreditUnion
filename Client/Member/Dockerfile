@@ -4,7 +4,6 @@ WORKDIR /usr/src/app
 COPY . .
 RUN npm install
 ARG baseHref=/
-RUN echo $baseHref
 RUN npm run build -- --configuration production --base-href=$baseHref
 
 ### STAGE 2: Run ###
