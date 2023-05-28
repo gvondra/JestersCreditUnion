@@ -33,4 +33,13 @@
         Income = 3,
         Residency = 4
     }
+
+    public enum LoanPaymentFrequency : short
+    {
+        Annual = 1,
+        Semiannual = 2,
+        Monthly = 12,
+        Semimonthly = 24,
+        Fortnightly = 26
+    }
 }
