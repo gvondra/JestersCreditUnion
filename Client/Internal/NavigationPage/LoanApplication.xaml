@@ -24,6 +24,9 @@
                 <TextBlock>
                         <Hyperlink Click="DenyHyperlink_Click">Deny Application</Hyperlink>
                 </TextBlock>
+                <TextBlock>
+                    <Hyperlink Click="ApproveHyperlink_Click">Approve Application / Begin Loan Agreement</Hyperlink>
+                </TextBlock>
             </StackPanel>
         </ScrollViewer>
         <StackPanel DockPanel.Dock="Top" Orientation="Vertical" >

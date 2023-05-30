@@ -93,5 +93,19 @@ namespace JCU.Internal.NavigationPage
                 ErrorWindow.Open(ex, Window.GetWindow(this));
             }
         }
+
+        private void ApproveHyperlink_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                NavigationService navigationService = NavigationService.GetNavigationService(this);
+                BeginLoanAgreement beginLoanAgreement = new BeginLoanAgreement(BeginLoanAgreementVM.Create(this.LoanApplicationVM.InnerLoanApplication));
+                navigationService.Navigate(beginLoanAgreement);
+            }
+            catch (System.Exception ex)
+            {
+                ErrorWindow.Open(ex, Window.GetWindow(this));
+            }
+        }
     }
 }
