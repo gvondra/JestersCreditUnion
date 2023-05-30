@@ -9,14 +9,14 @@ namespace JestersCreditUnion.Interface.Models
         public DateTime? AgreementDate { get; set; }
         public string BorrowerName { get; set; }
         public DateTime? BorrowerBirthDate { get; set; }
-        public Guid? BorrowerAddressId { get; set; }
-        public Guid? BorrowerEmailAddressId { get; set; }
-        public Guid? BorrowerPhoneId { get; set; }
+        public Address BorrowerAddress { get; set; }
+        public string BorrowerEmailAddress { get; set; }
+        public string BorrowerPhone { get; set; }
         public string CoBorrowerName { get; set; }
         public DateTime? CoBorrowerBirthDate { get; set; }
-        public Guid? CoBorrowerAddressId { get; set; }
-        public Guid? CoBorrowerEmailAddressId { get; set; }
-        public Guid? CoBorrowerPhoneId { get; set; }
+        public Address CoBorrowerAddress { get; set; }
+        public string CoBorrowerEmailAddress { get; set; }
+        public string CoBorrowerPhone { get; set; }
         public decimal? OriginalAmount { get; set; }
         public short? OriginalTerm { get; set; }
         public decimal? InterestRate { get; set; }

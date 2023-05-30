@@ -20,17 +20,26 @@ namespace API.Controllers
     {
         private readonly ILoanApplicationFactory _loanApplicationFactory;
         private readonly ILoanFactory _loanFactory;
+        private readonly IAddressFactory _addressFactory;
+        private readonly IEmailAddressFactory _emailAddressFactory;
+        private readonly IPhoneFactory _phoneFactory;
 
         public LoanController(IOptions<Settings> settings,
             ISettingsFactory settingsFactory,
             AuthorizationAPI.IUserService userService,
             ILogger<LoanApplicationController> logger,
             ILoanApplicationFactory loanApplicationFactory,
-            ILoanFactory loanFactory)
+            ILoanFactory loanFactory,
+            IAddressFactory addressFactory,
+            IEmailAddressFactory emailAddressFactory,
+            IPhoneFactory phoneFactory)
             : base(settings, settingsFactory, userService, logger)
         {
             _loanApplicationFactory = loanApplicationFactory;
             _loanFactory = loanFactory;
+            _addressFactory = addressFactory;
+            _emailAddressFactory = emailAddressFactory;
+            _phoneFactory = phoneFactory;
         }
 
         [Authorize(Constants.POLICY_LOAN_CREATE)]
@@ -57,8 +66,7 @@ namespace API.Controllers
                 {
                     ILoan innerLoan = _loanFactory.Create(loanApplication);
                     IMapper mapper = MapperConfiguration.CreateMapper();
-                    mapper.Map(loan, innerLoan);
-                    mapper.Map(loan.Agreement, innerLoan.Agreement);
+                    await MapAgreement(mapper, settings, loan, innerLoan);
                     await innerLoan.Create(settings);
                     result = Ok(mapper.Map<Loan>(innerLoan));
                 }
@@ -73,6 +81,82 @@ namespace API.Controllers
                 await WriteMetrics("create-loan", start, result);
             }
             return result;
+        }
+
+        [NonAction]
+        private async Task MapAgreement(IMapper mapper, CoreSettings settings, Loan loan, ILoan innerLoan)
+        {
+            IAddress borrowerAddress = await GetAddress(settings, loan.Agreement.BorrowerAddress);
+            IAddress coborrowerAddress = await GetAddress(settings, loan.Agreement.CoBorrowerAddress);
+            IEmailAddress borrowerEmailAddress = await GetEmailAddress(settings, loan.Agreement.BorrowerEmailAddress);
+            IEmailAddress coborrowerEmailAddress = await GetEmailAddress(settings, loan.Agreement.CoBorrowerEmailAddress);
+            IPhone borrowerPhone = await GetPhone(settings, loan.Agreement.BorrowerPhone);
+            IPhone coborrowerPhone = await GetPhone(settings, loan.Agreement.CoBorrowerPhone);
+
+            mapper.Map(loan, innerLoan);            
+            mapper.Map(loan.Agreement, innerLoan.Agreement);
+            innerLoan.Agreement.BorrowerAddressId = borrowerAddress?.AddressId;
+            innerLoan.Agreement.CoBorrowerAddressId = coborrowerAddress?.AddressId;
+            innerLoan.Agreement.BorrowerEmailAddressId = borrowerEmailAddress?.EmailAddressId;
+            innerLoan.Agreement.CoBorrowerEmailAddressId = coborrowerEmailAddress?.EmailAddressId;
+            innerLoan.Agreement.BorrowerPhoneId = borrowerPhone?.PhoneId;
+            innerLoan.Agreement.CoBorrowerPhoneId = coborrowerPhone?.PhoneId;
+        }
+
+        [NonAction]
+        private async Task<IPhone> GetPhone(ISettings settings, string number)
+        {
+            IPhone innerPhone = null;
+            if (!string.IsNullOrEmpty(number))
+            {
+                innerPhone = await _phoneFactory.Get(settings, number);
+                if (innerPhone == null)
+                {
+                    innerPhone = _phoneFactory.Create(ref number);
+                    await innerPhone.Create(settings);
+                }
+            }
+            return innerPhone;
+        }
+
+        [NonAction]
+        private async Task<IEmailAddress> GetEmailAddress(ISettings settings, string address)
+        {
+            IEmailAddress innerEmailAddress = null;
+            if (!string.IsNullOrEmpty(address))
+            {
+                innerEmailAddress = await _emailAddressFactory.Get(settings, address);
+                if (innerEmailAddress == null)
+                {
+                    innerEmailAddress = _emailAddressFactory.Create(address);
+                    await innerEmailAddress.Create(settings);
+                }
+
+            }
+            return innerEmailAddress;
+        }
+
+        [NonAction]
+        private async Task<IAddress> GetAddress(ISettings settings, Address address)
+        {
+            IAddress innerAddress = null;
+            if (address != null)
+            {
+                string state = address.State;
+                string postalCode = address.PostalCode;
+                innerAddress = _addressFactory.Create(address.Recipient, address.Attention, address.Delivery, address.Secondary, address.City, ref state, ref postalCode);
+
+                IAddress existingAddress = await _addressFactory.GetByHash(settings, innerAddress.Hash);
+                if (existingAddress != null)
+                {
+                    innerAddress = existingAddress;
+                }
+                else
+                {
+                    await innerAddress.Create(settings);
+                }
+            }
+            return innerAddress;
         }
 
         [NonAction]
