@@ -4,11 +4,73 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:JCU.Internal.NavigationPage"
+      xmlns:fa="http://schemas.fontawesome.io/icons/"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="JCU: Begin Loan Agreement" Style="{StaticResource DefaultPageStyle}">
 
-    <Grid>
-        <TextBlock Style="{StaticResource PageTitle}">Loan Agreement</TextBlock>
-    </Grid>
+    <Page.Resources>
+        <Style x:Key="SubHeader" TargetType="Label">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Margin" Value="0,15,0,0"/>
+        </Style>
+    </Page.Resources>
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Top" Orientation="Vertical" >
+            <TextBlock Style="{StaticResource PageTitle}">Loan Agreement</TextBlock>
+            <fa:ImageAwesome Icon="CircleOutlineNotch" Spin="True" Height="24" Width="24" Visibility="{Binding BusyVisibility}" Foreground="Navy" HorizontalAlignment="Left" />
+        </StackPanel>        
+        <ScrollViewer VerticalScrollBarVisibility="Visible">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Label Grid.Column="0" Grid.Row="0">Interest (%)</Label>
+                <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Loan.Agreement.InterestPercentage, StringFormat='##0.00#', ValidatesOnDataErrors=True, NotifyOnValidationError=True, TargetNullValue=''}" MaxLength="128" Style="{StaticResource TextBoxWithError}" />
+                <Label Grid.Column="0" Grid.Row="1">Amount</Label>
+                <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Loan.Agreement.OriginalAmount, StringFormat='###,###,###,##0.00#', ValidatesOnDataErrors=True, NotifyOnValidationError=True, TargetNullValue=''}" MaxLength="128" Style="{StaticResource TextBoxWithError}" />
+                <Label Grid.Column="0" Grid.Row="2">Term</Label>
+                <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal">
+                    <TextBox Text="{Binding Loan.Agreement.OriginalTerm, StringFormat='###,###,###,##0', ValidatesOnDataErrors=True, NotifyOnValidationError=True, TargetNullValue=''}" MaxLength="128" Style="{StaticResource TextBoxWithError}" MinWidth="100" />
+                    <ComboBox Margin="5,0" MinWidth="100" ItemsSource="{Binding Loan.Agreement.Terms}" DisplayMemberPath="Value" SelectedValuePath="Key" SelectedValue="{Binding Loan.Agreement.PaymentFrequency}"/>
+                </StackPanel>
+                <Label Grid.Column="0" Grid.Row="3">Payment Amount</Label>
+                <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding Loan.Agreement.PaymentAmount, StringFormat='###,###,###,##0.00#', ValidatesOnDataErrors=True, NotifyOnValidationError=True, TargetNullValue='', Mode=OneWay}" IsReadOnly="True" MaxLength="128" Style="{StaticResource TextBoxWithError}" />
+                <Label Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="99" Style="{StaticResource SubHeader}">Primary Borrower</Label>
+                <Label Grid.Column="0" Grid.Row="5">Borrower Name</Label>
+                <TextBox Grid.Column="1" Grid.Row="5" Text="{Binding Loan.Agreement.BorrowerName, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" MaxLength="1024" Style="{StaticResource TextBoxWithError}" />
+                <Label Grid.Column="0" Grid.Row="6">Birth Date</Label>
+                <TextBox Grid.Column="1" Grid.Row="6" Text="{Binding Loan.Agreement.BorrowerBirthDate, StringFormat='yyyy-MM-dd', ValidatesOnDataErrors=True, NotifyOnValidationError=True, TargetNullValue=''}" MaxLength="10" Style="{StaticResource TextBoxWithError}" />
+                <Label Grid.Column="0" Grid.Row="7">Email</Label>
+                <TextBox Grid.Column="1" Grid.Row="7" Text="{Binding Loan.Agreement.BorrowerEmailAddress, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" MaxLength="1024" Style="{StaticResource TextBoxWithError}" />
+                <Label Grid.Column="0" Grid.Row="8">Phone</Label>
+                <TextBox Grid.Column="1" Grid.Row="8" Text="{Binding Loan.Agreement.BorrowerPhone, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" MaxLength="64" Style="{StaticResource TextBoxWithError}" />
+                <Label Grid.Column="0" Grid.Row="9">Address</Label>
+                <TextBox Grid.Column="1" Grid.Row="9" Text="{Binding Loan.Agreement.BorrowerAddress, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" MaxLength="1024" Style="{StaticResource TextBoxWithError}" />
+                <Label Grid.Column="0" Grid.Row="10">City</Label>
+                <TextBox Grid.Column="1" Grid.Row="10" Text="{Binding Loan.Agreement.BorrowerCity, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" MaxLength="1024" Style="{StaticResource TextBoxWithError}" />
+                <Label Grid.Column="0" Grid.Row="11">State</Label>
+                <TextBox Grid.Column="1" Grid.Row="11" Text="{Binding Loan.Agreement.BorrowerState, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" MaxLength="64" Style="{StaticResource TextBoxWithError}" />
+                <Label Grid.Column="0" Grid.Row="12">Postal Code</Label>
+                <TextBox Grid.Column="1" Grid.Row="12" Text="{Binding Loan.Agreement.BorrowerPostalCode, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" MaxLength="128" Style="{StaticResource TextBoxWithError}" />
+            </Grid>
+        </ScrollViewer>
+    </DockPanel>
 </Page>

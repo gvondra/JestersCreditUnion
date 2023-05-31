@@ -18,6 +18,8 @@ namespace JCU.Internal.ViewModel
             _agreement = LoanAgreementVM.Create(innerLoan.Agreement);
         }
 
+        public LoanAgreementVM Agreement => _agreement;
+
         public static LoanVM Create(Loan loan)
         {
             LoanVM vm = new LoanVM(loan);

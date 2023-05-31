@@ -32,6 +32,7 @@ namespace API
             exp.CreateMap<LoanApplicationComment, ILoanApplicationComment>();
             exp.CreateMap<ILoanApplicationDenial, LoanApplicationDenial>();
             exp.CreateMap<LoanApplicationDenial, ILoanApplicationDenial>();
+            exp.CreateMap<LoanPaymentAmountRequest, LoanPaymentAmountResponse>();
             exp.CreateMap<IAddress, Address>();
             exp.CreateMap<ILookup, Lookup>();
 

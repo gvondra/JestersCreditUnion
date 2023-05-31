@@ -1,15 +1,18 @@
-﻿using JestersCreditUnion.Interface.Models;
+﻿using JCU.Internal.Behaviors;
+using JestersCreditUnion.Interface.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace JCU.Internal.ViewModel
 {
-    public class BeginLoanAgreementVM
+    public class BeginLoanAgreementVM : ViewModelBase
     {
         private readonly LoanVM _loan;
+        private Visibility _busyVisibility = Visibility.Collapsed;
 
         private BeginLoanAgreementVM(LoanVM loanVM)
         {
@@ -17,6 +20,19 @@ namespace JCU.Internal.ViewModel
         }
 
         public LoanVM Loan => _loan;
+
+        public Visibility BusyVisibility
+        {
+            get => _busyVisibility;
+            set
+            {
+                if (_busyVisibility != value)
+                {
+                    _busyVisibility = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
 
         public static BeginLoanAgreementVM Create(LoanApplication loanApplication)
         {
@@ -35,6 +51,9 @@ namespace JCU.Internal.ViewModel
                     CoBorrowerPhone = loanApplication.CoBorrowerPhone,
                     CreateDate = DateTime.Today,
                     OriginalAmount = loanApplication.Amount,
+                    InterestRate = 0.0M,
+                    PaymentFrequency = 12,
+                    OriginalTerm = 48,
                     BorrowerAddress = new Address
                     {
                         Attention = loanApplication.BorrowerAddress.Attention,
@@ -61,6 +80,8 @@ namespace JCU.Internal.ViewModel
                 };
             }
             BeginLoanAgreementVM vm = new BeginLoanAgreementVM(LoanVM.Create(loan));
+            vm.AddBehavior(new BeginLoanAgreementValidator(vm));
+            vm.AddBehavior(new BeginLoanAgreementLoader(vm));
             return vm;
         }
     }
