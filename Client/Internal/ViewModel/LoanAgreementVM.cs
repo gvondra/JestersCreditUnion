@@ -142,6 +142,118 @@ namespace JCU.Internal.ViewModel
             }
         }
 
+        public string CoBorrowerName
+        {
+            get => _innerLoanAgreement.CoBorrowerName ?? string.Empty;
+            set
+            {
+                if (_innerLoanAgreement.CoBorrowerName != value)
+                {
+                    _innerLoanAgreement.CoBorrowerName = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+        public DateTime? CoBorrowerBirthDate
+        {
+            get => _innerLoanAgreement.CoBorrowerBirthDate;
+            set
+            {
+                if (_innerLoanAgreement.CoBorrowerBirthDate.HasValue != value.HasValue
+                    || (value.HasValue && _innerLoanAgreement.CoBorrowerBirthDate.Value != value.Value))
+                {
+                    _innerLoanAgreement.CoBorrowerBirthDate = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+        public string CoBorrowerEmailAddress
+        {
+            get => _innerLoanAgreement.CoBorrowerEmailAddress ?? string.Empty;
+            set
+            {
+                if ((_innerLoanAgreement.CoBorrowerEmailAddress ?? string.Empty) != (value ?? string.Empty))
+                {
+                    _innerLoanAgreement.CoBorrowerEmailAddress = value ?? string.Empty;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+        public string CoBorrowerPhone
+        {
+            get => _innerLoanAgreement.CoBorrowerPhone ?? string.Empty;
+            set
+            {
+                if ((_innerLoanAgreement.CoBorrowerPhone ?? string.Empty) != (value ?? string.Empty))
+                {
+                    _innerLoanAgreement.CoBorrowerPhone = value ?? string.Empty;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+        public string CoBorrowerAddress
+        {
+            get => _innerLoanAgreement?.CoBorrowerAddress?.Delivery ?? string.Empty;
+            set
+            {
+                if ((_innerLoanAgreement?.CoBorrowerAddress?.Delivery ?? string.Empty) != (value ?? string.Empty))
+                {
+                    if (_innerLoanAgreement.CoBorrowerAddress == null)
+                        _innerLoanAgreement.CoBorrowerAddress = new Address();
+                    _innerLoanAgreement.CoBorrowerAddress.Delivery = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+        public string CoBorrowerCity
+        {
+            get => _innerLoanAgreement?.CoBorrowerAddress?.City ?? string.Empty;
+            set
+            {
+                if ((_innerLoanAgreement?.CoBorrowerAddress?.City ?? string.Empty) != (value ?? string.Empty))
+                {
+                    if (_innerLoanAgreement.CoBorrowerAddress == null)
+                        _innerLoanAgreement.CoBorrowerAddress = new Address();
+                    _innerLoanAgreement.CoBorrowerAddress.City = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+        public string CoBorrowerState
+        {
+            get => _innerLoanAgreement?.CoBorrowerAddress?.State ?? string.Empty;
+            set
+            {
+                if ((_innerLoanAgreement?.CoBorrowerAddress?.State ?? string.Empty) != (value ?? string.Empty))
+                {
+                    if (_innerLoanAgreement.CoBorrowerAddress == null)
+                        _innerLoanAgreement.CoBorrowerAddress = new Address();
+                    _innerLoanAgreement.CoBorrowerAddress.State = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+        public string CoBorrowerPostalCode
+        {
+            get => _innerLoanAgreement?.CoBorrowerAddress?.PostalCode ?? string.Empty;
+            set
+            {
+                if ((_innerLoanAgreement?.CoBorrowerAddress?.PostalCode ?? string.Empty) != (value ?? string.Empty))
+                {
+                    if (_innerLoanAgreement.CoBorrowerAddress == null)
+                        _innerLoanAgreement.CoBorrowerAddress = new Address();
+                    _innerLoanAgreement.CoBorrowerAddress.PostalCode = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
         public decimal? OriginalAmount
         {
             get => _innerLoanAgreement.OriginalAmount;

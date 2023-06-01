@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 namespace JestersCreditUnion.Framework
 {
@@ -10,5 +11,6 @@ namespace JestersCreditUnion.Framework
 
         ILoan Create(ILoanApplication loanApplication);
         Task<ILoan> GetByNumber(ISettings settings, string number);
+        Task<ILoan> GetByLoanApplicationId(ISettings settings, Guid loanApplicationId);
     }
 }

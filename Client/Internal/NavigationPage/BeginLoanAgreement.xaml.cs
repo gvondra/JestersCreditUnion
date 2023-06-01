@@ -26,6 +26,7 @@ namespace JCU.Internal.NavigationPage
             NavigationCommands.BrowseBack.InputGestures.Clear();
             NavigationCommands.BrowseForward.InputGestures.Clear();
             InitializeComponent();
+            InitializeDetailGrid();
         }
 
         public BeginLoanAgreement(BeginLoanAgreementVM beginLoanAgreementVM)
@@ -36,5 +37,15 @@ namespace JCU.Internal.NavigationPage
         }
 
         public BeginLoanAgreementVM BeginLoanAgreementVM { get; set; }
+
+        private void InitializeDetailGrid()
+        {
+            DetailGrid.RowDefinitions.Clear();
+            foreach (int i in Enumerable.Range(0, 21))
+            {
+                DetailGrid.RowDefinitions.Add(
+                    new RowDefinition() { Height = GridLength.Auto });
+            }
+        }
     }
 }

@@ -1,13 +1,8 @@
 ﻿using JestersCreditUnion.Interface.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace JCU.Internal.ViewModel
 {
-    public class LoanVM
+    public class LoanVM : ViewModelBase
     {
         private readonly Loan _innerLoan;
         private readonly LoanAgreementVM _agreement;
@@ -19,6 +14,8 @@ namespace JCU.Internal.ViewModel
         }
 
         public LoanAgreementVM Agreement => _agreement;
+
+        public Loan InnerLoan => _innerLoan;
 
         public static LoanVM Create(Loan loan)
         {

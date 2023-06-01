@@ -1,27 +1,35 @@
 ﻿using JestersCreditUnion.Framework.Enumerations;
 using System;
+using System.Threading.Tasks;
 
 namespace JestersCreditUnion.Framework
 {
     public interface ILoanAgreement
     {   
-        public LoanAgrementStatus Status { get; set; }        
-        public DateTime CreateDate { get; }        
-        public DateTime? AgreementDate { get; set; }        
-        public string BorrowerName { get; set; }
-        public DateTime BorrowerBirthDate { get; set; }        
-        public Guid? BorrowerAddressId { get; set; }        
-        public Guid? BorrowerEmailAddressId { get; set; }        
-        public Guid? BorrowerPhoneId { get; set; }
-        public string CoBorrowerName { get; set; }
-        public DateTime? CoBorrowerBirthDate { get; set; }        
-        public Guid? CoBorrowerAddressId { get; set; }        
-        public Guid? CoBorrowerEmailAddressId { get; set; }        
-        public Guid? CoBorrowerPhoneId { get; set; }        
-        public decimal OriginalAmount { get; set; }        
-        public short OriginalTerm { get; set; }        
-        public decimal InterestRate { get; set; }        
-        public decimal PaymentAmount { get; set; }        
-        public short PaymentFrequency { get; set; }
+        LoanAgrementStatus Status { get; set; }        
+        DateTime CreateDate { get; }        
+        DateTime? AgreementDate { get; set; }        
+        string BorrowerName { get; set; }
+        DateTime BorrowerBirthDate { get; set; }        
+        Guid? BorrowerAddressId { get; set; }        
+        Guid? BorrowerEmailAddressId { get; set; }        
+        Guid? BorrowerPhoneId { get; set; }
+        string CoBorrowerName { get; set; }
+        DateTime? CoBorrowerBirthDate { get; set; }        
+        Guid? CoBorrowerAddressId { get; set; }        
+        Guid? CoBorrowerEmailAddressId { get; set; }        
+        Guid? CoBorrowerPhoneId { get; set; }        
+        decimal OriginalAmount { get; set; }        
+        short OriginalTerm { get; set; }        
+        decimal InterestRate { get; set; }        
+        decimal PaymentAmount { get; set; }        
+        short PaymentFrequency { get; set; }
+
+        Task<IAddress> GetBorrowerAddress(ISettings settings);
+        Task<IAddress> GetCoBorrowerAddress(ISettings settings);
+        Task<IEmailAddress> GetBorrowerEmailAddress(ISettings settings);
+        Task<IEmailAddress> GetCoBorrowerEmailAddress(ISettings settings);
+        Task<IPhone> GetBorrowerPhone(ISettings settings);
+        Task<IPhone> GetCoBorrowerPhone(ISettings settings);
     }
 }

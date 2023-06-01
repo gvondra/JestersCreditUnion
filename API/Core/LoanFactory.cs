@@ -25,7 +25,7 @@ namespace JestersCreditUnion.Core
         public IEmailAddressFactory EmailAddressFactory { get; set; }
         public IPhoneFactory PhoneFactory { get; set; }
 
-        private Loan Create(LoanData data) => new Loan(data, _dataSaver);
+        private Loan Create(LoanData data) => new Loan(data, _dataSaver, this);
 
         public ILoan Create(ILoanApplication loanApplication)
         {
@@ -46,6 +46,15 @@ namespace JestersCreditUnion.Core
         {
             Loan result = null;
             LoanData data = await _dataFactory.GetByNumber(new DataSettings(settings), number);
+            if (data != null)
+                result = Create(data);
+            return result;
+        }
+
+        public async Task<ILoan> GetByLoanApplicationId(ISettings settings, Guid loanApplicationId)
+        {
+            Loan result = null;
+            LoanData data = await _dataFactory.GetByLoanApplicationId(new DataSettings(settings), loanApplicationId);
             if (data != null)
                 result = Create(data);
             return result;

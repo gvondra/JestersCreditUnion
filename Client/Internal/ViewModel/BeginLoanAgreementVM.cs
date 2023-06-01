@@ -13,6 +13,7 @@ namespace JCU.Internal.ViewModel
     {
         private readonly LoanVM _loan;
         private Visibility _busyVisibility = Visibility.Collapsed;
+        private BeginLoanAgreementSave _save;
 
         private BeginLoanAgreementVM(LoanVM loanVM)
         {
@@ -20,6 +21,19 @@ namespace JCU.Internal.ViewModel
         }
 
         public LoanVM Loan => _loan;
+
+        public BeginLoanAgreementSave Save
+        {
+            get => _save;
+            set
+            {
+                if (_save != value)
+                {
+                    _save = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
 
         public Visibility BusyVisibility
         {
@@ -79,7 +93,13 @@ namespace JCU.Internal.ViewModel
                     State = loanApplication.CoBorrowerAddress.State
                 };
             }
+            return Create(loan);
+        }
+
+        public static BeginLoanAgreementVM Create(Loan loan)
+        {   
             BeginLoanAgreementVM vm = new BeginLoanAgreementVM(LoanVM.Create(loan));
+            vm.Save = new BeginLoanAgreementSave();
             vm.AddBehavior(new BeginLoanAgreementValidator(vm));
             vm.AddBehavior(new BeginLoanAgreementLoader(vm));
             return vm;

@@ -11,12 +11,15 @@ namespace JestersCreditUnion.Core
         private readonly LoanData _data;
         private readonly ILoanDataSaver _dataSaver;
         private ILoanAgreement _agreement;
+        private ILoanFactory _factory;
 
         public Loan(LoanData data,
-            ILoanDataSaver dataSaver)
+            ILoanDataSaver dataSaver,
+            ILoanFactory factory)
         {
             _data = data;
             _dataSaver = dataSaver;
+            _factory = factory;
         }
 
         public Guid LoanId => _data.LoanId;
@@ -35,7 +38,7 @@ namespace JestersCreditUnion.Core
                     {
                         _data.Agreement = new LoanAgreementData();
                     }
-                    _agreement = new LoanAgreement(_data.Agreement);
+                    _agreement = new LoanAgreement(_data.Agreement, _factory);
                 }
                 return _agreement;
             }

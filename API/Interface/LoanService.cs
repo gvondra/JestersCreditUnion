@@ -29,5 +29,17 @@ namespace JestersCreditUnion.Interface
                 ;
             return _restUtil.Send<Loan>(_service, request);
         }
+
+        public Task<Loan> GetByLoanApplicationId(ISettings settings, Guid loanApplicationId)
+        {
+            if (loanApplicationId.Equals(Guid.Empty))
+                throw new ArgumentNullException(nameof(loanApplicationId));
+            IRequest request = _service.CreateRequest(new Uri(settings.BaseAddress), HttpMethod.Get)
+                .AddPath("Loan")
+                .AddQueryParameter("loanApplicationId", loanApplicationId.ToString("N"))
+                .AddJwtAuthorizationToken(settings.GetToken)
+                ;
+            return _restUtil.Send<Loan>(_service, request);
+        }
     }
 }

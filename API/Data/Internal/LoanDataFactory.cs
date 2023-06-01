@@ -1,7 +1,9 @@
 ﻿using JestersCreditUnion.Data.Models;
 using MongoDB.Driver;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
+using static MongoDB.Bson.Serialization.Serializers.SerializerHelper;
 
 namespace JestersCreditUnion.Data.Internal
 {
@@ -13,6 +15,17 @@ namespace JestersCreditUnion.Data.Internal
             : base(mongoClientFactory) 
         {
             _mongoClientFactory = mongoClientFactory;
+        }
+
+        public async Task<LoanData> GetByLoanApplicationId(IDataSettings settings, Guid loanApplicationId)
+        {
+            FilterDefinition<LoanData> filter = Builders<LoanData>.Filter
+                .Eq(ln => ln.LoanApplicationId, loanApplicationId)
+                ;
+            return (await(await GetCollection<LoanData>(settings, Constants.CollectionName.Loan))
+                .FindAsync(filter))
+                .FirstOrDefault()
+                ;
         }
 
         public async Task<LoanData> GetByNumber(IDataSettings settings, string number)

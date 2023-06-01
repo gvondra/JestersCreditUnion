@@ -2,9 +2,6 @@
 using JestersCreditUnion.Framework;
 using JestersCreditUnion.Framework.Enumerations;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace JestersCreditUnion.Core
@@ -12,10 +9,12 @@ namespace JestersCreditUnion.Core
     public class LoanAgreement : ILoanAgreement
     {
         private readonly LoanAgreementData _data;
+        private readonly ILoanFactory _loanFactory;
 
-        public LoanAgreement(LoanAgreementData data)
+        public LoanAgreement(LoanAgreementData data, ILoanFactory loanFactory)
         {
             _data = data;
+            _loanFactory = loanFactory;
         }
 
         public LoanAgrementStatus Status { get => (LoanAgrementStatus)_data.Status; set => _data.Status = (short)value; }
@@ -38,5 +37,53 @@ namespace JestersCreditUnion.Core
         public decimal InterestRate { get => _data.InterestRate; set => _data.InterestRate = value; }
         public decimal PaymentAmount { get => _data.PaymentAmount; set => _data.PaymentAmount = value; }
         public short PaymentFrequency { get => _data.PaymentFrequency; set => _data.PaymentFrequency = value; }
+
+        public Task<IAddress> GetBorrowerAddress(ISettings settings)
+        {
+            if (BorrowerAddressId.HasValue)
+                return _loanFactory.AddressFactory.Get(settings, BorrowerAddressId.Value);
+            else
+                return Task.FromResult<IAddress>(null);
+        }
+
+        public Task<IEmailAddress> GetBorrowerEmailAddress(ISettings settings)
+        {
+            if (BorrowerEmailAddressId.HasValue)
+                return _loanFactory.EmailAddressFactory.Get(settings, BorrowerEmailAddressId.Value);
+            else
+                return Task.FromResult<IEmailAddress>(null);
+        }
+
+        public Task<IPhone> GetBorrowerPhone(ISettings settings)
+        {
+            if (BorrowerPhoneId.HasValue)
+                return _loanFactory.PhoneFactory.Get(settings, BorrowerPhoneId.Value);
+            else
+                return Task.FromResult<IPhone>(null);
+        }
+
+        public Task<IAddress> GetCoBorrowerAddress(ISettings settings)
+        {
+            if (CoBorrowerAddressId.HasValue)
+                return _loanFactory.AddressFactory.Get(settings, CoBorrowerAddressId.Value);
+            else
+                return Task.FromResult<IAddress>(null);
+        }
+
+        public Task<IEmailAddress> GetCoBorrowerEmailAddress(ISettings settings)
+        {
+            if (CoBorrowerEmailAddressId.HasValue)
+                return _loanFactory.EmailAddressFactory.Get(settings, CoBorrowerEmailAddressId.Value);
+            else
+                return Task.FromResult<IEmailAddress>(null);
+        }
+
+        public Task<IPhone> GetCoBorrowerPhone(ISettings settings)
+        {
+            if (CoBorrowerPhoneId.HasValue)
+                return _loanFactory.PhoneFactory.Get(settings, CoBorrowerPhoneId.Value);
+            else
+                return Task.FromResult<IPhone>(null);
+        }
     }
 }

@@ -98,13 +98,46 @@ namespace JCU.Internal.NavigationPage
         {
             try
             {
-                NavigationService navigationService = NavigationService.GetNavigationService(this);
-                BeginLoanAgreement beginLoanAgreement = new BeginLoanAgreement(BeginLoanAgreementVM.Create(this.LoanApplicationVM.InnerLoanApplication));
-                navigationService.Navigate(beginLoanAgreement);
+                Task.Run(() => GetLoan(this.LoanApplicationVM.LoanApplicationId.Value))
+                    .ContinueWith(GetLoanCallback, null, TaskScheduler.FromCurrentSynchronizationContext());
             }
             catch (System.Exception ex)
             {
                 ErrorWindow.Open(ex, Window.GetWindow(this));
+            }
+        }
+
+        private Loan GetLoan(Guid loanApplicationId)
+        {
+            using (ILifetimeScope scope = DependencyInjection.ContainerFactory.Container.BeginLifetimeScope())
+            {
+                ISettingsFactory settingsFactory = scope.Resolve<ISettingsFactory>();
+                ILoanService loanService = scope.Resolve<ILoanService>();
+                return loanService.GetByLoanApplicationId(settingsFactory.CreateApi(), loanApplicationId).Result;
+            }
+        }
+
+        private async Task GetLoanCallback(Task<Loan> getLoan, object state)
+        {
+            try
+            {
+                Loan loan = await getLoan;
+
+                BeginLoanAgreement beginLoanAgreement;
+                if (loan is null)
+                {
+                    beginLoanAgreement = new BeginLoanAgreement(BeginLoanAgreementVM.Create(this.LoanApplicationVM.InnerLoanApplication));
+                }                
+                else
+                {
+                    beginLoanAgreement = new BeginLoanAgreement(BeginLoanAgreementVM.Create(loan));
+                }
+                NavigationService navigationService = NavigationService.GetNavigationService(this);
+                navigationService.Navigate(beginLoanAgreement);
+            }
+            catch (System.Exception ex)
+            {
+                ErrorWindow.Open(ex);
             }
         }
     }

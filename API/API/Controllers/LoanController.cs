@@ -1,5 +1,4 @@
-﻿using Autofac;
-using AutoMapper;
+﻿using AutoMapper;
 using JestersCreditUnion.CommonAPI;
 using JestersCreditUnion.Framework;
 using JestersCreditUnion.Interface.Models;
@@ -9,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AuthorizationAPI = BrassLoon.Interface.Authorization;
 
@@ -40,6 +40,42 @@ namespace API.Controllers
             _addressFactory = addressFactory;
             _emailAddressFactory = emailAddressFactory;
             _phoneFactory = phoneFactory;
+        }
+
+        [Authorize(Constants.POLICY_LOAN_APPLICATION_READ)]
+        [ProducesResponseType(typeof(Loan), 200)]
+        [ProducesResponseType(typeof(Loan[]), 200)]
+        [HttpGet()]
+        public async Task<IActionResult> Search([FromQuery] Guid? loanApplicationId)
+        {
+            DateTime start = DateTime.UtcNow;
+            IActionResult result = null;
+            try
+            {
+                ILoan innerLoan;
+                IMapper mapper = MapperConfiguration.CreateMapper();
+                CoreSettings settings = GetCoreSettings();
+                if (loanApplicationId.HasValue && !loanApplicationId.Value.Equals(Guid.Empty))
+                {
+                    innerLoan = await _loanFactory.GetByLoanApplicationId(settings, loanApplicationId.Value);
+                    result = Ok(
+                        await Map(mapper, settings, innerLoan));
+                }
+                else
+                {
+                    result = Ok(new List<Loan>());
+                }
+            }
+            catch (System.Exception ex)
+            {
+                WriteException(ex);
+                result = StatusCode(StatusCodes.Status500InternalServerError);
+            }
+            finally
+            {
+                await WriteMetrics("create-loan", start, result);
+            }
+            return result;
         }
 
         [Authorize(Constants.POLICY_LOAN_CREATE)]
@@ -195,6 +231,27 @@ namespace API.Controllers
             else if (!loanAgreement.PaymentFrequency.HasValue)
                 result = BadRequest("Missing payment frequency");
             return result;
+        }
+
+        [NonAction]
+        private async Task<Loan> Map(IMapper mapper, CoreSettings settings, ILoan innerLoan)
+        {
+            IAddress borrowerAddress = await innerLoan.Agreement.GetBorrowerAddress(settings);
+            IAddress coborrowerAddress = await innerLoan.Agreement.GetCoBorrowerAddress(settings);
+            IEmailAddress borrowerEmailAddress = await innerLoan.Agreement.GetBorrowerEmailAddress(settings);
+            IEmailAddress coborrowerEmailAddress = await innerLoan.Agreement.GetCoBorrowerEmailAddress(settings);
+            IPhone borrowerPhone = await innerLoan.Agreement.GetBorrowerPhone(settings);
+            IPhone coborrowerPhone = await innerLoan.Agreement.GetCoBorrowerPhone(settings);
+
+            Loan loan = mapper.Map<Loan>(innerLoan);
+            loan.Agreement.BorrowerAddress = borrowerAddress != null ? mapper.Map<Address>(borrowerAddress) : null;
+            loan.Agreement.CoBorrowerAddress = coborrowerAddress != null ? mapper.Map<Address>(coborrowerAddress) : null;
+            loan.Agreement.BorrowerEmailAddress = borrowerEmailAddress != null ? borrowerEmailAddress.Address : string.Empty;
+            loan.Agreement.CoBorrowerEmailAddress = coborrowerEmailAddress != null ? coborrowerEmailAddress.Address : string.Empty;
+            loan.Agreement.BorrowerPhone = borrowerPhone != null ? borrowerPhone.Number : string.Empty;
+            loan.Agreement.CoBorrowerPhone = coborrowerPhone != null ? coborrowerPhone.Number : string.Empty;
+
+            return loan;
         }
     }
 }
