@@ -14,5 +14,6 @@ namespace JestersCreditUnion.Framework
         DateTime UpdateTimestamp { get; }
 
         Task Create(ISettings settings);
+        Task Update(ISettings settings);
     }
 }

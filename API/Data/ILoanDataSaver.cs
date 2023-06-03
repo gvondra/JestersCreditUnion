@@ -6,5 +6,6 @@ namespace JestersCreditUnion.Data
     public interface ILoanDataSaver
     {
         Task Create(IDataSettings settings, LoanData data);
+        Task Update(IDataSettings settings, LoanData data);
     }
 }

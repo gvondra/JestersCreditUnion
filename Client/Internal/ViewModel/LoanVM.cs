@@ -1,4 +1,5 @@
 ﻿using JestersCreditUnion.Interface.Models;
+using System;
 
 namespace JCU.Internal.ViewModel
 {
@@ -16,6 +17,20 @@ namespace JCU.Internal.ViewModel
         public LoanAgreementVM Agreement => _agreement;
 
         public Loan InnerLoan => _innerLoan;
+
+        public Guid? LoanId
+        {
+            get => _innerLoan.LoanId;
+            set
+            {
+                if (_innerLoan.LoanId.HasValue != value.HasValue 
+                    || (_innerLoan.LoanId.HasValue && _innerLoan.LoanId.Value != value.Value))
+                {
+                    _innerLoan.LoanId = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
 
         public static LoanVM Create(Loan loan)
         {

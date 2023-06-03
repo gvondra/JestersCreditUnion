@@ -42,7 +42,7 @@ namespace API.Controllers
             _phoneFactory = phoneFactory;
         }
 
-        [Authorize(Constants.POLICY_LOAN_APPLICATION_READ)]
+        [Authorize(Constants.POLICY_LOAN_READ)]
         [ProducesResponseType(typeof(Loan), 200)]
         [ProducesResponseType(typeof(Loan[]), 200)]
         [HttpGet()]
@@ -104,7 +104,8 @@ namespace API.Controllers
                     IMapper mapper = MapperConfiguration.CreateMapper();
                     await MapAgreement(mapper, settings, loan, innerLoan);
                     await innerLoan.Create(settings);
-                    result = Ok(mapper.Map<Loan>(innerLoan));
+                    result = Ok(
+                        await Map(mapper, settings, innerLoan));
                 }
             }
             catch (System.Exception ex)
@@ -115,6 +116,52 @@ namespace API.Controllers
             finally
             {
                 await WriteMetrics("create-loan", start, result);
+            }
+            return result;
+        }
+
+        [Authorize(Constants.POLICY_LOAN_EDIT)]
+        [ProducesResponseType(typeof(Loan), 200)]
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update([FromRoute] Guid? id, [FromBody] Loan loan)
+        {
+            DateTime start = DateTime.UtcNow;
+            IActionResult result = null;
+            try
+            {
+                ILoan innerLoan = null;
+                CoreSettings settings = GetCoreSettings();
+                if (result == null && (!id.HasValue || id.Value.Equals(Guid.Empty)))
+                {
+                    result = BadRequest("Missing id parameter value");
+                }
+                if (result == null)
+                {
+                    result = ValidateLoan(loan) ?? ValidateLoanAgreement(loan.Agreement);
+                }                
+                if (result == null)
+                {
+                    innerLoan = await _loanFactory.Get(settings, id.Value);
+                    if (innerLoan == null)
+                        result = NotFound();
+                }
+                if (result == null)
+                {
+                    IMapper mapper = MapperConfiguration.CreateMapper();
+                    await MapAgreement(mapper, settings, loan, innerLoan);
+                    await innerLoan.Update(settings);
+                    result = Ok(
+                        await Map(mapper, settings, innerLoan));
+                }
+            }
+            catch (System.Exception ex)
+            {
+                WriteException(ex);
+                result = StatusCode(StatusCodes.Status500InternalServerError);
+            }
+            finally
+            {
+                await WriteMetrics("update-loan", start, result);
             }
             return result;
         }

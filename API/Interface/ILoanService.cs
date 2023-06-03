@@ -8,5 +8,6 @@ namespace JestersCreditUnion.Interface
     {
         Task<Loan> GetByLoanApplicationId(ISettings settings, Guid loanApplicationId);
         Task<Loan> Create(ISettings settings, Loan loan);
+        Task<Loan> Update(ISettings settings, Loan loan);
     }
 }

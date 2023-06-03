@@ -51,5 +51,7 @@ namespace JestersCreditUnion.Core
         public DateTime UpdateTimestamp => _data.UpdateTimestamp;
 
         public Task Create(ISettings settings) => _dataSaver.Create(new DataSettings(settings), _data);
+
+        public Task Update(ISettings settings) => _dataSaver.Update(new DataSettings(settings), _data);
     }
 }

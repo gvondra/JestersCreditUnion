@@ -1,4 +1,5 @@
 ﻿using JestersCreditUnion.Data.Models;
+using MongoDB.Driver;
 using System;
 using System.Threading.Tasks;
 
@@ -20,6 +21,18 @@ namespace JestersCreditUnion.Data.Internal
             await (await _mongoClientFactory.GetDatabase(settings))
                 .GetCollection<LoanData>(Constants.CollectionName.Loan)
                 .InsertOneAsync(data);
+            ;
+        }
+
+        public async Task Update(IDataSettings settings, LoanData data)
+        {
+            FilterDefinition<LoanData> filter = Builders<LoanData>.Filter
+                .Eq(ln => ln.LoanId, data.LoanId)
+                ;
+            data.UpdateTimestamp = DateTime.UtcNow;
+            await(await _mongoClientFactory.GetDatabase(settings))
+                .GetCollection<LoanData>(Constants.CollectionName.Loan)
+                .ReplaceOneAsync(filter, data)
             ;
         }
     }

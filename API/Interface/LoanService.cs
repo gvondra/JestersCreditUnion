@@ -41,5 +41,21 @@ namespace JestersCreditUnion.Interface
                 ;
             return _restUtil.Send<Loan>(_service, request);
         }
+
+        public Task<Loan> Update(ISettings settings, Loan loan)
+        {
+            if (loan == null)
+                throw new ArgumentNullException(nameof(loan));
+            if (loan.Agreement == null)
+                throw new ArgumentNullException(nameof(loan.Agreement));
+            if (!loan.LoanId.HasValue || loan.LoanId.Value.Equals(Guid.Empty))
+                throw new ArgumentNullException(nameof(loan.LoanId));
+            IRequest request = _service.CreateRequest(new Uri(settings.BaseAddress), HttpMethod.Put, loan)
+                .AddPath("Loan/{id}")
+                .AddPathParameter("id", loan.LoanId.Value.ToString("N"))
+                .AddJwtAuthorizationToken(settings.GetToken)
+                ;
+            return _restUtil.Send<Loan>(_service, request);
+        }
     }
 }

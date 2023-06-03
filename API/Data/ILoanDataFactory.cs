@@ -6,6 +6,7 @@ namespace JestersCreditUnion.Data
 {
     public interface ILoanDataFactory
     {
+        Task<LoanData> Get(IDataSettings settings, Guid id);
         Task<LoanData> GetByNumber(IDataSettings settings, string number);
         Task<LoanData> GetByLoanApplicationId(IDataSettings settings, Guid loanApplicationId);
     }

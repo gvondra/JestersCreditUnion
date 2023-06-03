@@ -59,5 +59,14 @@ namespace JestersCreditUnion.Core
                 result = Create(data);
             return result;
         }
+
+        public async Task<ILoan> Get(ISettings settings, Guid id)
+        {
+            Loan result = null;
+            LoanData data = await _dataFactory.Get(new DataSettings(settings), id);
+            if (data != null)
+                result = Create(data);
+            return result;
+        }
     }
 }

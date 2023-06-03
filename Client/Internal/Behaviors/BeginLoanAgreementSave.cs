@@ -49,7 +49,7 @@ namespace JCU.Internal.Behaviors
                 }
                 else
                 {
-                    return null;
+                    return loanService.Update(settings, loan).Result;
                 }
             }
         }
@@ -60,6 +60,10 @@ namespace JCU.Internal.Behaviors
             {
                 BeginLoanAgreementVM beginLoanAgreementVM = (BeginLoanAgreementVM)state;
                 Loan loan = await saveLoan;
+                if (loan != null && !beginLoanAgreementVM.Loan.LoanId.HasValue)
+                {
+                    beginLoanAgreementVM.Loan.LoanId = loan.LoanId;
+                }
             }
             catch (System.Exception ex)
             {

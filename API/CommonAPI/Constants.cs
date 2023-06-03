@@ -19,5 +19,7 @@
         public const string POLICY_LOAN_APPLICATION_READ = "LOANAPP:READ";
         public const string POLICY_LOAN_APPLICATION_EDIT = "LOANAPP:EDIT";
         public const string POLICY_LOAN_CREATE = "LOAN:CEATE";
+        public const string POLICY_LOAN_EDIT = "LOAN:EDIT";
+        public const string POLICY_LOAN_READ = "LOAN:READ";
     }
 }
