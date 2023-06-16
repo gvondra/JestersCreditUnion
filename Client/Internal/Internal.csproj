@@ -189,6 +189,7 @@
     <Compile Include="Behaviors\WorkTaskTypeSaver.cs" />
     <Compile Include="Behaviors\WorkTaskTypesLoader.cs" />
     <Compile Include="Behaviors\WorkTaskTypeValidator.cs" />
+    <Compile Include="Constants.cs" />
     <Compile Include="Control\ExceptionItem.xaml.cs">
       <DependentUpon>ExceptionItem.xaml</DependentUpon>
     </Compile>

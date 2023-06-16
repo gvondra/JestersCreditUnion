@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using JCU.Internal.Constants;
 using JCU.Internal.ViewModel;
 using JestersCreditUnion.Interface;
 using JestersCreditUnion.Interface.Models;
@@ -98,7 +99,41 @@ namespace JCU.Internal.NavigationPage
         {
             try
             {
-                Task.Run(() => GetLoan(this.LoanApplicationVM.LoanApplicationId.Value))
+                if (this.LoanApplicationVM.Status != LoanApplicationStatuses.Approved)
+                {
+                    Task.Run(() => ApproveLoanApplication(this.LoanApplicationVM))
+                        .ContinueWith(ApproveLoanApplicationCallback, this.LoanApplicationVM, TaskScheduler.FromCurrentSynchronizationContext());
+                }
+                else
+                {
+                    Task.Run(() => GetLoan(this.LoanApplicationVM.LoanApplicationId.Value))
+                        .ContinueWith(GetLoanCallback, null, TaskScheduler.FromCurrentSynchronizationContext());
+                }
+            }
+            catch (System.Exception ex)
+            {
+                ErrorWindow.Open(ex, Window.GetWindow(this));
+            }
+        }
+
+        private void ApproveLoanApplication(LoanApplicationVM loanApplicationVM)
+        {
+            using (ILifetimeScope scope = DependencyInjection.ContainerFactory.Container.BeginLifetimeScope())
+            {
+                ISettingsFactory settingsFactory = scope.Resolve<ISettingsFactory>();
+                ILoanApplicationService loanApplicationService = scope.Resolve<ILoanApplicationService>();
+                loanApplicationVM.Status = LoanApplicationStatuses.Approved;
+                loanApplicationService.Update(settingsFactory.CreateApi(), loanApplicationVM.InnerLoanApplication).Wait();
+            }
+        }
+
+        private async Task ApproveLoanApplicationCallback(Task approveLoanApplication, object state)
+        {
+            try
+            {
+                await approveLoanApplication;
+                LoanApplicationVM loanApplicationVM = (LoanApplicationVM)state;
+                _ = Task.Run(() => GetLoan(loanApplicationVM.LoanApplicationId.Value))
                     .ContinueWith(GetLoanCallback, null, TaskScheduler.FromCurrentSynchronizationContext());
             }
             catch (System.Exception ex)
