@@ -58,8 +58,15 @@ namespace API.Controllers
                 if (loanApplicationId.HasValue && !loanApplicationId.Value.Equals(Guid.Empty))
                 {
                     innerLoan = await _loanFactory.GetByLoanApplicationId(settings, loanApplicationId.Value);
-                    result = Ok(
-                        await Map(mapper, settings, innerLoan));
+                    if (innerLoan != null)
+                    {
+                        result = Ok(
+                            await Map(mapper, settings, innerLoan));
+                    }
+                    else
+                    {
+                        result = Ok(null);
+                    }
                 }
                 else
                 {
