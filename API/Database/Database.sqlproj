@@ -102,6 +102,7 @@
     <Build Include="Stored Procedure\ln.GetLoanAgreement_by_LoanNumber.sql" />
     <Build Include="Stored Procedure\ln.GetLoanAgreement_by_LoanApplicationId.sql" />
     <Build Include="Stored Procedure\ln.UpdateLoan.sql" />
+    <Build Include="Stored Procedure\ln.UpdateLoanAgreement.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="LocalSqlSchemaCompare.scmp" />
