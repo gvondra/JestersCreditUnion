@@ -8,7 +8,7 @@ namespace JestersCreditUnion.Data
         protected override void Load(ContainerBuilder builder)
         {
             base.Load(builder);
-            builder.RegisterType<MongoClientFactory>().As<IMongoClientFactory>().SingleInstance();
+            builder.RegisterType<SqlClientProviderFactory>().As<IDbProviderFactory>();
             builder.RegisterType<AddressDataFactory>().As<IAddressDataFactory>();
             builder.RegisterType<AddressDataSaver>().As<IAddressDataSaver>();
             builder.RegisterType<EmailAddressDataFactory>().As<IEmailAddressDataFactory>();
