@@ -2,7 +2,7 @@
 	@id UNIQUEIDENTIFIER
 AS
 SELECT TOP 1 
-	[LoanApplicationDenialId], [UserId], [Reason], [Date], [Text], [CreateTimestamp]
+	[LoanApplicationId], [UserId], [Reason], [Date], [Text], [CreateTimestamp], [UpdateTimestamp]
 FROM [ln].[LoanApplicationDenial]
-WHERE [LoanApplicationDenialId] = @id
+WHERE [LoanApplicationId] = @id
 ;
