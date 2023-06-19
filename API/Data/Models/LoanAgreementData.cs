@@ -2,7 +2,7 @@
 {
     public class LoanAgreementData : DataManagedStateBase
     {
-        [ColumnMapping(IsPrimaryKey = true)] public Guid LoanAgreementId { get; set; }
+        [ColumnMapping(IsPrimaryKey = true)] public Guid LoanId { get; set; }
         [ColumnMapping()] public short Status { get; set; }
         [ColumnMapping()] public DateTime CreateDate { get; set; }
         [ColumnMapping()] public DateTime? AgreementDate { get; set; }

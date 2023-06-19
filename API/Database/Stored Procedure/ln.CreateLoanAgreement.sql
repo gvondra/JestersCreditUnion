@@ -24,7 +24,7 @@ BEGIN
 	SET @id = NEWID();
 	SET @timestamp = SYSUTCDATETIME();
 	INSERT INTO [ln].[LoanAgreement] (
-	[LoanAgreementId], [Status], [CreateDate], [AgreementDate],
+	[LoanId], [Status], [CreateDate], [AgreementDate],
 	[BorrowerName], [BorrowerBirthDate], [BorrowerAddressId], [BorrowerEmailAddressId], [BorrowerPhoneId],
 	[CoBorrowerName], [CoBorrowerBirthDate], [CoBorrowerAddressId], [CoBorrowerEmailAddressId], [CoBorrowerPhoneId],
 	[OriginalAmount], [OriginalTerm], [InterestRate], [PaymentAmount], [PaymentFrequency],

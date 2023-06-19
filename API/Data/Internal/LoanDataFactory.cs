@@ -1,52 +1,80 @@
 ﻿using JestersCreditUnion.Data.Models;
-using MongoDB.Driver;
-using System;
+using System.Data.Common;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace JestersCreditUnion.Data.Internal
 {
-    public class LoanDataFactory : BaseDataFactory, ILoanDataFactory
+    public class LoanDataFactory : DataFactoryBase<LoanData>, ILoanDataFactory
     {
-        private readonly IMongoClientFactory _mongoClientFactory;
+        public LoanDataFactory(IDbProviderFactory providerFactory)
+            : base(providerFactory) { }
 
-        public LoanDataFactory(IMongoClientFactory mongoClientFactory)
-            : base(mongoClientFactory) 
+        public async Task<LoanData> Get(ISqlSettings settings, Guid id)
         {
-            _mongoClientFactory = mongoClientFactory;
+            IDataParameter[] parameters = new IDataParameter[]
+            {
+                DataUtil.CreateParameter(_providerFactory, "id", DbType.Guid, DataUtil.GetParameterValue(id))
+            };
+            DataReaderProcess dataReaderProcess = new DataReaderProcess();
+            LoanData data = null;
+            await dataReaderProcess.Read(
+                settings,
+                _providerFactory,
+                "[ln].[GetLoan]",
+                commandType: CommandType.StoredProcedure,
+                parameters: parameters,
+                async (DbDataReader reader) => data = await Load(reader));
+            return data;
         }
 
-        public async Task<LoanData> Get(IDataSettings settings, Guid id)
+        public async Task<LoanData> GetByLoanApplicationId(ISqlSettings settings, Guid loanApplicationId)
         {
-            FilterDefinition<LoanData> filter = Builders<LoanData>.Filter
-                .Eq(ln => ln.LoanId, id)
-                ;
-            return (await(await GetCollection<LoanData>(settings, Constants.CollectionName.Loan))
-                .FindAsync(filter))
-                .FirstOrDefault()
-                ;
+            IDataParameter[] parameters = new IDataParameter[]
+            {
+                DataUtil.CreateParameter(_providerFactory, "loanApplicationId", DbType.Guid, DataUtil.GetParameterValue(loanApplicationId))
+            };
+            DataReaderProcess dataReaderProcess = new DataReaderProcess();
+            LoanData data = null;
+            await dataReaderProcess.Read(
+                settings,
+                _providerFactory,
+                "[ln].[GetLoan_by_LoanApplicationId]",
+                commandType: CommandType.StoredProcedure,
+                parameters: parameters,
+                async (DbDataReader reader) => data = await Load(reader));
+            return data;
         }
 
-        public async Task<LoanData> GetByLoanApplicationId(IDataSettings settings, Guid loanApplicationId)
+        public async Task<LoanData> GetByNumber(ISqlSettings settings, string number)
         {
-            FilterDefinition<LoanData> filter = Builders<LoanData>.Filter
-                .Eq(ln => ln.LoanApplicationId, loanApplicationId)
-                ;
-            return (await(await GetCollection<LoanData>(settings, Constants.CollectionName.Loan))
-                .FindAsync(filter))
-                .FirstOrDefault()
-                ;
+            IDataParameter[] parameters = new IDataParameter[]
+            {
+                DataUtil.CreateParameter(_providerFactory, "number", DbType.AnsiString, DataUtil.GetParameterValue(number))
+            };
+            DataReaderProcess dataReaderProcess = new DataReaderProcess();
+            LoanData data = null;
+            await dataReaderProcess.Read(
+                settings,
+                _providerFactory,
+                "[ln].[GetLoan_by_Number]",
+                commandType: CommandType.StoredProcedure,
+                parameters: parameters,
+                async (DbDataReader reader) => data = await Load(reader));
+            return data;
         }
 
-        public async Task<LoanData> GetByNumber(IDataSettings settings, string number)
+        private async Task<LoanData> Load(DbDataReader reader)
         {
-            FilterDefinition<LoanData> filter = Builders<LoanData>.Filter
-                .Eq(ln => ln.Number, number)
-                ;
-            return (await(await GetCollection<LoanData>(settings, Constants.CollectionName.Loan))
-                .FindAsync(filter))
-                .FirstOrDefault()
-                ;
+            LoanData data = (await _genericDataFactory.LoadData(reader, Create, DataUtil.AssignDataStateManager)).FirstOrDefault();
+            if (data != null)
+            {
+                GenericDataFactory<LoanAgreementData> agreementFactory = new GenericDataFactory<LoanAgreementData>();
+                reader.NextResult();
+                data.Agreement = (await agreementFactory.LoadData(reader, () => new LoanAgreementData(), DataUtil.AssignDataStateManager)).FirstOrDefault();
+            }
+            return data;
         }
     }
 }

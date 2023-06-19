@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [ln].[LoanAgreement]
 (
-	[LoanAgreementId] UNIQUEIDENTIFIER NOT NULL,
+	[LoanId] UNIQUEIDENTIFIER NOT NULL,
 	[Status] SMALLINT NOT NULL,
 	[CreateDate] DATE NOT NULL,
 	[AgreementDate] DATE NULL,
@@ -21,5 +21,5 @@
 	[PaymentFrequency] SMALLINT NOT NULL,
 	[CreateTimestamp] DATETIME2(4) CONSTRAINT [DF_LoanAgreement_CreateTimestamp] DEFAULT (SYSUTCDATETIME()) NOT NULL,
 	[UpdateTimestamp] DATETIME2(4) CONSTRAINT [DF_LoanAgreement_UpdateTimestamp] DEFAULT (SYSUTCDATETIME()) NOT NULL,
-	CONSTRAINT [PK_LoanAgreement] PRIMARY KEY NONCLUSTERED ([LoanAgreementId])
+	CONSTRAINT [PK_LoanAgreement] PRIMARY KEY NONCLUSTERED ([LoanId])
 )

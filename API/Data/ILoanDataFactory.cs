@@ -1,13 +1,12 @@
 ﻿using JestersCreditUnion.Data.Models;
-using System;
 using System.Threading.Tasks;
 
 namespace JestersCreditUnion.Data
 {
     public interface ILoanDataFactory
     {
-        Task<LoanData> Get(IDataSettings settings, Guid id);
-        Task<LoanData> GetByNumber(IDataSettings settings, string number);
-        Task<LoanData> GetByLoanApplicationId(IDataSettings settings, Guid loanApplicationId);
+        Task<LoanData> Get(ISqlSettings settings, Guid id);
+        Task<LoanData> GetByNumber(ISqlSettings settings, string number);
+        Task<LoanData> GetByLoanApplicationId(ISqlSettings settings, Guid loanApplicationId);
     }
 }
