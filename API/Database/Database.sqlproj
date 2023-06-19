@@ -88,6 +88,13 @@
     <Build Include="Stored Procedure\ln.CreateLoanApplication.sql" />
     <Build Include="Stored Procedure\ln.CreateLoanAgreement.sql" />
     <Build Include="Stored Procedure\ln.CreateLoan.sql" />
+    <Build Include="Stored Procedure\ln.GetLoanApplication.sql" />
+    <Build Include="Stored Procedure\ln.GetLoanApplication_by_UserId.sql" />
+    <Build Include="Stored Procedure\ln.GetLoanApplicationDenial_by_UserId.sql" />
+    <Build Include="Stored Procedure\ln.GetLoanApplicationComment_by_UserId.sql" />
+    <Build Include="Stored Procedure\ln.UpdateLoanApplication.sql" />
+    <Build Include="Stored Procedure\ln.SetLoanApplicationDenial.sql" />
+    <Build Include="Stored Procedure\ln.UpdateLoanApplicationDenial.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="LocalSqlSchemaCompare.scmp" />

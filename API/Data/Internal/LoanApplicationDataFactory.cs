@@ -1,53 +1,95 @@
 ﻿using JestersCreditUnion.Data.Models;
-using MongoDB.Driver;
-using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Common;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace JestersCreditUnion.Data.Internal
 {
-    public class LoanApplicationDataFactory : BaseDataFactory, ILoanApplicationDataFactory
+    public class LoanApplicationDataFactory : DataFactoryBase<LoanApplicationData>, ILoanApplicationDataFactory
     {
         private readonly IMongoClientFactory _mongoClientFactory;
 
-        public LoanApplicationDataFactory(IMongoClientFactory mongoClientFactory)
-            : base(mongoClientFactory)
-        {
-            _mongoClientFactory = mongoClientFactory;
-        }
+        public LoanApplicationDataFactory(IDbProviderFactory providerFactory)
+            : base(providerFactory) { }
 
-        public async Task<LoanApplicationData> Get(IDataSettings settings, Guid id)
+        public async Task<LoanApplicationData> Get(ISqlSettings settings, Guid id)
         {
-            FilterDefinition<LoanApplicationData> filter = Builders<LoanApplicationData>.Filter
-                .Eq(a => a.LoanApplicationId, id)
-                ;
-            return (await (await GetCollection<LoanApplicationData>(settings, Constants.CollectionName.LoanApplication))
-                .FindAsync(filter))
-                .FirstOrDefault()
-                ;
-        }
-
-        public async Task<IEnumerable<LoanApplicationData>> GetAll(IDataSettings settings)
-        {
-            SortDefinition<LoanApplicationData> sort = Builders<LoanApplicationData>.Sort.Descending(a => a.UpdateTimestamp);
-            FindOptions<LoanApplicationData> findOptions = new FindOptions<LoanApplicationData>()
+            IDataParameter[] parameters = new IDataParameter[]
             {
-                Sort = sort
+                DataUtil.CreateParameter(_providerFactory, "id", DbType.Guid, DataUtil.GetParameterValue(id))
             };
-            
-            return (await (await GetCollection<LoanApplicationData>(settings, Constants.CollectionName.LoanApplication))
-                .FindAsync(Builders<LoanApplicationData>.Filter.Empty, findOptions))                
-                .ToList();
+            DataReaderProcess dataReaderProcess = new DataReaderProcess();
+            LoanApplicationData data = null;
+            await dataReaderProcess.Read(
+                settings,
+                _providerFactory,
+                "[ln].[GetLoanApplication]",
+                commandType: CommandType.StoredProcedure,
+                parameters: parameters,
+                async (DbDataReader reader) =>
+                {
+                    data = (await _genericDataFactory.LoadData(reader, Create, DataUtil.AssignDataStateManager)).FirstOrDefault();
+                    if (data != null)
+                    {
+                        GenericDataFactory<LoanApplicationDenialData> denialFactory = new GenericDataFactory<LoanApplicationDenialData>();
+                        GenericDataFactory<LoanApplicationCommentData> commentFactory = new GenericDataFactory<LoanApplicationCommentData>();
+                        reader.NextResult();
+                        data.Denial = (await denialFactory.LoadData(reader, () => new LoanApplicationDenialData(), DataUtil.AssignDataStateManager)).FirstOrDefault();
+                        reader.NextResult();
+                        data.Comments = (await commentFactory.LoadData(reader, () => new LoanApplicationCommentData, DataUtil.AssignDataStateManager)).ToList();
+                    }
+                });
+            return data;
         }
 
-        public async Task<IEnumerable<LoanApplicationData>> GetByUserId(IDataSettings settings, Guid userId)
+        public async Task<IEnumerable<LoanApplicationData>> GetByUserId(ISqlSettings settings, Guid userId)
         {
-            FilterDefinition<LoanApplicationData> filter = Builders<LoanApplicationData>.Filter
-                .Eq(a => a.UserId, userId)
-                ;
-            return (await (await GetCollection<LoanApplicationData>(settings, Constants.CollectionName.LoanApplication))
-                .FindAsync(filter))
-                .ToList();
+            IDataParameter[] parameters = new IDataParameter[]
+            {
+                DataUtil.CreateParameter(_providerFactory, "userId", DbType.Guid, DataUtil.GetParameterValue(userId))
+            };
+            DataReaderProcess dataReaderProcess = new DataReaderProcess();
+            IEnumerable<LoanApplicationData> result = null;
+            List<LoanApplicationDenialData> denials = null;
+            List<LoanApplicationCommentData> comments = null;
+            await dataReaderProcess.Read(
+                settings,
+                _providerFactory,
+                "[ln].[GetLoanApplication_by_UserId]",
+                commandType: CommandType.StoredProcedure,
+                parameters: parameters,
+                async (DbDataReader reader) =>
+                {
+                    result = (await _genericDataFactory.LoadData(reader, Create, DataUtil.AssignDataStateManager)).ToList();
+                    GenericDataFactory<LoanApplicationDenialData> denialFactory = new GenericDataFactory<LoanApplicationDenialData>();
+                    GenericDataFactory<LoanApplicationCommentData> commentFactory = new GenericDataFactory<LoanApplicationCommentData>();
+                    reader.NextResult();
+                    denials = (await denialFactory.LoadData(reader, () => new LoanApplicationDenialData(), DataUtil.AssignDataStateManager)).ToList();
+                    reader.NextResult();
+                    comments = (await commentFactory.LoadData(reader, ()=> new LoanApplicationCommentData(), DataUtil.AssignDataStateManager)).ToList();
+                });
+            result = result
+                .Join(
+                denials,
+                a => a.LoanApplicationId,
+                d => d.LoanApplicationId,
+                (app, denial) =>
+                {
+                    app.Denial = denial;
+                    return app;
+                })
+                .GroupJoin(
+                comments,
+                a => a.LoanApplicationId,
+                c => c.LoanApplicationId,
+                (app, cmmnts) =>
+                {
+                    app.Comments = cmmnts.ToList();
+                    return app;
+                });
+            return result.ToList();
         }
     }
 }

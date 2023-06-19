@@ -1,14 +1,13 @@
 ﻿using JestersCreditUnion.Data.Models;
-using System;
 using System.Threading.Tasks;
 
 namespace JestersCreditUnion.Data
 {
     public interface ILoanApplicationDataSaver
     {
-        Task Create(IDataSettings settings, LoanApplicationData data);
-        Task Update(IDataSettings settings, LoanApplicationData data);
-        Task AppendComment(IDataSettings settings, Guid id, LoanApplicationCommentData data);
-        Task SetDenial(IDataSettings settings, Guid id, short loanApplicationStatus, LoanApplicationDenialData denial);
+        Task Create(ISqlTransactionHandler transactionHandler, LoanApplicationData data);
+        Task Update(ISqlTransactionHandler transactionHandler, LoanApplicationData data);
+        Task AppendComment(ISqlTransactionHandler transactionHandler, LoanApplicationCommentData data);
+        Task SetDenial(ISqlTransactionHandler transactionHandler, Guid id, short loanApplicationStatus, LoanApplicationDenialData denial);
     }
 }
