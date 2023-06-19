@@ -1,25 +1,41 @@
 ﻿using JestersCreditUnion.Data.Models;
-using System;
+using System.Data;
+using System.Data.Common;
 using System.Threading.Tasks;
 
 namespace JestersCreditUnion.Data.Internal
 {
-    public class EmailAddressDataSaver : IEmailAddressDataSaver
+    public class EmailAddressDataSaver : DataSaverBase, IEmailAddressDataSaver
     {
-        private readonly IMongoClientFactory _mongoClientFactory;
+        public EmailAddressDataSaver(IDbProviderFactory providerFactory)
+            : base(providerFactory) { }
 
-        public EmailAddressDataSaver(IMongoClientFactory mongoClientFactory)
+        public async Task Create(ISqlTransactionHandler transactionHandler, EmailAddressData data)
         {
-            _mongoClientFactory = mongoClientFactory;
-        }
+            if (data.Manager.GetState(data) == DataState.New)
+            {
+                await _providerFactory.EstablishTransaction(transactionHandler, data);
+                using (DbCommand command = transactionHandler.Connection.CreateCommand())
+                {
+                    command.CommandText = "[ln].[CreateEmailAddress]";
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Transaction = transactionHandler.Transaction.InnerTransaction;
 
-        public async Task Create(IDataSettings settings, EmailAddressData data)
-        {
-            data.CreateTimestamp = DateTime.UtcNow;
-            await (await _mongoClientFactory.GetDatabase(settings))
-                .GetCollection<EmailAddressData>(Constants.CollectionName.EmailAddress)
-                .InsertOneAsync(data)
-                ;
+                    IDataParameter id = DataUtil.CreateParameter(_providerFactory, "id", DbType.Guid);
+                    id.Direction = ParameterDirection.Output;
+                    command.Parameters.Add(id);
+
+                    IDataParameter timestamp = DataUtil.CreateParameter(_providerFactory, "timestamp", DbType.DateTime2);
+                    timestamp.Direction = ParameterDirection.Output;
+                    command.Parameters.Add(timestamp);
+
+                    DataUtil.AddParameter(_providerFactory, command.Parameters, "address", DbType.AnsiString, DataUtil.GetParameterValue(data.Address));
+
+                    await command.ExecuteNonQueryAsync();
+                    data.EmailAddressId = (Guid)id.Value;
+                    data.CreateTimestamp = (DateTime)timestamp.Value;
+                }
+            }
         }
 
     }

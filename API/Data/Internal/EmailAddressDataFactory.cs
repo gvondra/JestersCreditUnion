@@ -1,43 +1,45 @@
 ﻿using JestersCreditUnion.Data.Models;
-using MongoDB.Bson;
-using MongoDB.Driver;
-using System;
-using System.Text.RegularExpressions;
+using System.Data;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace JestersCreditUnion.Data.Internal
 {
-    public class EmailAddressDataFactory : IEmailAddressDataFactory
+    public class EmailAddressDataFactory : DataFactoryBase<EmailAddressData>, IEmailAddressDataFactory
     {
-        private readonly IMongoClientFactory _mongoClientFactory;
+        public EmailAddressDataFactory(IDbProviderFactory providerFactory)
+            : base(providerFactory) { }
 
-        public EmailAddressDataFactory(IMongoClientFactory mongoClientFactory) 
+        public async Task<EmailAddressData> Get(ISqlSettings settings, Guid id)
         {
-            _mongoClientFactory = mongoClientFactory;
+            IDataParameter[] parameters = new IDataParameter[]
+            {
+                DataUtil.CreateParameter(_providerFactory, "id", DbType.Guid, DataUtil.GetParameterValue(id))
+            };
+            return (await _genericDataFactory.GetData(
+                settings,
+                _providerFactory,
+                "[ln].[GetEmailAddress]",
+                Create,
+                DataUtil.AssignDataStateManager,
+                parameters))
+                .FirstOrDefault();
         }
 
-        public async Task<EmailAddressData> Get(IDataSettings settings, Guid id)
+        public async Task<EmailAddressData> Get(ISqlSettings settings, string address)
         {
-            FilterDefinition<EmailAddressData> filter = Builders<EmailAddressData>.Filter
-                .Eq(ea => ea.EmailAddressId, id)
-                ;
-            return await (await (await _mongoClientFactory.GetDatabase(settings))
-                .GetCollection<EmailAddressData>(Constants.CollectionName.EmailAddress)
-                .FindAsync(filter))
-                .FirstOrDefaultAsync()
-                ;
-        }
-
-        public async Task<EmailAddressData> Get(IDataSettings settings, string address)
-        {
-            FilterDefinition<EmailAddressData> filter = Builders<EmailAddressData>.Filter
-                .Eq(ea => ea.AddressLCase, (address ?? string.Empty).ToLower()) 
-                ;
-            return await (await (await _mongoClientFactory.GetDatabase(settings))
-                .GetCollection<EmailAddressData>(Constants.CollectionName.EmailAddress)
-                .FindAsync(filter))
-                .FirstOrDefaultAsync()
-                ;
+            IDataParameter[] parameters = new IDataParameter[]
+            {
+                DataUtil.CreateParameter(_providerFactory, "address", DbType.AnsiString, DataUtil.GetParameterValue(address))
+            };
+            return (await _genericDataFactory.GetData(
+                settings,
+                _providerFactory,
+                "[ln].[GetEmailAddress_by_Address]",
+                Create,
+                DataUtil.AssignDataStateManager,
+                parameters))
+                .FirstOrDefault();
         }
     }
 }

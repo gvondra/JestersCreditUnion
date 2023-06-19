@@ -5,6 +5,6 @@ namespace JestersCreditUnion.Data
 {
     public interface IEmailAddressDataSaver
     {
-        Task Create(IDataSettings settings, EmailAddressData data);
+        Task Create(ISqlTransactionHandler transactionHandler, EmailAddressData data);
     }
 }

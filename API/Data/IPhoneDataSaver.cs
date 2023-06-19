@@ -5,6 +5,6 @@ namespace JestersCreditUnion.Data
 {
     public interface IPhoneDataSaver
     {
-        Task Create(IDataSettings settings, PhoneData data);
+        Task Create(ISqlTransactionHandler transactionHandler, PhoneData data);
     }
 }

@@ -1,45 +1,45 @@
 ﻿using JestersCreditUnion.Data.Models;
-using MongoDB.Driver;
-using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace JestersCreditUnion.Data.Internal
 {
-    public class PhoneDataFactory : IPhoneDataFactory
+    public class PhoneDataFactory : DataFactoryBase<PhoneData>, IPhoneDataFactory
     {
-        private readonly IMongoClientFactory _mongoClientFactory;
+        public PhoneDataFactory(IDbProviderFactory providerFactory) 
+            : base(providerFactory) { }
 
-        public PhoneDataFactory(IMongoClientFactory mongoClientFactory) 
+        public async Task<PhoneData> Get(ISqlSettings settings, Guid id)
         {
-            _mongoClientFactory = mongoClientFactory;
+            IDataParameter[] parameters = new IDataParameter[]
+            {
+                DataUtil.CreateParameter(_providerFactory, "id", DbType.Guid, DataUtil.GetParameterValue(id))
+            };
+            return (await _genericDataFactory.GetData(
+                settings,
+                _providerFactory,
+                "[ln].[GetPhone]",
+                Create,
+                DataUtil.AssignDataStateManager,
+                parameters))
+                .FirstOrDefault();
         }
 
-        public async Task<PhoneData> Get(IDataSettings settings, Guid id)
+        public async Task<PhoneData> Get(ISqlSettings settings, string number)
         {
-            FilterDefinition<PhoneData> filter = Builders<PhoneData>.Filter
-                .Eq(p => p.PhoneId, id)
-                ;
-            return await (await (await _mongoClientFactory.GetDatabase(settings))
-                .GetCollection<PhoneData>(Constants.CollectionName.Phone)
-                .FindAsync(filter))
-                .FirstOrDefaultAsync()
-                ;
-        }
-
-        public async Task<PhoneData> Get(IDataSettings settings, string number)
-        {
-            FilterDefinition<PhoneData> filter = Builders<PhoneData>.Filter
-                .Eq(p => p.Number, number)
-                ;
-            return await (await (await _mongoClientFactory.GetDatabase(settings))
-                .GetCollection<PhoneData>(Constants.CollectionName.Phone)
-                .FindAsync(filter))
-                .FirstOrDefaultAsync()
-                ;
+            IDataParameter[] parameters = new IDataParameter[]
+            {
+                DataUtil.CreateParameter(_providerFactory, "number", DbType.AnsiString, DataUtil.GetParameterValue(number))
+            };
+            return (await _genericDataFactory.GetData(
+                settings,
+                _providerFactory,
+                "[ln].[GetPhone_by_Number]",
+                Create,
+                DataUtil.AssignDataStateManager,
+                parameters))
+                .FirstOrDefault();
         }
     }
 }
