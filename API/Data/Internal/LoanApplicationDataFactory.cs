@@ -9,8 +9,6 @@ namespace JestersCreditUnion.Data.Internal
 {
     public class LoanApplicationDataFactory : DataFactoryBase<LoanApplicationData>, ILoanApplicationDataFactory
     {
-        private readonly IMongoClientFactory _mongoClientFactory;
-
         public LoanApplicationDataFactory(IDbProviderFactory providerFactory)
             : base(providerFactory) { }
 
@@ -38,7 +36,7 @@ namespace JestersCreditUnion.Data.Internal
                         reader.NextResult();
                         data.Denial = (await denialFactory.LoadData(reader, () => new LoanApplicationDenialData(), DataUtil.AssignDataStateManager)).FirstOrDefault();
                         reader.NextResult();
-                        data.Comments = (await commentFactory.LoadData(reader, () => new LoanApplicationCommentData, DataUtil.AssignDataStateManager)).ToList();
+                        data.Comments = (await commentFactory.LoadData(reader, () => new LoanApplicationCommentData(), DataUtil.AssignDataStateManager)).ToList();
                     }
                 });
             return data;
