@@ -1,15 +1,9 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
-using System;
-
-namespace JestersCreditUnion.Data.Models
+﻿namespace JestersCreditUnion.Data.Models
 {    
-    public class PhoneData 
+    public class PhoneData : DataManagedStateBase
     {
-        [BsonId()] 
-        public Guid PhoneId { get; set; }
-        [BsonRequired()]
-        public string Number { get; set; }
-        [BsonDateTimeOptions(Kind = DateTimeKind.Utc)] 
-        public DateTime CreateTimestamp { get; set; }
+        [ColumnMapping(IsPrimaryKey = true)] public Guid PhoneId { get; set; }
+        [ColumnMapping()] public string Number { get; set; }
+        [ColumnMapping(IsUtc = true)] public DateTime CreateTimestamp { get; set; }
     }
 }

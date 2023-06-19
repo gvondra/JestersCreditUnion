@@ -1,35 +1,16 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
-using System;
-
-namespace JestersCreditUnion.Data.Models
+﻿namespace JestersCreditUnion.Data.Models
 {
-	public class AddressData
+	public class AddressData : DataManagedStateBase
     {
-        [BsonId()] 
-		public Guid AddressId { get; set; }
-		[BsonRequired()]
-		public byte[] Hash { get; set; }
-		[BsonDefaultValue("")]
-		[BsonIgnoreIfDefault()]
-		public string Recipient { get; set; }
-        [BsonDefaultValue("")]
-        [BsonIgnoreIfDefault()]
-        public string Attention { get; set; }
-        [BsonDefaultValue("")]
-        [BsonIgnoreIfDefault()]
-        public string Delivery { get; set; }
-        [BsonDefaultValue("")]
-        [BsonIgnoreIfDefault()]
-        public string Secondary { get; set; }
-        [BsonDefaultValue("")]
-        [BsonIgnoreIfDefault()]
-        public string City { get; set; }
-        [BsonDefaultValue("")]
-        [BsonIgnoreIfDefault()]
-        public string State { get; set; }
-        [BsonDefaultValue("")]
-        [BsonIgnoreIfDefault()]
-        public string PostalCode { get; set; }
-		[BsonDateTimeOptions(Kind = DateTimeKind.Utc)] public DateTime CreateTimestamp { get; set; }
+        [ColumnMapping(IsPrimaryKey = true)] public Guid AddressId { get; set; }
+        [ColumnMapping()] public byte[] Hash { get; set; }
+        [ColumnMapping()] public string Recipient { get; set; }
+        [ColumnMapping()] public string Attention { get; set; }
+        [ColumnMapping()] public string Delivery { get; set; }
+        [ColumnMapping()] public string Secondary { get; set; }
+        [ColumnMapping()] public string City { get; set; }
+        [ColumnMapping()] public string State { get; set; }
+        [ColumnMapping()] public string PostalCode { get; set; }
+        [ColumnMapping(IsUtc = true)] public DateTime CreateTimestamp { get; set; }
     }
 }

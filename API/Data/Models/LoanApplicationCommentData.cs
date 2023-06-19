@@ -1,18 +1,12 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
-using System;
-
-namespace JestersCreditUnion.Data.Models
+﻿namespace JestersCreditUnion.Data.Models
 {
-    public class LoanApplicationCommentData
+    public class LoanApplicationCommentData : DataManagedStateBase
     {
-        [BsonId()]
-        public Guid LoanApplicationCommentId { get; set; }
-        [BsonRequired()]
-        public Guid UserId { get; set; }
-        [BsonRequired()]
-        public bool IsInternal { get; set; } = true;
-        [BsonRequired]
-        public string Text { get; set; }
-        [BsonDateTimeOptions(Kind = DateTimeKind.Utc)] public DateTime CreateTimestamp { get; set; }
+        [ColumnMapping(IsPrimaryKey = true)] public Guid LoanApplicationCommentId { get; set; }
+        [ColumnMapping()] public Guid LoanApplicationId { get; set; }
+        [ColumnMapping()] public Guid UserId { get; set; }
+        [ColumnMapping()] public bool IsInternal { get; set; } = true;
+        [ColumnMapping()] public string Text { get; set; }
+        [ColumnMapping(IsUtc = true)] public DateTime CreateTimestamp { get; set; }
     }
 }

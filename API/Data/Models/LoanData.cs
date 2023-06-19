@@ -1,22 +1,13 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
-using System;
-
-namespace JestersCreditUnion.Data.Models
+﻿namespace JestersCreditUnion.Data.Models
 {
-    public class LoanData
+    public class LoanData : DataManagedStateBase
     {
-        [BsonId]
-        public Guid LoanId { get; set; }
-        [BsonRequired]
-        public string Number { get; set; }
-        [BsonRequired]
-        public Guid LoanApplicationId { get; set; }
-        [BsonRequired]
-        public LoanAgreementData Agreement { get; set; }
-        [BsonIgnoreIfNull]
-        [BsonDateTimeOptions(DateOnly = true)]
-        public DateTime? InitialDisbursementDate { get; set; }
-        [BsonDateTimeOptions(Kind = DateTimeKind.Utc)] public DateTime CreateTimestamp { get; set; }
-        [BsonDateTimeOptions(Kind = DateTimeKind.Utc)] public DateTime UpdateTimestamp { get; set; }
+        [ColumnMapping(IsPrimaryKey = true)] public Guid LoanId { get; set; }
+        [ColumnMapping()] public string Number { get; set; }
+        [ColumnMapping()] public Guid LoanApplicationId { get; set; }
+        [ColumnMapping()] public LoanAgreementData Agreement { get; set; }
+        [ColumnMapping()] public DateTime? InitialDisbursementDate { get; set; }
+        [ColumnMapping(IsUtc = true)] public DateTime CreateTimestamp { get; set; }
+        [ColumnMapping(IsUtc = true)] public DateTime UpdateTimestamp { get; set; }
     }
 }

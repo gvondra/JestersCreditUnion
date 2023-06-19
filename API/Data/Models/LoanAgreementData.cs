@@ -1,50 +1,27 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
-using System;
-
-namespace JestersCreditUnion.Data.Models
+﻿namespace JestersCreditUnion.Data.Models
 {
-    public class LoanAgreementData
+    public class LoanAgreementData : DataManagedStateBase
     {
-        [BsonRequired]
-        [BsonDefaultValue(0)]
-        public short Status { get; set; }
-        [BsonRequired]
-        [BsonDateTimeOptions(DateOnly = true)]
-        public DateTime CreateDate { get; set; }
-        [BsonDateTimeOptions(DateOnly = true)]
-        public DateTime? AgreementDate { get; set; }
-        [BsonRequired]
-        public string BorrowerName { get; set; }
-        [BsonRequired]
-        [BsonDateTimeOptions(DateOnly = true)]
-        public DateTime BorrowerBirthDate { get; set; }
-        [BsonIgnoreIfNull]
-        public Guid? BorrowerAddressId { get; set; }
-        [BsonIgnoreIfNull]
-        public Guid? BorrowerEmailAddressId { get; set; }
-        [BsonIgnoreIfNull]
-        public Guid? BorrowerPhoneId { get; set; }
-        [BsonDefaultValue("")]
-        [BsonIgnoreIfDefault]
-        public string CoBorrowerName { get; set; }
-        [BsonDateTimeOptions(DateOnly = true)]
-        [BsonIgnoreIfNull]
-        public DateTime? CoBorrowerBirthDate { get; set; }
-        [BsonIgnoreIfNull]
-        public Guid? CoBorrowerAddressId { get; set; }
-        [BsonIgnoreIfNull]
-        public Guid? CoBorrowerEmailAddressId { get; set; }
-        [BsonIgnoreIfNull]
-        public Guid? CoBorrowerPhoneId { get; set; }
-        [BsonRequired]
-        public decimal OriginalAmount { get; set; }
-        [BsonRequired]
-        public short OriginalTerm { get; set; }
-        [BsonRequired]
-        public decimal InterestRate { get; set; }
-        [BsonRequired]
-        public decimal PaymentAmount { get; set; }
-        [BsonRequired]
-        public short PaymentFrequency { get; set; }
+        [ColumnMapping(IsPrimaryKey = true)] public Guid LoanAgreementId { get; set; }
+        [ColumnMapping()] public short Status { get; set; }
+        [ColumnMapping()] public DateTime CreateDate { get; set; }
+        [ColumnMapping()] public DateTime? AgreementDate { get; set; }
+        [ColumnMapping()] public string BorrowerName { get; set; }
+        [ColumnMapping()] public DateTime BorrowerBirthDate { get; set; }
+        [ColumnMapping()] public Guid? BorrowerAddressId { get; set; }
+        [ColumnMapping()] public Guid? BorrowerEmailAddressId { get; set; }
+        [ColumnMapping()] public Guid? BorrowerPhoneId { get; set; }
+        [ColumnMapping()] public string CoBorrowerName { get; set; }
+        [ColumnMapping()] public DateTime? CoBorrowerBirthDate { get; set; }
+        [ColumnMapping()] public Guid? CoBorrowerAddressId { get; set; }
+        [ColumnMapping()] public Guid? CoBorrowerEmailAddressId { get; set; }
+        [ColumnMapping()] public Guid? CoBorrowerPhoneId { get; set; }
+        [ColumnMapping()] public decimal OriginalAmount { get; set; }
+        [ColumnMapping()] public short OriginalTerm { get; set; }
+        [ColumnMapping()] public decimal InterestRate { get; set; }
+        [ColumnMapping()] public decimal PaymentAmount { get; set; }
+        [ColumnMapping()] public short PaymentFrequency { get; set; }
+        [ColumnMapping(IsUtc = true)] public DateTime CreateTimestamp { get; set; }
+        [ColumnMapping(IsUtc = true)] public DateTime UpdateTimestamp { get; set; }
     }
 }
