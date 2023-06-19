@@ -86,8 +86,11 @@
     <Build Include="Stored Procedure\ln.GetLoanApplicationDenial.sql" />
     <Build Include="Stored Procedure\ln.CreateLoanApplicationDenial.sql" />
     <Build Include="Stored Procedure\ln.CreateLoanApplication.sql" />
+    <Build Include="Stored Procedure\ln.CreateLoanAgreement.sql" />
+    <Build Include="Stored Procedure\ln.CreateLoan.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="LocalSqlSchemaCompare.scmp" />
+    <None Include="LocalDatabase.publish.xml" />
   </ItemGroup>
 </Project>

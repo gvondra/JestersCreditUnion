@@ -8,6 +8,6 @@
 AS
 BEGIN
 	SET @timestamp = SYSUTCDATETIME();
-	INSERT INTO [ln].[LoanApplicationDenial] ([LoanApplicationId], [UserId], [Reason], [Date], [Text], [CreateTimestamp])
-	VALUES(@id, @userId, @reason, @date, @text, @timestamp);
+	INSERT INTO [ln].[LoanApplicationDenial] ([LoanApplicationId], [UserId], [Reason], [Date], [Text], [CreateTimestamp], [UpdateTimestamp])
+	VALUES(@id, @userId, @reason, @date, @text, @timestamp, @timestamp);
 END
