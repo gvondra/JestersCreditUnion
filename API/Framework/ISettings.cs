@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Threading.Tasks;
 
 namespace JestersCreditUnion.Framework
 {
-    public interface ISettings
+    public interface ISettings : JestersCreditUnion.CommonCore.ISettings
     {
-        string DatabaseHost { get; }
-        string DatabaseName { get; }
-        string DatabaseUser { get; }
-        Task<string> GetDatabasePassword();
         public string BrassLoonAccountApiBaseAddress { get; }
         public string BrassLoonConfigApiBaseAddress { get; }
         public string BrassLoonWorkTaskApiBaseAddress { get; }

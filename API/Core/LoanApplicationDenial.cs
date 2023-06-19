@@ -4,6 +4,7 @@ using JestersCreditUnion.Framework;
 using JestersCreditUnion.Framework.Enumerations;
 using System;
 using System.Threading.Tasks;
+using CommonCore = JestersCreditUnion.CommonCore;
 
 namespace JestersCreditUnion.Core
 {
@@ -27,7 +28,7 @@ namespace JestersCreditUnion.Core
         public Guid UserId { get => _data.UserId; set => _data.UserId = value; }
         public string Text { get => _data.Text; set => _data.Text = (value ?? string.Empty).Trim(); }
 
-        public Task Save(ISettings settings, Guid id, LoanApplicationStatus status) => _dataSaver.SetDenial(new DataSettings(settings), id, (short)status, _data);
+        public Task Save(CommonCore.ITransactionHandler transactionHandler, Guid id, LoanApplicationStatus status) => _dataSaver.SetDenial(transactionHandler, id, (short)status, _data);
 
         public async Task<string> GetReasonDescription(ISettings settings)
         {

@@ -4,6 +4,7 @@ using JestersCreditUnion.Framework;
 using System;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using CommonCore = JestersCreditUnion.CommonCore;
 
 namespace JestersCreditUnion.Core
 {
@@ -32,7 +33,7 @@ namespace JestersCreditUnion.Core
         public async Task<IEmailAddress> Get(ISettings settings, Guid id)
         {
             IEmailAddress result = null;
-            EmailAddressData data = await _dataFactory.Get(new DataSettings(settings), id);
+            EmailAddressData data = await _dataFactory.Get(new CommonCore.DataSettings(settings), id);
             if (data != null)
                 result = Create(data);
             return result;
@@ -41,7 +42,7 @@ namespace JestersCreditUnion.Core
         public async Task<IEmailAddress> Get(ISettings settings, string address)
         {
             IEmailAddress result = null;
-            EmailAddressData data = await _dataFactory.Get(new DataSettings(settings), address);
+            EmailAddressData data = await _dataFactory.Get(new CommonCore.DataSettings(settings), address);
             if (data != null)
                 result = Create(data);
             return result;

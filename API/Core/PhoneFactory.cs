@@ -4,6 +4,7 @@ using JestersCreditUnion.Framework;
 using System;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using CommonCore = JestersCreditUnion.CommonCore;
 
 namespace JestersCreditUnion.Core
 {
@@ -33,7 +34,7 @@ namespace JestersCreditUnion.Core
         public async Task<IPhone> Get(ISettings settings, Guid id)
         {
             IPhone result = null;
-            PhoneData data = await _dataFactory.Get(new DataSettings(settings), id);
+            PhoneData data = await _dataFactory.Get(new CommonCore.DataSettings(settings), id);
             if (data != null)
                 result = Create(data);
             return result;
@@ -45,7 +46,7 @@ namespace JestersCreditUnion.Core
                 throw new ArgumentNullException(nameof(number));
             number = Regex.Replace(number, @"[^0-9]+", string.Empty, RegexOptions.IgnoreCase);
             IPhone result = null;
-            PhoneData data = await _dataFactory.Get(new DataSettings(settings), number);
+            PhoneData data = await _dataFactory.Get(new CommonCore.DataSettings(settings), number);
             if (data != null)
                 result = Create(data);
             return result;

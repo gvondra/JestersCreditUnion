@@ -1,4 +1,5 @@
-﻿using JestersCreditUnion.Framework.Enumerations;
+﻿using JestersCreditUnion.CommonCore;
+using JestersCreditUnion.Framework.Enumerations;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -36,8 +37,8 @@ namespace JestersCreditUnion.Framework
         List<ILoanApplicationComment> Comments { get; }
         ILoanApplicationDenial Denial { get; }
 
-        Task Create(ISettings settings);
-        Task Update(ISettings settings);
+        Task Create(ITransactionHandler transactionHandler);
+        Task Update(ITransactionHandler transactionHandler);
 
         Task<IAddress> GetBorrowerAddress(ISettings settings);
         Task<IAddress> GetCoBorrowerAddress(ISettings settings);

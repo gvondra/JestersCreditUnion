@@ -1,4 +1,5 @@
-﻿using JestersCreditUnion.Data;
+﻿using JestersCreditUnion.CommonCore;
+using JestersCreditUnion.Data;
 using JestersCreditUnion.Data.Models;
 using JestersCreditUnion.Framework;
 using System;
@@ -33,6 +34,8 @@ namespace JestersCreditUnion.Core
 
         public Guid LoanApplicationCommentId => _data.LoanApplicationCommentId;
 
+        private Guid LoanApplicationId { get => _data.LoanApplicationId; set => _data.LoanApplicationId = value; }
+
         public Guid UserId => _data.UserId;
 
         public bool IsInternal => _data.IsInternal;
@@ -41,11 +44,12 @@ namespace JestersCreditUnion.Core
 
         public DateTime CreateTimestamp => _data.CreateTimestamp;
 
-        public Task Create(ISettings settings)
+        public Task Create(ITransactionHandler transactionHandler)
         {
             if (_loanApplication == null)
                 throw new ArgumentNullException(nameof(_loanApplication));
-            return _dataSaver.AppendComment(new DataSettings(settings), _loanApplication.LoanApplicationId, _data);
+            LoanApplicationId = _loanApplication.LoanApplicationId;
+            return _dataSaver.AppendComment(transactionHandler, _data);
         }
     }
 }

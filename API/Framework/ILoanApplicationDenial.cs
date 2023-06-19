@@ -1,4 +1,5 @@
-﻿using JestersCreditUnion.Framework.Enumerations;
+﻿using JestersCreditUnion.CommonCore;
+using JestersCreditUnion.Framework.Enumerations;
 using System;
 using System.Threading.Tasks;
 
@@ -11,7 +12,7 @@ namespace JestersCreditUnion.Framework
         public Guid UserId { get; set; }
         public string Text { get; set; }
 
-        Task Save(ISettings settings, Guid id, LoanApplicationStatus status);
+        Task Save(ITransactionHandler transactionHandler, Guid id, LoanApplicationStatus status);
         Task<string> GetReasonDescription(ISettings settings);
     }
 }

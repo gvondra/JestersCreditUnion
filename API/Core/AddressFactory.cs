@@ -10,6 +10,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using CommonCore = JestersCreditUnion.CommonCore;
 
 namespace JestersCreditUnion.Core
 {
@@ -85,7 +86,7 @@ namespace JestersCreditUnion.Core
         public async Task<IAddress> Get(ISettings settings, Guid id)
         {
             IAddress result = null;
-            AddressData data = await _dataFactory.Get(new DataSettings(settings), id);
+            AddressData data = await _dataFactory.Get(new CommonCore.DataSettings(settings), id);
             if (data != null)
                 result = Create(data);
             return result;
@@ -94,7 +95,7 @@ namespace JestersCreditUnion.Core
         public async Task<IAddress> GetByHash(ISettings settings, byte[] hash)
         {
             IAddress result = null;
-            IEnumerable<AddressData> data = await _dataFactory.GetByHash(new DataSettings(settings), hash);
+            IEnumerable<AddressData> data = await _dataFactory.GetByHash(new CommonCore.DataSettings(settings), hash);
             if (data != null && data.Count() > 0)
                 result = Create(data.First());
             return result;

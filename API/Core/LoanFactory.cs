@@ -3,6 +3,7 @@ using JestersCreditUnion.Data.Models;
 using JestersCreditUnion.Framework;
 using System;
 using System.Threading.Tasks;
+using CommonCore = JestersCreditUnion.CommonCore;
 
 namespace JestersCreditUnion.Core
 {
@@ -45,7 +46,7 @@ namespace JestersCreditUnion.Core
         public async Task<ILoan> GetByNumber(ISettings settings, string number)
         {
             Loan result = null;
-            LoanData data = await _dataFactory.GetByNumber(new DataSettings(settings), number);
+            LoanData data = await _dataFactory.GetByNumber(new CommonCore.DataSettings(settings), number);
             if (data != null)
                 result = Create(data);
             return result;
@@ -54,7 +55,7 @@ namespace JestersCreditUnion.Core
         public async Task<ILoan> GetByLoanApplicationId(ISettings settings, Guid loanApplicationId)
         {
             Loan result = null;
-            LoanData data = await _dataFactory.GetByLoanApplicationId(new DataSettings(settings), loanApplicationId);
+            LoanData data = await _dataFactory.GetByLoanApplicationId(new CommonCore.DataSettings(settings), loanApplicationId);
             if (data != null)
                 result = Create(data);
             return result;
@@ -63,7 +64,7 @@ namespace JestersCreditUnion.Core
         public async Task<ILoan> Get(ISettings settings, Guid id)
         {
             Loan result = null;
-            LoanData data = await _dataFactory.Get(new DataSettings(settings), id);
+            LoanData data = await _dataFactory.Get(new CommonCore.DataSettings(settings), id);
             if (data != null)
                 result = Create(data);
             return result;

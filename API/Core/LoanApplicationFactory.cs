@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CommonCore = JestersCreditUnion.CommonCore;
 
 namespace JestersCreditUnion.Core
 {
@@ -42,19 +43,13 @@ namespace JestersCreditUnion.Core
 
         public async Task<ILoanApplication> Get(ISettings settings, Guid id)
         {
-            LoanApplicationData data = await _dataFactory.Get(new DataSettings(settings), id);
+            LoanApplicationData data = await _dataFactory.Get(new CommonCore.DataSettings(settings), id);
             return data != null ? Create(data) : null;
         }
 
         public async Task<IEnumerable<ILoanApplication>> GetByUserId(ISettings settings, Guid userId)
         {
-            return (await _dataFactory.GetByUserId(new DataSettings(settings), userId))
-                .Select<LoanApplicationData, ILoanApplication>(Create);
-        }
-
-        public async Task<IEnumerable<ILoanApplication>> GetAll(ISettings settings)
-        {
-            return (await _dataFactory.GetAll(new DataSettings(settings)))
+            return (await _dataFactory.GetByUserId(new CommonCore.DataSettings(settings), userId))
                 .Select<LoanApplicationData, ILoanApplication>(Create);
         }
     }

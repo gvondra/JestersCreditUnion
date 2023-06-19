@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ComonCore = JestersCreditUnion.CommonCore;
 using WorkTaskAPI = BrassLoon.Interface.WorkTask;
 
 namespace JestersCreditUnion.Core
@@ -52,16 +53,19 @@ namespace JestersCreditUnion.Core
                 throw new ApplicationException($"Work task type not found with code {taskTypeCode} in domain {settings.WorkTaskDomainId.Value:D}");
             }
 
-            await loanApplication.Create(settings);
-            
-            if (workTaskType != null && workTaskStatus != null)
+            await ComonCore.Saver.Save(new ComonCore.TransactionHandler(settings), async th =>
             {
-                AsyncRetryPolicy retry = Policy.Handle<Exception>()
-                    .WaitAndRetryAsync(new TimeSpan[] { TimeSpan.FromSeconds(0.5), TimeSpan.FromSeconds(0.667) });
-                await retry.ExecuteAsync(
-                    () => CreateNewLoanApplicationWorkTask(settings, workTaskType, workTaskStatus, loanApplication.LoanApplicationId)
-                    );
-            }
+                await loanApplication.Create(th);
+
+                if (workTaskType != null && workTaskStatus != null)
+                {
+                    AsyncRetryPolicy retry = Policy.Handle<Exception>()
+                        .WaitAndRetryAsync(new TimeSpan[] { TimeSpan.FromSeconds(0.5), TimeSpan.FromSeconds(0.667) });
+                    await retry.ExecuteAsync(
+                        () => CreateNewLoanApplicationWorkTask(settings, workTaskType, workTaskStatus, loanApplication.LoanApplicationId)
+                        );
+                }
+            });            
         }
 
         public async Task Deny(ISettings settings, ILoanApplication loanApplication)
@@ -83,16 +87,19 @@ namespace JestersCreditUnion.Core
                         .FirstOrDefault(s => s.IsDefaultStatus ?? false);
                 }
 
-                await denial.Save(settings, loanApplication.LoanApplicationId, loanApplication.Status);
-
-                if (workTaskType != null && workTaskStatus != null)
+                await CommonCore.Saver.Save(new CommonCore.TransactionHandler(settings), async th =>
                 {
-                    AsyncRetryPolicy retry = Policy.Handle<Exception>()
-                        .WaitAndRetryAsync(new TimeSpan[] { TimeSpan.FromSeconds(0.5), TimeSpan.FromSeconds(0.667) });
-                    await retry.ExecuteAsync(
-                        () => CreateSendDenialCorrespondenceWorkTask(settings, workTaskType, workTaskStatus, loanApplication.LoanApplicationId)
-                        );
-                }
+                    await denial.Save(th, loanApplication.LoanApplicationId, loanApplication.Status);
+
+                    if (workTaskType != null && workTaskStatus != null)
+                    {
+                        AsyncRetryPolicy retry = Policy.Handle<Exception>()
+                            .WaitAndRetryAsync(new TimeSpan[] { TimeSpan.FromSeconds(0.5), TimeSpan.FromSeconds(0.667) });
+                        await retry.ExecuteAsync(
+                            () => CreateSendDenialCorrespondenceWorkTask(settings, workTaskType, workTaskStatus, loanApplication.LoanApplicationId)
+                            );
+                    }
+                });                
             }
         }
 

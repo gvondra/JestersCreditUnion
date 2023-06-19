@@ -13,6 +13,5 @@ namespace JestersCreditUnion.Framework
         ILoanApplication Create(Guid userId);
         Task<ILoanApplication> Get(ISettings settings, Guid id);
         Task<IEnumerable<ILoanApplication>> GetByUserId(ISettings settings, Guid userId);
-        Task<IEnumerable<ILoanApplication>> GetAll(ISettings settings);
     }
 }

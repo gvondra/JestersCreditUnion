@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JestersCreditUnion.CommonCore;
+using System;
 using System.Threading.Tasks;
 
 namespace JestersCreditUnion.Framework
@@ -9,6 +10,6 @@ namespace JestersCreditUnion.Framework
         string Number { get; }
         DateTime CreateTimestamp { get; }
 
-        Task Create(ISettings settings);
+        Task Create(ITransactionHandler transactionHandler);
     }
 }

@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CommonCore = JestersCreditUnion.CommonCore;
 
 namespace JestersCreditUnion.Core
 {
@@ -80,7 +81,7 @@ namespace JestersCreditUnion.Core
             }
         }
 
-        public Task Create(ISettings settings) => _dataSaver.Create(new DataSettings(settings), _data);
+        public Task Create(CommonCore.ITransactionHandler transactionHandler) => _dataSaver.Create(transactionHandler, _data);
 
         public ILoanApplicationComment CreateComment(string text, Guid userId, bool isInternal = true)
         {
@@ -160,7 +161,7 @@ namespace JestersCreditUnion.Core
             return result;
         }
 
-        public Task Update(ISettings settings) => _dataSaver.Update(new DataSettings(settings), _data);
+        public Task Update(CommonCore.ITransactionHandler transactionHandler) => _dataSaver.Update(transactionHandler, _data);
 
         private static List<ILoanApplicationComment> InitiallizeComments(IEnumerable<LoanApplicationCommentData> commentData, ILoanApplicationDataSaver dataSaver)
         {
