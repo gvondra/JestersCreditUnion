@@ -2,7 +2,6 @@
 using JestersCreditUnion.Interface.Models;
 using System;
 using System.Net.Http;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace JestersCreditUnion.Interface
