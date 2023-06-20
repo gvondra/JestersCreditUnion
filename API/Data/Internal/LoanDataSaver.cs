@@ -11,6 +11,8 @@ namespace JestersCreditUnion.Data.Internal
         public LoanDataSaver(IDbProviderFactory providerFactory)
             : base(providerFactory) { }
 
+        public ILoanAgreementDataSaver LoanAgrementDataSaver { get; set; }
+
         public async Task Create(ISqlTransactionHandler transactionHandler, LoanData data)
         {
             if (data.Manager.GetState(data) == DataState.New)

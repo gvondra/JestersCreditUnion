@@ -20,9 +20,13 @@ namespace API.Controllers
     {
         private readonly ILoanApplicationFactory _loanApplicationFactory;
         private readonly ILoanFactory _loanFactory;
+        private readonly ILoanSaver _loanSaver;
         private readonly IAddressFactory _addressFactory;
+        private readonly IAddressSaver _addressSaver;
         private readonly IEmailAddressFactory _emailAddressFactory;
+        private readonly IEmailAddressSaver _emailAddressSaver;
         private readonly IPhoneFactory _phoneFactory;
+        private readonly IPhoneSaver _phoneSaver;
 
         public LoanController(IOptions<Settings> settings,
             ISettingsFactory settingsFactory,
@@ -30,16 +34,24 @@ namespace API.Controllers
             ILogger<LoanApplicationController> logger,
             ILoanApplicationFactory loanApplicationFactory,
             ILoanFactory loanFactory,
+            ILoanSaver loanSaver,
             IAddressFactory addressFactory,
+            IAddressSaver addressSaver,
             IEmailAddressFactory emailAddressFactory,
-            IPhoneFactory phoneFactory)
+            IEmailAddressSaver emailAddressSaver,
+            IPhoneFactory phoneFactory,
+            IPhoneSaver phoneSaver)
             : base(settings, settingsFactory, userService, logger)
         {
             _loanApplicationFactory = loanApplicationFactory;
             _loanFactory = loanFactory;
+            _loanSaver = loanSaver;
             _addressFactory = addressFactory;
+            _addressSaver = addressSaver;
             _emailAddressFactory = emailAddressFactory;
+            _emailAddressSaver = emailAddressSaver;
             _phoneFactory = phoneFactory;
+            _phoneSaver = phoneSaver;
         }
 
         [Authorize(Constants.POLICY_LOAN_READ)]
@@ -110,7 +122,7 @@ namespace API.Controllers
                     ILoan innerLoan = _loanFactory.Create(loanApplication);
                     IMapper mapper = MapperConfiguration.CreateMapper();
                     await MapAgreement(mapper, settings, loan, innerLoan);
-                    await innerLoan.Create(settings);
+                    await _loanSaver.Create(settings, innerLoan);
                     result = Ok(
                         await Map(mapper, settings, innerLoan));
                 }
@@ -156,7 +168,7 @@ namespace API.Controllers
                 {
                     IMapper mapper = MapperConfiguration.CreateMapper();
                     await MapAgreement(mapper, settings, loan, innerLoan);
-                    await innerLoan.Update(settings);
+                    await _loanSaver.Update(settings, innerLoan);
                     result = Ok(
                         await Map(mapper, settings, innerLoan));
                 }
@@ -203,7 +215,7 @@ namespace API.Controllers
                 if (innerPhone == null)
                 {
                     innerPhone = _phoneFactory.Create(ref number);
-                    await innerPhone.Create(settings);
+                    await _phoneSaver.Create(settings, innerPhone);
                 }
             }
             return innerPhone;
@@ -219,7 +231,7 @@ namespace API.Controllers
                 if (innerEmailAddress == null)
                 {
                     innerEmailAddress = _emailAddressFactory.Create(address);
-                    await innerEmailAddress.Create(settings);
+                    await _emailAddressSaver.Create(settings, innerEmailAddress);
                 }
 
             }
@@ -243,7 +255,7 @@ namespace API.Controllers
                 }
                 else
                 {
-                    await innerAddress.Create(settings);
+                    await _addressSaver.Create(settings, innerAddress);
                 }
             }
             return innerAddress;

@@ -1,4 +1,5 @@
-﻿using JestersCreditUnion.Data.Models;
+﻿using JestersCreditUnion.Data;
+using JestersCreditUnion.Data.Models;
 using JestersCreditUnion.Framework;
 using JestersCreditUnion.Framework.Enumerations;
 using System;
@@ -9,13 +10,30 @@ namespace JestersCreditUnion.Core
     public class LoanAgreement : ILoanAgreement
     {
         private readonly LoanAgreementData _data;
+        private readonly ILoanAgreementDataSaver _dataSaver;
         private readonly ILoanFactory _loanFactory;
+        private readonly ILoan _loan;
 
-        public LoanAgreement(LoanAgreementData data, ILoanFactory loanFactory)
+        public LoanAgreement(
+            LoanAgreementData data, 
+            ILoanAgreementDataSaver dataSaver,
+            ILoanFactory loanFactory,
+            ILoan loan)
         {
             _data = data;
+            _dataSaver = dataSaver;
             _loanFactory = loanFactory;
+            _loan = loan;
         }
+
+        public LoanAgreement(
+            LoanAgreementData data,
+            ILoanAgreementDataSaver dataSaver,
+            ILoanFactory loanFactory)
+            : this(data, dataSaver, loanFactory, null)
+        { }
+
+        public Guid LoanId { get; private set; }
 
         public LoanAgrementStatus Status { get => (LoanAgrementStatus)_data.Status; set => _data.Status = (short)value; }
 
@@ -37,6 +55,14 @@ namespace JestersCreditUnion.Core
         public decimal InterestRate { get => _data.InterestRate; set => _data.InterestRate = value; }
         public decimal PaymentAmount { get => _data.PaymentAmount; set => _data.PaymentAmount = value; }
         public short PaymentFrequency { get => _data.PaymentFrequency; set => _data.PaymentFrequency = value; }
+
+        public async Task Create(CommonCore.ITransactionHandler transactionHandler)
+        {
+            if (_loan == null)
+                throw new ApplicationException("Cannot create loan agreement. No parent loan was set");
+            LoanId = _loan.LoanId;
+            await _dataSaver.Create(transactionHandler, _data);
+        }
 
         public Task<IAddress> GetBorrowerAddress(ISettings settings)
         {
@@ -84,6 +110,11 @@ namespace JestersCreditUnion.Core
                 return _loanFactory.PhoneFactory.Get(settings, CoBorrowerPhoneId.Value);
             else
                 return Task.FromResult<IPhone>(null);
+        }
+
+        public Task Update(CommonCore.ITransactionHandler transactionHandler)
+        {
+            return _dataSaver.Update(transactionHandler, _data);
         }
     }
 }

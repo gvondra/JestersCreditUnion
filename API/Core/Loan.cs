@@ -39,7 +39,7 @@ namespace JestersCreditUnion.Core
                     {
                         _data.Agreement = new LoanAgreementData();
                     }
-                    _agreement = new LoanAgreement(_data.Agreement, _factory);
+                    _agreement = new LoanAgreement(_data.Agreement, _dataSaver.LoanAgrementDataSaver, _factory, this);
                 }
                 return _agreement;
             }
@@ -51,8 +51,19 @@ namespace JestersCreditUnion.Core
 
         public DateTime UpdateTimestamp => _data.UpdateTimestamp;
 
-        public Task Create(ITransactionHandler transactionHandler) => _dataSaver.Create(transactionHandler, _data);
+        public async Task Create(ITransactionHandler transactionHandler)
+        {
+            if (_agreement == null)
+                throw new ApplicationException("Cannot create loan. No loan agreement set");
+            await _dataSaver.Create(transactionHandler, _data);
+            await _agreement.Create(transactionHandler);
+        }
 
-        public Task Update(ITransactionHandler transactionHandler) => _dataSaver.Update(transactionHandler, _data);
+        public async Task Update(ITransactionHandler transactionHandler)
+        {
+            await _dataSaver.Update(transactionHandler, _data);
+            if (_agreement != null)
+                await _agreement.Update(transactionHandler);
+        }
     }
 }

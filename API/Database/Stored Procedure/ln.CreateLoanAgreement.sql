@@ -1,5 +1,5 @@
 ﻿CREATE PROCEDURE [ln].[CreateLoanAgreement]
-	@id UNIQUEIDENTIFIER OUT,
+	@id UNIQUEIDENTIFIER,
 	@status SMALLINT,
 	@createDate DATE,
 	@agreementDate DATE,
@@ -21,7 +21,6 @@
 	@timestamp DATETIME2(4) OUT
 AS
 BEGIN
-	SET @id = NEWID();
 	SET @timestamp = SYSUTCDATETIME();
 	INSERT INTO [ln].[LoanAgreement] (
 	[LoanId], [Status], [CreateDate], [AgreementDate],

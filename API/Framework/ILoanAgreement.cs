@@ -1,11 +1,13 @@
 ﻿using JestersCreditUnion.Framework.Enumerations;
 using System;
 using System.Threading.Tasks;
+using CommonCore = JestersCreditUnion.CommonCore;
 
 namespace JestersCreditUnion.Framework
 {
     public interface ILoanAgreement
     {   
+        Guid LoanId { get; }
         LoanAgrementStatus Status { get; set; }        
         DateTime CreateDate { get; }        
         DateTime? AgreementDate { get; set; }        
@@ -25,6 +27,8 @@ namespace JestersCreditUnion.Framework
         decimal PaymentAmount { get; set; }        
         short PaymentFrequency { get; set; }
 
+        Task Create(CommonCore.ITransactionHandler transactionHandler);
+        Task Update(CommonCore.ITransactionHandler transactionHandler);
         Task<IAddress> GetBorrowerAddress(ISettings settings);
         Task<IAddress> GetCoBorrowerAddress(ISettings settings);
         Task<IEmailAddress> GetBorrowerEmailAddress(ISettings settings);
