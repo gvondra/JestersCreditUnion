@@ -11,7 +11,9 @@ namespace JestersCreditUnion.Core
             builder.RegisterModule(new JestersCreditUnion.Data.DataModule());
             builder.RegisterType<SettingsFactory>().InstancePerLifetimeScope();
             builder.RegisterType<AddressFactory>().As<IAddressFactory>();
+            builder.RegisterType<AddressSaver>().As<IAddressSaver>();
             builder.RegisterType<EmailAddressFactory>().As<IEmailAddressFactory>();
+            builder.RegisterType<EmailAddressSaver>().As<IEmailAddressSaver>();
             builder.RegisterType<LoanApplicationFactory>()
                 .As<ILoanApplicationFactory>()
                 .PropertiesAutowired();
@@ -25,6 +27,7 @@ namespace JestersCreditUnion.Core
             builder.RegisterType<LoanNumberGenerator>().InstancePerLifetimeScope();
             builder.RegisterType<LookupFactory>().As<ILookupFactory>();
             builder.RegisterType<PhoneFactory>().As<IPhoneFactory>();
+            builder.RegisterType<PhoneSaver>().As<IPhoneSaver>();
             builder.RegisterType<WorkTaskTypeCodeLookup>().InstancePerLifetimeScope();
         }
     }
