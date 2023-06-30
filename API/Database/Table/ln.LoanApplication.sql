@@ -22,12 +22,11 @@
 	[CoBorrowerIncome] DECIMAL(11, 2) NULL,
 	[Amount] DECIMAL(11, 2) NOT NULL,
 	[Purpose] NVARCHAR(2048) NOT NULL,
-	[MortgagePayment] DECIMAL(7, 2) NOT NULL,
-	[RentPayment] DECIMAL(7, 2) NOT NULL,
+	[MortgagePayment] DECIMAL(7, 2) NULL,
+	[RentPayment] DECIMAL(7, 2) NULL,
 	[CreateTimestamp] DATETIME2(4) CONSTRAINT [DF_LoanApplication_CreateTimestamp] DEFAULT (SYSUTCDATETIME()) NOT NULL,
 	[UpdateTimestamp] DATETIME2(4) CONSTRAINT [DF_LoanApplication_UpdateTimestamp] DEFAULT (SYSUTCDATETIME()) NOT NULL,
-	CONSTRAINT [PK_LoanApplication] PRIMARY KEY NONCLUSTERED ([LoanApplicationId]), 
-    CONSTRAINT [FK_LoanApplication_To_LoanApplicationDenial] FOREIGN KEY ([LoanApplicationId]) REFERENCES [ln].[LoanApplicationDenial]([LoanApplicationId])
+	CONSTRAINT [PK_LoanApplication] PRIMARY KEY NONCLUSTERED ([LoanApplicationId]) 
 )
 
 GO
