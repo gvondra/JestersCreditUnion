@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using JCU.Internal.ViewModel;
+using JCU.Internal.CommonWindow;
 using JestersCreditUnion.Interface;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,8 @@ namespace JCU.Internal.NavigationPage.Log
     /// </summary>
     public partial class ErrorLog : Page
     {
+        private ErrorLogItemWindow _errorLogItemWindow;
+
         public ErrorLog()
         {
             NavigationCommands.BrowseBack.InputGestures.Clear();
@@ -43,6 +46,29 @@ namespace JCU.Internal.NavigationPage.Log
                 ErrorLogVM = ErrorLogVM.Create(settingsFactory, exceptionService);
                 DataContext = ErrorLogVM;
             }
+        }
+
+        private void DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {   
+            if (sender is DataGrid dataGrid)
+            {
+                if (dataGrid.SelectedItem != null && dataGrid.SelectedItem is ExceptionLogItemVM logItem)
+                {
+                    if (_errorLogItemWindow == null)
+                    {
+                        _errorLogItemWindow = new ErrorLogItemWindow();
+                        _errorLogItemWindow.Closed += ErrorLogItemWindow_Closed;
+                        _errorLogItemWindow.Show();
+                    }
+                    _errorLogItemWindow.DataContext = logItem;
+                    _errorLogItemWindow.Activate();
+                }
+            }
+        }
+
+        private void ErrorLogItemWindow_Closed(object sender, EventArgs e)
+        {
+            _errorLogItemWindow = null;
         }
     }
 }

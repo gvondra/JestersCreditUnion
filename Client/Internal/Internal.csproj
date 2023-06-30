@@ -309,6 +309,9 @@
     <Compile Include="ViewModel\WorkTaskTypesVM.cs" />
     <Compile Include="ViewModel\WorkTaskTypeVM.cs" />
     <Compile Include="ViewModel\WorkTaskVM.cs" />
+    <Compile Include="CommonWindow\ErrorLogItemWindow.xaml.cs">
+      <DependentUpon>ErrorLogItemWindow.xaml</DependentUpon>
+    </Compile>
     <Page Include="Control\ExceptionItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -422,6 +425,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="NavigationPage\WorkTaskTypes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CommonWindow\ErrorLogItemWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

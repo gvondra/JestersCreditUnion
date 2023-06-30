@@ -23,10 +23,16 @@
             <TextBlock Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="99" Style="{StaticResource PageTitle}">Errors</TextBlock>
             <fa:ImageAwesome Grid.Column="0" Grid.Row="1" Icon="CircleOutlineNotch" Spin="True" Height="24" Width="24" Visibility="{Binding BusyVisibility}" Foreground="Navy" />
         </Grid>
-        <DataGrid ItemsSource="{Binding Items}" AutoGenerateColumns="False" IsReadOnly="True">
+        <DataGrid ItemsSource="{Binding Items}" AutoGenerateColumns="False" IsReadOnly="True" MouseDoubleClick="DataGrid_MouseDoubleClick">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Timestamp" Binding="{Binding CreateTimestamp, Mode=OneWay, StringFormat='yyyy-MM-dd HH:mm'}"/>
-                <DataGridTextColumn Header="Message" Binding="{Binding Message, Mode=OneWay}"/>
+                <DataGridTextColumn Header="Message" Binding="{Binding Message, Mode=OneWay}" MaxWidth="750" >
+                    <DataGridTextColumn.ElementStyle>
+                        <Style>
+                            <Setter Property="TextBlock.TextWrapping" Value="Wrap"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
                 <DataGridTextColumn Header="Type Name" Binding="{Binding TypeName, Mode=OneWay}"/>
                 <DataGridTextColumn Header="App Domain" Binding="{Binding AppDomain, Mode=OneWay}"/>
                 <DataGridTextColumn Header="Target Site" Binding="{Binding TargetSite, Mode=OneWay}"/>
