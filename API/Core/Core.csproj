@@ -28,7 +28,7 @@
 	  <PackageReference Include="BrassLoon.Interface.Config" Version="2.3.*" />
 	  <PackageReference Include="BrassLoon.Interface.WorkTask" Version="1.0.0-prerelease.*" />
 	  <PackageReference Include="Newtonsoft.Json" Version="13.0.*" />
-		<PackageReference Include="Polly" Version="7.2.3" />
+		<PackageReference Include="Polly" Version="7.2.4" />
 	</ItemGroup>
 
 	<ItemGroup>
