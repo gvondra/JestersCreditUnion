@@ -69,13 +69,13 @@ namespace JestersCreditUnion.Data.Internal
                     comments = (await commentFactory.LoadData(reader, ()=> new LoanApplicationCommentData(), DataUtil.AssignDataStateManager)).ToList();
                 });
             result = result
-                .Join(
+                .GroupJoin(
                 denials,
                 a => a.LoanApplicationId,
                 d => d.LoanApplicationId,
-                (app, denial) =>
+                (app, denials) =>
                 {
-                    app.Denial = denial;
+                    app.Denial = denials.FirstOrDefault();
                     return app;
                 })
                 .GroupJoin(
