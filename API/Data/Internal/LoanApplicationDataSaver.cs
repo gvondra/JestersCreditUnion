@@ -88,7 +88,7 @@ namespace JestersCreditUnion.Data.Internal
                     timestamp.Direction = ParameterDirection.Output;
                     command.Parameters.Add(timestamp);
 
-                    DataUtil.AddParameter(_providerFactory, command.Parameters, "userID", DbType.Binary, DataUtil.GetParameterValue(data.UserId));
+                    DataUtil.AddParameter(_providerFactory, command.Parameters, "userID", DbType.Guid, DataUtil.GetParameterValue(data.UserId));
                     AddCommonParameters(command.Parameters, data);
 
                     await command.ExecuteNonQueryAsync();
@@ -114,7 +114,7 @@ namespace JestersCreditUnion.Data.Internal
                     timestamp.Direction = ParameterDirection.Output;
                     command.Parameters.Add(timestamp);
 
-                    DataUtil.AddParameter(_providerFactory, command.Parameters, "id", DbType.Binary, DataUtil.GetParameterValue(data.LoanApplicationId));
+                    DataUtil.AddParameter(_providerFactory, command.Parameters, "id", DbType.Guid, DataUtil.GetParameterValue(data.LoanApplicationId));
                     AddCommonParameters(command.Parameters, data);
 
                     await command.ExecuteNonQueryAsync();
