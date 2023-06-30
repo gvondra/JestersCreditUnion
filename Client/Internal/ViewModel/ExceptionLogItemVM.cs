@@ -10,6 +10,8 @@ namespace JCU.Internal.ViewModel
         public ExceptionLogItemVM(Models.Exception innerException)
         {
             _innerException = innerException;
+            if (innerException.InnerException != null) 
+                this.InnerException = new ExceptionLogItemVM(_innerException.InnerException);
         }
 
         public DateTime? CreateTimestamp => _innerException.CreateTimestamp?.ToLocalTime();
@@ -19,5 +21,6 @@ namespace JCU.Internal.ViewModel
         public string AppDomain => _innerException.AppDomain;
         public string TargetSite => _innerException.TargetSite;
         public string StackTrace => _innerException.StackTrace;
+        public ExceptionLogItemVM InnerException { get; set; }
     }
 }

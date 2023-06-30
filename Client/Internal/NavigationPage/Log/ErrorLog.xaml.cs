@@ -60,7 +60,7 @@ namespace JCU.Internal.NavigationPage.Log
                         _errorLogItemWindow.Closed += ErrorLogItemWindow_Closed;
                         _errorLogItemWindow.Show();
                     }
-                    _errorLogItemWindow.DataContext = logItem;
+                    _errorLogItemWindow.ExceptionLogItemWindowVM = new ExceptionLogItemWindowVM(logItem);
                     _errorLogItemWindow.Activate();
                 }
             }

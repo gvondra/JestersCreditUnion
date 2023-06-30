@@ -190,6 +190,9 @@
     <Compile Include="Behaviors\WorkTaskTypesLoader.cs" />
     <Compile Include="Behaviors\WorkTaskTypeValidator.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="Control\ErrorLogItem.xaml.cs">
+      <DependentUpon>ErrorLogItem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Control\ExceptionItem.xaml.cs">
       <DependentUpon>ExceptionItem.xaml</DependentUpon>
     </Compile>
@@ -278,6 +281,7 @@
     <Compile Include="ViewModel\BeginLoanAgreementVM.cs" />
     <Compile Include="ViewModel\ErrorLogVM.cs" />
     <Compile Include="ViewModel\ExceptionLogItemVM.cs" />
+    <Compile Include="ViewModel\ExceptionLogItemWindowVM.cs" />
     <Compile Include="ViewModel\FindUserRoleVM.cs" />
     <Compile Include="ViewModel\FindUserVM.cs" />
     <Compile Include="ViewModel\HomeVM.cs" />
@@ -312,6 +316,10 @@
     <Compile Include="CommonWindow\ErrorLogItemWindow.xaml.cs">
       <DependentUpon>ErrorLogItemWindow.xaml</DependentUpon>
     </Compile>
+    <Page Include="Control\ErrorLogItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Control\ExceptionItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
