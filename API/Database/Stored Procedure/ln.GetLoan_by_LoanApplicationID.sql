@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [ln].[GetLoan_by_LoanApplicatinId]
+﻿CREATE PROCEDURE [ln].[GetLoan_by_LoanApplicationId]
 	@loanApplicationId UNIQUEIDENTIFIER
 AS
 BEGIN
