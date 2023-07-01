@@ -8,7 +8,7 @@ SELECT
 	[Amount], [Purpose], [MortgagePayment], [RentPayment],
 	[CreateTimestamp], [UpdateTimestamp]
 FROM [ln].[LoanApplication]
-WHERE [UserId] = @userID
+WHERE [UserId] = @userId
 ORDER BY [CreateTimestamp] DESC
 
 EXEC [ln].[GetLoanApplicationDenial_by_UserId] @userId;
