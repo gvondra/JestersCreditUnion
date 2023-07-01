@@ -30,14 +30,16 @@ namespace JestersCreditUnion.Core
 
         public ILoan Create(ILoanApplication loanApplication)
         {
+            Guid loanId = Guid.NewGuid();
             return Create(
                 new LoanData
                 {
-                    LoanId = Guid.NewGuid(),
+                    LoanId = loanId,
                     Number = _numberGenerator.Generate(),
                     LoanApplicationId = loanApplication.LoanApplicationId,
                     Agreement = new LoanAgreementData
                     {
+                        LoanId = loanId,
                         CreateDate = DateTime.Today
                     }
                 });

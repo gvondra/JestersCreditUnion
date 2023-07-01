@@ -24,20 +24,16 @@ namespace JestersCreditUnion.Data.Internal
                     command.CommandType = CommandType.StoredProcedure;
                     command.Transaction = transactionHandler.Transaction.InnerTransaction;
 
-                    IDataParameter id = DataUtil.CreateParameter(_providerFactory, "id", DbType.Guid);
-                    id.Direction = ParameterDirection.Output;
-                    command.Parameters.Add(id);
-
                     IDataParameter timestamp = DataUtil.CreateParameter(_providerFactory, "timestamp", DbType.DateTime2);
                     timestamp.Direction = ParameterDirection.Output;
                     command.Parameters.Add(timestamp);
 
+                    DataUtil.AddParameter(_providerFactory, command.Parameters, "id", DbType.Guid, DataUtil.GetParameterValue(data.LoanId));
                     DataUtil.AddParameter(_providerFactory, command.Parameters, "number", DbType.AnsiString, DataUtil.GetParameterValue(data.Number));
                     DataUtil.AddParameter(_providerFactory, command.Parameters, "loanApplicationId", DbType.Guid, DataUtil.GetParameterValue(data.LoanApplicationId));
                     AddCommonParameters(command.Parameters, data);
 
                     await command.ExecuteNonQueryAsync();
-                    data.LoanId = (Guid)id.Value;
                     data.CreateTimestamp = (DateTime)timestamp.Value;
                     data.UpdateTimestamp = (DateTime)timestamp.Value;
                 }

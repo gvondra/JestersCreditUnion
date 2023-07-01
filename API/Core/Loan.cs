@@ -55,8 +55,8 @@ namespace JestersCreditUnion.Core
         {
             if (_agreement == null)
                 throw new ApplicationException("Cannot create loan. No loan agreement set");
-            await _dataSaver.Create(transactionHandler, _data);
             await _agreement.Create(transactionHandler);
+            await _dataSaver.Create(transactionHandler, _data);
         }
 
         public async Task Update(ITransactionHandler transactionHandler)
