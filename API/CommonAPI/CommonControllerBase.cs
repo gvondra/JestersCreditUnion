@@ -8,6 +8,7 @@ using Polly.Caching;
 using Polly.Caching.Memory;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
 using System.Text.RegularExpressions;
@@ -18,7 +19,7 @@ namespace JestersCreditUnion.CommonAPI
 {
     public abstract class CommonControllerBase : ControllerBase
     {
-        private readonly static Polly.Policy _currentUserCache = Polly.Policy.Cache(new MemoryCacheProvider(new MemoryCache(new MemoryCacheOptions())), new SlidingTtl(TimeSpan.FromMinutes(3)));
+        private static readonly Polly.Policy _currentUserCache = Polly.Policy.Cache(new MemoryCacheProvider(new MemoryCache(new MemoryCacheOptions())), new SlidingTtl(TimeSpan.FromMinutes(3)));
         private readonly AuthorizationAPI.IUserService _userService;
         private readonly ILogger _logger;
 
@@ -132,13 +133,13 @@ namespace JestersCreditUnion.CommonAPI
                 }
                 else if (typeof(StatusCodeResult).IsAssignableFrom(actionResult.GetType()))
                 {
-                    status = ((StatusCodeResult)actionResult).StatusCode.ToString();
+                    status = ((StatusCodeResult)actionResult).StatusCode.ToString(CultureInfo.InvariantCulture.NumberFormat);
                 }
             }
             try
             {
                 if (string.IsNullOrEmpty(status) && Response != null)
-                    status = ((int)Response.StatusCode).ToString();
+                    status = Response.StatusCode.ToString(CultureInfo.InvariantCulture);
             }
             catch (Exception ex)
             {

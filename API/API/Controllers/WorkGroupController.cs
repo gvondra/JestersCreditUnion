@@ -109,7 +109,7 @@ namespace API.Controllers
         }
 
         [NonAction]
-        IActionResult ValidateRequest(WorkGroup workGroup)
+        private IActionResult ValidateRequest(WorkGroup workGroup)
         {
             IActionResult result = null;
             if (result == null && workGroup == null)

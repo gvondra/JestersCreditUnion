@@ -81,7 +81,9 @@ namespace API.Controllers
                     WorkTaskSettings settings = GetWorkTaskSettings();
                     WorkTaskAPI.Models.WorkTaskStatus innerWorkTaskStatus = await _workTaskStatusService.Get(settings, _settings.Value.WorkTaskDomainId.Value, workTaskTypeId.Value, id.Value);
                     if (innerWorkTaskStatus == null)
+                    {
                         result = NotFound();
+                    }
                     else
                     {
                         IMapper mapper = MapperConfiguration.CreateMapper();
@@ -124,7 +126,7 @@ namespace API.Controllers
         {
             IActionResult result = null;
             try
-            {                
+            {
                 if (result == null && (!workTaskTypeId.HasValue || workTaskTypeId.Value.Equals(Guid.Empty)))
                     result = BadRequest("Missing work task type id parameter value");
                 if (result == null)

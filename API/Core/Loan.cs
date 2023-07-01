@@ -12,7 +12,7 @@ namespace JestersCreditUnion.Core
         private readonly LoanData _data;
         private readonly ILoanDataSaver _dataSaver;
         private ILoanAgreement _agreement;
-        private ILoanFactory _factory;
+        private readonly ILoanFactory _factory;
 
         public Loan(LoanData data,
             ILoanDataSaver dataSaver,
@@ -27,7 +27,7 @@ namespace JestersCreditUnion.Core
 
         public string Number => _data.Number;
 
-        public Guid LoanApplicationId { get => _data.LoanApplicationId; }
+        public Guid LoanApplicationId => _data.LoanApplicationId;
 
         public ILoanAgreement Agreement
         {

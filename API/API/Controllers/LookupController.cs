@@ -57,7 +57,7 @@ namespace API.Controllers
         }
 
         [NonAction]
-        private List<string> GetIndex(ConfigAPI.Models.Item item)
+        private static List<string> GetIndex(ConfigAPI.Models.Item item)
         {
             List<string> codes = new List<string>();
             if (item?.Data != null)
@@ -172,8 +172,8 @@ namespace API.Controllers
                 {
                     ConfigurationSettings settings = GetConfigurationSettings();
                     Task updateIndex = UpdateIndex(settings, code);
-                    ConfigAPI.Models.Lookup lookup = await _lookupService.Save(settings, _settings.Value.ConfigDomainId.Value, code, data);                                        
-                    await updateIndex;                                                               
+                    ConfigAPI.Models.Lookup lookup = await _lookupService.Save(settings, _settings.Value.ConfigDomainId.Value, code, data);
+                    await updateIndex;
                     IMapper mapper = MapperConfiguration.CreateMapper();
                     result = Ok(mapper.Map<Lookup>(lookup));
                 }

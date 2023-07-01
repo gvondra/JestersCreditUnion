@@ -7,7 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ComonCore = JestersCreditUnion.CommonCore;
 using WorkTaskAPI = BrassLoon.Interface.WorkTask;
 
 namespace JestersCreditUnion.Core
@@ -20,7 +19,7 @@ namespace JestersCreditUnion.Core
         private readonly WorkTaskAPI.IWorkTaskStatusService _workTaskStatusService;
         private readonly WorkTaskTypeCodeLookup _workTaskTypeCodeLookup;
 
-        public LoanApplicationSaver(SettingsFactory settingsFactory, 
+        public LoanApplicationSaver(SettingsFactory settingsFactory,
             WorkTaskAPI.IWorkTaskService workTaskService,
             WorkTaskAPI.IWorkTaskTypeService workTaskTypeService,
             WorkTaskAPI.IWorkTaskStatusService workTaskStatusService,
@@ -41,7 +40,7 @@ namespace JestersCreditUnion.Core
             string taskTypeCode = await _workTaskTypeCodeLookup.GetNewLoanApplicationWorkTaskTypeCode(settings);
             if (!string.IsNullOrEmpty(taskTypeCode))
             {
-                workTaskType = await _workTaskTypeService.GetByCode(workTaskSettings, settings.WorkTaskDomainId.Value, taskTypeCode);                
+                workTaskType = await _workTaskTypeService.GetByCode(workTaskSettings, settings.WorkTaskDomainId.Value, taskTypeCode);
             }
             if (workTaskType?.WorkTaskTypeId.HasValue ?? false)
             {
@@ -53,7 +52,7 @@ namespace JestersCreditUnion.Core
                 throw new ApplicationException($"Work task type not found with code {taskTypeCode} in domain {settings.WorkTaskDomainId.Value:D}");
             }
 
-            await ComonCore.Saver.Save(new ComonCore.TransactionHandler(settings), async th =>
+            await CommonCore.Saver.Save(new CommonCore.TransactionHandler(settings), async th =>
             {
                 await loanApplication.Create(th);
 
@@ -65,7 +64,7 @@ namespace JestersCreditUnion.Core
                         () => CreateNewLoanApplicationWorkTask(settings, workTaskType, workTaskStatus, loanApplication.LoanApplicationId)
                         );
                 }
-            });            
+            });
         }
 
         public Task CreateComment(ISettings settings, ILoanApplicationComment loanApplicationComment)
@@ -104,7 +103,7 @@ namespace JestersCreditUnion.Core
                             () => CreateSendDenialCorrespondenceWorkTask(settings, workTaskType, workTaskStatus, loanApplication.LoanApplicationId)
                             );
                     }
-                });                
+                });
             }
         }
 
@@ -114,7 +113,7 @@ namespace JestersCreditUnion.Core
         }
 
         private async Task CreateNewLoanApplicationWorkTask(
-            ISettings settings, 
+            ISettings settings,
             WorkTaskType workTaskType,
             WorkTaskStatus workTaskStatus,
             Guid loanApplicationId)

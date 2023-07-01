@@ -1,6 +1,7 @@
 ﻿using JestersCreditUnion.CommonAPI;
 using BlAccount = BrassLoon.Interface.Account;
 
+#pragma warning disable IDE0130 // Namespace does not match folder structure
 namespace API
 {
     public class SettingsFactory : ISettingsFactory
@@ -13,9 +14,7 @@ namespace API
         }
 
         public AuthorizationSettings CreateAuthorization(Settings settings, string token)
-        {
-            return new AuthorizationSettings(settings.AuthorizationApiBaseAddress, token);
-        }
+            => new AuthorizationSettings(settings.AuthorizationApiBaseAddress, token);
 
         public AuthorizationSettings CreateAuthorization(Settings settings)
         {
@@ -58,3 +57,4 @@ namespace API
         }
     }
 }
+#pragma warning restore IDE0130 // Namespace does not match folder structure

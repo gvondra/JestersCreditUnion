@@ -3,7 +3,6 @@ using JestersCreditUnion.Data.Models;
 using JestersCreditUnion.Framework;
 using System;
 using System.Threading.Tasks;
-using CommonCore = JestersCreditUnion.CommonCore;
 
 namespace JestersCreditUnion.Core
 {
@@ -24,7 +23,7 @@ namespace JestersCreditUnion.Core
 
         public IAddressFactory AddressFactory { get; set; }
         public IEmailAddressFactory EmailAddressFactory { get; set; }
-        public IPhoneFactory PhoneFactory { get; set; }        
+        public IPhoneFactory PhoneFactory { get; set; }
 
         private Loan Create(LoanData data) => new Loan(data, _dataSaver, this);
 

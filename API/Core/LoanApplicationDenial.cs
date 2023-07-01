@@ -4,7 +4,6 @@ using JestersCreditUnion.Framework;
 using JestersCreditUnion.Framework.Enumerations;
 using System;
 using System.Threading.Tasks;
-using CommonCore = JestersCreditUnion.CommonCore;
 
 namespace JestersCreditUnion.Core
 {

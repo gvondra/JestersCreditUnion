@@ -1,11 +1,15 @@
 ﻿using JestersCreditUnion.Core;
 using JestersCreditUnion.Framework.Enumerations;
+using System;
+using System.Globalization;
 
 namespace Core.Test
 {
     [TestClass]
     public class LoanPaymentAmountCalculatorTest
     {
+        private static readonly IFormatProvider _numberFormatProvider = CultureInfo.InvariantCulture.NumberFormat;
+
         [TestMethod]
         [DataRow("1.0", "0.01", 1, "1.00083")]
         [DataRow("100.0", "0.18", 36, "3.61524")]
@@ -13,8 +17,8 @@ namespace Core.Test
         public void CalculateMonthlyTest(string loanPrincipal, string annualInterestRate, int terms, string expected)
         {
             LoanPaymentAmountCalculator calculator = new LoanPaymentAmountCalculator();
-            decimal amount = calculator.Calculate(decimal.Parse(loanPrincipal), decimal.Parse(annualInterestRate), (short)terms, LoanPaymentFrequency.Monthly);
-            Assert.AreEqual(decimal.Parse(expected), amount);
+            decimal amount = calculator.Calculate(decimal.Parse(loanPrincipal, _numberFormatProvider), decimal.Parse(annualInterestRate, _numberFormatProvider), (short)terms, LoanPaymentFrequency.Monthly);
+            Assert.AreEqual(decimal.Parse(expected, _numberFormatProvider), amount);
         }
 
         [TestMethod]
@@ -22,8 +26,8 @@ namespace Core.Test
         public void CalculateSemimonthlyTest(string loanPrincipal, string annualInterestRate, int terms, string expected)
         {
             LoanPaymentAmountCalculator calculator = new LoanPaymentAmountCalculator();
-            decimal amount = calculator.Calculate(decimal.Parse(loanPrincipal), decimal.Parse(annualInterestRate), (short)terms, LoanPaymentFrequency.Semimonthly);
-            Assert.AreEqual(decimal.Parse(expected), amount);
+            decimal amount = calculator.Calculate(decimal.Parse(loanPrincipal, _numberFormatProvider), decimal.Parse(annualInterestRate, _numberFormatProvider), (short)terms, LoanPaymentFrequency.Semimonthly);
+            Assert.AreEqual(decimal.Parse(expected, _numberFormatProvider), amount);
         }
 
         [TestMethod]
@@ -31,8 +35,8 @@ namespace Core.Test
         public void CalculateSemiannualTest(string loanPrincipal, string annualInterestRate, int terms, string expected)
         {
             LoanPaymentAmountCalculator calculator = new LoanPaymentAmountCalculator();
-            decimal amount = calculator.Calculate(decimal.Parse(loanPrincipal), decimal.Parse(annualInterestRate), (short)terms, LoanPaymentFrequency.Semiannual);
-            Assert.AreEqual(decimal.Parse(expected), amount);
+            decimal amount = calculator.Calculate(decimal.Parse(loanPrincipal, _numberFormatProvider), decimal.Parse(annualInterestRate, _numberFormatProvider), (short)terms, LoanPaymentFrequency.Semiannual);
+            Assert.AreEqual(decimal.Parse(expected, _numberFormatProvider), amount);
         }
     }
 }

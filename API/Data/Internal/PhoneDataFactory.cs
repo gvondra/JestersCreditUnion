@@ -7,7 +7,7 @@ namespace JestersCreditUnion.Data.Internal
 {
     public class PhoneDataFactory : DataFactoryBase<PhoneData>, IPhoneDataFactory
     {
-        public PhoneDataFactory(IDbProviderFactory providerFactory) 
+        public PhoneDataFactory(IDbProviderFactory providerFactory)
             : base(providerFactory) { }
 
         public async Task<PhoneData> Get(ISqlSettings settings, Guid id)

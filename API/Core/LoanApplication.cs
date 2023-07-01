@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CommonCore = JestersCreditUnion.CommonCore;
 
 namespace JestersCreditUnion.Core
 {
@@ -16,18 +15,18 @@ namespace JestersCreditUnion.Core
         private readonly ILoanApplicationDataSaver _dataSaver;
         private readonly ILoanApplicationFactory _factory;
         private readonly ILookupFactory _lookupFactory;
-        private IAddress _borrowerAddress = null;
-        private IAddress _coborrowerAddress = null;
-        private IEmailAddress _borrowerEmailAddress = null;
-        private IEmailAddress _coborrowerEmailAddress = null;
-        private IPhone _borrowerPhone = null;
-        private IPhone _coborrowerPhone = null;
-        private List<ILoanApplicationComment> _comments = null;
-        private ILoanApplicationDenial _loanApplicationDenial = null;
+        private IAddress _borrowerAddress;
+        private IAddress _coborrowerAddress;
+        private IEmailAddress _borrowerEmailAddress;
+        private IEmailAddress _coborrowerEmailAddress;
+        private IPhone _borrowerPhone;
+        private IPhone _coborrowerPhone;
+        private readonly List<ILoanApplicationComment> _comments;
+        private ILoanApplicationDenial _loanApplicationDenial;
 
-        public LoanApplication(LoanApplicationData data, 
-            ILoanApplicationDataSaver dataSaver, 
-            ILoanApplicationFactory factory, 
+        public LoanApplication(LoanApplicationData data,
+            ILoanApplicationDataSaver dataSaver,
+            ILoanApplicationFactory factory,
             ILookupFactory lookupFactory)
         {
             _data = data;
@@ -71,8 +70,8 @@ namespace JestersCreditUnion.Core
 
         public List<ILoanApplicationComment> Comments => _comments;
 
-        public ILoanApplicationDenial Denial 
-        { 
+        public ILoanApplicationDenial Denial
+        {
             get
             {
                 if (_loanApplicationDenial == null && _data.Denial != null)
@@ -166,10 +165,14 @@ namespace JestersCreditUnion.Core
         private static List<ILoanApplicationComment> InitiallizeComments(IEnumerable<LoanApplicationCommentData> commentData, ILoanApplicationDataSaver dataSaver)
         {
             if (commentData != null)
+            {
                 return commentData.Select<LoanApplicationCommentData, ILoanApplicationComment>(d => new LoanApplicationComment(d, dataSaver))
                     .ToList();
+            }
             else
+            {
                 return new List<ILoanApplicationComment>();
+            }
         }
 
         public void SetDenial(LoanApplicationDenialReason reason, DateTime date, Guid userId, string text)
@@ -182,7 +185,7 @@ namespace JestersCreditUnion.Core
                 Text = text,
                 Reason = (short)reason
             };
-            if (!string.IsNullOrEmpty(text)) 
+            if (!string.IsNullOrEmpty(text))
                 Status = LoanApplicationStatus.Denied;
         }
     }

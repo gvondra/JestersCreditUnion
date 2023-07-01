@@ -1,18 +1,17 @@
 ﻿using AutoMapper;
+using BrassLoon.Interface.Log.Models;
+using JestersCreditUnion.CommonAPI;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System.Threading.Tasks;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using AuthorizationAPI = BrassLoon.Interface.Authorization;
 using Log = BrassLoon.Interface.Log;
-using BrassLoon.Interface.Log.Models;
-using System.Collections.Generic;
-using System.Collections;
-using JestersCreditUnion.CommonAPI;
-using System.Linq;
 
 namespace API.Controllers
 {
@@ -21,7 +20,6 @@ namespace API.Controllers
     public class TraceController : APIControllerBase
     {
         private readonly Log.ITraceService _traceService;
-        private readonly AuthorizationAPI.IUserService _userService;
 
         public TraceController(IOptions<Settings> settings,
             ISettingsFactory settingsFactory,
@@ -31,7 +29,6 @@ namespace API.Controllers
             : base(settings, settingsFactory, userService, logger)
         {
             _traceService = traceService;
-            _userService = userService;
         }
 
         [HttpGet()]

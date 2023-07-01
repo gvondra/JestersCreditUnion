@@ -1,9 +1,7 @@
 ﻿using JestersCreditUnion.Framework;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Globalization;
 using Models = BrassLoon.Interface.Config.Models;
 
 namespace JestersCreditUnion.Core
@@ -28,7 +26,7 @@ namespace JestersCreditUnion.Core
             if (!typeof(string).Equals(key.GetType()))
             {
                 if (key.GetType().IsEnum)
-                    key = Convert.ToInt32(key).ToString();
+                    key = Convert.ToInt32(key, CultureInfo.InvariantCulture.NumberFormat).ToString(CultureInfo.InvariantCulture);
                 else
                     key = key.ToString();
             }

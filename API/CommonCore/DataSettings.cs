@@ -7,7 +7,7 @@ namespace JestersCreditUnion.CommonCore
     {
         private readonly ISettings _settings;
 
-        public DataSettings(ISettings settings) 
+        public DataSettings(ISettings settings)
         {
             _settings = settings;
         }

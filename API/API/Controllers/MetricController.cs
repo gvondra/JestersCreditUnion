@@ -75,13 +75,12 @@ namespace API.Controllers
         {
             if (metrics != null)
             {
-                Guid id;
                 Dictionary<Guid, AuthorizationAPI.Models.User> userCache = new Dictionary<Guid, AuthorizationAPI.Models.User>();
                 AuthorizationAPI.Models.User user;
                 AuthorizationAPI.ISettings settings = GetAuthorizationSettings();
                 foreach (Metric metric in metrics.Where(m => !string.IsNullOrEmpty(m.Requestor)))
                 {
-                    if (Guid.TryParse(metric.Requestor.Trim(), out id))
+                    if (Guid.TryParse(metric.Requestor.Trim(), out Guid id))
                     {
                         if (!userCache.ContainsKey(id))
                         {

@@ -2,7 +2,7 @@
 
 namespace JestersCreditUnion.Data.Models
 {
-	public class LoanApplicationData : DataManagedStateBase
+    public class LoanApplicationData : DataManagedStateBase
     {
         [ColumnMapping(IsPrimaryKey = true)] public Guid LoanApplicationId { get; set; }
         [ColumnMapping()] public Guid UserId { get; set; }

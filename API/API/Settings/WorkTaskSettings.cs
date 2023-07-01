@@ -3,6 +3,7 @@ using JestersCreditUnion.CommonAPI;
 using System;
 using System.Threading.Tasks;
 
+#pragma warning disable IDE0130 // Namespace does not match folder structure
 namespace API
 {
     public class WorkTaskSettings : BrassLoon.Interface.WorkTask.ISettings
@@ -44,3 +45,4 @@ namespace API
         }
     }
 }
+#pragma warning restore IDE0130 // Namespace does not match folder structure

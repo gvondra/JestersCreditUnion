@@ -5,12 +5,12 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using CommonCore = JestersCreditUnion.CommonCore;
 
 namespace JestersCreditUnion.Core
 {
@@ -31,7 +31,7 @@ namespace JestersCreditUnion.Core
         {
             if (!string.IsNullOrEmpty(state))
             {
-                state = state.Trim().ToUpper();
+                state = state.Trim().ToUpper(CultureInfo.InvariantCulture);
                 if (!Regex.IsMatch(state, @"^[A-Z]{2}$"))
                     throw new ApplicationException($"Invalid state value \"{state}\"");
             }
@@ -55,17 +55,18 @@ namespace JestersCreditUnion.Core
             });
         }
 
-        private byte[] ComputeHash(in string recipient, in string attention, in string delivery, in string secondary, in string city, in string state, in string postalCode)
+        private static byte[] ComputeHash(in string recipient, in string attention, in string delivery, in string secondary, in string city, in string state, in string postalCode)
         {
+            CultureInfo culture = CultureInfo.InvariantCulture;
             string[] values = new string[]
             {
-                (recipient ?? string.Empty).ToLower(),
-                (attention ?? string.Empty).ToLower(),
-                (delivery ?? string.Empty).ToLower(),
-                (secondary ?? string.Empty).ToLower(),
-                (city ?? string.Empty).ToLower(),
-                (state ?? string.Empty).ToUpper(),
-                (postalCode ?? string.Empty).ToLower()
+                (recipient ?? string.Empty).ToLower(culture),
+                (attention ?? string.Empty).ToLower(culture),
+                (delivery ?? string.Empty).ToLower(culture),
+                (secondary ?? string.Empty).ToLower(culture),
+                (city ?? string.Empty).ToLower(culture),
+                (state ?? string.Empty).ToUpper(culture),
+                (postalCode ?? string.Empty).ToLower(culture)
             };
             string json = JsonConvert.SerializeObject(values, CreateSerializerSettings());
             using (SHA512 sha512 = SHA512.Create())
@@ -74,7 +75,7 @@ namespace JestersCreditUnion.Core
             }
         }
 
-        private JsonSerializerSettings CreateSerializerSettings() => new JsonSerializerSettings()
+        private static JsonSerializerSettings CreateSerializerSettings() => new JsonSerializerSettings()
         {
             Formatting = Formatting.None,
             ContractResolver = new DefaultContractResolver()
@@ -96,7 +97,7 @@ namespace JestersCreditUnion.Core
         {
             IAddress result = null;
             IEnumerable<AddressData> data = await _dataFactory.GetByHash(new CommonCore.DataSettings(settings), hash);
-            if (data != null && data.Count() > 0)
+            if (data != null && data.Any())
                 result = Create(data.First());
             return result;
         }

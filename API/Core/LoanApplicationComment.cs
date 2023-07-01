@@ -3,9 +3,6 @@ using JestersCreditUnion.Data;
 using JestersCreditUnion.Data.Models;
 using JestersCreditUnion.Framework;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace JestersCreditUnion.Core
@@ -24,7 +21,7 @@ namespace JestersCreditUnion.Core
         }
 
         public LoanApplicationComment(
-            LoanApplicationCommentData data, 
+            LoanApplicationCommentData data,
             ILoanApplicationDataSaver dataSaver,
             ILoanApplication loanApplication)
             : this(data, dataSaver)
@@ -47,7 +44,7 @@ namespace JestersCreditUnion.Core
         public Task Create(ITransactionHandler transactionHandler)
         {
             if (_loanApplication == null)
-                throw new ArgumentNullException(nameof(_loanApplication));
+                throw new ArgumentException($"{nameof(_loanApplication)} is null");
             LoanApplicationId = _loanApplication.LoanApplicationId;
             return _dataSaver.AppendComment(transactionHandler, _data);
         }

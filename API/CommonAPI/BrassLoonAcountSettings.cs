@@ -8,9 +8,6 @@ namespace JestersCreditUnion.CommonAPI
     {
         public string BaseAddress { get; set; }
 
-        public Task<string> GetToken()
-        {
-            throw new NotImplementedException();
-        }
+        public Task<string> GetToken() => throw new NotImplementedException();
     }
 }

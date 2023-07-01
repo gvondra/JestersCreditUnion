@@ -8,7 +8,7 @@ namespace JestersCreditUnion.Data.Internal
 {
     public class LoanAgreementDataSaver : DataSaverBase, ILoanAgreementDataSaver
     {
-        public LoanAgreementDataSaver(IDbProviderFactory providerFactory) 
+        public LoanAgreementDataSaver(IDbProviderFactory providerFactory)
             : base(providerFactory) { }
 
         public async Task Create(ITransactionHandler transactionHandler, LoanAgreementData data)

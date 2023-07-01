@@ -2,9 +2,7 @@
 using JestersCreditUnion.Interface.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace JestersCreditUnion.Interface
@@ -81,7 +79,7 @@ namespace JestersCreditUnion.Interface
             if (workTaskType == null)
                 throw new ArgumentNullException(nameof(workTaskType));
             if (!workTaskType.WorkTaskTypeId.HasValue || workTaskType.WorkTaskTypeId.Value.Equals(Guid.Empty))
-                throw new ArgumentNullException(nameof(workTaskType.WorkTaskTypeId));
+                throw new ArgumentException($"{nameof(workTaskType.WorkTaskTypeId)} is null");
             IRequest request = _service.CreateRequest(new Uri(settings.BaseAddress), HttpMethod.Put, workTaskType)
                 .AddPath("WorkTaskType")
                 .AddPath(workTaskType.WorkTaskTypeId.Value.ToString("N"))

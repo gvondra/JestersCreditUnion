@@ -16,10 +16,10 @@ namespace JestersCreditUnion.Core
             _itemService = itemService;
         }
 
-        public Task<string> GetNewLoanApplicationWorkTaskTypeCode(ISettings settings) 
+        public Task<string> GetNewLoanApplicationWorkTaskTypeCode(ISettings settings)
             => GetWorkTaskTypeCode(settings, WorkTaskConfigurationFields.NewLoanApplicationTaskTypeCode);
 
-        public Task<string> GetSendDeinalCorrespondenceWorkTaskTypeCode(ISettings settings) 
+        public Task<string> GetSendDeinalCorrespondenceWorkTaskTypeCode(ISettings settings)
             => GetWorkTaskTypeCode(settings, WorkTaskConfigurationFields.SendDenialCorrespondenceTaskTypeCode);
 
         private async Task<string> GetWorkTaskTypeCode(ISettings settings, string fieldName)

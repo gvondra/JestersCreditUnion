@@ -47,12 +47,16 @@ namespace API.Controllers
                     {
                         WorkTaskAPI.Models.WorkTaskType innerWorkTaskType = await _workTaskTypeService.GetByCode(settings, _settings.Value.WorkTaskDomainId.Value, code);
                         if (innerWorkTaskType == null)
+                        {
                             result = Ok(null);
+                        }
                         else
+                        {
                             result = Ok(
                                 mapper.Map<WorkTaskType>(innerWorkTaskType)
                                 );
-                    }                    
+                        }
+                    }
                     else
                     {
                         result = Ok(
@@ -92,7 +96,7 @@ namespace API.Controllers
                     result = BadRequest("Missing id parameter value");
                 if (result == null)
                 {
-                    WorkTaskSettings settings = GetWorkTaskSettings();                    
+                    WorkTaskSettings settings = GetWorkTaskSettings();
                     WorkTaskAPI.Models.WorkTaskType innerWorkTaskType = await _workTaskTypeService.Get(settings, _settings.Value.WorkTaskDomainId.Value, id.Value);
                     if (innerWorkTaskType == null)
                         result = NotFound();
@@ -190,7 +194,7 @@ namespace API.Controllers
                     IMapper mapper = MapperConfiguration.CreateMapper();
                     WorkTaskAPI.Models.WorkTaskType innerWorkTaskType = mapper.Map<WorkTaskAPI.Models.WorkTaskType>(workTaskType);
                     innerWorkTaskType.DomainId = _settings.Value.WorkTaskDomainId.Value;
-                    innerWorkTaskType = await _workTaskTypeService.Create(settings, innerWorkTaskType);                    
+                    innerWorkTaskType = await _workTaskTypeService.Create(settings, innerWorkTaskType);
                     result = Ok(
                         mapper.Map<WorkTaskType>(innerWorkTaskType)
                         );

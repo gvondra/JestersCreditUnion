@@ -22,6 +22,10 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <None Include="..\.editorconfig" Link=".editorconfig" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Autofac" Version="7.0.*" />
 		<PackageReference Include="Autofac.Extensions.DependencyInjection" Version="8.0.*" />
 		<PackageReference Include="AutoMapper" Version="12.0.*" />

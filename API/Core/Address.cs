@@ -3,6 +3,7 @@ using JestersCreditUnion.Data;
 using JestersCreditUnion.Data.Models;
 using JestersCreditUnion.Framework;
 using System;
+using System.Globalization;
 using System.Threading.Tasks;
 
 namespace JestersCreditUnion.Core
@@ -32,7 +33,7 @@ namespace JestersCreditUnion.Core
 
         public string City => _data.City ?? string.Empty;
 
-        public string State => (_data.State ?? string.Empty).Trim().ToUpper();
+        public string State => (_data.State ?? string.Empty).Trim().ToUpper(CultureInfo.InvariantCulture);
 
         public string PostalCode => _data.PostalCode ?? string.Empty;
 

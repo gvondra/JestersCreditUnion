@@ -1,5 +1,5 @@
 ﻿namespace JestersCreditUnion.Data.Models
-{    
+{
     public class PhoneData : DataManagedStateBase
     {
         [ColumnMapping(IsPrimaryKey = true)] public Guid PhoneId { get; set; }

@@ -22,7 +22,7 @@ namespace JestersCreditUnion.Interface
             if (loan == null)
                 throw new ArgumentNullException(nameof(loan));
             if (loan.Agreement == null)
-                throw new ArgumentNullException(nameof(loan.Agreement));
+                throw new ArgumentException($"{nameof(loan.Agreement)} is null");
             IRequest request = _service.CreateRequest(new Uri(settings.BaseAddress), HttpMethod.Post, loan)
                 .AddPath("Loan")
                 .AddJwtAuthorizationToken(settings.GetToken)
@@ -47,9 +47,9 @@ namespace JestersCreditUnion.Interface
             if (loan == null)
                 throw new ArgumentNullException(nameof(loan));
             if (loan.Agreement == null)
-                throw new ArgumentNullException(nameof(loan.Agreement));
+                throw new ArgumentException($"{nameof(loan.Agreement)} is null");
             if (!loan.LoanId.HasValue || loan.LoanId.Value.Equals(Guid.Empty))
-                throw new ArgumentNullException(nameof(loan.LoanId));
+                throw new ArgumentException($"{nameof(loan.LoanId)} is null");
             IRequest request = _service.CreateRequest(new Uri(settings.BaseAddress), HttpMethod.Put, loan)
                 .AddPath("Loan/{id}")
                 .AddPathParameter("id", loan.LoanId.Value.ToString("N"))

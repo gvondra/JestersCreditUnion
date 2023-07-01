@@ -1,6 +1,6 @@
 ﻿namespace JestersCreditUnion.Data.Models
 {
-	public class AddressData : DataManagedStateBase
+    public class AddressData : DataManagedStateBase
     {
         [ColumnMapping(IsPrimaryKey = true)] public Guid AddressId { get; set; }
         [ColumnMapping()] public byte[] Hash { get; set; }

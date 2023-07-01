@@ -20,7 +20,7 @@ namespace API.Controllers
     public class WorkTaskController : APIControllerBase
     {
         private readonly WorkTaskAPI.IWorkTaskService _workTaskService;
-        
+
         public WorkTaskController(IOptions<Settings> settings,
             ISettingsFactory settingsFactory,
             AuthorizationAPI.IUserService userService,
@@ -123,7 +123,7 @@ namespace API.Controllers
                     WorkTaskAPI.Models.WorkTask innerWorkTask = mapper.Map<WorkTaskAPI.Models.WorkTask>(workTask);
                     innerWorkTask.DomainId = _settings.Value.WorkTaskDomainId.Value;
                     innerWorkTask.WorkTaskId = id.Value;
-                    innerWorkTask = await _workTaskService.Update(settings, innerWorkTask);                    
+                    innerWorkTask = await _workTaskService.Update(settings, innerWorkTask);
                     result = Ok(mapper.Map<WorkTask>(innerWorkTask));
                 }
             }

@@ -3,6 +3,7 @@ using JestersCreditUnion.Framework;
 using JestersCreditUnion.Framework.Constants;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -54,7 +55,7 @@ namespace JestersCreditUnion.Core
                 }
                 foreach (object value in Enum.GetValues(type))
                 {
-                    string key = (Convert.ToInt32(value)).ToString();
+                    string key = Convert.ToInt32(value, CultureInfo.InvariantCulture.NumberFormat).ToString(CultureInfo.InvariantCulture);
                     if (!data.Data.ContainsKey(key))
                     {
                         data.Data[key] = Enum.GetName(type, value);

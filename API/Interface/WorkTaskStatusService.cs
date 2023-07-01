@@ -2,9 +2,7 @@
 using JestersCreditUnion.Interface.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace JestersCreditUnion.Interface
@@ -25,7 +23,7 @@ namespace JestersCreditUnion.Interface
             if (workTaskStatus == null)
                 throw new ArgumentNullException(nameof(workTaskStatus));
             if (!workTaskStatus.WorkTaskTypeId.HasValue || workTaskStatus.WorkTaskTypeId.Value.Equals(Guid.Empty))
-                throw new ArgumentNullException(nameof(workTaskStatus.WorkTaskTypeId));
+                throw new ArgumentException($"{nameof(workTaskStatus.WorkTaskTypeId)} is null");
             IRequest request = _service.CreateRequest(new Uri(settings.BaseAddress), HttpMethod.Post, workTaskStatus)
                 .AddPath("WorkTaskType/{workTaskTypeId}/Status")
                 .AddPathParameter("workTaskTypeId", workTaskStatus.WorkTaskTypeId.Value.ToString("N"))
@@ -82,9 +80,9 @@ namespace JestersCreditUnion.Interface
             if (workTaskStatus == null)
                 throw new ArgumentNullException(nameof(workTaskStatus));
             if (!workTaskStatus.WorkTaskTypeId.HasValue || workTaskStatus.WorkTaskTypeId.Value.Equals(Guid.Empty))
-                throw new ArgumentNullException(nameof(workTaskStatus.WorkTaskTypeId));
+                throw new ArgumentException($"{nameof(workTaskStatus.WorkTaskTypeId)} is null");
             if (!workTaskStatus.WorkTaskStatusId.HasValue || workTaskStatus.WorkTaskStatusId.Value.Equals(Guid.Empty))
-                throw new ArgumentNullException(nameof(workTaskStatus.WorkTaskStatusId));
+                throw new ArgumentException($"{nameof(workTaskStatus.WorkTaskStatusId)} is null");
             IRequest request = _service.CreateRequest(new Uri(settings.BaseAddress), HttpMethod.Put, workTaskStatus)
                 .AddPath("WorkTaskType/{workTaskTypeId}/Status/{id}")
                 .AddPathParameter("workTaskTypeId", workTaskStatus.WorkTaskTypeId.Value.ToString("N"))

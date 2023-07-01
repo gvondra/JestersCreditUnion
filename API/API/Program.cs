@@ -8,8 +8,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using System;
 
 namespace API
 {
@@ -23,7 +23,7 @@ namespace API
 
             // Add services to the container.
             builder.Services.Configure<Settings>(builder.Configuration);
-                        
+
             builder.Services.AddLogging(b =>
             {
 #if !DEBUG
@@ -80,7 +80,7 @@ namespace API
                         Id = "Bearer"
                     }
                     },
-                    new string[] { }
+                    Array.Empty<string>()
                 }
                 });
             });

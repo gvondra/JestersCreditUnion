@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using System;
 
 namespace JestersCreditUnion.CommonAPI
 {
@@ -8,7 +9,7 @@ namespace JestersCreditUnion.CommonAPI
         {
             this.PolicyName = policyName;
             this.Issuer = issuer;
-            this.Roles = new string[] { };
+            this.Roles = Array.Empty<string>();
         }
 
         public AuthorizationRequirement(string policyName, string issuer, params string[] roles)

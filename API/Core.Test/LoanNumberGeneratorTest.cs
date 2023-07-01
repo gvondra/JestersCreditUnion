@@ -1,6 +1,7 @@
 ﻿using JestersCreditUnion.Core;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -13,7 +14,7 @@ namespace Core.Test
         [TestMethod]
         public void GenerateTest()
         {
-            string year = DateTime.Today.ToString("yy");
+            string year = DateTime.Today.ToString("yy", CultureInfo.InvariantCulture.DateTimeFormat);
             LoanNumberGenerator generator = new LoanNumberGenerator();
             string number = generator.Generate();
             Assert.IsNotNull(number);
@@ -23,8 +24,8 @@ namespace Core.Test
         [TestMethod]
         public void GenerateMultipleTest()
         {
-            void InnerGenerate(
-                LoanNumberGenerator generator, 
+            static void InnerGenerate(
+                LoanNumberGenerator generator,
                 SortedSet<string> numbers)
             {
                 foreach (int i in Enumerable.Range(0, 10000))

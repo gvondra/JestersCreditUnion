@@ -122,7 +122,7 @@ namespace API.Controllers
                 if (result == null)
                 {
                     innerLoanApplication = await _loanApplicationFactory.Get(settings, id.Value);
-                    if (innerLoanApplication == null || !(await CanAccessLoanApplication(innerLoanApplication)))
+                    if (innerLoanApplication == null || !await CanAccessLoanApplication(innerLoanApplication))
                         result = NotFound();
                 }
                 if (result == null)
@@ -189,7 +189,7 @@ namespace API.Controllers
             IEmailAddress coborrowerEmailAddress = await GetEmailAddress(settings, loanApplication.CoBorrowerEmailAddress);
             IPhone borrowerPhone = await GetPhone(settings, loanApplication.BorrowerPhone);
             IPhone coborrowerPhone = await GetPhone(settings, loanApplication.CoBorrowerPhone);
-            
+
             mapper.Map(loanApplication, innerLoanApplication);
             innerLoanApplication.BorrowerAddressId = borrowerAddress?.AddressId;
             innerLoanApplication.CoBorrowerAddressId = coborrowerAddress?.AddressId;
@@ -217,7 +217,7 @@ namespace API.Controllers
             loanApplication.BorrowerPhone = borrowerPhone != null ? borrowerPhone.Number : string.Empty;
             loanApplication.CoBorrowerPhone = coborrowerPhone != null ? coborrowerPhone.Number : string.Empty;
             loanApplication.StatusDescription = await innerLoanApplication.GetStatusDescription(settings);
-            
+
             await MapComments(mapper, innerLoanApplication, loanApplication);
 
             if (loanApplication.Denial != null && loanApplication.Denial.UserId.HasValue)
@@ -298,7 +298,7 @@ namespace API.Controllers
                 {
                     innerPhone = _phoneFactory.Create(ref number);
                     await _phoneSaver.Create(settings, innerPhone);
-                }   
+                }
             }
             return innerPhone;
         }
@@ -315,7 +315,6 @@ namespace API.Controllers
                     innerEmailAddress = _emailAddressFactory.Create(address);
                     await _emailAddressSaver.Create(settings, innerEmailAddress);
                 }
-                    
             }
             return innerEmailAddress;
         }
@@ -361,7 +360,7 @@ namespace API.Controllers
                 if (result == null)
                 {
                     innerLoanApplication = await _loanApplicationFactory.Get(settings, id.Value);
-                    if (!(await CanAccessLoanApplication(innerLoanApplication)))
+                    if (!await CanAccessLoanApplication(innerLoanApplication))
                         result = NotFound();
                 }
                 if (result == null && innerLoanApplication != null)
@@ -407,7 +406,7 @@ namespace API.Controllers
                 if (result == null)
                 {
                     innerLoanApplication = await _loanApplicationFactory.Get(settings, id.Value);
-                    if (innerLoanApplication == null || !(await CanAccessLoanApplication(innerLoanApplication)))
+                    if (innerLoanApplication == null || !await CanAccessLoanApplication(innerLoanApplication))
                         result = NotFound();
                 }
                 if (result == null && innerLoanApplication != null)
@@ -455,7 +454,7 @@ namespace API.Controllers
                 }
                 if (result == null && innerLoanApplication != null)
                 {
-                    innerLoanApplication.SetDenial((LoanApplicationDenialReason)denial.Reason, denial.Date ?? DateTime.Today, (await GetCurrentUserId()).Value, denial.Text);                    
+                    innerLoanApplication.SetDenial((LoanApplicationDenialReason)denial.Reason, denial.Date ?? DateTime.Today, (await GetCurrentUserId()).Value, denial.Text);
                     await _loanApplicationSaver.Deny(settings, innerLoanApplication);
                     result = Ok();
                 }

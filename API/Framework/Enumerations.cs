@@ -1,4 +1,5 @@
-﻿namespace JestersCreditUnion.Framework.Enumerations
+﻿#pragma warning disable IDE0130 // Namespace does not match folder structure
+namespace JestersCreditUnion.Framework.Enumerations
 {
     public enum LoanApplicationStatus : short
     {
@@ -43,3 +44,4 @@
         Fortnightly = 26
     }
 }
+#pragma warning restore IDE0130 // Namespace does not match folder structure

@@ -2,6 +2,7 @@
 
 namespace JestersCreditUnion.Interface.Models
 {
+#pragma warning disable CA1711 // Identifiers should not have incorrect suffix
     public class Exception
     {
         public long? ExceptionId { get; set; }
@@ -16,3 +17,4 @@ namespace JestersCreditUnion.Interface.Models
         public Exception InnerException { get; set; }
     }
 }
+#pragma warning restore CA1711 // Identifiers should not have incorrect suffix

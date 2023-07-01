@@ -22,15 +22,15 @@ namespace JestersCreditUnion.Interface
             if (loanPyamentAmountRequest == null)
                 throw new ArgumentNullException(nameof(loanPyamentAmountRequest));
             else if (!loanPyamentAmountRequest.AnnualInterestRate.HasValue)
-                throw new ArgumentNullException(nameof(LoanPaymentAmountRequest.AnnualInterestRate));
+                throw new ArgumentException($"{nameof(LoanPaymentAmountRequest.AnnualInterestRate)} is null");
             else if (loanPyamentAmountRequest.AnnualInterestRate.Value <= 0.0M || loanPyamentAmountRequest.AnnualInterestRate.Value >= 1.0M)
                 throw new ApplicationException("Interest rate must be between 0.0 and 1.0, exclusive.");
             else if (!loanPyamentAmountRequest.TotalPrincipal.HasValue)
-                throw new ArgumentNullException(nameof(LoanPaymentAmountRequest.TotalPrincipal));
+                throw new ArgumentException($"{nameof(LoanPaymentAmountRequest.TotalPrincipal)} is null");
             else if (loanPyamentAmountRequest.TotalPrincipal <= 0.0M)
                 throw new ApplicationException("Total principal must be greater than zero");
             else if (!loanPyamentAmountRequest.Term.HasValue)
-                throw new ArgumentNullException(nameof(LoanPaymentAmountRequest.Term));
+                throw new ArgumentException($"{nameof(LoanPaymentAmountRequest.Term)} is null");
             else if (loanPyamentAmountRequest.Term.Value <= 0)
                 throw new ApplicationException("Term must be greater than zero");
             IRequest request = _service.CreateRequest(new Uri(settings.BaseAddress), HttpMethod.Post, loanPyamentAmountRequest)

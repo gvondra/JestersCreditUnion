@@ -87,7 +87,7 @@ namespace JestersCreditUnion.Interface
             if (workGroup == null)
                 throw new ArgumentNullException(nameof(workGroup));
             if (!workGroup.WorkGroupId.HasValue || workGroup.WorkGroupId.Value.Equals(Guid.Empty))
-                throw new ArgumentNullException(nameof(workGroup.WorkGroupId));
+                throw new ArgumentException($"{nameof(workGroup.WorkGroupId)} is null");
             IRequest request = _service.CreateRequest(new Uri(settings.BaseAddress), HttpMethod.Put, workGroup)
                 .AddPath("WorkGroup")
                 .AddPath(workGroup.WorkGroupId.Value.ToString("N"))

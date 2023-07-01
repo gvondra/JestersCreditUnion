@@ -22,7 +22,7 @@ namespace JestersCreditUnion.Interface
             if (id.Equals(Guid.Empty))
                 throw new ArgumentNullException(nameof(id));
             if (string.IsNullOrEmpty(comment.Text))
-                throw new ApplicationException("Comment Text is required");
+                throw new ArgumentException("Comment Text is required");
             IRequest request = _service.CreateRequest(new Uri(settings.BaseAddress), HttpMethod.Post, comment)
                 .AddPath("LoanApplication/{id}/Comment")
                 .AddPathParameter("id", id.ToString("N"))
@@ -64,7 +64,7 @@ namespace JestersCreditUnion.Interface
             if (loanApplication == null)
                 throw new ArgumentNullException(nameof(loanApplication));
             if (!loanApplication.LoanApplicationId.HasValue || loanApplication.LoanApplicationId.Value.Equals(Guid.Empty))
-                throw new ArgumentNullException(nameof(LoanApplication.LoanApplicationId));
+                throw new ArgumentException($"{nameof(LoanApplication.LoanApplicationId)} is null");
             IRequest request = _service.CreateRequest(new Uri(settings.BaseAddress), HttpMethod.Put, loanApplication)
                 .AddPath("LoanApplication/{id}")
                 .AddPathParameter("id", loanApplication.LoanApplicationId.Value.ToString("N"))

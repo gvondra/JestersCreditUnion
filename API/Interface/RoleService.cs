@@ -39,7 +39,7 @@ namespace JestersCreditUnion.Interface
         public Task<Role> Update(ISettings settings, Role role)
         {
             if (!role.RoleId.HasValue || role.RoleId.Value.Equals(Guid.Empty))
-                throw new ArgumentNullException(nameof(role.RoleId));
+                throw new ArgumentException($"{nameof(role.RoleId)} is null");
             return Update(settings, role.RoleId.Value, role);
         }
 

@@ -4,12 +4,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Protocols;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace JestersCreditUnion.CommonAPI
 {
@@ -90,13 +87,13 @@ namespace JestersCreditUnion.CommonAPI
             return services;
         }
 
-        private static string[] _userEditPolicies = new string[]
+        private static readonly string[] _userEditPolicies = new string[]
         {
             Constants.POLICY_USER_EDIT,
             Constants.POLICY_USER_READ
         };
 
-        private static string[] _workTaskTypeEditPolicies = new string[]
+        private static readonly string[] _workTaskTypeEditPolicies = new string[]
         {
             Constants.POLICY_WORKTASK_TYPE_EDIT,
             Constants.POLICY_WORKTASK_TYPE_READ,

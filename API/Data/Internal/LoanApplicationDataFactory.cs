@@ -66,7 +66,7 @@ namespace JestersCreditUnion.Data.Internal
                     reader.NextResult();
                     denials = (await denialFactory.LoadData(reader, () => new LoanApplicationDenialData(), DataUtil.AssignDataStateManager)).ToList();
                     reader.NextResult();
-                    comments = (await commentFactory.LoadData(reader, ()=> new LoanApplicationCommentData(), DataUtil.AssignDataStateManager)).ToList();
+                    comments = (await commentFactory.LoadData(reader, () => new LoanApplicationCommentData(), DataUtil.AssignDataStateManager)).ToList();
                 });
             result = result
                 .GroupJoin(

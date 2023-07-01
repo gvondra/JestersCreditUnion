@@ -1,11 +1,10 @@
 ﻿using JestersCreditUnion.CommonAPI;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using System;
 using AuthorizationAPI = BrassLoon.Interface.Authorization;
 
 namespace API
@@ -33,6 +32,7 @@ namespace API
         protected async Task WriteMetrics(string eventCode, double? magnitude, IActionResult actionResult = null, Dictionary<string, string> data = null)
         {
             if (!string.IsNullOrEmpty(_settings.Value.BrassLoonLogApiBaseAddress))
+            {
                 await base.WriteMetrics(
                     _settingsFactory.CreateAuthorization(_settings.Value),
                     _settings.Value.AuthorizationDomainId.Value,
@@ -41,6 +41,7 @@ namespace API
                     actionResult: actionResult,
                     data: data
                     );
+            }
         }
 
         protected Task WriteMetrics(string eventCode, DateTime? startTime, IActionResult actionResult = null, Dictionary<string, string> data = null)
@@ -63,14 +64,10 @@ namespace API
         }
 
         protected virtual Task<Guid?> GetCurrentUserId()
-        {
-            return GetCurrentUserId(GetAuthorizationSettings(), _settings.Value.AuthorizationDomainId.Value);
-        }
+            => GetCurrentUserId(GetAuthorizationSettings(), _settings.Value.AuthorizationDomainId.Value);
 
         protected virtual Task<string> GetCurrentUserEmailAddress(AuthorizationAPI.ISettings settings)
-        {
-            return GetCurrentUserEmailAddress(settings, _settings.Value.AuthorizationDomainId.Value);
-        }
+            => GetCurrentUserEmailAddress(settings, _settings.Value.AuthorizationDomainId.Value);
 
         protected virtual CoreSettings GetCoreSettings()
         {

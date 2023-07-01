@@ -12,7 +12,7 @@ namespace JestersCreditUnion.Interface
 {
     public class UserService : IUserService
     {
-        private static Policy _userNameCache = Policy.Cache(new MemoryCacheProvider(new MemoryCache(new MemoryCacheOptions())), TimeSpan.FromMinutes(6));
+        private static readonly Policy _userNameCache = Policy.Cache(new MemoryCacheProvider(new MemoryCache(new MemoryCacheOptions())), TimeSpan.FromMinutes(6));
 
         private readonly RestUtil _restUtil;
         private readonly IService _service;
@@ -80,7 +80,7 @@ namespace JestersCreditUnion.Interface
         public Task<User> Update(ISettings settings, User user)
         {
             if (!user.UserId.HasValue || user.UserId.Value.Equals(Guid.Empty))
-                throw new ArgumentNullException(nameof(user.UserId));
+                throw new ArgumentException($"{nameof(user.UserId)} is null");
             return Update(settings, user.UserId.Value, user);
         }
     }

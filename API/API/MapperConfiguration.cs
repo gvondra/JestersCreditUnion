@@ -10,7 +10,7 @@ namespace API
 {
     public sealed class MapperConfiguration
     {
-        private readonly static AutoMapper.MapperConfiguration _mapperConfiguration;
+        private static readonly AutoMapper.MapperConfiguration _mapperConfiguration;
 
         static MapperConfiguration()
         {
@@ -23,7 +23,7 @@ namespace API
             exp.CreateMap<Loan, ILoan>()
                 .ForMember(l => l.Agreement, opt => opt.Ignore());
             exp.CreateMap<ILoanAgreement, LoanAgreement>();
-            exp.CreateMap<LoanAgreement, ILoanAgreement>();            
+            exp.CreateMap<LoanAgreement, ILoanAgreement>();
             exp.CreateMap<ILoanApplication, LoanApplication>()
                 .ForMember(la => la.Comments, opt => opt.Ignore()); // comments require authorization
             exp.CreateMap<LoanApplication, ILoanApplication>()

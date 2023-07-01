@@ -56,7 +56,7 @@ namespace JestersCreditUnion.Interface
             if (workTask == null)
                 throw new ArgumentNullException(nameof(workTask));
             if (!workTask.WorkTaskId.HasValue || workTask.WorkTaskId.Value.Equals(Guid.Empty))
-                throw new ArgumentNullException(nameof(WorkTask.WorkTaskId));
+                throw new ArgumentException($"{nameof(WorkTask.WorkTaskId)} is null");
             IRequest request = _service.CreateRequest(new Uri(settings.BaseAddress), HttpMethod.Put, workTask)
                 .AddPath("WorkTask/{id}")
                 .AddPathParameter("id", workTask.WorkTaskId.Value.ToString("N"))

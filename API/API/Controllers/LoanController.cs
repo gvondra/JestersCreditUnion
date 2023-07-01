@@ -101,7 +101,7 @@ namespace API.Controllers
         [ProducesResponseType(typeof(Loan), 200)]
         [HttpPost()]
         public async Task<IActionResult> Create([FromBody] Loan loan)
-        {            
+        {
             DateTime start = DateTime.UtcNow;
             IActionResult result = null;
             try
@@ -157,7 +157,7 @@ namespace API.Controllers
                 if (result == null)
                 {
                     result = ValidateLoan(loan) ?? ValidateLoanAgreement(loan.Agreement);
-                }                
+                }
                 if (result == null)
                 {
                     innerLoan = await _loanFactory.Get(settings, id.Value);
@@ -195,7 +195,7 @@ namespace API.Controllers
             IPhone borrowerPhone = await GetPhone(settings, loan.Agreement.BorrowerPhone);
             IPhone coborrowerPhone = await GetPhone(settings, loan.Agreement.CoBorrowerPhone);
 
-            mapper.Map(loan, innerLoan);            
+            mapper.Map(loan, innerLoan);
             mapper.Map(loan.Agreement, innerLoan.Agreement);
             innerLoan.Agreement.BorrowerAddressId = borrowerAddress?.AddressId;
             innerLoan.Agreement.CoBorrowerAddressId = coborrowerAddress?.AddressId;
@@ -300,7 +300,7 @@ namespace API.Controllers
         }
 
         [NonAction]
-        private async Task<Loan> Map(IMapper mapper, CoreSettings settings, ILoan innerLoan)
+        private static async Task<Loan> Map(IMapper mapper, CoreSettings settings, ILoan innerLoan)
         {
             IAddress borrowerAddress = await innerLoan.Agreement.GetBorrowerAddress(settings);
             IAddress coborrowerAddress = await innerLoan.Agreement.GetCoBorrowerAddress(settings);
@@ -318,6 +318,32 @@ namespace API.Controllers
             loan.Agreement.CoBorrowerPhone = coborrowerPhone != null ? coborrowerPhone.Number : string.Empty;
 
             return loan;
+        }
+
+        [Authorize(Constants.POLICY_LOAN_EDIT)]
+        [ProducesResponseType(typeof(Loan), 200)]
+        [HttpPost("{id}/Disbursement")]
+        public async Task<IActionResult> Disbursement([FromRoute] Guid? id)
+        {
+            DateTime start = DateTime.UtcNow;
+            IActionResult result = null;
+            try
+            {
+                if (!id.HasValue || id.Value.Equals(Guid.Empty))
+                {
+                    result = BadRequest("Missing loan id parameter value");
+                }
+            }
+            catch (System.Exception ex)
+            {
+                WriteException(ex);
+                result = StatusCode(StatusCodes.Status500InternalServerError);
+            }
+            finally
+            {
+                await WriteMetrics("disburse-loan", start, result);
+            }
+            return result;
         }
     }
 }
