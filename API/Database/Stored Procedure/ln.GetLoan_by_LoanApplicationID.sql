@@ -2,7 +2,7 @@
 	@loanApplicationId UNIQUEIDENTIFIER
 AS
 BEGIN
-	SELECT TOP 1 [LoanId], [Number], [LoanApplicationId], [InitialDisbursementDate], 
+	SELECT TOP 1 [LoanId], [Number], [LoanApplicationId], [InitialDisbursementDate], [FirstPaymentDue], 
 		[CreateTimestamp], [UpdateTimestamp]
 	FROM [ln].[Loan]
 	WHERE [LoanApplicationId] = @loanApplicationId;

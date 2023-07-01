@@ -66,7 +66,8 @@ namespace JestersCreditUnion.Data.Internal
 
         private void AddCommonParameters(IList commandParameters, LoanData data)
         {
-            DataUtil.AddParameter(_providerFactory, commandParameters, "initialDisbursementDate", DbType.DateTime, DataUtil.GetParameterValue(data.InitialDisbursementDate));
+            DataUtil.AddParameter(_providerFactory, commandParameters, "initialDisbursementDate", DbType.Date, DataUtil.GetParameterValue(data.InitialDisbursementDate));
+            DataUtil.AddParameter(_providerFactory, commandParameters, "firstPaymentDue", DbType.Date, DataUtil.GetParameterValue(data.FirstPaymentDue));
         }
     }
 }

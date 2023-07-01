@@ -4,6 +4,7 @@
 	[Number] VARCHAR(16) NOT NULL,
 	[LoanApplicationId] UNIQUEIDENTIFIER NOT NULL,
 	[InitialDisbursementDate] DATE NULL,
+	[FirstPaymentDue] DATE NULL,
 	[CreateTimestamp] DATETIME2(4) CONSTRAINT [DF_Loan_CreateTimestamp] DEFAULT (SYSUTCDATETIME()) NOT NULL,
 	[UpdateTimestamp] DATETIME2(4) CONSTRAINT [DF_Loan_UpdateTimestamp] DEFAULT (SYSUTCDATETIME()) NOT NULL,
 	CONSTRAINT [PK_Loan] PRIMARY KEY NONCLUSTERED ([LoanId]), 

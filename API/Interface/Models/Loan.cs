@@ -9,6 +9,7 @@ namespace JestersCreditUnion.Interface.Models
         public Guid? LoanApplicationId { get; set; }
         public LoanAgreement Agreement { get; set; }
         public DateTime? InitialDisbursementDate { get; set; }
+        public DateTime? FirstPaymentDue { get; set; }
         public DateTime? CreateTimestamp { get; set; }
         public DateTime? UpdateTimestamp { get; set; }
     }

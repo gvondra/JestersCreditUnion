@@ -11,6 +11,7 @@ namespace JestersCreditUnion.Framework
         Guid LoanApplicationId { get; }
         ILoanAgreement Agreement { get; }
         DateTime? InitialDisbursementDate { get; set; }
+        DateTime? FirstPaymentDue { get; set; }
         DateTime CreateTimestamp { get; }
         DateTime UpdateTimestamp { get; }
 
