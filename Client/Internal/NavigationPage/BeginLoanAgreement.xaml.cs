@@ -41,7 +41,7 @@ namespace JCU.Internal.NavigationPage
         private void InitializeDetailGrid()
         {
             DetailGrid.RowDefinitions.Clear();
-            foreach (int i in Enumerable.Range(0, 21))
+            foreach (int i in Enumerable.Range(0, 22))
             {
                 DetailGrid.RowDefinitions.Add(
                     new RowDefinition() { Height = GridLength.Auto });
