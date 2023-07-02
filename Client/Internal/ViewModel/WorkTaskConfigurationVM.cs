@@ -59,9 +59,22 @@ namespace JCU.Internal.ViewModel
             get => _innerConfiguration.SendDenialCorrespondenceTaskTypeCode ?? string.Empty;
             set
             {
-                if (_innerConfiguration.SendDenialCorrespondenceTaskTypeCode == null || _innerConfiguration.NewLoanApplicationTaskTypeCode != value)
+                if (_innerConfiguration.SendDenialCorrespondenceTaskTypeCode == null || _innerConfiguration.SendDenialCorrespondenceTaskTypeCode != value)
                 {
                     _innerConfiguration.SendDenialCorrespondenceTaskTypeCode = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+        public string DiburseFundsTaskTypeCode
+        {
+            get => _innerConfiguration.DiburseFundsTaskTypeCode ?? string.Empty;
+            set
+            {
+                if (_innerConfiguration.DiburseFundsTaskTypeCode == null || _innerConfiguration.DiburseFundsTaskTypeCode != value)
+                {
+                    _innerConfiguration.DiburseFundsTaskTypeCode = value;
                     NotifyPropertyChanged();
                 }
             }

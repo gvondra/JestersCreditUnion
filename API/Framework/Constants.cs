@@ -9,6 +9,7 @@ namespace JestersCreditUnion.Framework.Constants
     {
         public const string NewLoanApplicationTaskTypeCode = "NewLoanApplicationTaskTypeCode";
         public const string SendDenialCorrespondenceTaskTypeCode = "SendDenialCorrespondenceTaskTypeCode";
+        public const string DiburseFundsTaskTypeCode = "DiburseFundsTaskTypeCode";
     }
 
     public static class EnumerationDesriptionLookup
