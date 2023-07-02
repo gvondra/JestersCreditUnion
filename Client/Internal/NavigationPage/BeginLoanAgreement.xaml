@@ -20,8 +20,11 @@
             <TextBlock Style="{StaticResource PageTitle}">Loan Agreement</TextBlock>
             <fa:ImageAwesome Icon="CircleOutlineNotch" Spin="True" Height="24" Width="24" Visibility="{Binding BusyVisibility}" Foreground="Navy" HorizontalAlignment="Left" />
         </StackPanel>
-        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal">
-            <Button Style="{StaticResource SaveButtonStyle}" Margin="5" Command="{Binding Save}" CommandParameter="{Binding .}" />
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="5">
+            <Button Style="{StaticResource SaveButtonStyle}" Command="{Binding Save}" CommandParameter="{Binding .}" />
+            <Button Style="{StaticResource SaveButtonStyle}" Command="{Binding Disburse}" CommandParameter="{Binding .}" Margin="5,5,0,5">
+                Disburse
+            </Button>
         </StackPanel>
         <ScrollViewer VerticalScrollBarVisibility="Visible">
             <Grid Name="DetailGrid">

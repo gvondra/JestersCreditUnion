@@ -68,9 +68,7 @@ namespace JestersCreditUnion.Core
         }
 
         public Task CreateComment(ISettings settings, ILoanApplicationComment loanApplicationComment)
-        {
-            return CommonCore.Saver.Save(new CommonCore.TransactionHandler(settings), loanApplicationComment.Create);
-        }
+            => CommonCore.Saver.Save(new CommonCore.TransactionHandler(settings), loanApplicationComment.Create);
 
         public async Task Deny(ISettings settings, ILoanApplication loanApplication)
         {
@@ -107,10 +105,7 @@ namespace JestersCreditUnion.Core
             }
         }
 
-        public Task Update(ISettings settings, ILoanApplication loanApplication)
-        {
-            return CommonCore.Saver.Save(new CommonCore.TransactionHandler(settings), loanApplication.Update);
-        }
+        public Task Update(ISettings settings, ILoanApplication loanApplication) => CommonCore.Saver.Save(new CommonCore.TransactionHandler(settings), loanApplication.Update);
 
         private async Task CreateNewLoanApplicationWorkTask(
             ISettings settings,

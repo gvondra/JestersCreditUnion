@@ -45,11 +45,14 @@ namespace JCU.Internal.NavigationPage
                     WorkTaskContext context = contexts.FirstOrDefault(c => c.ReferenceType.HasValue 
                     && !string.IsNullOrEmpty(c.ReferenceValue) 
                     && (c.ReferenceType.Value == 1));
-                    switch (context.ReferenceType.Value)
+                    if (context != null)
                     {
-                        case 1:
-                            LoadLoanApplication(context);
-                            break;
+                        switch (context.ReferenceType.Value)
+                        {
+                            case 1:
+                                LoadLoanApplication(context);
+                                break;
+                        }
                     }
                 }
             }

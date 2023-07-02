@@ -10,6 +10,7 @@ namespace JCU.Internal.ViewModel
         private readonly LoanVM _loan;
         private Visibility _busyVisibility = Visibility.Collapsed;
         private BeginLoanAgreementSave _save;
+        private BeginLoanAgreementDisburse _disburse;
 
         private BeginLoanAgreementVM(LoanVM loanVM)
         {
@@ -26,6 +27,19 @@ namespace JCU.Internal.ViewModel
                 if (_save != value)
                 {
                     _save = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+        public BeginLoanAgreementDisburse Disburse
+        {
+            get => _disburse;
+            set
+            {
+                if (_disburse != value)
+                {
+                    _disburse = value;
                     NotifyPropertyChanged();
                 }
             }
@@ -95,6 +109,7 @@ namespace JCU.Internal.ViewModel
         public static BeginLoanAgreementVM Create(Loan loan)
         {   
             BeginLoanAgreementVM vm = new BeginLoanAgreementVM(LoanVM.Create(loan));
+            vm.Disburse = new BeginLoanAgreementDisburse();
             vm.Save = new BeginLoanAgreementSave();
             vm.AddBehavior(new BeginLoanAgreementValidator(vm));
             vm.AddBehavior(new BeginLoanAgreementLoader(vm));

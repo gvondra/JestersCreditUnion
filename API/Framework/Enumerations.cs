@@ -23,7 +23,8 @@ namespace JestersCreditUnion.Framework.Enumerations
     public enum WorkTaskContextReferenceType : short
     {
         Unset = 0,
-        LoanApplicationId = 1
+        LoanApplicationId = 1,
+        LoanId = 2
     }
 
     public enum LoanApplicationDenialReason : short

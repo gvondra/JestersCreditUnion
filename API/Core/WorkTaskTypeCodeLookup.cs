@@ -22,6 +22,9 @@ namespace JestersCreditUnion.Core
         public Task<string> GetSendDeinalCorrespondenceWorkTaskTypeCode(ISettings settings)
             => GetWorkTaskTypeCode(settings, WorkTaskConfigurationFields.SendDenialCorrespondenceTaskTypeCode);
 
+        public Task<string> GetDiburseFundsTaskTypeCode(ISettings settings)
+            => GetWorkTaskTypeCode(settings, WorkTaskConfigurationFields.DiburseFundsTaskTypeCode);
+
         private async Task<string> GetWorkTaskTypeCode(ISettings settings, string fieldName)
         {
             string result = string.Empty;

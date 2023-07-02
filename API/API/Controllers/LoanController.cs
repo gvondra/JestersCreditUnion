@@ -329,9 +329,26 @@ namespace API.Controllers
             IActionResult result = null;
             try
             {
+                CoreSettings settings = GetCoreSettings();
+                ILoan innerLoan = null;
                 if (!id.HasValue || id.Value.Equals(Guid.Empty))
                 {
                     result = BadRequest("Missing loan id parameter value");
+                }
+                else
+                {
+                    innerLoan = await _loanFactory.Get(settings, id.Value);
+                    if (innerLoan == null)
+                        result = NotFound();
+                }
+                if (result == null)
+                {
+                    if (innerLoan.Agreement.Status == JestersCreditUnion.Framework.Enumerations.LoanAgrementStatus.PendingSignoff)
+                        innerLoan.Agreement.Status = JestersCreditUnion.Framework.Enumerations.LoanAgrementStatus.Agreed;
+                    await _loanSaver.DisburseFundsUpdate(settings, innerLoan);
+                    IMapper mapper = MapperConfiguration.CreateMapper();
+                    result = Ok(
+                        await Map(mapper, settings, innerLoan));
                 }
             }
             catch (System.Exception ex)
