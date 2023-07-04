@@ -81,15 +81,17 @@ namespace JestersCreditUnion.Core
             WorkTaskStatus workTaskStatus,
             Guid loanId)
         {
-            WorkTaskSettings workTaskSettings = _settingsFactory.CreateWorkTask(settings);
-            WorkTask workTask = new WorkTask
+            if (!await OpenWorkTaskExists(settings, loanId))
             {
-                DomainId = settings.WorkTaskDomainId,
-                Text = "Disburse Loan Funds",
-                Title = "Disburse Loan Funds",
-                WorkTaskType = workTaskType,
-                WorkTaskStatus = workTaskStatus,
-                WorkTaskContexts = new List<WorkTaskContext>
+                WorkTaskSettings workTaskSettings = _settingsFactory.CreateWorkTask(settings);
+                WorkTask workTask = new WorkTask
+                {
+                    DomainId = settings.WorkTaskDomainId,
+                    Text = "Disburse Loan Funds",
+                    Title = "Disburse Loan Funds",
+                    WorkTaskType = workTaskType,
+                    WorkTaskStatus = workTaskStatus,
+                    WorkTaskContexts = new List<WorkTaskContext>
                 {
                     new WorkTaskContext
                     {
@@ -98,8 +100,16 @@ namespace JestersCreditUnion.Core
                         ReferenceValue = loanId.ToString("D")
                     }
                 }
-            };
-            await _workTaskService.Create(workTaskSettings, workTask);
+                };
+                await _workTaskService.Create(workTaskSettings, workTask);
+            }
+        }
+
+        private async Task<bool> OpenWorkTaskExists(ISettings settings, Guid loanId)
+        {
+            WorkTaskSettings workTaskSettings = _settingsFactory.CreateWorkTask(settings);
+            List<WorkTask> workTasks = await _workTaskService.GetByContext(workTaskSettings, settings.WorkTaskDomainId.Value, (short)WorkTaskContextReferenceType.LoanId, loanId.ToString("D"));
+            return workTasks.Any(wt => !(wt.WorkTaskStatus.IsClosedStatus ?? false));
         }
 
     }
