@@ -31,6 +31,47 @@ namespace API.Controllers
             _workTaskService = workTaskService;
         }
 
+        [HttpGet]
+        [Authorize(Constants.POLICY_WORKTASK_READ)]
+        [ProducesResponseType(typeof(WorkTask[]), 200)]
+        public async Task<IActionResult> Search([FromQuery] short? referenceType, [FromQuery] string referenceValue, [FromQuery] bool? includeClosed = null)
+        {
+            DateTime start = DateTime.UtcNow;
+            IActionResult result = null;
+            try
+            {
+                WorkTaskSettings settings = GetWorkTaskSettings();
+                IMapper mapper = MapperConfiguration.CreateMapper();
+                if (referenceType.HasValue && !string.IsNullOrEmpty(referenceValue))
+                {
+                    result = Ok(
+                        (await _workTaskService.GetByContext(settings, _settings.Value.WorkTaskDomainId.Value, referenceType.Value, referenceValue, includeClosed))
+                        .Select(wt => mapper.Map<WorkTask>(wt))
+                        .ToList()
+                        );
+                }
+                else
+                {
+                    result = Ok(Array.Empty<WorkTask>());
+                }
+            }
+            catch (BrassLoon.RestClient.Exceptions.RequestError ex)
+            {
+                WriteException(ex);
+                result = StatusCode((int)ex.StatusCode);
+            }
+            catch (System.Exception ex)
+            {
+                WriteException(ex);
+                result = StatusCode(StatusCodes.Status500InternalServerError);
+            }
+            finally
+            {
+                await WriteMetrics("search-worktasks", start, result);
+            }
+            return result;
+        }
+
         [HttpGet("/api/WorkGroup/{workGroupId}/WorkTask")]
         [Authorize(Constants.POLICY_WORKTASK_READ)]
         [ProducesResponseType(typeof(List<WorkTask>), 200)]
@@ -49,6 +90,7 @@ namespace API.Controllers
                     result = Ok(
                         (await _workTaskService.GetByWorkGroupId(settings, _settings.Value.WorkTaskDomainId.Value, workGroupId.Value, includeClosed))
                         .Select(wt => mapper.Map<WorkTask>(wt))
+                        .ToList()
                         );
                 }
             }
@@ -140,6 +182,40 @@ namespace API.Controllers
             finally
             {
                 await WriteMetrics("update-worktask", start, result);
+            }
+            return result;
+        }
+
+        [HttpPatch]
+        [Authorize(Constants.POLICY_WORKTASK_EDIT)]
+        [ProducesResponseType(typeof(WorkTask[]), 200)]
+        public async Task<IActionResult> Patch([FromBody] List<Dictionary<string, object>> patchData)
+        {
+            DateTime start = DateTime.UtcNow;
+            IActionResult result = null;
+            try
+            {
+                WorkTaskSettings settings = GetWorkTaskSettings();
+                IMapper mapper = MapperConfiguration.CreateMapper();
+                result = Ok(
+                    (await _workTaskService.Patch(settings, _settings.Value.WorkTaskDomainId.Value, patchData))
+                    .Select(wt => mapper.Map<WorkTask>(wt))
+                    .ToList()
+                    );
+            }
+            catch (BrassLoon.RestClient.Exceptions.RequestError ex)
+            {
+                WriteException(ex);
+                result = StatusCode((int)ex.StatusCode);
+            }
+            catch (System.Exception ex)
+            {
+                WriteException(ex);
+                result = StatusCode(StatusCodes.Status500InternalServerError);
+            }
+            finally
+            {
+                await WriteMetrics("patch-worktask", start, result);
             }
             return result;
         }

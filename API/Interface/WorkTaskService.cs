@@ -2,6 +2,8 @@
 using JestersCreditUnion.Interface.Models;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -37,6 +39,21 @@ namespace JestersCreditUnion.Interface
             return _restUtil.Send<ClaimWorkTaskResponse>(_service, request);
         }
 
+        public Task<List<WorkTask>> GetByContext(ISettings settings, short referenceType, string referenceValue, bool? includeClosed = null)
+        {
+            if (string.IsNullOrEmpty(referenceValue))
+                throw new ArgumentNullException(nameof(referenceValue));
+            IRequest request = _service.CreateRequest(new Uri(settings.BaseAddress), HttpMethod.Get)
+                .AddPath("WorkTask")
+                .AddQueryParameter("referenceType", referenceType.ToString(CultureInfo.InvariantCulture))
+                .AddQueryParameter("referenceValue", referenceValue)
+                .AddJwtAuthorizationToken(settings.GetToken)
+                ;
+            if (includeClosed.HasValue)
+                request.AddQueryParameter("includeClosed", includeClosed.Value.ToString());
+            return _restUtil.Send<List<Models.WorkTask>>(_service, request);
+        }
+
         public Task<List<WorkTask>> GetByWorkGroupId(ISettings settings, Guid workGroupId, bool? includeClosed = null)
         {
             if (workGroupId.Equals(Guid.Empty))
@@ -48,6 +65,17 @@ namespace JestersCreditUnion.Interface
                 ;
             if (includeClosed != null)
                 request.AddQueryParameter("includeClosed", includeClosed.Value.ToString());
+            return _restUtil.Send<List<Models.WorkTask>>(_service, request);
+        }
+
+        public Task<List<WorkTask>> Patch(ISettings settings, IEnumerable<Dictionary<string, object>> patchData)
+        {
+            if (patchData == null)
+                throw new ArgumentNullException(nameof(patchData));
+            IRequest request = _service.CreateRequest(new Uri(settings.BaseAddress), new HttpMethod("PATCH"), patchData.ToList())
+                .AddPath("WorkTask")
+                .AddJwtAuthorizationToken(settings.GetToken)
+                ;
             return _restUtil.Send<List<Models.WorkTask>>(_service, request);
         }
 
