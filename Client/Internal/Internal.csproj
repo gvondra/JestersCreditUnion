@@ -46,8 +46,8 @@
     <Reference Include="FontAwesome.WPF, Version=4.7.0.37774, Culture=neutral, PublicKeyToken=0758b07a11a4f466, processorArchitecture=MSIL">
       <HintPath>packages\FontAwesome.WPF.4.7.0.9\lib\net40\FontAwesome.WPF.dll</HintPath>
     </Reference>
-    <Reference Include="JestersCreditUnion.Interface, Version=1.0.0.53, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\JestersCreditUnion.Interface.1.0.0-alpha.53\lib\net48\JestersCreditUnion.Interface.dll</HintPath>
+    <Reference Include="JestersCreditUnion.Interface, Version=1.0.0.55, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\JestersCreditUnion.Interface.1.0.0-alpha.55\lib\net48\JestersCreditUnion.Interface.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Bcl.AsyncInterfaces.6.0.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
@@ -274,6 +274,7 @@
     <Compile Include="NavigationPage\WorkTaskTypes.xaml.cs">
       <DependentUpon>WorkTaskTypes.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ParentFinder.cs" />
     <Compile Include="Settings\APISettings.cs" />
     <Compile Include="Settings\ISettingsFactory.cs" />
     <Compile Include="Settings\Settings.cs" />

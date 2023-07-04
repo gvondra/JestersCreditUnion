@@ -1,12 +1,11 @@
 ﻿using Autofac;
-using JCU.Internal.NavigationPage;
+using JCU.Internal.Constants;
 using JCU.Internal.ViewModel;
 using JestersCreditUnion.Interface;
 using JestersCreditUnion.Interface.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -52,6 +51,59 @@ namespace JCU.Internal.Behaviors
             try
             {
                 await disburse;
+                BeginLoanAgreementVM beginLoanAgreementVM = (BeginLoanAgreementVM)state;
+
+                _ = Task.Run(() => CloseLoanApplicationTasks(beginLoanAgreementVM.Loan.InnerLoan.LoanApplicationId.Value))
+                    .ContinueWith(CloseLoanApplicationTasksCallback, beginLoanAgreementVM, TaskScheduler.FromCurrentSynchronizationContext());
+            }
+            catch (System.Exception ex)
+            {
+                _canExecute = true;
+                CanExecuteChanged?.Invoke(this, new EventArgs());
+                ErrorWindow.Open(ex);
+            }
+        }
+
+        private static void CloseLoanApplicationTasks(Guid loanApplicationId)
+        {
+            using (ILifetimeScope scope = DependencyInjection.ContainerFactory.Container.BeginLifetimeScope())
+            {
+                ISettingsFactory settingsFactory = scope.Resolve<ISettingsFactory>();
+                ISettings settings = settingsFactory.CreateApi();
+                IWorkTaskService workTaskService = scope.Resolve<IWorkTaskService>();
+                IWorkTaskStatusService workTaskStatusService = scope.Resolve<IWorkTaskStatusService>();
+                List<WorkTask> worktasks = workTaskService.GetByContext(settings, WorkTaskContextTypes.LoanApplicationId, loanApplicationId.ToString("D"), false).Result;
+                List<Dictionary<string, object>> patchData = new List<Dictionary<string, object>>();
+                foreach (WorkTask workTask in worktasks.Where(wt => !(wt.WorkTaskStatus.IsClosedStatus ?? false)))
+                {
+                    List<WorkTaskStatus> statuses = workTaskStatusService.GetAll(settings, workTask.WorkTaskType.WorkTaskTypeId.Value).Result;
+                    WorkTaskStatus status = statuses.FirstOrDefault(s => s.IsClosedStatus ?? false);
+                    if (status != null)
+                    {
+                        patchData.Add(new Dictionary<string, object>
+                        {
+                            { "WorkTaskId", workTask.WorkTaskId.Value.ToString("D") },
+                            { "WorkTaskStatusId", status.WorkTaskStatusId.Value.ToString("D") }
+                        });
+                    }
+                }
+                if (patchData.Count > 0)
+                {
+                    worktasks = workTaskService.Patch(settings, patchData).Result;
+                }
+            }
+        }
+
+        private async Task CloseLoanApplicationTasksCallback(Task closeLoanApplicationTasks, object state)
+        {
+            try
+            {
+                await closeLoanApplicationTasks;
+                BeginLoanAgreementVM beginLoanAgreementVM = (BeginLoanAgreementVM)state;
+                if (beginLoanAgreementVM?.NavigationService != null)
+                {
+                    beginLoanAgreementVM.NavigationService.Navigate(new Uri("NavigationPage/Home.xaml", UriKind.Relative));
+                }
             }
             catch (System.Exception ex)
             {

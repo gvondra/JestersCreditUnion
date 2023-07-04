@@ -2,6 +2,7 @@
 using JestersCreditUnion.Interface.Models;
 using System;
 using System.Windows;
+using System.Windows.Navigation;
 
 namespace JCU.Internal.ViewModel
 {
@@ -11,6 +12,7 @@ namespace JCU.Internal.ViewModel
         private Visibility _busyVisibility = Visibility.Collapsed;
         private BeginLoanAgreementSave _save;
         private BeginLoanAgreementDisburse _disburse;
+        private NavigationService _navigationService;
 
         private BeginLoanAgreementVM(LoanVM loanVM)
         {
@@ -18,6 +20,19 @@ namespace JCU.Internal.ViewModel
         }
 
         public LoanVM Loan => _loan;
+
+        public NavigationService NavigationService
+        {
+            get => _navigationService;
+            set
+            {
+                if (_navigationService != value)
+                {
+                    _navigationService = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
 
         public BeginLoanAgreementSave Save
         {

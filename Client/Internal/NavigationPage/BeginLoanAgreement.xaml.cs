@@ -31,12 +31,22 @@ namespace JCU.Internal.NavigationPage
 
         public BeginLoanAgreement(BeginLoanAgreementVM beginLoanAgreementVM)
             : this()
-        {
+        {            
             BeginLoanAgreementVM = beginLoanAgreementVM;
             DataContext = beginLoanAgreementVM;
+            this.Loaded += BeginLoanAgreement_Loaded;
         }
 
-        public BeginLoanAgreementVM BeginLoanAgreementVM { get; set; }
+        private void BeginLoanAgreement_Loaded(object sender, RoutedEventArgs e)
+        {
+            DependencyObject parent = ParentFinder.Find(typeof(WorkTaskFrame), this);
+            if (parent != null)
+            {
+                BeginLoanAgreementVM.NavigationService = NavigationService.GetNavigationService(parent);
+            }
+        }
+
+        public BeginLoanAgreementVM BeginLoanAgreementVM { get; }
 
         private void InitializeDetailGrid()
         {
