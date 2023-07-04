@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json.Serialization;
 using System;
 
 namespace API
@@ -46,7 +47,11 @@ namespace API
                 }
             });
 
-            builder.Services.AddControllers().AddJsonOptions(o =>
+            builder.Services.AddControllers().AddNewtonsoftJson(o =>
+            {
+                o.SerializerSettings.ContractResolver = new DefaultContractResolver();
+            })
+            .AddJsonOptions(o =>
             {
                 o.JsonSerializerOptions.PropertyNamingPolicy = null;
             })
