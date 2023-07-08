@@ -7,7 +7,7 @@
       xmlns:fa="http://schemas.fontawesome.io/icons/"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="Loan">
+      Title="JCU: Loan" Style="{StaticResource DefaultPageStyle}">
 
     <Page.Resources>
         <Style x:Key="ReadonlyTextBox" TargetType="TextBox">

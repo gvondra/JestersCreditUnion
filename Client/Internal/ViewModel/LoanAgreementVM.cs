@@ -71,7 +71,7 @@ namespace JCU.Internal.ViewModel
 
         public string BorrowerPhone
         {
-            get => _innerLoanAgreement.BorrowerPhone ?? string.Empty;
+            get => StringFormatter.PhoneNumber(_innerLoanAgreement.BorrowerPhone ?? string.Empty);
             set
             {
                 if ((_innerLoanAgreement.BorrowerPhone ?? string.Empty) != (value ?? string.Empty))
@@ -183,7 +183,7 @@ namespace JCU.Internal.ViewModel
 
         public string CoBorrowerPhone
         {
-            get => _innerLoanAgreement.CoBorrowerPhone ?? string.Empty;
+            get => StringFormatter.PhoneNumber(_innerLoanAgreement.CoBorrowerPhone ?? string.Empty);
             set
             {
                 if ((_innerLoanAgreement.CoBorrowerPhone ?? string.Empty) != (value ?? string.Empty))

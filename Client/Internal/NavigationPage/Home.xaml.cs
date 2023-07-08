@@ -81,5 +81,18 @@ namespace JCU.Internal.NavigationPage
                 ErrorWindow.Open(ex, Window.GetWindow(this));
             }
         }
+
+        private void SearchHyperlink_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                NavigationService navigationService = NavigationService.GetNavigationService(this);
+                navigationService.Navigate(new Uri("NavigationPage/LoanSearch.xaml", UriKind.Relative));
+            }
+            catch (System.Exception ex)
+            {
+                ErrorWindow.Open(ex, Window.GetWindow(this));
+            }
+        }
     }
 }

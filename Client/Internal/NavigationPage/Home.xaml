@@ -24,6 +24,9 @@
                 <Paragraph>
                     <TextBlock>Welcome</TextBlock>
                 </Paragraph>
+                <Paragraph>
+                    <Hyperlink Click="SearchHyperlink_Click">Search Loan</Hyperlink>
+                </Paragraph>
             </FlowDocument>
         </FlowDocumentScrollViewer>
     </DockPanel>
