@@ -23,3 +23,12 @@
 	[UpdateTimestamp] DATETIME2(4) CONSTRAINT [DF_LoanAgreement_UpdateTimestamp] DEFAULT (SYSUTCDATETIME()) NOT NULL,
 	CONSTRAINT [PK_LoanAgreement] PRIMARY KEY NONCLUSTERED ([LoanId])
 )
+
+GO
+
+CREATE NONCLUSTERED INDEX [IX_LoanAgreement_BorrowerNameBirthDate] ON [ln].[LoanAgreement] ([BorrowerBirthDate] DESC, [BorrowerName])
+
+GO
+
+CREATE NONCLUSTERED INDEX [IX_LoanAgreement_CoBorrowerNameBirthDate] ON [ln].[LoanAgreement] ([CoBorrowerBirthDate] DESC, [CoBorrowerName])
+WHERE [CoBorrowerName] <> '' AND [CoBorrowerBirthDate] IS NOT NULL

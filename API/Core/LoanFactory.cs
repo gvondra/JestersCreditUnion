@@ -2,6 +2,8 @@
 using JestersCreditUnion.Data.Models;
 using JestersCreditUnion.Framework;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace JestersCreditUnion.Core
@@ -69,6 +71,12 @@ namespace JestersCreditUnion.Core
             if (data != null)
                 result = Create(data);
             return result;
+        }
+
+        public async Task<IEnumerable<ILoan>> GetByNameBirthDate(ISettings settings, string name, DateTime birthDate)
+        {
+            return (await _dataFactory.GetByNameBirthDate(new CommonCore.DataSettings(settings), name, birthDate))
+                .Select<LoanData, ILoan>(Create);
         }
     }
 }

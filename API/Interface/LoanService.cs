@@ -1,6 +1,7 @@
 ﻿using BrassLoon.RestClient;
 using JestersCreditUnion.Interface.Models;
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -54,6 +55,19 @@ namespace JestersCreditUnion.Interface
             return _restUtil.Send<Loan>(_service, request);
         }
 
+        public Task<List<Loan>> GetByBorrowerNameBirthDate(ISettings settings, string borrowerName, DateTime borrowerBirthDate)
+        {
+            if (string.IsNullOrEmpty(borrowerName))
+                throw new ArgumentNullException(nameof(borrowerName));
+            IRequest request = _service.CreateRequest(new Uri(settings.BaseAddress), HttpMethod.Get)
+                .AddPath("Loan")
+                .AddQueryParameter("borrowerName", borrowerName)
+                .AddQueryParameter("borrowerBirthDate", borrowerBirthDate.ToString("O"))
+                .AddJwtAuthorizationToken(settings.GetToken)
+                ;
+            return _restUtil.Send<List<Loan>>(_service, request);
+        }
+
         public Task<Loan> GetByLoanApplicationId(ISettings settings, Guid loanApplicationId)
         {
             if (loanApplicationId.Equals(Guid.Empty))
@@ -61,6 +75,18 @@ namespace JestersCreditUnion.Interface
             IRequest request = _service.CreateRequest(new Uri(settings.BaseAddress), HttpMethod.Get)
                 .AddPath("Loan")
                 .AddQueryParameter("loanApplicationId", loanApplicationId.ToString("N"))
+                .AddJwtAuthorizationToken(settings.GetToken)
+                ;
+            return _restUtil.Send<Loan>(_service, request);
+        }
+
+        public Task<Loan> GetByNumber(ISettings settings, string number)
+        {
+            if (string.IsNullOrEmpty(number))
+                throw new ArgumentNullException(nameof(number));
+            IRequest request = _service.CreateRequest(new Uri(settings.BaseAddress), HttpMethod.Get)
+                .AddPath("Loan")
+                .AddQueryParameter("number", number)
                 .AddJwtAuthorizationToken(settings.GetToken)
                 ;
             return _restUtil.Send<Loan>(_service, request);

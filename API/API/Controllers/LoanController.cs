@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AuthorizationAPI = BrassLoon.Interface.Authorization;
 
@@ -58,31 +59,53 @@ namespace API.Controllers
         [ProducesResponseType(typeof(Loan), 200)]
         [ProducesResponseType(typeof(Loan[]), 200)]
         [HttpGet()]
-        public async Task<IActionResult> Search([FromQuery] Guid? loanApplicationId)
+        public async Task<IActionResult> Search(
+            [FromQuery] Guid? loanApplicationId,
+            [FromQuery] string number,
+            [FromQuery] string borrowerName,
+            [FromQuery] DateTime? borrowerBirthDate)
         {
             DateTime start = DateTime.UtcNow;
             IActionResult result = null;
             try
             {
-                ILoan innerLoan;
+                ILoan innerLoan = null;
+                IEnumerable<ILoan> innerLoans = null;
                 IMapper mapper = MapperConfiguration.CreateMapper();
                 CoreSettings settings = GetCoreSettings();
                 if (loanApplicationId.HasValue && !loanApplicationId.Value.Equals(Guid.Empty))
                 {
                     innerLoan = await _loanFactory.GetByLoanApplicationId(settings, loanApplicationId.Value);
-                    if (innerLoan != null)
+                }
+                else if (!string.IsNullOrEmpty(number))
+                {
+                    innerLoan = await _loanFactory.GetByNumber(settings, number);
+                }
+                else if (!string.IsNullOrEmpty(borrowerName) || borrowerBirthDate.HasValue)
+                {
+                    if (string.IsNullOrEmpty(borrowerName) || !borrowerBirthDate.HasValue)
                     {
-                        result = Ok(
-                            await Map(mapper, settings, innerLoan));
+                        result = BadRequest("Borrower name and birth date parameters must be used together.");
                     }
                     else
                     {
-                        result = Ok(null);
+                        innerLoans = await _loanFactory.GetByNameBirthDate(settings, borrowerName, borrowerBirthDate.Value.Date);
                     }
                 }
-                else
+                if (result == null && innerLoan != null)
                 {
-                    result = Ok(new List<Loan>());
+                    result = Ok(
+                        await Map(mapper, settings, innerLoan));
+                }
+                if (result == null && innerLoans != null)
+                {
+                    result = Ok(
+                        await Task.WhenAll(
+                            innerLoans.Select<ILoan, Task<Loan>>(ln => Map(mapper, settings, ln))));
+                }
+                else if (result == null)
+                {
+                    result = Ok(null);
                 }
             }
             catch (System.Exception ex)
