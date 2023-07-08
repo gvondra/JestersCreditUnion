@@ -92,7 +92,45 @@ namespace API.Controllers
             }
             finally
             {
-                await WriteMetrics("create-loan", start, result);
+                await WriteMetrics("search-loan", start, result);
+            }
+            return result;
+        }
+
+        [Authorize(Constants.POLICY_LOAN_READ)]
+        [ProducesResponseType(typeof(Loan), 200)]
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get([FromRoute] Guid? id)
+        {
+            DateTime start = DateTime.UtcNow;
+            IActionResult result = null;
+            try
+            {
+                CoreSettings settings = GetCoreSettings();
+                ILoan innerLoan = null;
+                if (!id.HasValue || id.Value.Equals(Guid.Empty))
+                    result = BadRequest("Missing loan id parameter value");
+                else
+                    innerLoan = await _loanFactory.Get(settings, id.Value);
+                if (result == null && innerLoan == null)
+                {
+                    result = NotFound();
+                }
+                else if (result == null)
+                {
+                    IMapper mapper = MapperConfiguration.CreateMapper();
+                    result = Ok(
+                        await Map(mapper, settings, innerLoan));
+                }
+            }
+            catch (System.Exception ex)
+            {
+                WriteException(ex);
+                result = StatusCode(StatusCodes.Status500InternalServerError);
+            }
+            finally
+            {
+                await WriteMetrics("get-loan", start, result);
             }
             return result;
         }
