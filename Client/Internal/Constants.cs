@@ -8,5 +8,6 @@
     public static class WorkTaskContextTypes
     {
         public const short LoanApplicationId = 1;
+        public const short LoanId = 2;
     }
 }

@@ -2,7 +2,6 @@
 using JCU.Internal.Constants;
 using JCU.Internal.ViewModel;
 using JestersCreditUnion.Interface;
-using JestersCreditUnion.Interface.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -142,7 +141,7 @@ namespace JCU.Internal.NavigationPage
             }
         }
 
-        private Loan GetLoan(Guid loanApplicationId)
+        private Models.Loan GetLoan(Guid loanApplicationId)
         {
             using (ILifetimeScope scope = DependencyInjection.ContainerFactory.Container.BeginLifetimeScope())
             {
@@ -152,11 +151,11 @@ namespace JCU.Internal.NavigationPage
             }
         }
 
-        private async Task GetLoanCallback(Task<Loan> getLoan, object state)
+        private async Task GetLoanCallback(Task<Models.Loan> getLoan, object state)
         {
             try
             {
-                Loan loan = await getLoan;
+                Models.Loan loan = await getLoan;
 
                 BeginLoanAgreement beginLoanAgreement;
                 if (loan is null)

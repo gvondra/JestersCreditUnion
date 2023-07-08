@@ -43,19 +43,28 @@ namespace JCU.Internal.NavigationPage
                 if (contexts != null && contexts.Count > 0)
                 {
                     WorkTaskContext context = contexts.FirstOrDefault(c => c.ReferenceType.HasValue 
-                    && !string.IsNullOrEmpty(c.ReferenceValue) 
-                    && (c.ReferenceType.Value == 1));
+                    && !string.IsNullOrEmpty(c.ReferenceValue));
                     if (context != null)
                     {
                         switch (context.ReferenceType.Value)
                         {
-                            case 1:
+                            case Constants.WorkTaskContextTypes.LoanApplicationId:
                                 LoadLoanApplication(context);
+                                break;
+                            case Constants.WorkTaskContextTypes.LoanId:
+                                LoadLoan(context);
                                 break;
                         }
                     }
                 }
             }
+        }
+
+        private void LoadLoan(WorkTaskContext workTaskContext)
+        {
+            Guid loanId = Guid.Parse(workTaskContext.ReferenceValue);
+            Loan loan = new Loan(loanId);
+            navigationFrame.Navigate(loan);
         }
 
         private void LoadLoanApplication(WorkTaskContext workTaskContext)

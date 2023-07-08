@@ -1,0 +1,55 @@
+﻿<Page x:Class="JCU.Internal.NavigationPage.Loan"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:JCU.Internal.NavigationPage"
+      xmlns:fa="http://schemas.fontawesome.io/icons/"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="Loan">
+
+    <Page.Resources>
+        <Style x:Key="ReadonlyTextBox" TargetType="TextBox">
+            <Setter Property="IsReadOnly" Value="True"/>
+            <Setter Property="BorderBrush" Value="{x:Null}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+    </Page.Resources>
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Top" Orientation="Vertical" >
+            <TextBlock Style="{StaticResource PageTitle}">Loan</TextBlock>
+            <fa:ImageAwesome Icon="CircleOutlineNotch" Spin="True" Height="24" Width="24" Visibility="{Binding BusyVisibility}" Foreground="Navy" HorizontalAlignment="Left" />
+        </StackPanel>
+        <ScrollViewer>
+            <Grid x:Name="DetailGrid">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" Grid.Row="0">Number</Label>
+                <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Number, Mode=OneWay}" Style="{StaticResource ReadonlyTextBox}" />
+                <Label Grid.Column="0" Grid.Row="1">Borrower Name</Label>
+                <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Agreement.BorrowerName, Mode=OneWay}" Style="{StaticResource ReadonlyTextBox}" />
+                <Label Grid.Column="0" Grid.Row="2">Borrower Birth Date</Label>
+                <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Agreement.BorrowerBirthDate, Mode=OneWay, StringFormat='yyyy-MM-dd'}" Style="{StaticResource ReadonlyTextBox}" />
+                <Label Grid.Column="0" Grid.Row="3">Co-Borrower Name</Label>
+                <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding Agreement.CoBorrowerName, Mode=OneWay}" Style="{StaticResource ReadonlyTextBox}" />
+                <Label Grid.Column="0" Grid.Row="4">Co-Borrower Birth Date</Label>
+                <TextBox Grid.Column="1" Grid.Row="4" Text="{Binding Agreement.CoBorrowerBirthDate, Mode=OneWay, StringFormat='yyyy-MM-dd'}" Style="{StaticResource ReadonlyTextBox}" />
+                <Label Grid.Column="0" Grid.Row="5">Original Amount</Label>
+                <TextBox Grid.Column="1" Grid.Row="5" Text="{Binding Agreement.OriginalAmount, Mode=OneWay, StringFormat='###,###,##0.00'}" Style="{StaticResource ReadonlyTextBox}" />
+                <Label Grid.Column="0" Grid.Row="6">Original Term</Label>
+                <TextBox Grid.Column="1" Grid.Row="6" Text="{Binding Agreement.OriginalTerm, Mode=OneWay}" Style="{StaticResource ReadonlyTextBox}" />
+                <Label Grid.Column="0" Grid.Row="7">Interest Rate</Label>
+                <TextBox Grid.Column="1" Grid.Row="7" Text="{Binding Agreement.InterestPercentage, Mode=OneWay, StringFormat='00.00#'}" Style="{StaticResource ReadonlyTextBox}" />
+                <Label Grid.Column="0" Grid.Row="8">Payment Amount</Label>
+                <StackPanel Grid.Column="1" Grid.Row="8" Orientation="Horizontal">
+                    <TextBox Text="{Binding Agreement.PaymentAmount, Mode=OneWay, StringFormat='###,###,##0.00'}" Style="{StaticResource ReadonlyTextBox}" />
+                    <ComboBox Margin="5,0" MinWidth="100" ItemsSource="{Binding Agreement.Terms}" DisplayMemberPath="Value" SelectedValuePath="Key" SelectedValue="{Binding Agreement.PaymentFrequency}" IsEnabled="False"/>
+                </StackPanel>
+            </Grid>
+        </ScrollViewer>
+    </DockPanel>
+</Page>
