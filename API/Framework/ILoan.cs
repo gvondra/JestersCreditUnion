@@ -12,6 +12,7 @@ namespace JestersCreditUnion.Framework
         ILoanAgreement Agreement { get; }
         DateTime? InitialDisbursementDate { get; set; }
         DateTime? FirstPaymentDue { get; set; }
+        DateTime? NextPaymentDue { get; set; }
         DateTime CreateTimestamp { get; }
         DateTime UpdateTimestamp { get; }
 

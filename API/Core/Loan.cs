@@ -52,6 +52,7 @@ namespace JestersCreditUnion.Core
         public DateTime UpdateTimestamp => _data.UpdateTimestamp;
 
         public DateTime? FirstPaymentDue { get => _data.FirstPaymentDue; set => _data.FirstPaymentDue = value; }
+        public DateTime? NextPaymentDue { get => _data.NextPaymentDue; set => _data.NextPaymentDue = value; }
 
         public async Task Create(ITransactionHandler transactionHandler)
         {

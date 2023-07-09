@@ -68,6 +68,7 @@ namespace JestersCreditUnion.Data.Internal
         {
             DataUtil.AddParameter(_providerFactory, commandParameters, "initialDisbursementDate", DbType.Date, DataUtil.GetParameterValue(data.InitialDisbursementDate));
             DataUtil.AddParameter(_providerFactory, commandParameters, "firstPaymentDue", DbType.Date, DataUtil.GetParameterValue(data.FirstPaymentDue));
+            DataUtil.AddParameter(_providerFactory, commandParameters, "nextPaymentDue", DbType.Date, DataUtil.GetParameterValue(data.NextPaymentDue));
         }
     }
 }

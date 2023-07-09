@@ -7,6 +7,7 @@
         [ColumnMapping()] public Guid LoanApplicationId { get; set; }
         [ColumnMapping()] public DateTime? InitialDisbursementDate { get; set; }
         [ColumnMapping()] public DateTime? FirstPaymentDue { get; set; }
+        [ColumnMapping()] public DateTime? NextPaymentDue { get; set; }
         [ColumnMapping(IsUtc = true)] public DateTime CreateTimestamp { get; set; }
         [ColumnMapping(IsUtc = true)] public DateTime UpdateTimestamp { get; set; }
         public LoanAgreementData Agreement { get; set; }
