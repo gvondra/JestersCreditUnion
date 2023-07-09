@@ -45,7 +45,7 @@ csharp_style_allow_blank_line_after_colon_in_constructor_initializer_experimenta
 csharp_style_allow_blank_line_after_token_in_conditional_expression_experimental = true:silent
 csharp_style_allow_blank_line_after_token_in_arrow_expression_clause_experimental = true:silent
 csharp_style_conditional_delegate_call = true:suggestion
-csharp_style_prefer_switch_expression = true:suggestion
+csharp_style_prefer_switch_expression = false:none
 csharp_style_prefer_pattern_matching = false:silent
 csharp_style_pattern_matching_over_is_with_cast_check = true:suggestion
 csharp_style_pattern_matching_over_as_with_null_check = true:suggestion
@@ -184,3 +184,5 @@ dotnet_diagnostic.IDE0031.severity = none
 
 # IDE0032: Use auto property
 dotnet_diagnostic.IDE0032.severity = none
+
+dotnet_diagnostic.IDE0010.severity = none

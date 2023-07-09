@@ -26,6 +26,7 @@ namespace JestersCreditUnion.Core
         public IAddressFactory AddressFactory { get; set; }
         public IEmailAddressFactory EmailAddressFactory { get; set; }
         public IPhoneFactory PhoneFactory { get; set; }
+        public ITransactionFacatory TransactionFacatory { get; set; }
 
         private Loan Create(LoanData data) => new Loan(data, _dataSaver, this);
 

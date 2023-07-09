@@ -9,6 +9,7 @@ namespace JestersCreditUnion.Framework
         IAddressFactory AddressFactory { get; set; }
         IEmailAddressFactory EmailAddressFactory { get; set; }
         IPhoneFactory PhoneFactory { get; set; }
+        ITransactionFacatory TransactionFacatory { get; set; }
 
         ILoan Create(ILoanApplication loanApplication);
         Task<ILoan> Get(ISettings settings, Guid id);

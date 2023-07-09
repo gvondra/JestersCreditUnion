@@ -1,5 +1,7 @@
 ﻿using JestersCreditUnion.CommonCore;
+using JestersCreditUnion.Framework.Enumerations;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace JestersCreditUnion.Framework
@@ -18,5 +20,8 @@ namespace JestersCreditUnion.Framework
 
         Task Create(ITransactionHandler transactionHandler);
         Task Update(ITransactionHandler transactionHandler);
+
+        ITransaction CreateTransaction(DateTime date, TransactionType type, decimal amount);
+        Task<IEnumerable<ITransaction>> GetTransactions(ISettings settings);
     }
 }

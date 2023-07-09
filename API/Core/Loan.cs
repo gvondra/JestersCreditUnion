@@ -2,7 +2,9 @@
 using JestersCreditUnion.Data;
 using JestersCreditUnion.Data.Models;
 using JestersCreditUnion.Framework;
+using JestersCreditUnion.Framework.Enumerations;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace JestersCreditUnion.Core
@@ -68,5 +70,8 @@ namespace JestersCreditUnion.Core
             if (_agreement != null)
                 await _agreement.Update(transactionHandler);
         }
+
+        public Task<IEnumerable<ITransaction>> GetTransactions(Framework.ISettings settings) => _factory.TransactionFacatory.GetByLoanId(settings, LoanId);
+        public ITransaction CreateTransaction(DateTime date, TransactionType type, decimal amount) => _factory.TransactionFacatory.Create(this, date, type, amount);
     }
 }

@@ -13,6 +13,7 @@ namespace JestersCreditUnion.Interface
         Task<List<Loan>> GetByBorrowerNameBirthDate(ISettings settings, string borrowerName, DateTime borrowerBirthDate);
         Task<Loan> Create(ISettings settings, Loan loan);
         Task<Loan> Update(ISettings settings, Loan loan);
-        Task<Loan> Disbursement(ISettings settings, Guid id);
+        Task<Loan> InitiateDisbursement(ISettings settings, Guid id);
+        Task<DisburseResponse> DisburseFunds(ISettings settings, Guid id);
     }
 }

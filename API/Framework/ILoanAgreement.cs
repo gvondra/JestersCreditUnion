@@ -24,7 +24,7 @@ namespace JestersCreditUnion.Framework
         short OriginalTerm { get; set; }
         decimal InterestRate { get; set; }
         decimal PaymentAmount { get; set; }
-        short PaymentFrequency { get; set; }
+        LoanPaymentFrequency PaymentFrequency { get; set; }
 
         Task Create(CommonCore.ITransactionHandler transactionHandler);
         Task Update(CommonCore.ITransactionHandler transactionHandler);

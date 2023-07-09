@@ -6,6 +6,6 @@ namespace JestersCreditUnion.Framework
     {
         Task Create(ISettings settings, ILoan loan);
         Task Update(ISettings settings, ILoan loan);
-        Task DisburseFundsUpdate(ISettings settings, ILoan loan);
+        Task InitiateDisburseFundsUpdate(ISettings settings, ILoan loan);
     }
 }

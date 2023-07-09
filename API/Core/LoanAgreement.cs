@@ -54,7 +54,7 @@ namespace JestersCreditUnion.Core
         public short OriginalTerm { get => _data.OriginalTerm; set => _data.OriginalTerm = value; }
         public decimal InterestRate { get => _data.InterestRate; set => _data.InterestRate = value; }
         public decimal PaymentAmount { get => _data.PaymentAmount; set => _data.PaymentAmount = value; }
-        public short PaymentFrequency { get => _data.PaymentFrequency; set => _data.PaymentFrequency = value; }
+        public LoanPaymentFrequency PaymentFrequency { get => (LoanPaymentFrequency)_data.PaymentFrequency; set => _data.PaymentFrequency = (short)value; }
 
         public async Task Create(CommonCore.ITransactionHandler transactionHandler)
         {

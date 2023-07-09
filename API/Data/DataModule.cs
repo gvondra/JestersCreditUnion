@@ -22,6 +22,8 @@ namespace JestersCreditUnion.Data
                 .PropertiesAutowired();
             builder.RegisterType<PhoneDataFactory>().As<IPhoneDataFactory>();
             builder.RegisterType<PhoneDataSaver>().As<IPhoneDataSaver>();
+            builder.RegisterType<TransactionDataFactory>().As<ITransactionDataFactory>();
+            builder.RegisterType<TransactionDataSaver>().As<ITransactionDataSaver>();
         }
     }
 }

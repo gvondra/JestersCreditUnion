@@ -20,6 +20,7 @@ namespace API.Controllers
     public class LoanController : APIControllerBase
     {
         private readonly ILoanApplicationFactory _loanApplicationFactory;
+        private readonly ILoanDisburser _loanDisburser;
         private readonly ILoanFactory _loanFactory;
         private readonly ILoanSaver _loanSaver;
         private readonly IAddressFactory _addressFactory;
@@ -34,6 +35,7 @@ namespace API.Controllers
             AuthorizationAPI.IUserService userService,
             ILogger<LoanApplicationController> logger,
             ILoanApplicationFactory loanApplicationFactory,
+            ILoanDisburser loanDisburser,
             ILoanFactory loanFactory,
             ILoanSaver loanSaver,
             IAddressFactory addressFactory,
@@ -45,6 +47,7 @@ namespace API.Controllers
             : base(settings, settingsFactory, userService, logger)
         {
             _loanApplicationFactory = loanApplicationFactory;
+            _loanDisburser = loanDisburser;
             _loanFactory = loanFactory;
             _loanSaver = loanSaver;
             _addressFactory = addressFactory;
@@ -383,8 +386,8 @@ namespace API.Controllers
 
         [Authorize(Constants.POLICY_LOAN_EDIT)]
         [ProducesResponseType(typeof(Loan), 200)]
-        [HttpPost("{id}/Disbursement")]
-        public async Task<IActionResult> Disbursement([FromRoute] Guid? id)
+        [HttpPost("{id}/InitiateDisbursement")]
+        public async Task<IActionResult> InitiateDisbursement([FromRoute] Guid? id)
         {
             DateTime start = DateTime.UtcNow;
             IActionResult result = null;
@@ -406,10 +409,55 @@ namespace API.Controllers
                 {
                     if (innerLoan.Agreement.Status == JestersCreditUnion.Framework.Enumerations.LoanAgrementStatus.PendingSignoff)
                         innerLoan.Agreement.Status = JestersCreditUnion.Framework.Enumerations.LoanAgrementStatus.Agreed;
-                    await _loanSaver.DisburseFundsUpdate(settings, innerLoan);
+                    await _loanSaver.InitiateDisburseFundsUpdate(settings, innerLoan);
                     IMapper mapper = MapperConfiguration.CreateMapper();
                     result = Ok(
                         await Map(mapper, settings, innerLoan));
+                }
+            }
+            catch (System.Exception ex)
+            {
+                WriteException(ex);
+                result = StatusCode(StatusCodes.Status500InternalServerError);
+            }
+            finally
+            {
+                await WriteMetrics("initiate-disburse-loan", start, result);
+            }
+            return result;
+        }
+
+        [Authorize(Constants.POLICY_LOAN_EDIT)]
+        [ProducesResponseType(typeof(Loan), 200)]
+        [HttpPost("{id}/Disbursement")]
+        public async Task<IActionResult> Disbursement([FromRoute] Guid? id)
+        {
+            DateTime start = DateTime.UtcNow;
+            IActionResult result = null;
+            try
+            {
+                CoreSettings settings = GetCoreSettings();
+                ILoan innerLoan = null;
+                if (!id.HasValue || id.Value.Equals(Guid.Empty))
+                {
+                    result = BadRequest("Missing loan id parameter value");
+                }
+                else
+                {
+                    innerLoan = await _loanFactory.Get(settings, id.Value);
+                    if (innerLoan == null)
+                        result = NotFound();
+                }
+                if (result == null)
+                {
+                    ITransaction transaction = await _loanDisburser.Disburse(settings, innerLoan);
+                    IMapper mapper = MapperConfiguration.CreateMapper();
+                    DisburseResponse disburseResponse = new DisburseResponse
+                    {
+                        Loan = await Map(mapper, settings, innerLoan),
+                        Transaction = mapper.Map<Transaction>(transaction)
+                    };
+                    result = Ok(disburseResponse);
                 }
             }
             catch (System.Exception ex)

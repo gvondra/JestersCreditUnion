@@ -35,6 +35,7 @@ namespace API
             exp.CreateMap<LoanPaymentAmountRequest, LoanPaymentAmountResponse>();
             exp.CreateMap<IAddress, Address>();
             exp.CreateMap<ILookup, Lookup>();
+            exp.CreateMap<ITransaction, Transaction>();
 
             exp.CreateMap<AuthorizationAPI.AppliedRole, AppliedRole>();
             exp.CreateMap<AppliedRole, AuthorizationAPI.AppliedRole>();

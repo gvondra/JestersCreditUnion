@@ -31,12 +31,12 @@ namespace JestersCreditUnion.Interface
             return _restUtil.Send<Loan>(_service, request);
         }
 
-        public Task<Loan> Disbursement(ISettings settings, Guid id)
+        public Task<Loan> InitiateDisbursement(ISettings settings, Guid id)
         {
             if (id.Equals(Guid.Empty))
                 throw new ArgumentNullException(nameof(id));
             IRequest request = _service.CreateRequest(new Uri(settings.BaseAddress), HttpMethod.Post)
-                .AddPath("Loan/{id}/Disbursement")
+                .AddPath("Loan/{id}/InitiateDisbursement")
                 .AddPathParameter("id", id.ToString("N"))
                 .AddJwtAuthorizationToken(settings.GetToken)
                 ;
@@ -106,6 +106,18 @@ namespace JestersCreditUnion.Interface
                 .AddJwtAuthorizationToken(settings.GetToken)
                 ;
             return _restUtil.Send<Loan>(_service, request);
+        }
+
+        public Task<DisburseResponse> DisburseFunds(ISettings settings, Guid id)
+        {
+            if (id.Equals(Guid.Empty))
+                throw new ArgumentNullException(nameof(id));
+            IRequest request = _service.CreateRequest(new Uri(settings.BaseAddress), HttpMethod.Post)
+                .AddPath("Loan/{id}/Disbursement")
+                .AddPathParameter("id", id.ToString("N"))
+                .AddJwtAuthorizationToken(settings.GetToken)
+                ;
+            return _restUtil.Send<DisburseResponse>(_service, request);
         }
     }
 }

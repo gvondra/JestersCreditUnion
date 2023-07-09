@@ -36,7 +36,7 @@ namespace JestersCreditUnion.Core
         public Task Create(ISettings settings, ILoan loan)
             => CommonCore.Saver.Save(new CommonCore.TransactionHandler(settings), loan.Create);
 
-        public async Task DisburseFundsUpdate(ISettings settings, ILoan loan)
+        public async Task InitiateDisburseFundsUpdate(ISettings settings, ILoan loan)
         {
             WorkTaskSettings workTaskSettings = _settingsFactory.CreateWorkTask(settings);
             WorkTaskType workTaskType = null;

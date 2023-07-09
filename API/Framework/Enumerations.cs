@@ -44,5 +44,13 @@ namespace JestersCreditUnion.Framework.Enumerations
         Semimonthly = 24,
         Fortnightly = 26
     }
+
+    public enum TransactionType : short
+    {
+        NotSet = 0,
+        Disbursement = 1,
+        PrincipalPayment = 2,
+        InterestPayment = 3
+    }
 }
 #pragma warning restore IDE0130 // Namespace does not match folder structure
