@@ -62,6 +62,10 @@ namespace JCU.Internal
 
         public bool UserHasClaimWorkTaskAccess() => UserHasRoleAccess("WORKTASK:CLAIM");
 
+        public bool UserHasReadLoanAccess() => UserHasRoleAccess("LOAN:READ") || UserHasEditLoanAccess();
+
+        public bool UserHasEditLoanAccess() => UserHasRoleAccess("LOAN:EDIT");
+
         public bool UserHasRoleAccess(string role)
         {
             return _jwtSecurityToken != null

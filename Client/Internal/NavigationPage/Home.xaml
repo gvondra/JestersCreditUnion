@@ -10,7 +10,7 @@
       Title="Jester's Credit Union" Style="{StaticResource DefaultPageStyle}">
 
     <Page.Resources>
-        <Style x:Key="FlowDocumentStyle" TargetType="FlowDocument">
+        <Style TargetType="FlowDocument">
             <Setter Property="FontFamily" Value="{StaticResource DefaultFont}"/>
             <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
         </Style>
@@ -19,15 +19,6 @@
         <Border DockPanel.Dock="Right" Visibility="{Binding WorkTasksHomeVisibility}" BorderBrush="DarkGray" BorderThickness="2" Padding="5,0">
             <ctrl:WorkTasksHome DataContext="{Binding WorkTasksHomeVM}" />
         </Border>
-        <FlowDocumentScrollViewer>
-            <FlowDocument Style="{StaticResource FlowDocumentStyle}">
-                <Paragraph>
-                    <TextBlock>Welcome</TextBlock>
-                </Paragraph>
-                <Paragraph>
-                    <Hyperlink Click="SearchHyperlink_Click">Search Loan</Hyperlink>
-                </Paragraph>
-            </FlowDocument>
-        </FlowDocumentScrollViewer>
+        <FlowDocumentScrollViewer Document="{Binding Document}"/>
     </DockPanel>
 </Page>

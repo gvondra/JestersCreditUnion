@@ -41,6 +41,7 @@ namespace JCU.Internal.NavigationPage
             {
                 case nameof(AccessToken.Token):
                     UpdateAccessBasedVisibility();
+                    LoadDocument();
                     break;
             }
         }
@@ -74,11 +75,27 @@ namespace JCU.Internal.NavigationPage
                         scope.Resolve<IWorkTaskService>());
                     DataContext = HomeVM;
                     UpdateAccessBasedVisibility();
+                    LoadDocument();
                 }
             }
             catch (System.Exception ex)
             {
                 ErrorWindow.Open(ex, Window.GetWindow(this));
+            }
+        }
+
+        private void LoadDocument()
+        {
+            HomeVM.Document = new FlowDocument();
+            Paragraph paragraph = new Paragraph(new Run("Welcome"));
+            HomeVM.Document.Blocks.Add(paragraph);
+            if (AccessToken.Get.UserHasReadLoanAccess())
+            {
+                paragraph = new Paragraph();
+                HomeVM.Document.Blocks.Add(paragraph);
+                Hyperlink hyperlink = new Hyperlink(new Run("Loan Search"));
+                hyperlink.Click += SearchHyperlink_Click;
+                paragraph.Inlines.Add(hyperlink);
             }
         }
 
