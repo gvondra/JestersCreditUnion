@@ -19,6 +19,9 @@
     </Page.Resources>
     <DockPanel>
         <StackPanel DockPanel.Dock="Top" Orientation="Vertical" >
+            <TextBlock Visibility="{Binding BackVisibility}">
+                <Hyperlink Command="NavigationCommands.BrowseBack">back</Hyperlink>
+            </TextBlock>
             <TextBlock Style="{StaticResource PageTitle}">Loan</TextBlock>
             <fa:ImageAwesome Icon="CircleOutlineNotch" Spin="True" Height="24" Width="24" Visibility="{Binding BusyVisibility}" Foreground="Navy" HorizontalAlignment="Left" />
         </StackPanel>

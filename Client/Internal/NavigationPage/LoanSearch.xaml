@@ -5,7 +5,8 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:JCU.Internal.NavigationPage"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="450" d:DesignWidth="800" 
+      KeepAlive="True"     
       Title="JCU: Loan Search" Style="{StaticResource DefaultPageStyle}">
 
     <Page.Resources>
@@ -20,6 +21,13 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
+        <DataTemplate x:Key="NumberCellTemplate">
+            <TextBlock>
+                <Hyperlink Click="NumberHyperlink_Click">
+                    <TextBlock Text="{Binding Number}"/>
+                </Hyperlink>
+            </TextBlock>
+        </DataTemplate>
     </Page.Resources>
     <DockPanel>        
         <Grid DockPanel.Dock="Top">
@@ -47,7 +55,7 @@
         </Grid>
         <DataGrid ItemsSource="{Binding Loans}" AutoGenerateColumns="False" IsReadOnly="True">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Number" Binding="{Binding Number}"/>
+                <DataGridTemplateColumn Header="Number" CellTemplate="{StaticResource NumberCellTemplate}"/>
                 <DataGridTextColumn Header="Borrwer Name" Binding="{Binding Agreement.BorrowerName}"/>
                 <DataGridTextColumn Header="Borrower Birth" Binding="{Binding Agreement.BorrowerBirthDate, StringFormat='yyyy-MM-dd'}"/>
                 <DataGridTextColumn Header="Borrwer Phone" Binding="{Binding Agreement.BorrowerPhone}"/>

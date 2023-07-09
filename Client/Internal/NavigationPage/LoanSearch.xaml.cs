@@ -35,8 +35,28 @@ namespace JCU.Internal.NavigationPage
 
         private void LoanSearch_Loaded(object sender, RoutedEventArgs e)
         {
-            LoanSearchVM = LoanSearchVM.Create();
-            DataContext = LoanSearchVM;
+            if (LoanSearchVM == null || DataContext == null)
+            {
+                LoanSearchVM = LoanSearchVM.Create();
+                DataContext = LoanSearchVM;
+            }
+        }
+
+        private void NumberHyperlink_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (sender != null && ((Hyperlink)sender).DataContext is LoanVM loanVM)
+                {
+                    NavigationService navigation = NavigationService.GetNavigationService(this);
+                    Loan loan = new Loan(loanVM.LoanId.Value, Visibility.Visible);
+                    navigation.Navigate(loan);
+                }
+            }
+            catch (System.Exception ex)
+            {
+                ErrorWindow.Open(ex, Window.GetWindow(this));
+            }
         }
     }
 }

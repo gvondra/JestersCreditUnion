@@ -9,6 +9,7 @@ namespace JCU.Internal.ViewModel
         private readonly Loan _innerLoan;
         private readonly LoanAgreementVM _agreement;
         private Visibility _busyVisibility = Visibility.Collapsed;
+        private Visibility _backVisibility = Visibility.Collapsed;
 
         private LoanVM (Loan innerLoan)
         {
@@ -19,6 +20,21 @@ namespace JCU.Internal.ViewModel
         public LoanAgreementVM Agreement => _agreement;
 
         public Loan InnerLoan => _innerLoan;
+
+        public string Number => _innerLoan.Number;
+
+        public Visibility BackVisibility
+        {
+            get => _backVisibility;
+            set
+            {
+                if (_backVisibility != value)
+                {
+                    _backVisibility = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
 
         public Guid? LoanId
         {
@@ -33,8 +49,6 @@ namespace JCU.Internal.ViewModel
                 }
             }
         }
-
-        public string Number => _innerLoan.Number;
 
         public Visibility BusyVisibility
         {

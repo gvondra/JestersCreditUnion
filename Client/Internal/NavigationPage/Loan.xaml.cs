@@ -25,6 +25,7 @@ namespace JCU.Internal.NavigationPage
     public partial class Loan : Page
     {
         private Guid? _loanId;
+        private Visibility _backVisibility = Visibility.Collapsed;
 
         public Loan()
         {
@@ -37,12 +38,15 @@ namespace JCU.Internal.NavigationPage
 
         public LoanVM LoanVM { get; set; }
 
-        public Loan(Guid loanId)
+        public Loan(
+            Guid loanId,
+            Visibility backVisibility = Visibility.Collapsed)
             : this()
         {
             this.DataContext = null;
             this.LoanVM = null;
             _loanId = loanId;
+            _backVisibility = backVisibility;
         }
 
         private void Loan_Loaded(object sender, RoutedEventArgs e)
@@ -72,6 +76,7 @@ namespace JCU.Internal.NavigationPage
             {
                 this.LoanVM = await load;
                 this.DataContext = this.LoanVM;
+                this.LoanVM.BackVisibility = _backVisibility;
             }
             catch (System.Exception ex)
             {
