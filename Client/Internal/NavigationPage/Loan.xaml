@@ -25,6 +25,11 @@
             <TextBlock Style="{StaticResource PageTitle}">Loan</TextBlock>
             <fa:ImageAwesome Icon="CircleOutlineNotch" Spin="True" Height="24" Width="24" Visibility="{Binding BusyVisibility}" Foreground="Navy" HorizontalAlignment="Left" />
         </StackPanel>
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="5">
+            <Button Style="{StaticResource SaveButtonStyle}" Command="{Binding Disburse}" CommandParameter="{Binding .}" Margin="5,5,0,5" Visibility="{Binding DisburseVisibility, TargetNullValue=Hidden, FallbackValue=Hidden}">
+                Disburse
+            </Button>
+        </StackPanel>
         <ScrollViewer>
             <Grid x:Name="DetailGrid">
                 <Grid.ColumnDefinitions>
@@ -52,6 +57,10 @@
                     <TextBox Text="{Binding Agreement.PaymentAmount, Mode=OneWay, StringFormat='###,###,##0.00'}" Style="{StaticResource ReadonlyTextBox}" />
                     <ComboBox Margin="5,0" MinWidth="100" ItemsSource="{Binding Agreement.Terms}" DisplayMemberPath="Value" SelectedValuePath="Key" SelectedValue="{Binding Agreement.PaymentFrequency}" IsEnabled="False"/>
                 </StackPanel>
+                <Label Grid.Column="0" Grid.Row="9">First Payment Due</Label>
+                <TextBox Grid.Column="1" Grid.Row="9" Text="{Binding FirstPaymentDue, Mode=OneWay, StringFormat='yyyy-MM-dd'}" Style="{StaticResource ReadonlyTextBox}" />
+                <Label Grid.Column="0" Grid.Row="10">Next Payment Due</Label>
+                <TextBox Grid.Column="1" Grid.Row="10" Text="{Binding NextPaymentDue, Mode=OneWay, StringFormat='yyyy-MM-dd'}" Style="{StaticResource ReadonlyTextBox}" />
             </Grid>
         </ScrollViewer>
     </DockPanel>
