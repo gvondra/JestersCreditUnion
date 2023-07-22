@@ -42,7 +42,7 @@ namespace JCU.Internal.Behaviors
                 ISettingsFactory settingsFactory = scope.Resolve<ISettingsFactory>();
                 ISettings settings = settingsFactory.CreateApi();
                 ILoanService loanService = scope.Resolve<ILoanService>();
-                return loanService.Disbursement(settings, loanId).Result;
+                return loanService.InitiateDisbursement(settings, loanId).Result;
             }
         }
 
