@@ -27,7 +27,7 @@ namespace JestersCreditUnion.Core
 
         public Guid TransactionId => _data.TransactionId;
 
-        public Guid LoanId => _data.LoanId;
+        public Guid LoanId { get => _data.LoanId; private set => _data.LoanId = value; }
 
         public DateTime Date => _data.Date;
 
@@ -41,6 +41,7 @@ namespace JestersCreditUnion.Core
         {
             if (_loan == null)
                 throw new ApplicationException("Loan is null. Cannot create transaction when no loan is given.");
+            LoanId = _loan.LoanId;
             return _dataSaver.Create(transactionHandler, _data);
         }
 
