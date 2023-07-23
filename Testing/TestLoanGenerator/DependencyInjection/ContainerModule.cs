@@ -10,6 +10,8 @@ namespace JestersCreditUnion.Testing.LoanGenerator.DependencyInjection
             builder.RegisterType<DateGenerator>()
                 .As<IDateGenerator>()
                 .SingleInstance();
+            builder.RegisterType<LoanApplicationGenerator>()
+                .As<ILoanApplicationGenerator>();
             builder.RegisterType<NameGenerator>()
                 .As<INameGenerator>()
                 .SingleInstance();

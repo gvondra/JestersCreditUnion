@@ -8,7 +8,6 @@ namespace JestersCreditUnion.Testing.LoanGenerator
         private static Settings _settings;
         public static async Task Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
             _settings = LoadSettings(GetConfiguration(args));
             await NameGenerator.Initialize();
             DependencyInjection.ContainerFactory.Initialize(_settings);

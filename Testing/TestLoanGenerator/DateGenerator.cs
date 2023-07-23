@@ -4,10 +4,10 @@
     {
         private static readonly Random _random = new Random();
 
-        public DateTime GenerateDate(int? dayRange, int? yearRange)
+        public DateTime GenerateDate(int? dayRange = null, int? yearRange = null)
             => GenerateDate(DateTime.Today, dayRange, yearRange);
 
-        public DateTime GenerateDate(DateTime seed, int? dayRange, int? yearRange)
+        public DateTime GenerateDate(DateTime seed, int? dayRange = null, int? yearRange = null)
         {
             DateTime result = default(DateTime);
             if (dayRange.HasValue && yearRange.HasValue)

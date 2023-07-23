@@ -2,7 +2,7 @@
 {
     public interface IDateGenerator
     {
-        DateTime GenerateDate(int? dayRange, int? yearRange);
-        DateTime GenerateDate(DateTime seed, int? dayRange, int? yearRange);
+        DateTime GenerateDate(int? dayRange = null, int? yearRange = null);
+        DateTime GenerateDate(DateTime seed, int? dayRange = null, int? yearRange = null);
     }
 }

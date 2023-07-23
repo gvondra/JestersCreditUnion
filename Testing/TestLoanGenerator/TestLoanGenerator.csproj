@@ -46,6 +46,7 @@
 
 	<ItemGroup>
 	  <PackageReference Include="Autofac" Version="7.0.*" />
+	  <PackageReference Include="JestersCreditUnion.Interface" Version="1.0.0-alpha.*" />
 	  <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.*" />
 	  <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="6.0.0" />
 	  <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="6.0.*" />
