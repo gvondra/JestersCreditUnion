@@ -2,7 +2,12 @@
   "profiles": {
     "TestLoanGenerator": {
       "commandName": "Project",
-      "commandLineArgs": "--LoanApplicationFile loan-app.csv"
+      "commandLineArgs": "--LoanApplicationFile loan-app.csv",
+      "environmentVariables": {
+        "ClientSecret": "%jdLi>`aaB?ab'REJY[BAZIL>YLH\"g/K",
+        "ClientId": "c6d614f5-289f-49d1-92cd-7ec7e363e5df",
+        "ApiBaseAddress": "http://localhost:5005/api"
+      }
     }
   }
 }
