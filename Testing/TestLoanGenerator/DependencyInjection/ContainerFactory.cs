@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using Serilog;
 
 namespace JestersCreditUnion.Testing.LoanGenerator.DependencyInjection
 {
@@ -11,13 +12,19 @@ namespace JestersCreditUnion.Testing.LoanGenerator.DependencyInjection
             Initialize();
         }
 
-        public static void Initialize(Settings settings = null)
+        public static void Initialize(
+            Settings settings = null,
+            ILogger logger = null)
         {
             ContainerBuilder builder = new ContainerBuilder();
             builder.RegisterModule(new ContainerModule());
             if (settings != null)
             {
                 builder.RegisterInstance<Settings>(settings);
+            }
+            if (logger != null)
+            {
+                builder.RegisterInstance<ILogger>(logger);
             }
             _container = builder.Build();
         }

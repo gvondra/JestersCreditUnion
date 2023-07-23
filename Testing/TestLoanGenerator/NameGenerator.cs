@@ -8,10 +8,10 @@ namespace JestersCreditUnion.Testing.LoanGenerator
 {
     public class NameGenerator : INameGenerator
     {
-        private static readonly Random _random = new Random();
         private static IList<string> _firstNames;
         private static IList<string> _lastNames;
-        private readonly SortedSet<string> _history = new SortedSet<string>();
+        private int _firstNameIndex;
+        private int _lastNameIndex;
 
         public static async Task Initialize(
             string firstNamesDirectory = "FirstNames",
@@ -50,23 +50,17 @@ namespace JestersCreditUnion.Testing.LoanGenerator
 
         public string GenerateName()
         {
-            DateTime start = DateTime.UtcNow;
-            int index;
-            string name = null;
-            string[] components = new string[2];
-            bool found = false;
-            while (name == null || !found)
+            if (_lastNameIndex >= _lastNames.Count)
+                throw new ApplicationException("Unable to generate unique name");
+            string[] components = new string[]
             {
-                if (DateTime.UtcNow.Subtract(start).TotalSeconds > 10.0)
-                    throw new ApplicationException("Failed to generate name");
-                index = _random.Next(_firstNames.Count);
-                components[0] = _firstNames[index];
-                index = _random.Next(_lastNames.Count);
-                components[1] = _lastNames[index];
-                name = string.Join(" ", components);
-                found = _history.Add(name);
-            }
-            return name;
+                _firstNames[_firstNameIndex],
+                _lastNames[_lastNameIndex]
+            };
+            _firstNameIndex = (_firstNameIndex + 1) % _firstNames.Count;
+            if (_firstNameIndex == 0)
+                _lastNameIndex += 1;
+            return string.Join(" ", components);
         }
     }
 }

@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "TestLoanGenerator": {
+      "commandName": "Project",
+      "commandLineArgs": "--LoanApplicationFile loan-app.csv"
+    }
+  }
+}
