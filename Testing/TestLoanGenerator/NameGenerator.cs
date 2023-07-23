@@ -53,7 +53,7 @@ namespace JestersCreditUnion.Testing.LoanGenerator
             DateTime start = DateTime.UtcNow;
             int index;
             string name = null;
-            string[] components = new string[1];
+            string[] components = new string[2];
             bool found = false;
             while (name == null || !found)
             {
