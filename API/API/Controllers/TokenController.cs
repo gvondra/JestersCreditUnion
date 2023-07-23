@@ -1,4 +1,5 @@
 ﻿using JestersCreditUnion.CommonAPI;
+using JestersCreditUnion.Interface.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -41,7 +42,7 @@ namespace API.Controllers
                         "text/plain");
                 }
             }
-            catch (Exception ex)
+            catch (System.Exception ex)
             {
                 WriteException(ex);
                 result = StatusCode(StatusCodes.Status500InternalServerError, new { Message = ex.Message });
@@ -49,6 +50,43 @@ namespace API.Controllers
             finally
             {
                 await WriteMetrics("create-token", start, result);
+            }
+            return result;
+        }
+
+        [HttpPost("ClientCredential")]
+        public async Task<IActionResult> CreateClientCredential([FromBody] ClientCredential clientCredential)
+        {
+            DateTime start = DateTime.UtcNow;
+            IActionResult result = null;
+            try
+            {
+                if ((clientCredential?.ClientId.HasValue ?? false) == false)
+                {
+                    result = BadRequest("Missing client id value");
+                }
+                else
+                {
+                    AuthorizationAPI.ISettings settings = _settingsFactory.CreateAuthorization(_settings.Value, GetUserToken());
+                    result = Content(await _tokenService.CreateClientCredential(
+                        settings,
+                        _settings.Value.AuthorizationDomainId.Value,
+                        new AuthorizationAPI.Models.ClientCredential
+                        {
+                            ClientId = clientCredential.ClientId,
+                            Secret = clientCredential.Secret
+                        }),
+                        "text/plain");
+                }
+            }
+            catch (System.Exception ex)
+            {
+                WriteException(ex);
+                result = StatusCode(StatusCodes.Status500InternalServerError, new { Message = ex.Message });
+            }
+            finally
+            {
+                await WriteMetrics("create-client-credential-token", start, result);
             }
             return result;
         }

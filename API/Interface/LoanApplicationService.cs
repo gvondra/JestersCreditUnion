@@ -33,6 +33,17 @@ namespace JestersCreditUnion.Interface
             return _restUtil.Send<LoanApplicationComment>(_service, request);
         }
 
+        public Task<LoanApplication> Create(ISettings settings, LoanApplication loanApplication)
+        {
+            if (loanApplication == null)
+                throw new ArgumentNullException(nameof(loanApplication));
+            IRequest request = _service.CreateRequest(new Uri(settings.BaseAddress), HttpMethod.Post, loanApplication)
+                .AddPath("LoanApplication")
+                .AddJwtAuthorizationToken(settings.GetToken)
+                ;
+            return _restUtil.Send<LoanApplication>(_service, request);
+        }
+
         public Task Deny(ISettings settings, Guid id, LoanApplicationDenial denial)
         {
             if (id.Equals(Guid.Empty))
