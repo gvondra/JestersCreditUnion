@@ -1,14 +1,16 @@
 ﻿using Microsoft.Extensions.Configuration;
+using System.Threading.Tasks;
 
 namespace JestersCreditUnion.Testing.LoanGenerator
 {
     public static class Program
     {
         private static Settings _settings;
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             Console.WriteLine("Hello, World!");
             _settings = LoadSettings(GetConfiguration(args));
+            await NameGenerator.Initialize();
             DependencyInjection.ContainerFactory.Initialize(_settings);
         }
 

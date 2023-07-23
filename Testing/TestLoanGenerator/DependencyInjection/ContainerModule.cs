@@ -7,7 +7,12 @@ namespace JestersCreditUnion.Testing.LoanGenerator.DependencyInjection
         protected override void Load(ContainerBuilder builder)
         {
             base.Load(builder);
-            builder.RegisterType<SettingsFactory>().As<ISettingsFactory>();
+            builder.RegisterType<NameGenerator>()
+                .As<INameGenerator>()
+                .SingleInstance();
+            builder.RegisterType<SettingsFactory>()
+                .As<ISettingsFactory>()
+                .SingleInstance();
         }
     }
 }
