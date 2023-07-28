@@ -34,7 +34,7 @@ namespace JestersCreditUnion.Testing.LoanGenerator
             {
                 BorrowerName = _nameGenerator.GenerateName(),
                 BorrowerBirthDate = _dateGenerator.GenerateDate(dayRange: 91313),                
-                BorrowerPhone = string.Format("555-{0:0000}", _random.Next(10000)),
+                BorrowerPhone = string.Format("608-555-{0:0000}", _random.Next(10000)),
                 BorrowerEmployerName = _nameGenerator.GenerateName(),
                 BorrowerEmploymentHireDate = _dateGenerator.GenerateDate(dayRange: 27394),
                 BorrowerIncome = (_random.Next(90000000) + 1) / 100.00M,
