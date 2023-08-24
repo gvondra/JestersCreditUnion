@@ -36,9 +36,6 @@ namespace API
                 {
                     b.AddBrassLoonLogger(c =>
                     {
-                        Settings settings = new Settings();
-                        builder.Configuration.Bind(settings);
-                        c.AccountApiBaseAddress = settings.BrassLoonAccountApiBaseAddress;
                         c.LogApiBaseAddress = settings.BrassLoonLogApiBaseAddress;
                         c.LogDomainId = settings.LogDomainId.Value;
                         c.LogClientId = settings.BrassLoonLogClientId.Value;
@@ -47,15 +44,15 @@ namespace API
                 }
             });
 
-            builder.Services.AddControllers().AddNewtonsoftJson(o =>
-            {
-                o.SerializerSettings.ContractResolver = new DefaultContractResolver();
-            })
-            .AddJsonOptions(o =>
-            {
-                o.JsonSerializerOptions.PropertyNamingPolicy = null;
-            })
-            ;
+            builder.Services.AddControllers()
+                .AddNewtonsoftJson(o =>
+                {
+                    o.SerializerSettings.ContractResolver = new DefaultContractResolver();
+                })
+                .AddJsonOptions(o =>
+                {
+                    o.JsonSerializerOptions.PropertyNamingPolicy = null;
+                });
             builder.Services.AddCors(builder.Configuration);
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
