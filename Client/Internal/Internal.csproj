@@ -40,20 +40,14 @@
     <Reference Include="Autofac, Version=7.1.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <HintPath>packages\Autofac.7.1.0\lib\netstandard2.0\Autofac.dll</HintPath>
     </Reference>
-    <Reference Include="BrassLoon.CsvRestClient, Version=3.3.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\BrassLoon.CsvRestClient.3.3.0-prerelease.1\lib\netstandard2.0\BrassLoon.CsvRestClient.dll</HintPath>
-    </Reference>
-    <Reference Include="BrassLoon.RestClient, Version=3.3.0.6, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\BrassLoon.RestClient.3.3.0-prerelease.6\lib\netstandard2.0\BrassLoon.RestClient.dll</HintPath>
-    </Reference>
-    <Reference Include="CsvHelper, Version=30.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
-      <HintPath>packages\CsvHelper.30.0.1\lib\net47\CsvHelper.dll</HintPath>
+    <Reference Include="BrassLoon.RestClient, Version=3.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\BrassLoon.RestClient.3.2.0\lib\netstandard2.0\BrassLoon.RestClient.dll</HintPath>
     </Reference>
     <Reference Include="FontAwesome.WPF, Version=4.7.0.37774, Culture=neutral, PublicKeyToken=0758b07a11a4f466, processorArchitecture=MSIL">
       <HintPath>packages\FontAwesome.WPF.4.7.0.9\lib\net40\FontAwesome.WPF.dll</HintPath>
     </Reference>
-    <Reference Include="JestersCreditUnion.Interface, Version=1.0.0.66, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\JestersCreditUnion.Interface.1.0.0-alpha.66\lib\net48\JestersCreditUnion.Interface.dll</HintPath>
+    <Reference Include="JestersCreditUnion.Interface, Version=1.0.0.67, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\JestersCreditUnion.Interface.1.0.0-alpha.67\lib\net48\JestersCreditUnion.Interface.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Bcl.AsyncInterfaces.6.0.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>

@@ -10,6 +10,7 @@ namespace API
         public string BrassLoonAccountApiBaseAddress { get; set; }
         public string BrassLoonConfigApiBaseAddress { get; set; }
         public string BrassLoonLogApiBaseAddress { get; set; }
+        public string BrassLoonLogRpcBaseAddress { get; set; }
         public string BrassLoonWorkTaskApiBaseAddress { get; set; }
         public Guid? BrassLoonLogClientId { get; set; }
         public string BrassLoonLogClientSecret { get; set; }

@@ -36,7 +36,7 @@ namespace API
                 {
                     b.AddBrassLoonLogger(c =>
                     {
-                        c.LogApiBaseAddress = settings.BrassLoonLogApiBaseAddress;
+                        c.LogApiBaseAddress = settings.BrassLoonLogRpcBaseAddress;
                         c.LogDomainId = settings.LogDomainId.Value;
                         c.LogClientId = settings.BrassLoonLogClientId.Value;
                         c.LogClientSecret = settings.BrassLoonLogClientSecret;
@@ -46,8 +46,8 @@ namespace API
 
             builder.Services.AddControllers(options =>
             {
-                options.InputFormatters.Add(new CsvTextInputFormatter());
-                options.OutputFormatters.Add(new CsvTextOutputFormatter());
+                //options.InputFormatters.Add(new CsvTextInputFormatter());
+                //options.OutputFormatters.Add(new CsvTextOutputFormatter());
             })
                 .AddNewtonsoftJson(o =>
                 {

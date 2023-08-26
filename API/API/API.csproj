@@ -31,7 +31,7 @@
 		<PackageReference Include="BrassLoon.Interface.Config" Version="2.3.*" />
 		<PackageReference Include="BrassLoon.Interface.Log" Version="2.2.0-prerelease.*" />
 		<PackageReference Include="BrassLoon.Interface.WorkTask" Version="1.0.0-prerelease.*" />
-		<PackageReference Include="BrassLoon.RestClient" Version="3.3.0-prerelease.*" />
+		<PackageReference Include="BrassLoon.RestClient" Version="3.2.*" />
 		<PackageReference Include="JestersCreditUnion.Interface" Version="1.0.0-alpha.*" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.*" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.*" />

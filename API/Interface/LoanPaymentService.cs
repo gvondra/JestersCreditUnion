@@ -1,5 +1,4 @@
-﻿using BrassLoon.CsvRestClient;
-using BrassLoon.RestClient;
+﻿using BrassLoon.RestClient;
 using JestersCreditUnion.Interface.Models;
 using System;
 using System.Collections.Generic;
@@ -24,8 +23,7 @@ namespace JestersCreditUnion.Interface
                 throw new ArgumentNullException(nameof(loanPayments));
             IRequest request = _service.CreateRequest(new Uri(settings.BaseAddress), HttpMethod.Post)
                 .AddPath("Loan/Payment")
-                .AddCsvBody(loanPayments)
-                .AcceptCSV()
+                .AddJsonBody(loanPayments)
                 .AddJwtAuthorizationToken(settings.GetToken)
                 ;
             return _restUtil.Send<List<LoanPayment>>(_service, request);
