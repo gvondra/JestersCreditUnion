@@ -108,6 +108,11 @@
     <Build Include="Table\ln.Transaction.sql" />
     <Build Include="Stored Procedure\ln.GetTransaction_by_LoanId.sql" />
     <Build Include="Stored Procedure\ln.CreateTransaction.sql" />
+    <Build Include="Table\ln.Payment.sql" />
+    <Build Include="Stored Procedure\ln.GetPayment_by_Status.sql" />
+    <Build Include="Stored Procedure\ln.CreatePayment.sql" />
+    <Build Include="Stored Procedure\ln.GetPayment_by_Date_LoanNumber_TransactionNumber.sql" />
+    <Build Include="Stored Procedure\ln.UpdatePayment.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="LocalSqlSchemaCompare.scmp" />
