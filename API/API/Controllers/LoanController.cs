@@ -174,8 +174,10 @@ namespace API.Controllers
                 CoreSettings settings = GetCoreSettings();
                 result = ValidateLoan(loan) ?? ValidateLoanAgreement(loan.Agreement);
                 if (result == null && !loan.LoanApplicationId.HasValue)
+                {
                     result = BadRequest("Missing loan application id");
-                if (result == null)
+                }
+                else if (result == null)
                 {
                     loanApplication = await _loanApplicationFactory.Get(settings, loan.LoanApplicationId.Value);
                     if (loanApplication == null)

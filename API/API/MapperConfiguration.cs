@@ -19,6 +19,7 @@ namespace API
 
         private static void Initialize(IMapperConfigurationExpression exp)
         {
+            exp.CreateMap<IAddress, Address>();
             exp.CreateMap<ILoan, Loan>();
             exp.CreateMap<Loan, ILoan>()
                 .ForMember(l => l.Agreement, opt => opt.Ignore());
@@ -33,8 +34,10 @@ namespace API
             exp.CreateMap<ILoanApplicationDenial, LoanApplicationDenial>();
             exp.CreateMap<LoanApplicationDenial, ILoanApplicationDenial>();
             exp.CreateMap<LoanPaymentAmountRequest, LoanPaymentAmountResponse>();
-            exp.CreateMap<IAddress, Address>();
             exp.CreateMap<ILookup, Lookup>();
+            exp.CreateMap<LoanPayment, IPayment>();
+            exp.CreateMap<IPayment, LoanPayment>()
+                .ForMember(p => p.Message, config => config.Ignore());
             exp.CreateMap<ITransaction, Transaction>();
 
             exp.CreateMap<AuthorizationAPI.AppliedRole, AppliedRole>();
