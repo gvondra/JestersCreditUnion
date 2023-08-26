@@ -44,7 +44,11 @@ namespace API
                 }
             });
 
-            builder.Services.AddControllers()
+            builder.Services.AddControllers(options =>
+            {
+                options.InputFormatters.Add(new CsvTextInputFormatter());
+                options.OutputFormatters.Add(new CsvTextOutputFormatter());
+            })
                 .AddNewtonsoftJson(o =>
                 {
                     o.SerializerSettings.ContractResolver = new DefaultContractResolver();
