@@ -5,6 +5,6 @@ namespace JestersCreditUnion.Framework
 {
     public interface IPaymentSaver
     {
-        Task Save(ISettings settings, IEnumerable<IPayment> payments);
+        Task<IEnumerable<IPayment>> Save(ISettings settings, IEnumerable<IPayment> payments);
     }
 }

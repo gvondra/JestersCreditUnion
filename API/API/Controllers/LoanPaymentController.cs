@@ -63,7 +63,7 @@ namespace API.Controllers
                     IMapper mapper = MapperConfiguration.CreateMapper();
                     List<IPayment> innerPayments = loanPayments.Select<LoanPayment, IPayment>(p => MapPayment(mapper, p))
                         .ToList();
-                    await _paymentSaver.Save(GetCoreSettings(), innerPayments);
+                    innerPayments = (await _paymentSaver.Save(GetCoreSettings(), innerPayments)).ToList();
                     loanPayments = innerPayments.Select<IPayment, LoanPayment>(p => mapper.Map<LoanPayment>(p))
                         .ToArray();
                     for (int i = 0; i < loanPayments.Length; i += 1)

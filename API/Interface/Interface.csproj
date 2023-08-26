@@ -11,8 +11,8 @@
 		<Product>Jesters Credit Union</Product>
 		<PackageLicenseExpression>GPL-3.0-only</PackageLicenseExpression>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<Version>1.0.0-alpha.65</Version>
-		<AssemblyVersion>1.0.0.65</AssemblyVersion>
+		<Version>1.0.0-alpha.66</Version>
+		<AssemblyVersion>1.0.0.66</AssemblyVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -27,6 +27,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Autofac" Version="[6.5.0,8.0)" />
+		<PackageReference Include="BrassLoon.CsvRestClient" Version="3.3.0-prerelease.*" />
 		<PackageReference Include="BrassLoon.RestClient" Version="3.3.0-prerelease.*" />
 		<PackageReference Include="Polly" Version="[7.2.3,7.3)" />
 		<PackageReference Include="Polly.Caching.Memory" Version="[3.0.2,3.1)" />
