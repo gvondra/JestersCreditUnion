@@ -18,7 +18,12 @@ namespace JestersCreditUnion.Data.Internal
             await _providerFactory.EstablishTransaction(transactionHandler);
             foreach (PaymentData payment in payments)
             {
-                PaymentData existingPayment = await GetByDateLoanNumberTransactionNumber(transactionHandler.Connection, payment.Date, payment.LoanNumber, payment.TransactionNumber);
+                PaymentData existingPayment = await GetByDateLoanNumberTransactionNumber(
+                    transactionHandler.Connection,
+                    transactionHandler.Transaction.InnerTransaction,
+                    payment.Date,
+                    payment.LoanNumber,
+                    payment.TransactionNumber);
                 if (existingPayment == null)
                 {
                     if (payment.PaymentId.Equals(Guid.Empty))
@@ -88,12 +93,18 @@ namespace JestersCreditUnion.Data.Internal
             DataUtil.AddParameter(_providerFactory, commandParameters, "status", DbType.Int16, DataUtil.GetParameterValue(data.Status));
         }
 
-        private async Task<PaymentData> GetByDateLoanNumberTransactionNumber(DbConnection connection, DateTime date, string loanNumber, string transactionNumber)
+        private async Task<PaymentData> GetByDateLoanNumberTransactionNumber(
+            DbConnection connection,
+            System.Data.Common.DbTransaction dbTransaction,
+            DateTime date,
+            string loanNumber,
+            string transactionNumber)
         {
             using (DbCommand command = connection.CreateCommand())
             {
                 command.CommandText = "[ln].[GetPayment_by_Date_LoanNumber_TransactionNumber]";
                 command.CommandType = CommandType.StoredProcedure;
+                command.Transaction = dbTransaction;
                 DataUtil.AddParameter(_providerFactory, command.Parameters, "date", DbType.Date, DataUtil.GetParameterValue(date));
                 DataUtil.AddParameter(_providerFactory, command.Parameters, "loanNumber", DbType.AnsiString, DataUtil.GetParameterValue(loanNumber));
                 DataUtil.AddParameter(_providerFactory, command.Parameters, "transactionNumber", DbType.AnsiString, DataUtil.GetParameterValue(transactionNumber));

@@ -13,6 +13,7 @@ namespace JCU.Internal.ViewModel
         private Visibility _busyVisibility = Visibility.Collapsed;
         private Visibility _backVisibility = Visibility.Collapsed;
         private Visibility _disburseVisibility = Visibility.Collapsed;
+        private Visibility _commandsVisibility = Visibility.Hidden;
         private ICommand _disburse;
 
         private LoanVM (Loan innerLoan)
@@ -62,6 +63,19 @@ namespace JCU.Internal.ViewModel
                 if (_disburse != value)
                 {
                     _disburse = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+        public Visibility CommandsVisibility
+        {
+            get => _commandsVisibility;
+            set
+            {
+                if (_commandsVisibility != value)
+                {
+                    _commandsVisibility = value;
                     NotifyPropertyChanged();
                 }
             }

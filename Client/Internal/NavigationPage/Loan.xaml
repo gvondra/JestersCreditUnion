@@ -18,12 +18,19 @@
         </Style>
     </Page.Resources>
     <DockPanel>
-        <StackPanel DockPanel.Dock="Top" Orientation="Vertical" >
-            <TextBlock Visibility="{Binding BackVisibility}">
-                <Hyperlink Command="NavigationCommands.BrowseBack">back</Hyperlink>
-            </TextBlock>
+        <ScrollViewer DockPanel.Dock="Left" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Padding="5,0">
+            <StackPanel Orientation="Vertical" Visibility="{Binding CommandsVisibility, TargetNullValue=Hidden, FallbackValue=Hidden}">
+                <TextBlock Visibility="{Binding BackVisibility}">
+                    <Hyperlink Command="NavigationCommands.BrowseBack">back</Hyperlink>
+                </TextBlock>
+                <TextBlock>
+                    <Hyperlink Click="ReceivePaymentHyperlink_Click">Receive Payment</Hyperlink>
+                </TextBlock>
+            </StackPanel>
+        </ScrollViewer>
+        <StackPanel DockPanel.Dock="Top" Orientation="Vertical" >            
             <TextBlock Style="{StaticResource PageTitle}">Loan</TextBlock>
-            <fa:ImageAwesome Icon="CircleOutlineNotch" Spin="True" Height="24" Width="24" Visibility="{Binding BusyVisibility}" Foreground="Navy" HorizontalAlignment="Left" />
+            <fa:ImageAwesome Icon="CircleOutlineNotch" Spin="True" Height="24" Width="24" Visibility="{Binding BusyVisibility, TargetNullValue=Visible, FallbackValue=Visible}" Foreground="Navy" HorizontalAlignment="Left" />
         </StackPanel>
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="5">
             <Button Style="{StaticResource SaveButtonStyle}" Command="{Binding Disburse}" CommandParameter="{Binding .}" Margin="5,5,0,5" Visibility="{Binding DisburseVisibility, TargetNullValue=Hidden, FallbackValue=Hidden}">

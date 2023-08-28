@@ -31,23 +31,23 @@ namespace JCU.Internal.NavigationPage
         {
             NavigationCommands.BrowseBack.InputGestures.Clear();
             NavigationCommands.BrowseForward.InputGestures.Clear();
+            this.DataContext = null;
+            this.LoanVM = null;
             InitializeComponent();
             InitializeDetailGrid();
             Loaded += Loan_Loaded;
         }
-
-        public LoanVM LoanVM { get; set; }
 
         public Loan(
             Guid loanId,
             Visibility backVisibility = Visibility.Collapsed)
             : this()
         {
-            this.DataContext = null;
-            this.LoanVM = null;
             _loanId = loanId;
             _backVisibility = backVisibility;
         }
+
+        public LoanVM LoanVM { get; set; }
 
         private void Loan_Loaded(object sender, RoutedEventArgs e)
         {
@@ -77,10 +77,15 @@ namespace JCU.Internal.NavigationPage
                 this.LoanVM = await load;
                 this.DataContext = this.LoanVM;
                 this.LoanVM.BackVisibility = _backVisibility;
+                this.LoanVM.CommandsVisibility = Visibility.Visible;
             }
             catch (System.Exception ex)
             {
                 ErrorWindow.Open(ex, Window.GetWindow(this));
+            }
+            finally
+            {
+                this.LoanVM.BusyVisibility = Visibility.Collapsed;
             }
         }
 
@@ -91,6 +96,20 @@ namespace JCU.Internal.NavigationPage
             {
                 DetailGrid.RowDefinitions.Add(
                     new RowDefinition() { Height = GridLength.Auto });
+            }
+        }
+
+        private void ReceivePaymentHyperlink_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                ReceiveLoanPayment receiveLoanPayment = new ReceiveLoanPayment(LoanVM);
+                NavigationService navigationService = NavigationService.GetNavigationService(this);
+                navigationService.Navigate(receiveLoanPayment);
+            }
+            catch (System.Exception ex)
+            {
+                ErrorWindow.Open(ex, Window.GetWindow(this));
             }
         }
     }
