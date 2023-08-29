@@ -9,7 +9,7 @@ namespace JestersCreditUnion.Framework
     public interface IPayment
     {
         Guid PaymentId { get; }
-        string LoanNumber { get; }
+        Guid LoanId { get; }
         string TransactionNumber { get; }
         DateTime Date { get; }
         decimal Amount { get; set; }
@@ -19,5 +19,6 @@ namespace JestersCreditUnion.Framework
         List<ITransaction> Transactions { get; }
 
         Task Update(ITransactionHandler transactionHandler);
+        Task<ILoan> GetLoan(ISettings settings);
     }
 }

@@ -14,16 +14,18 @@ namespace JestersCreditUnion.Core
     {
         private readonly PaymentData _data;
         private readonly IPaymentDataSaver _dataSaver;
+        private readonly IPaymentFactory _factory;
 
-        public Payment(PaymentData data, IPaymentDataSaver dataSaver)
+        public Payment(PaymentData data, IPaymentDataSaver dataSaver, IPaymentFactory factory)
         {
             _data = data;
             _dataSaver = dataSaver;
+            _factory = factory;
         }
 
         public Guid PaymentId => _data.PaymentId;
 
-        public string LoanNumber => _data.LoanNumber;
+        public Guid LoanId => _data.LoanId;
 
         public string TransactionNumber => _data.TransactionNumber;
 
@@ -37,6 +39,8 @@ namespace JestersCreditUnion.Core
         public DateTime UpdateTimestamp => _data.UpdateTimestamp;
 
         public List<ITransaction> Transactions { get; internal set; }
+
+        public Task<ILoan> GetLoan(Framework.ISettings settings) => _factory.LoanFactory.Get(settings, LoanId);
 
         public async Task Update(ITransactionHandler transactionHandler)
         {

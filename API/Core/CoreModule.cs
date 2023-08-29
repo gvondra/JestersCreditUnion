@@ -28,7 +28,9 @@ namespace JestersCreditUnion.Core
             builder.RegisterType<LoanNumberGenerator>().InstancePerLifetimeScope();
             builder.RegisterType<LoanSaver>().As<ILoanSaver>();
             builder.RegisterType<LookupFactory>().As<ILookupFactory>();
-            builder.RegisterType<PaymentFactory>().As<IPaymentFactory>();
+            builder.RegisterType<PaymentFactory>()
+                .PropertiesAutowired()
+                .As<IPaymentFactory>();
             builder.RegisterType<PaymentSaver>().As<IPaymentSaver>();
             builder.RegisterType<LoanPaymentProcessor>()
                 .InstancePerLifetimeScope()

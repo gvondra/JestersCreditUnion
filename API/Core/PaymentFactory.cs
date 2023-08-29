@@ -25,9 +25,11 @@ namespace JestersCreditUnion.Core
             _dataSaver = dataSaver;
         }
 
+        public ILoanFactory LoanFactory { get; set; }
+
         private Payment Create(PaymentData data)
         {
-            Payment payment = new Payment(data, _dataSaver);
+            Payment payment = new Payment(data, _dataSaver, this);
             if (data.Transactions != null)
             {
                 payment.Transactions = data.Transactions
@@ -37,20 +39,22 @@ namespace JestersCreditUnion.Core
             return payment;
         }
 
-        public IPayment Create(string loanNumber,
+        public IPayment Create(
+            ILoan loan,
             string transactionNumber,
             DateTime date)
         {
-            if (string.IsNullOrEmpty(loanNumber))
-                throw new ArgumentNullException(nameof(loanNumber));
+            if (loan == null)
+                throw new ArgumentNullException(nameof(loan));
             if (string.IsNullOrEmpty(transactionNumber))
                 throw new ArgumentNullException(nameof(transactionNumber));
-            Payment payment = Create(new PaymentData
-            {
-                LoanNumber = loanNumber,
-                TransactionNumber = transactionNumber,
-                Date = date
-            });
+            Payment payment = Create(
+                new PaymentData
+                {
+                    Date = date,
+                    LoanId = loan.LoanId,
+                    TransactionNumber = transactionNumber
+                });
             payment.Status = PaymentStatus.Unprocessed;
             return payment;
         }

@@ -13,10 +13,12 @@ namespace JestersCreditUnion.Core
 {
     public class PaymentSaver : IPaymentSaver
     {
+        private readonly IPaymentFactory _factory;
         private readonly IPaymentDataSaver _dataSaver;
 
-        public PaymentSaver(IPaymentDataSaver dataSaver)
+        public PaymentSaver(IPaymentFactory paymentFactory, IPaymentDataSaver dataSaver)
         {
+            _factory = paymentFactory;
             _dataSaver = dataSaver;
         }
 
@@ -26,13 +28,13 @@ namespace JestersCreditUnion.Core
                 .Where(p => p is Payment)
                 .Cast<Payment>()
                 .GroupBy(
-                p => new PaymentGroupKey { LoanNumber = p.LoanNumber, TransactionNumber = p.TransactionNumber, Date = p.Date },
+                p => new PaymentGroupKey { LoanId = p.LoanId, TransactionNumber = p.TransactionNumber, Date = p.Date },
                 (key, elements) => ProcessPaymentGroup(elements),
                 new PaymentGroupKeyComperer());
             await Saver.Save(
                 new TransactionHandler(settings),
                 th => _dataSaver.Save(th, data));
-            return data.Select<PaymentData, IPayment>(d => new Payment(d, _dataSaver));
+            return data.Select<PaymentData, IPayment>(d => new Payment(d, _dataSaver, _factory));
         }
 
         private static PaymentData ProcessPaymentGroup(IEnumerable<Payment> payments)
@@ -46,7 +48,7 @@ namespace JestersCreditUnion.Core
 
         private struct PaymentGroupKey
         {
-            public string LoanNumber { get; set; }
+            public Guid LoanId { get; set; }
             public string TransactionNumber { get; set; }
             public DateTime Date { get; set; }
         }
@@ -55,7 +57,7 @@ namespace JestersCreditUnion.Core
         {
             public bool Equals(PaymentGroupKey x, PaymentGroupKey y)
             {
-                return string.Equals(x.LoanNumber ?? string.Empty, y.LoanNumber ?? string.Empty, StringComparison.OrdinalIgnoreCase)
+                return x.LoanId == y.LoanId
                     && string.Equals(x.TransactionNumber ?? string.Empty, y.TransactionNumber ?? string.Empty, StringComparison.OrdinalIgnoreCase)
                     && x.Date == y.Date;
             }
@@ -64,8 +66,8 @@ namespace JestersCreditUnion.Core
             {
                 return string.Format(
                     CultureInfo.InvariantCulture,
-                    "\"{0}\",\"{1}\",\"{2:O}\"",
-                    obj.LoanNumber.Replace("\"", "\"\""),
+                    "\"{0:N}\",\"{1}\",\"{2:O}\"",
+                    obj.LoanId,
                     obj.TransactionNumber.Replace("\"", "\"\""),
                     obj.Date)
                     .GetHashCode();

@@ -1,6 +1,6 @@
 ﻿CREATE PROCEDURE [ln].[CreatePayment]
 	@id UNIQUEIDENTIFIER,
-	@loanNumber VARCHAR(128),
+	@loanId UNIQUEIDENTIFIER,
 	@transactionNumber VARCHAR(128),
 	@date DATE,
 	@amount DECIMAL(8, 2),
@@ -9,8 +9,8 @@
 AS
 BEGIN
 	SET @timestamp = SYSUTCDATETIME();
-	INSERT INTO [ln].[Payment] ([PaymentId],[LoanNumber],[TransactionNumber],[Date],[Amount],[Status],
+	INSERT INTO [ln].[Payment] ([PaymentId],[LoanId],[TransactionNumber],[Date],[Amount],[Status],
 	[CreateTimestamp],[UpdateTimestamp])
-	VALUES (@id, @loanNumber, @transactionNumber, @date, @amount, @status,
+	VALUES (@id, @loanId, @transactionNumber, @date, @amount, @status,
 	@timestamp, @timestamp);		
 END

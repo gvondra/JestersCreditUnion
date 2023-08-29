@@ -18,11 +18,11 @@ namespace JestersCreditUnion.Data.Internal
             await _providerFactory.EstablishTransaction(transactionHandler);
             foreach (PaymentData payment in payments)
             {
-                PaymentData existingPayment = await GetByDateLoanNumberTransactionNumber(
+                PaymentData existingPayment = await GetByDateLoanIdTransactionNumber(
                     transactionHandler.Connection,
                     transactionHandler.Transaction.InnerTransaction,
                     payment.Date,
-                    payment.LoanNumber,
+                    payment.LoanId,
                     payment.TransactionNumber);
                 if (existingPayment == null)
                 {
@@ -34,7 +34,7 @@ namespace JestersCreditUnion.Data.Internal
                 {
                     payment.PaymentId = existingPayment.PaymentId;
                     payment.Date = existingPayment.Date;
-                    payment.LoanNumber = existingPayment.LoanNumber;
+                    payment.LoanId = existingPayment.LoanId;
                     payment.TransactionNumber = existingPayment.TransactionNumber;
                     payment.UpdateTimestamp = existingPayment.UpdateTimestamp;
                     payment.CreateTimestamp = existingPayment.CreateTimestamp;
@@ -56,7 +56,7 @@ namespace JestersCreditUnion.Data.Internal
                 command.Parameters.Add(timestamp);
 
                 DataUtil.AddParameter(_providerFactory, command.Parameters, "id", DbType.Guid, DataUtil.GetParameterValue(data.PaymentId));
-                DataUtil.AddParameter(_providerFactory, command.Parameters, "loanNumber", DbType.AnsiString, DataUtil.GetParameterValue(data.LoanNumber));
+                DataUtil.AddParameter(_providerFactory, command.Parameters, "loanId", DbType.Guid, DataUtil.GetParameterValue(data.LoanId));
                 DataUtil.AddParameter(_providerFactory, command.Parameters, "transactionNumber", DbType.AnsiString, DataUtil.GetParameterValue(data.TransactionNumber));
                 DataUtil.AddParameter(_providerFactory, command.Parameters, "date", DbType.Date, DataUtil.GetParameterValue(data.Date));
                 AddCommonParameters(command.Parameters, data);
@@ -94,20 +94,20 @@ namespace JestersCreditUnion.Data.Internal
             DataUtil.AddParameter(_providerFactory, commandParameters, "status", DbType.Int16, DataUtil.GetParameterValue(data.Status));
         }
 
-        private async Task<PaymentData> GetByDateLoanNumberTransactionNumber(
+        private async Task<PaymentData> GetByDateLoanIdTransactionNumber(
             DbConnection connection,
             System.Data.Common.DbTransaction dbTransaction,
             DateTime date,
-            string loanNumber,
+            Guid loanId,
             string transactionNumber)
         {
             using (DbCommand command = connection.CreateCommand())
             {
-                command.CommandText = "[ln].[GetPayment_by_Date_LoanNumber_TransactionNumber]";
+                command.CommandText = "[ln].[GetPayment_by_Date_LoanId_TransactionNumber]";
                 command.CommandType = CommandType.StoredProcedure;
                 command.Transaction = dbTransaction;
                 DataUtil.AddParameter(_providerFactory, command.Parameters, "date", DbType.Date, DataUtil.GetParameterValue(date));
-                DataUtil.AddParameter(_providerFactory, command.Parameters, "loanNumber", DbType.AnsiString, DataUtil.GetParameterValue(loanNumber));
+                DataUtil.AddParameter(_providerFactory, command.Parameters, "loanId", DbType.Guid, DataUtil.GetParameterValue(loanId));
                 DataUtil.AddParameter(_providerFactory, command.Parameters, "transactionNumber", DbType.AnsiString, DataUtil.GetParameterValue(transactionNumber));
 
                 using (DbDataReader reader = await command.ExecuteReaderAsync())

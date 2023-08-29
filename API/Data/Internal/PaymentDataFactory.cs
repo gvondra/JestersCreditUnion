@@ -11,12 +11,12 @@ namespace JestersCreditUnion.Data.Internal
         public PaymentDataFactory(IDbProviderFactory providerFactory)
             : base(providerFactory) { }
 
-        public async Task<PaymentData> GetByDateLoanNumberTransactionNumber(ISqlSettings settings, DateTime date, string loanNumber, string transactionNumber)
+        public async Task<PaymentData> GetByDateLoanNumberTransactionNumber(ISqlSettings settings, DateTime date, Guid loanId, string transactionNumber)
         {
             IDataParameter[] parameters = new IDataParameter[]
             {
                 DataUtil.CreateParameter(_providerFactory, "date", DbType.Date, DataUtil.GetParameterValue(date)),
-                DataUtil.CreateParameter(_providerFactory, "loanNumber", DbType.AnsiString, DataUtil.GetParameterValue(loanNumber)),
+                DataUtil.CreateParameter(_providerFactory, "loanId", DbType.Guid, DataUtil.GetParameterValue(loanId)),
                 DataUtil.CreateParameter(_providerFactory, "transactionNumber", DbType.AnsiString, DataUtil.GetParameterValue(transactionNumber))
             };
             PaymentData payment = null;
@@ -24,7 +24,7 @@ namespace JestersCreditUnion.Data.Internal
             await dataReaderProcess.Read(
                 settings,
                 _providerFactory,
-                "[ln].[GetPayment_by_Date_LoanNumber_TransactionNumber]",
+                "[ln].[GetPayment_by_Date_LoanId_TransactionNumber]",
                 CommandType.StoredProcedure,
                 parameters,
                 async reader =>

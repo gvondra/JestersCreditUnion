@@ -13,8 +13,8 @@ namespace JestersCreditUnion.Core
     {
         private readonly LoanData _data;
         private readonly ILoanDataSaver _dataSaver;
-        private ILoanAgreement _agreement;
         private readonly ILoanFactory _factory;
+        private ILoanAgreement _agreement;
 
         public Loan(LoanData data,
             ILoanDataSaver dataSaver,

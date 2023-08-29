@@ -46,12 +46,21 @@ namespace API.Controllers
             IActionResult result = null;
             try
             {
+                Dictionary<string, ILoan> loans = new Dictionary<string, ILoan>();
+                CoreSettings settings = GetCoreSettings();
                 if (loanPayments == null)
                     loanPayments = Array.Empty<LoanPayment>();
                 List<Task> tasks = new List<Task>();
                 for (int i = 0; i < loanPayments.Length; i += 1)
                 {
-                    tasks.Add(ValidateLoanPayment(loanPayments[i]));
+                    ILoan loan = null;
+                    if (!string.IsNullOrEmpty(loanPayments[i].LoanNumber))
+                    {
+                        loan = await _loanFactory.GetByNumber(settings, loanPayments[i].LoanNumber);
+                        if (loan != null)
+                            loans[loanPayments[i].LoanNumber] = loan;
+                    }
+                    ValidateLoanPayment(loan, loanPayments[i]);
                 }
                 await Task.WhenAll(tasks);
                 if (loanPayments.Any(p => !string.IsNullOrEmpty(p.Message)))
@@ -61,9 +70,9 @@ namespace API.Controllers
                 else
                 {
                     IMapper mapper = MapperConfiguration.CreateMapper();
-                    List<IPayment> innerPayments = loanPayments.Select<LoanPayment, IPayment>(p => MapPayment(mapper, p))
+                    List<IPayment> innerPayments = loanPayments.Select<LoanPayment, IPayment>(p => MapPayment(mapper, loans[p.LoanNumber], p))
                         .ToList();
-                    innerPayments = (await _paymentSaver.Save(GetCoreSettings(), innerPayments)).ToList();
+                    innerPayments = (await _paymentSaver.Save(settings, innerPayments)).ToList();
                     loanPayments = innerPayments.Select<IPayment, LoanPayment>(p => mapper.Map<LoanPayment>(p))
                         .ToArray();
                     for (int i = 0; i < loanPayments.Length; i += 1)
@@ -85,24 +94,23 @@ namespace API.Controllers
             return result;
         }
 
-        private IPayment MapPayment(IMapper mapper, LoanPayment payment)
+        private IPayment MapPayment(IMapper mapper, ILoan loan, LoanPayment payment)
         {
-            IPayment innerPayment = _paymentFactory.Create(payment.LoanNumber, payment.TransactionNumber, payment.Date.Value);
+            IPayment innerPayment = _paymentFactory.Create(loan, payment.TransactionNumber, payment.Date.Value);
             mapper.Map(payment, innerPayment);
             return innerPayment;
         }
 
-        private async Task ValidateLoanPayment(LoanPayment loanPayment)
+        private static void ValidateLoanPayment(ILoan loan, LoanPayment loanPayment)
         {
             StringBuilder message = new StringBuilder();
             if (string.IsNullOrEmpty(loanPayment.LoanNumber))
             {
                 message.AppendLine("Missing loan number");
             }
-            else
+            else if (loan == null)
             {
-                if ((await _loanFactory.GetByNumber(GetCoreSettings(), loanPayment.LoanNumber)) == null)
-                    message.Append("Loan not found");
+                message.Append("Loan not found");
             }
             if (!loanPayment.Date.HasValue)
                 message.AppendLine("Missing payment date");

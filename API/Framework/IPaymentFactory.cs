@@ -7,8 +7,10 @@ namespace JestersCreditUnion.Framework
 {
     public interface IPaymentFactory
     {
+        ILoanFactory LoanFactory { get; }
+
         IPayment Create(
-            string loanNumber,
+            ILoan loan,
             string transactionNumber,
             DateTime date);
 
