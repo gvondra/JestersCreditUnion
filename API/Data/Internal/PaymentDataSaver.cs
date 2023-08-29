@@ -67,8 +67,9 @@ namespace JestersCreditUnion.Data.Internal
             }
         }
 
-        private async Task Update(ITransactionHandler transactionHandler, PaymentData data)
+        public async Task Update(ITransactionHandler transactionHandler, PaymentData data)
         {
+            await _providerFactory.EstablishTransaction(transactionHandler);
             using (DbCommand command = transactionHandler.Connection.CreateCommand())
             {
                 command.CommandText = "[ln].[UpdatePayment]";

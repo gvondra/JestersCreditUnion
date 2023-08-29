@@ -32,7 +32,7 @@ namespace JestersCreditUnion.Core
             await Saver.Save(
                 new TransactionHandler(settings),
                 th => _dataSaver.Save(th, data));
-            return data.Select<PaymentData, IPayment>(d => new Payment(d));
+            return data.Select<PaymentData, IPayment>(d => new Payment(d, _dataSaver));
         }
 
         private static PaymentData ProcessPaymentGroup(IEnumerable<Payment> payments)

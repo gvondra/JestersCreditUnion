@@ -19,29 +19,58 @@ namespace JestersCreditUnion.Data.Internal
                 DataUtil.CreateParameter(_providerFactory, "loanNumber", DbType.AnsiString, DataUtil.GetParameterValue(loanNumber)),
                 DataUtil.CreateParameter(_providerFactory, "transactionNumber", DbType.AnsiString, DataUtil.GetParameterValue(transactionNumber))
             };
-            return (await _genericDataFactory.GetData(
+            PaymentData payment = null;
+            DataReaderProcess dataReaderProcess = new DataReaderProcess();
+            await dataReaderProcess.Read(
                 settings,
                 _providerFactory,
                 "[ln].[GetPayment_by_Date_LoanNumber_TransactionNumber]",
-                Create,
-                DataUtil.AssignDataStateManager,
-                parameters))
-                .FirstOrDefault();
+                CommandType.StoredProcedure,
+                parameters,
+                async reader =>
+                {
+                    payment = (await _genericDataFactory.LoadData(reader, Create, DataUtil.AssignDataStateManager)).FirstOrDefault();
+                    if (payment != null)
+                    {
+                        await reader.NextResultAsync();
+                        GenericDataFactory<TransactionData> transactionDataFactory = new GenericDataFactory<TransactionData>();
+                        payment.Transactions = (await transactionDataFactory.LoadData(reader, () => new TransactionData(), DataUtil.AssignDataStateManager)).ToList();
+                    }
+                });
+            return payment;
         }
 
-        public Task<IEnumerable<PaymentData>> GetByStatus(ISqlSettings settings, short status)
+        public async Task<IEnumerable<PaymentData>> GetByStatus(ISqlSettings settings, short status)
         {
             IDataParameter[] parameters = new IDataParameter[]
             {
                 DataUtil.CreateParameter(_providerFactory, "status", DbType.Int16, DataUtil.GetParameterValue(status))
             };
-            return _genericDataFactory.GetData(
+            List<PaymentData> payments = new List<PaymentData>();
+            List<PaymentTransactionData> transactions = new List<PaymentTransactionData>();
+            DataReaderProcess dataReaderProcess = new DataReaderProcess();
+            await dataReaderProcess.Read(
                 settings,
                 _providerFactory,
                 "[ln].[GetPayment_by_Status]",
-                Create,
-                DataUtil.AssignDataStateManager,
-                parameters);
+                CommandType.StoredProcedure,
+                parameters,
+                async reader =>
+                {
+                    payments = (await _genericDataFactory.LoadData(reader, Create, DataUtil.AssignDataStateManager)).ToList();
+
+                    await reader.NextResultAsync();
+                    GenericDataFactory<PaymentTransactionData> transactionDataFactory = new GenericDataFactory<PaymentTransactionData>();
+                    transactions = (await transactionDataFactory.LoadData(reader, () => new PaymentTransactionData(), DataUtil.AssignDataStateManager)).ToList();
+                });
+            return payments.GroupJoin(transactions,
+                pmt => pmt.PaymentId,
+                trn => trn.PaymentId,
+                (pmt, trns) =>
+                {
+                    pmt.Transactions = trns.ToList<TransactionData>();
+                    return pmt;
+                });
         }
     }
 }

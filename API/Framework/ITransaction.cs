@@ -12,8 +12,9 @@ namespace JestersCreditUnion.Framework
         DateTime Date { get; }
         TransactionType Type { get; }
         decimal Amount { get; }
+        bool IsNew { get; }
         DateTime CreateTimestamp { get; }
 
-        Task Create(ITransactionHandler transactionHandler);
+        Task Create(ITransactionHandler transactionHandler, Guid? paymentId = null);
     }
 }

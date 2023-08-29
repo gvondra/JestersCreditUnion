@@ -7,5 +7,6 @@ namespace JestersCreditUnion.Data
     public interface IPaymentDataSaver
     {
         Task Save(ITransactionHandler transactionHandler, IEnumerable<PaymentData> payments);
+        Task Update(ITransactionHandler transactionHandler, PaymentData data);
     }
 }

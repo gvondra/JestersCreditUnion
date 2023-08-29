@@ -12,7 +12,7 @@ namespace JestersCreditUnion.Data.Internal
             : base(providerFactory)
         { }
 
-        public async Task Create(ISqlTransactionHandler transactionHandler, TransactionData data)
+        public async Task Create(ISqlTransactionHandler transactionHandler, TransactionData data, Guid? paymentId = null)
         {
             if (data.Manager.GetState(data) == DataState.New)
             {
@@ -32,6 +32,7 @@ namespace JestersCreditUnion.Data.Internal
                     command.Parameters.Add(timestamp);
 
                     DataUtil.AddParameter(_providerFactory, command.Parameters, "loanId", DbType.Guid, DataUtil.GetParameterValue(data.LoanId));
+                    DataUtil.AddParameter(_providerFactory, command.Parameters, "paymentId", DbType.Guid, DataUtil.GetParameterValue(paymentId));
                     AddCommonParameters(command.Parameters, data);
 
                     await command.ExecuteNonQueryAsync();
