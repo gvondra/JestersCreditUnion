@@ -15,11 +15,13 @@ namespace JestersCreditUnion.Core
     {
         private readonly IPaymentFactory _factory;
         private readonly IPaymentDataSaver _dataSaver;
+        private readonly ITransactionDataSaver _transactionDataSaver;
 
-        public PaymentSaver(IPaymentFactory paymentFactory, IPaymentDataSaver dataSaver)
+        public PaymentSaver(IPaymentFactory paymentFactory, IPaymentDataSaver dataSaver, ITransactionDataSaver transactionDataSaver)
         {
             _factory = paymentFactory;
             _dataSaver = dataSaver;
+            _transactionDataSaver = transactionDataSaver;
         }
 
         public async Task<IEnumerable<IPayment>> Save(Framework.ISettings settings, IEnumerable<IPayment> payments)
@@ -34,7 +36,7 @@ namespace JestersCreditUnion.Core
             await Saver.Save(
                 new TransactionHandler(settings),
                 th => _dataSaver.Save(th, data));
-            return data.Select<PaymentData, IPayment>(d => new Payment(d, _dataSaver, _factory));
+            return data.Select<PaymentData, IPayment>(d => new Payment(d, _dataSaver, _factory, _transactionDataSaver));
         }
 
         private static PaymentData ProcessPaymentGroup(IEnumerable<Payment> payments)

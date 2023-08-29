@@ -29,11 +29,11 @@ namespace JestersCreditUnion.Core
 
         private Payment Create(PaymentData data)
         {
-            Payment payment = new Payment(data, _dataSaver, this);
+            Payment payment = new Payment(data, _dataSaver, this, _transactionDataSaver);
             if (data.Transactions != null)
             {
                 payment.Transactions = data.Transactions
-                    .Select<TransactionData, ITransaction>(d => new Transaction(d, _transactionDataSaver))
+                    .Select<PaymentTransactionData, IPaymentTransaction>(d => new PaymentTransaction(d, _transactionDataSaver))
                     .ToList();
             }
             return payment;
@@ -59,9 +59,9 @@ namespace JestersCreditUnion.Core
             return payment;
         }
 
-        public async Task<IEnumerable<IPayment>> GetByStatus(ISettings settings, PaymentStatus status)
+        public async Task<IEnumerable<IPayment>> GetByLoanId(ISettings settings, Guid loanId)
         {
-            return (await _dataFactory.GetByStatus(new CommonCore.DataSettings(settings), (short)status))
+            return (await _dataFactory.GetByLoanId(new CommonCore.DataSettings(settings), loanId))
                 .Select<PaymentData, IPayment>(Create);
         }
     }

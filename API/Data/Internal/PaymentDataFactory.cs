@@ -33,18 +33,18 @@ namespace JestersCreditUnion.Data.Internal
                     if (payment != null)
                     {
                         await reader.NextResultAsync();
-                        GenericDataFactory<TransactionData> transactionDataFactory = new GenericDataFactory<TransactionData>();
-                        payment.Transactions = (await transactionDataFactory.LoadData(reader, () => new TransactionData(), DataUtil.AssignDataStateManager)).ToList();
+                        GenericDataFactory<PaymentTransactionData> transactionDataFactory = new GenericDataFactory<PaymentTransactionData>();
+                        payment.Transactions = (await transactionDataFactory.LoadData(reader, () => new PaymentTransactionData(), DataUtil.AssignDataStateManager)).ToList();
                     }
                 });
             return payment;
         }
 
-        public async Task<IEnumerable<PaymentData>> GetByStatus(ISqlSettings settings, short status)
+        public async Task<IEnumerable<PaymentData>> GetByLoanId(ISqlSettings settings, Guid loanId)
         {
             IDataParameter[] parameters = new IDataParameter[]
             {
-                DataUtil.CreateParameter(_providerFactory, "status", DbType.Int16, DataUtil.GetParameterValue(status))
+                DataUtil.CreateParameter(_providerFactory, "loanId", DbType.Guid, DataUtil.GetParameterValue(loanId))
             };
             List<PaymentData> payments = new List<PaymentData>();
             List<PaymentTransactionData> transactions = new List<PaymentTransactionData>();
@@ -52,7 +52,7 @@ namespace JestersCreditUnion.Data.Internal
             await dataReaderProcess.Read(
                 settings,
                 _providerFactory,
-                "[ln].[GetPayment_by_Status]",
+                "[ln].[GetPayment_by_LoanId]",
                 CommandType.StoredProcedure,
                 parameters,
                 async reader =>
@@ -68,7 +68,7 @@ namespace JestersCreditUnion.Data.Internal
                 trn => trn.PaymentId,
                 (pmt, trns) =>
                 {
-                    pmt.Transactions = trns.ToList<TransactionData>();
+                    pmt.Transactions = trns.ToList<PaymentTransactionData>();
                     return pmt;
                 });
         }

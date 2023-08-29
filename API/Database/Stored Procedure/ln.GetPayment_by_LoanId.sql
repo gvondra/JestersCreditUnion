@@ -1,13 +1,13 @@
-﻿CREATE PROCEDURE [ln].[GetPayment_by_Status]
-	@status SMALLINT
+﻿CREATE PROCEDURE [ln].[GetPayment_by_LoanId]
+	@loanId UNIQUEIDENTIFIER
 AS
 BEGIN
 SELECT [PaymentId],[LoanId],[TransactionNumber],[Date],[Amount],[Status],
   [CreateTimestamp],[UpdateTimestamp]
 FROM [ln].[Payment]
-WHERE [Status] = @status
+WHERE [LoanId] = @loanId
 ORDER BY [Date]
 ;
 
-EXEC [ln].[GetPaymentTransaction_by_PaymentStatus] @status;
+EXEC [ln].[GetPaymentTransaction_by_LoanId] @loanId;
 END

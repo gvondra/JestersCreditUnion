@@ -12,6 +12,6 @@ namespace JestersCreditUnion.Data.Models
         [ColumnMapping] public short Status { get; set; }
         [ColumnMapping(IsUtc = true)] public DateTime CreateTimestamp { get; set; }
         [ColumnMapping(IsUtc = true)] public DateTime UpdateTimestamp { get; set; }
-        public List<TransactionData> Transactions { get; set; }
+        public List<PaymentTransactionData> Transactions { get; set; }
     }
 }

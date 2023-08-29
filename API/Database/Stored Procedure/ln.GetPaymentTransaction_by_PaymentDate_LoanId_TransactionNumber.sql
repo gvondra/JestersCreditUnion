@@ -1,9 +1,9 @@
-﻿CREATE PROCEDURE [ln].[GetTransaction_by_PaymentDate_LoanId_TransactionNumber]
+﻿CREATE PROCEDURE [ln].[GetPaymentTransaction_by_PaymentDate_LoanId_TransactionNumber]
 	@date DATE,
 	@loanId UNIQUEIDENTIFIER,
 	@transactionNumber VARCHAR(128)
 AS
-SELECT [trn].[TransactionId], [trn].[LoanId], [trn].[Date], [trn].[Type], [trn].[Amount], [trn].[CreateTimestamp]
+SELECT [pt].[PaymentId], [pt].[TermNumber], [trn].[TransactionId], [trn].[LoanId], [trn].[Date], [trn].[Type], [trn].[Amount], [trn].[CreateTimestamp]
 FROM [ln].[Transaction] [trn]
 INNER JOIN [ln].[PaymentTransaction] [pt] on [trn].[TransactionId] = [pt].[TransactionId]
 WHERE EXISTS (SELECT TOP 1 1

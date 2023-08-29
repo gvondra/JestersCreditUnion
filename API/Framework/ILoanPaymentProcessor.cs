@@ -4,6 +4,6 @@ namespace JestersCreditUnion.Framework
 {
     public interface ILoanPaymentProcessor
     {
-        Task Process(ISettings settings, IPayment payment);
+        Task Process(ISettings settings, ILoan loan);
     }
 }

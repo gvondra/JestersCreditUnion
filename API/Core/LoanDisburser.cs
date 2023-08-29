@@ -10,6 +10,7 @@ namespace JestersCreditUnion.Core
         public async Task<ITransaction> Disburse(ISettings settings, ILoan loan)
         {
             ITransaction transaction = loan.CreateTransaction(DateTime.Today, TransactionType.Disbursement, loan.Agreement.OriginalAmount * -1);
+            loan.InitialDisbursementDate = DateTime.Today;
             if (!loan.FirstPaymentDue.HasValue)
             {
                 loan.FirstPaymentDue = PaymentDateCalculator.FirstPaymentDate(loan.Agreement.PaymentFrequency);

@@ -15,6 +15,6 @@ namespace JestersCreditUnion.Framework
         bool IsNew { get; }
         DateTime CreateTimestamp { get; }
 
-        Task Create(ITransactionHandler transactionHandler, Guid? paymentId = null);
+        Task Create(ITransactionHandler transactionHandler, Guid? paymentId = null, short? termNumber = null);
     }
 }

@@ -8,7 +8,8 @@ namespace JestersCreditUnion.Data
         protected override void Load(ContainerBuilder builder)
         {
             base.Load(builder);
-            builder.RegisterType<SqlClientProviderFactory>().As<IDbProviderFactory>();
+            builder.RegisterType<SqlClientProviderFactory>()
+                .As<IDbProviderFactory>();
             builder.RegisterType<AddressDataFactory>().As<IAddressDataFactory>();
             builder.RegisterType<AddressDataSaver>().As<IAddressDataSaver>();
             builder.RegisterType<EmailAddressDataFactory>().As<IEmailAddressDataFactory>();
@@ -18,8 +19,8 @@ namespace JestersCreditUnion.Data
             builder.RegisterType<LoanApplicationDataSaver>().As<ILoanApplicationDataSaver>();
             builder.RegisterType<LoanDataFactory>().As<ILoanDataFactory>();
             builder.RegisterType<LoanDataSaver>()
-                .As<ILoanDataSaver>()
-                .PropertiesAutowired();
+                .PropertiesAutowired()
+                .As<ILoanDataSaver>();
             builder.RegisterType<PaymentDataFactory>().As<IPaymentDataFactory>();
             builder.RegisterType<PaymentDataSaver>().As<IPaymentDataSaver>();
             builder.RegisterType<PhoneDataFactory>().As<IPhoneDataFactory>();

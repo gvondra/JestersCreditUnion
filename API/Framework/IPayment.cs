@@ -16,9 +16,10 @@ namespace JestersCreditUnion.Framework
         PaymentStatus Status { get; set; }
         DateTime CreateTimestamp { get; }
         DateTime UpdateTimestamp { get; }
-        List<ITransaction> Transactions { get; }
+        List<IPaymentTransaction> Transactions { get; }
 
         Task Update(ITransactionHandler transactionHandler);
         Task<ILoan> GetLoan(ISettings settings);
+        IPaymentTransaction CreatePaymentTransaction(ILoan loan, DateTime date, TransactionType type, decimal amount);
     }
 }

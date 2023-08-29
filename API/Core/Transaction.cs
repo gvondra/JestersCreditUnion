@@ -39,12 +39,12 @@ namespace JestersCreditUnion.Core
 
         public bool IsNew => _data.Manager.GetState(_data) == BrassLoon.DataClient.DataState.New;
 
-        public Task Create(ITransactionHandler transactionHandler, Guid? paymentId = null)
+        public Task Create(ITransactionHandler transactionHandler, Guid? paymentId = null, short? termNumber = null)
         {
             if (_loan == null)
                 throw new ApplicationException("Loan is null. Cannot create transaction when no loan is given.");
             LoanId = _loan.LoanId;
-            return _dataSaver.Create(transactionHandler, _data, paymentId);
+            return _dataSaver.Create(transactionHandler, _data, paymentId, termNumber);
         }
 
     }

@@ -1,10 +1,7 @@
 ﻿using JestersCreditUnion.Framework;
-using JestersCreditUnion.Framework.Enumerations;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace JestersCreditUnion.Batch.LoanPaymentProcessor
@@ -12,31 +9,30 @@ namespace JestersCreditUnion.Batch.LoanPaymentProcessor
     public class LoanPaymentProcessor
     {
         private const int _threadCount = 4;
-        private const int _paymentsPerThread = 2;
+        private const int _loansPerThread = 2;
         private readonly ILogger<LoanPaymentProcessor> _logger;
         private readonly SettingsFactory _settingsFactory;
-        private readonly IPaymentFactory _paymentFactory;
+        private readonly ILoanFactory _loanFactory;
         private readonly ILoanPaymentProcessor _paymentProcessor;
-        private ConcurrentQueue<IPayment> _paymentQueue;
+        private ConcurrentQueue<ILoan> _loanQueue;
 
         public LoanPaymentProcessor(
             ILogger<LoanPaymentProcessor> logger,
             SettingsFactory settingsFactory,
-            IPaymentFactory paymentFactory,
+            ILoanFactory loanFactory,
             ILoanPaymentProcessor paymentProcessor)
         {
             _logger = logger;
             _settingsFactory = settingsFactory;
-            _paymentFactory = paymentFactory;
+            _loanFactory = loanFactory;
             _paymentProcessor = paymentProcessor;
         }
 
         public async Task Process()
         {
-            _paymentQueue = new ConcurrentQueue<IPayment>(
-                (await _paymentFactory.GetByStatus(_settingsFactory.CreateCore(), PaymentStatus.Unprocessed))
-                .Where(p => p.Date <= DateTime.Today && p.Amount > 0.0M));
-            _logger.LogInformation($"Loaded {_paymentQueue.Count:###,###,##1} payments");
+            _loanQueue = new ConcurrentQueue<ILoan>(
+                (await _loanFactory.GetWithUnprocessedPayments(_settingsFactory.CreateCore())));
+            _logger.LogInformation($"Loaded {_loanQueue.Count:###,###,##0} loans");
             Task[] tasks = new Task[_threadCount - 1];
             for (int i = 0; i < tasks.Length; i += 1)
             {
@@ -50,22 +46,22 @@ namespace JestersCreditUnion.Batch.LoanPaymentProcessor
         {
             CoreSettings settings = _settingsFactory.CreateCore();
             Queue<Task> tasks = new Queue<Task>();
-            IPayment payment;
-            while (_paymentQueue.TryDequeue(out payment))
+            ILoan loan;
+            while (_loanQueue.TryDequeue(out loan))
             {
-                while (tasks.Count > _paymentsPerThread)
+                while (tasks.Count > _loansPerThread)
                 {
                     await tasks.Dequeue();
                 }
-                tasks.Enqueue(ProcessPayment(settings, payment));
+                tasks.Enqueue(ProcessPayment(settings, loan));
             }
             await Task.WhenAll(tasks);
         }
 
-        private async Task ProcessPayment(CoreSettings settings, IPayment payment)
+        private async Task ProcessPayment(CoreSettings settings, ILoan loan)
         {
-            _logger.LogInformation($"Start processing payment with loan number = {payment.LoanId:D}, transaction number = {payment.TransactionNumber}, date = {payment.Date:yyyy-MM-dd}, and amount = {payment.Amount:$###,###,##0.00}");
-            await _paymentProcessor.Process(settings, payment);
+            _logger.LogInformation($"Start processing payments for loan number = {loan.Number}");
+            await _paymentProcessor.Process(settings, loan);
         }
     }
 }

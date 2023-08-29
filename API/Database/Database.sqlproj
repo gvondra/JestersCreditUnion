@@ -109,14 +109,15 @@
     <Build Include="Stored Procedure\ln.GetTransaction_by_LoanId.sql" />
     <Build Include="Stored Procedure\ln.CreateTransaction.sql" />
     <Build Include="Table\ln.Payment.sql" />
-    <Build Include="Stored Procedure\ln.GetPayment_by_Status.sql" />
     <Build Include="Stored Procedure\ln.CreatePayment.sql" />
     <Build Include="Stored Procedure\ln.GetPayment_by_Date_LoanId_TransactionNumber.sql" />
     <Build Include="Stored Procedure\ln.UpdatePayment.sql" />
     <Build Include="Table\ln.PaymentTransaction.sql" />
-    <Build Include="Stored Procedure\ln.GetTransaction_by_PaymentId.sql" />
-    <Build Include="Stored Procedure\ln.GetPaymentTransaction_by_PaymentStatus.sql" />
-    <Build Include="Stored Procedure\ln.GetTransaction_by_PaymentDate_LoanId_TransactionNumber.sql" />
+    <Build Include="Stored Procedure\ln.GetPaymentTransaction_by_PaymentDate_LoanId_TransactionNumber.sql" />
+    <Build Include="Stored Procedure\ln.GetPayment_by_LoanId.sql" />
+    <Build Include="Stored Procedure\ln.GetPaymentTransaction_by_LoanId.sql" />
+    <Build Include="Stored Procedure\ln.GetLoan_with_UnprocessedPayments.sql" />
+    <Build Include="Stored Procedure\ln.GetLoanAgreement_with_UnprocessedPayments.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="LocalSqlSchemaCompare.scmp" />

@@ -12,5 +12,5 @@ WHERE [Date] = @date
   AND [TransactionNumber] = @transactionNumber
 ORDER BY [Date]
 ;
-EXEC [ln].[GetTransaction_by_PaymentDate_LoanId_TransactionNumber] @date, @loanId, @transactionNumber
+EXEC [ln].[GetPaymentTransaction_by_PaymentDate_LoanId_TransactionNumber] @date, @loanId, @transactionNumber
 END

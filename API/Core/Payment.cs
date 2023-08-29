@@ -15,12 +15,14 @@ namespace JestersCreditUnion.Core
         private readonly PaymentData _data;
         private readonly IPaymentDataSaver _dataSaver;
         private readonly IPaymentFactory _factory;
+        private readonly ITransactionDataSaver _transactionDataSaver;
 
-        public Payment(PaymentData data, IPaymentDataSaver dataSaver, IPaymentFactory factory)
+        public Payment(PaymentData data, IPaymentDataSaver dataSaver, IPaymentFactory factory, ITransactionDataSaver transactionDataSaver)
         {
             _data = data;
             _dataSaver = dataSaver;
             _factory = factory;
+            _transactionDataSaver = transactionDataSaver;
         }
 
         public Guid PaymentId => _data.PaymentId;
@@ -38,7 +40,19 @@ namespace JestersCreditUnion.Core
 
         public DateTime UpdateTimestamp => _data.UpdateTimestamp;
 
-        public List<ITransaction> Transactions { get; internal set; }
+        public List<IPaymentTransaction> Transactions { get; internal set; } = new List<IPaymentTransaction>();
+
+        public IPaymentTransaction CreatePaymentTransaction(ILoan loan, DateTime date, TransactionType type, decimal amount)
+            => new PaymentTransaction(
+                new PaymentTransactionData
+                {
+                    LoanId = loan.LoanId,
+                    PaymentId = PaymentId,
+                    Date = date,
+                    Type = (short)type,
+                    Amount = amount
+                },
+                _transactionDataSaver);
 
         public Task<ILoan> GetLoan(Framework.ISettings settings) => _factory.LoanFactory.Get(settings, LoanId);
 

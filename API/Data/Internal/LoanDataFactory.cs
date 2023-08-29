@@ -92,6 +92,20 @@ namespace JestersCreditUnion.Data.Internal
             return data;
         }
 
+        public async Task<IEnumerable<LoanData>> GetWithUnprocessedPayments(ISqlSettings settings)
+        {
+            DataReaderProcess dataReaderProcess = new DataReaderProcess();
+            List<LoanData> data = null;
+            await dataReaderProcess.Read(
+                settings,
+                _providerFactory,
+                "[ln].[GetLoan_with_UnprocessedPayments]",
+                commandType: CommandType.StoredProcedure,
+                parameters: Array.Empty<IDataParameter>(),
+                async (DbDataReader reader) => data = await Load(reader));
+            return data;
+        }
+
         private async Task<List<LoanData>> Load(DbDataReader reader)
         {
             List<LoanData> loans = (await _genericDataFactory.LoadData(reader, Create, DataUtil.AssignDataStateManager))

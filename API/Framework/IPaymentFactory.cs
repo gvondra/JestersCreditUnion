@@ -1,5 +1,4 @@
-﻿using JestersCreditUnion.Framework.Enumerations;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -14,6 +13,6 @@ namespace JestersCreditUnion.Framework
             string transactionNumber,
             DateTime date);
 
-        Task<IEnumerable<IPayment>> GetByStatus(ISettings settings, PaymentStatus status);
+        Task<IEnumerable<IPayment>> GetByLoanId(ISettings settings, Guid loanId);
     }
 }

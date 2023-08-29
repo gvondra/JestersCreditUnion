@@ -13,14 +13,19 @@ namespace JestersCreditUnion.Core
         private readonly ILoanDataFactory _dataFactory;
         private readonly ILoanDataSaver _dataSaver;
         private readonly LoanNumberGenerator _numberGenerator;
+        private readonly IPaymentFactory _paymentFactory;
 
         public LoanFactory(ILoanDataFactory dataFactory,
             ILoanDataSaver dataSaver,
-            LoanNumberGenerator numberGenerator)
+            LoanNumberGenerator numberGenerator,
+            IPaymentDataFactory paymentDataFactory,
+            IPaymentDataSaver paymentDataSaver,
+            ITransactionDataSaver transactionDataSaver)
         {
             _dataFactory = dataFactory;
             _dataSaver = dataSaver;
             _numberGenerator = numberGenerator;
+            _paymentFactory = new PaymentFactory(paymentDataFactory, transactionDataSaver, paymentDataSaver);
         }
 
         public IAddressFactory AddressFactory { get; set; }
@@ -28,7 +33,7 @@ namespace JestersCreditUnion.Core
         public IPhoneFactory PhoneFactory { get; set; }
         public ITransactionFacatory TransactionFacatory { get; set; }
 
-        private Loan Create(LoanData data) => new Loan(data, _dataSaver, this);
+        private Loan Create(LoanData data) => new Loan(data, _dataSaver, this, _paymentFactory);
 
         public ILoan Create(ILoanApplication loanApplication)
         {
@@ -77,6 +82,12 @@ namespace JestersCreditUnion.Core
         public async Task<IEnumerable<ILoan>> GetByNameBirthDate(ISettings settings, string name, DateTime birthDate)
         {
             return (await _dataFactory.GetByNameBirthDate(new CommonCore.DataSettings(settings), name, birthDate))
+                .Select<LoanData, ILoan>(Create);
+        }
+
+        public async Task<IEnumerable<ILoan>> GetWithUnprocessedPayments(ISettings settings)
+        {
+            return (await _dataFactory.GetWithUnprocessedPayments(new CommonCore.DataSettings(settings)))
                 .Select<LoanData, ILoan>(Create);
         }
     }
