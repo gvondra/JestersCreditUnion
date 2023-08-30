@@ -46,13 +46,13 @@ namespace JestersCreditUnion.Core
             => new PaymentTransaction(
                 new PaymentTransactionData
                 {
-                    LoanId = loan.LoanId,
                     PaymentId = PaymentId,
                     Date = date,
                     Type = (short)type,
                     Amount = amount
                 },
-                _transactionDataSaver);
+                _transactionDataSaver,
+                loan);
 
         public Task<ILoan> GetLoan(Framework.ISettings settings) => _factory.LoanFactory.Get(settings, LoanId);
 

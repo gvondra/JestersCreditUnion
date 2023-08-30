@@ -1,6 +1,7 @@
 ﻿using JestersCreditUnion.Framework;
 using JestersCreditUnion.Framework.Enumerations;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -8,11 +9,11 @@ namespace JestersCreditUnion.Core
 {
     public class LoanPaymentProcessor : ILoanPaymentProcessor
     {
-        private readonly ITransactionFacatory _transactionFactory;
+        private readonly IPaymentSaver _paymentSaver;
 
-        public LoanPaymentProcessor(ITransactionFacatory transactionFactory)
+        public LoanPaymentProcessor(IPaymentSaver paymentSaver)
         {
-            _transactionFactory = transactionFactory;
+            _paymentSaver = paymentSaver;
         }
 
         public async Task Process(ISettings settings, ILoan loan)
@@ -27,6 +28,16 @@ namespace JestersCreditUnion.Core
                 Principal = loan.Agreement.OriginalAmount
             };
             ProcessTerm(settings, paymentTerm);
+            await UpdatePayments(settings, paymentTerm.Payments.Where(p => p.Status == PaymentStatus.Unprocessed));
+        }
+
+        private async Task UpdatePayments(ISettings settings, IEnumerable<IPayment> payments)
+        {
+            foreach (IPayment payment in payments)
+            {
+                payment.Status = PaymentStatus.Processed;
+            }
+            await _paymentSaver.Update(settings, payments);
         }
 
         private void ProcessTerm(ISettings settings, PaymentTerm paymentTerm)

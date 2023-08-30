@@ -17,10 +17,25 @@ namespace JestersCreditUnion.Core
             _data = data;
         }
 
+        public PaymentTransaction(PaymentTransactionData data, ITransactionDataSaver dataSaver, ILoan loan)
+            : base(data, dataSaver, loan)
+        {
+            _data = data;
+        }
+
         public Guid PaymentId => _data.PaymentId;
 
         public short TermNumber { get => _data.TermNumber; set => _data.TermNumber = value; }
 
         public Task Create(ITransactionHandler transactionHandler) => Create(transactionHandler, PaymentId, TermNumber);
+
+        public override Task Create(ITransactionHandler transactionHandler, Guid? paymentId = null, short? termNumber = null)
+        {
+            if (!paymentId.HasValue)
+                paymentId = PaymentId;
+            if (!termNumber.HasValue)
+                termNumber = TermNumber;
+            return base.Create(transactionHandler, paymentId, termNumber);
+        }
     }
 }

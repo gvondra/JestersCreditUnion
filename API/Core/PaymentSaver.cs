@@ -2,6 +2,7 @@
 using JestersCreditUnion.Data;
 using JestersCreditUnion.Data.Models;
 using JestersCreditUnion.Framework;
+using JestersCreditUnion.Framework.Enumerations;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -22,6 +23,17 @@ namespace JestersCreditUnion.Core
             _factory = paymentFactory;
             _dataSaver = dataSaver;
             _transactionDataSaver = transactionDataSaver;
+        }
+
+        public async Task Update(Framework.ISettings settings, IEnumerable<IPayment> payments)
+        {
+            await CommonCore.Saver.Save(new CommonCore.TransactionHandler(settings), async (th) =>
+            {
+                foreach (IPayment payment in payments)
+                {
+                    await payment.Update(th);
+                }
+            });
         }
 
         public async Task<IEnumerable<IPayment>> Save(Framework.ISettings settings, IEnumerable<IPayment> payments)
