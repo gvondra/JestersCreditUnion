@@ -1,0 +1,41 @@
+﻿<Page x:Class="JCU.Internal.NavigationPage.LoanAmortization"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:fa="http://schemas.fontawesome.io/icons/"
+      xmlns:local="clr-namespace:JCU.Internal.NavigationPage"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="JCU: Recive Loan Payment" Style="{StaticResource DefaultPageStyle}">
+
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Top" Orientation="Vertical">
+            <TextBlock>
+                <Hyperlink Command="NavigationCommands.BrowseBack">back</Hyperlink>
+            </TextBlock>
+            <TextBlock Style="{StaticResource PageTitle}">Loan Amortization Schedule</TextBlock>
+            <fa:ImageAwesome Icon="CircleOutlineNotch" Spin="True" Height="24" Width="24" Visibility="{Binding BusyVisibility, TargetNullValue=Visible, FallbackValue=Visible}" Foreground="Navy" HorizontalAlignment="Left" />
+        </StackPanel>
+        <DataGrid ItemsSource="{Binding AmortizationItems}" AutoGenerateColumns="False" IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Term" Binding="{Binding Term}"/>
+                <DataGridTextColumn Header="Description" Binding="{Binding Description}"/>
+                <DataGridTextColumn Header="Amount" Binding="{Binding Amount, StringFormat='###,###,##0.00'}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Right"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Balance" Binding="{Binding Balance, StringFormat='###,###,##0.00'}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Right"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
+</Page>

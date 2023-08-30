@@ -69,6 +69,7 @@
     <Compile Include="Behaviors\ExceptionLogLoader.cs" />
     <Compile Include="Behaviors\FindUserLoader.cs" />
     <Compile Include="Behaviors\FindUserSaver.cs" />
+    <Compile Include="Behaviors\LoanAmortizationLoader.cs" />
     <Compile Include="Behaviors\LoanApplicationDenialLoader.cs" />
     <Compile Include="Behaviors\LoanApplicationDenialSave.cs" />
     <Compile Include="Behaviors\LoanApplicationDenialValidator.cs" />
@@ -150,6 +151,9 @@
     <Compile Include="NavigationPage\Loan.xaml.cs">
       <DependentUpon>Loan.xaml</DependentUpon>
     </Compile>
+    <Compile Include="NavigationPage\LoanAmortization.xaml.cs">
+      <DependentUpon>LoanAmortization.xaml</DependentUpon>
+    </Compile>
     <Compile Include="NavigationPage\LoanApplication.xaml.cs">
       <DependentUpon>LoanApplication.xaml</DependentUpon>
     </Compile>
@@ -208,6 +212,7 @@
     <Compile Include="Settings\SettingsFactory.cs" />
     <Compile Include="StringFormatter.cs" />
     <Compile Include="ViewModelBase.cs" />
+    <Compile Include="ViewModel\AmortizationItemVM.cs" />
     <Compile Include="ViewModel\BeginLoanAgreementVM.cs" />
     <Compile Include="ViewModel\ErrorLogVM.cs" />
     <Compile Include="ViewModel\ExceptionLogItemVM.cs" />
@@ -216,6 +221,7 @@
     <Compile Include="ViewModel\FindUserVM.cs" />
     <Compile Include="ViewModel\HomeVM.cs" />
     <Compile Include="ViewModel\LoanAgreementVM.cs" />
+    <Compile Include="ViewModel\LoanAmortizationVM.cs" />
     <Compile Include="ViewModel\LoanApplicationCommentVM.cs" />
     <Compile Include="ViewModel\LoanApplicationDenialVM.cs" />
     <Compile Include="ViewModel\LoanApplicationVM.cs" />
@@ -309,6 +315,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="NavigationPage\Loan.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NavigationPage\LoanAmortization.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -422,7 +432,7 @@
       <Version>4.7.0.9</Version>
     </PackageReference>
     <PackageReference Include="JestersCreditUnion.Interface">
-      <Version>1.0.0-alpha.68</Version>
+      <Version>1.0.0-alpha.70</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Bcl.HashCode">
       <Version>1.1.1</Version>

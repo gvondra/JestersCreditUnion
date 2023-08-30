@@ -10,6 +10,7 @@ namespace JestersCreditUnion.Interface
             base.Load(builder);
             builder.RegisterType<Service>().As<IService>().InstancePerLifetimeScope();
             builder.RegisterType<RestUtil>().SingleInstance();
+            builder.RegisterType<AmortizationService>().As<IAmortizationService>();
             builder.RegisterType<ExceptionService>().As<IExceptionService>();
             builder.RegisterType<LoanApplicationService>().As<ILoanApplicationService>();
             builder.RegisterType<LoanPaymentAmountService>().As<ILoanPaymentAmountService>();

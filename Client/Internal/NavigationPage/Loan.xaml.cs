@@ -112,5 +112,19 @@ namespace JCU.Internal.NavigationPage
                 ErrorWindow.Open(ex, Window.GetWindow(this));
             }
         }
+
+        private void AmortizationHyperlink_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                LoanAmortization loanAmortization = new LoanAmortization(LoanVM);
+                NavigationService navigationService = NavigationService.GetNavigationService(this);
+                navigationService.Navigate(loanAmortization);
+            }
+            catch (System.Exception ex)
+            {
+                ErrorWindow.Open(ex, Window.GetWindow(this));
+            }
+        }
     }
 }

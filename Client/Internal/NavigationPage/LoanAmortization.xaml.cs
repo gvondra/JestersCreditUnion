@@ -17,30 +17,19 @@ using System.Windows.Shapes;
 namespace JCU.Internal.NavigationPage
 {
     /// <summary>
-    /// Interaction logic for ReceiveLoanPayment.xaml
+    /// Interaction logic for LoanAmortization.xaml
     /// </summary>
-    public partial class ReceiveLoanPayment : Page
+    public partial class LoanAmortization : Page
     {
-        public ReceiveLoanPayment(LoanVM loan)
+        public LoanAmortization(LoanVM loan)
         {
             NavigationCommands.BrowseBack.InputGestures.Clear();
             NavigationCommands.BrowseForward.InputGestures.Clear();
-            ReceiveLoanPaymentVM = ReceiveLoanPaymentVM.Create(loan);
-            DataContext = ReceiveLoanPaymentVM;
+            LoanAmortizationVM = LoanAmortizationVM.Create(loan);
+            DataContext = LoanAmortizationVM;
             InitializeComponent();
-            InitializeDetailGrid();
         }
 
-        private ReceiveLoanPaymentVM ReceiveLoanPaymentVM { get; set; }
-
-        private void InitializeDetailGrid()
-        {
-            DetailGrid.RowDefinitions.Clear();
-            foreach (int i in Enumerable.Range(0, 6))
-            {
-                DetailGrid.RowDefinitions.Add(
-                    new RowDefinition() { Height = GridLength.Auto });
-            }
-        }
+        private LoanAmortizationVM LoanAmortizationVM { get; set; }
     }
 }

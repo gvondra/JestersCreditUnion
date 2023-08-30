@@ -24,6 +24,9 @@
                     <Hyperlink Command="NavigationCommands.BrowseBack">back</Hyperlink>
                 </TextBlock>
                 <TextBlock>
+                    <Hyperlink Click="AmortizationHyperlink_Click">View Amortization</Hyperlink>
+                </TextBlock>
+                <TextBlock>
                     <Hyperlink Click="ReceivePaymentHyperlink_Click">Receive Payment</Hyperlink>
                 </TextBlock>
             </StackPanel>
