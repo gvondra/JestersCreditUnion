@@ -92,19 +92,22 @@ namespace JCU.Internal.ViewModel
                     OriginalAmount = loanApplication.Amount,
                     InterestRate = 0.0M,
                     PaymentFrequency = 12,
-                    OriginalTerm = 48,
-                    BorrowerAddress = new Address
-                    {
-                        Attention = loanApplication.BorrowerAddress.Attention,
-                        City = loanApplication.BorrowerAddress.City,
-                        Delivery = loanApplication.BorrowerAddress.Delivery,
-                        PostalCode = loanApplication.BorrowerAddress.PostalCode,
-                        Recipient = loanApplication.BorrowerAddress.Recipient,
-                        Secondary = loanApplication.BorrowerAddress.Secondary,
-                        State = loanApplication.BorrowerAddress.State
-                    }
+                    OriginalTerm = 48
                 }
             };
+            if (loanApplication.BorrowerAddress != null)
+            {
+                loan.Agreement.BorrowerAddress = new Address
+                {
+                    Attention = loanApplication.BorrowerAddress.Attention,
+                    City = loanApplication.BorrowerAddress.City,
+                    Delivery = loanApplication.BorrowerAddress.Delivery,
+                    PostalCode = loanApplication.BorrowerAddress.PostalCode,
+                    Recipient = loanApplication.BorrowerAddress.Recipient,
+                    Secondary = loanApplication.BorrowerAddress.Secondary,
+                    State = loanApplication.BorrowerAddress.State
+                };
+            }
             if (loanApplication.CoBorrowerAddress != null)
             {
                 loan.Agreement.CoBorrowerAddress = new Address()

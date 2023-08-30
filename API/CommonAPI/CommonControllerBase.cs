@@ -152,7 +152,7 @@ namespace JestersCreditUnion.CommonAPI
                     Data = data,
                     EventCode = eventCode,
                     Magnitude = magnitude ?? 0.0,
-                    Requestor = userId?.ToString("N"),
+                    Requestor = userId?.ToString("N") ?? string.Empty,
                     Status = status
                 };
                 _logger.LogMetric(metric);

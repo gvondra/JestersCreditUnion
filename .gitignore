@@ -367,4 +367,5 @@ FodyWeavers.xsd
 
 /API/API/**/launchSettings.json
 /Batch/Batch.LoanPaymentProcessor/**/launchSettings.json
+/Testing/TestLoanGenerator/**/launchSettings.json
 !/Client/Internal/NavigationPage/Log
