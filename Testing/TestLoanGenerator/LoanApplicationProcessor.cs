@@ -32,7 +32,7 @@ namespace JestersCreditUnion.Testing.LoanGenerator
         public async Task GenerateLoanApplications()
         {
             ApiSettings apiSettings = await _settingsFactory.GetApiSettings();
-            Queue<Task> createQueue = new Queue<Task>();
+            Queue<Task<LoanApplication>> createQueue = new Queue<Task<LoanApplication>>();
             foreach (LoanApplication loanApplication in _loanApplications)
             {
                 while (createQueue.Count >= 3)
