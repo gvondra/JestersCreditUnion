@@ -27,7 +27,7 @@ namespace API.Controllers
         public LoanPaymentController(IOptions<Settings> settings,
             ISettingsFactory settingsFactory,
             AuthorizationAPI.IUserService userService,
-            ILogger<LoanApplicationController> logger,
+            ILogger<LoanPaymentController> logger,
             ILoanFactory loanFactory,
             IPaymentFactory paymentFactory,
             IPaymentSaver paymentSaver)

@@ -20,6 +20,7 @@ namespace API
         private static void Initialize(IMapperConfigurationExpression exp)
         {
             exp.CreateMap<IAddress, Address>();
+            exp.CreateMap<IAmortizationItem, AmortizationItem>();
             exp.CreateMap<ILoan, Loan>();
             exp.CreateMap<Loan, ILoan>()
                 .ForMember(l => l.Agreement, opt => opt.Ignore());
