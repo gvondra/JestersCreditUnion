@@ -1,5 +1,4 @@
-﻿using System.Collections.Concurrent;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 
@@ -7,7 +6,8 @@ namespace JestersCreditUnion.Testing.LoanGenerator
 {
     internal class ProcessQueue<T> : IDisposable where T : class
     {
-        private readonly ConcurrentQueue<T> _innerQueue = new ConcurrentQueue<T>();
+        private const int _maxQueueLength = 25;
+        private readonly Queue<T> _innerQueue = new Queue<T>();
         private readonly Thread _generateThread;
         private readonly ManualResetEvent _processExitLock = new ManualResetEvent(false);
         private bool _exit;
@@ -30,8 +30,14 @@ namespace JestersCreditUnion.Testing.LoanGenerator
         {
             lock (_innerQueue)
             {
+                while (!_exit && _innerQueue.Count >= _maxQueueLength)
+                {
+                    Monitor.Wait(_innerQueue);
+                }
+                bool startedEmpty = _innerQueue.Count == 0;
                 _innerQueue.Enqueue(item);
-                Monitor.PulseAll(_innerQueue);
+                if (startedEmpty)
+                    Monitor.PulseAll(_innerQueue);
             }
         }
 
@@ -50,24 +56,20 @@ namespace JestersCreditUnion.Testing.LoanGenerator
         private IEnumerable<T> TryDeque()
         {
             List<T> result = new List<T>();
-            T item;
             lock (_innerQueue)
             {
-                while ((!_exit || _innerQueue.Count > 0) && result.Count == 0)
+                while (!_exit && _innerQueue.Count == 0)
                 {
-                    item = null;
-                    while (!_exit && !_innerQueue.TryDequeue(out item))
-                    {
-                        Monitor.Wait(_innerQueue);
-                    }
-                    if (item != null)
-                        result.Add(item);
-                    while (_innerQueue.TryDequeue(out item))
-                    {
-                        result.Add(item);
-                    }
+                    Monitor.Wait(_innerQueue);
                 }
-
+                for (int i = 0; i <= Math.Min(_innerQueue.Count - 1, _maxQueueLength); i += 1)
+                {
+                    result.Add(_innerQueue.Dequeue());
+                }
+                if (_innerQueue.Count >= _maxQueueLength - result.Count)
+                {
+                    Monitor.PulseAll(_innerQueue);
+                }
             }
             return result;
         }

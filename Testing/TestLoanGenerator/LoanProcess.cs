@@ -16,6 +16,7 @@ namespace JestersCreditUnion.Testing.LoanGenerator
         private readonly ILogger _logger;
         private readonly List<ILoanProcessObserver> _observers = new List<ILoanProcessObserver>();
         private bool _disposedValue;
+        private int _count;
 
         public LoanProcess(
             ISettingsFactory settingsFactory,
@@ -38,8 +39,9 @@ namespace JestersCreditUnion.Testing.LoanGenerator
             {
                 foreach (LoanApplication application in e)
                 {
+                    _count += 1;
                     Loan loan = CreateLoan(application).Result;
-                    _logger.Information($"Created loan number {loan.Number}");
+                    _logger.Information($"Loan #{_count:###,###,##0} created with number {loan.Number}");
                     InitiateDisbursement(loan).Wait();
                     NotifiyObservers(loan).Wait();
                 }

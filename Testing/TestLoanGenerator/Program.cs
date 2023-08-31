@@ -30,12 +30,15 @@ namespace JestersCreditUnion.Testing.LoanGenerator
             using LoanProcess loanProcess = scope.Resolve<LoanProcess>();
             using LoanApplicationTaskProcess loanApplicationTaskProcess = scope.Resolve<LoanApplicationTaskProcess>();
             using LoanTaskProcess loanTaskProcess = scope.Resolve<LoanTaskProcess>();
+            using DisburseLoanProcess disburseLoanProcess = scope.Resolve<DisburseLoanProcess>();
             loanProcess.AddObserver(loanTaskProcess);
+            loanProcess.AddObserver(disburseLoanProcess);
             ILoanApplicationProcess process = scope.Resolve<ILoanApplicationProcess>();
             process.AddObserver(loanProcess);
             process.AddObserver(loanApplicationTaskProcess);
             await process.GenerateLoanApplications();
             loanProcess.WaitForProcessExit();
+            disburseLoanProcess.WaitForProcessExit();
         }
 
         private static Settings LoadSettings(IConfiguration configuration)
