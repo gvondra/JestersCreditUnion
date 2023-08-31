@@ -12,6 +12,7 @@
 	[BorrowerEmployerName] NVARCHAR(1024) NOT NULL,
 	[BorrowerEmploymentHireDate] DATE NULL,
 	[BorrowerIncome] DECIMAL(11, 2) NULL,
+	[BorrowerIdentificationCardName] VARCHAR(32) CONSTRAINT [DF_LoanApplication_BorrowerIdentificationCardName] DEFAULT '' NOT NULL,
 	[CoBorrowerName] NVARCHAR(1024) NOT NULL,
 	[CoBorrowerBirthDate] DATE NULL,
 	[CoBorrowerAddressId] UNIQUEIDENTIFIER NULL,

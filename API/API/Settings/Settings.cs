@@ -21,6 +21,7 @@ namespace API
         public string AuthorizationApiBaseAddress { get; set; }
         public string WorkTaskConfigurationCode { get; set; }
         public string LookupIndexConfigurationCode { get; set; }
+        public string IdentitificationCardContainerName { get; set; }
     }
 }
 #pragma warning restore IDE0130 // Namespace does not match folder structure

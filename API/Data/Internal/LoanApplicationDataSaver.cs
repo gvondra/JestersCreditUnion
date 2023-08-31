@@ -135,7 +135,8 @@ namespace JestersCreditUnion.Data.Internal
             DataUtil.AddParameter(_providerFactory, commandParameters, "borrowerEmployerName", DbType.String, DataUtil.GetParameterValue(data.BorrowerEmployerName));
             DataUtil.AddParameter(_providerFactory, commandParameters, "borrowerEmploymentHireDate", DbType.Date, DataUtil.GetParameterValue(data.BorrowerEmploymentHireDate));
             DataUtil.AddParameter(_providerFactory, commandParameters, "borrowerIncome", DbType.Decimal, DataUtil.GetParameterValue(data.BorrowerIncome));
-            DataUtil.AddParameter(_providerFactory, commandParameters, "coBorrowerName", DbType.String, DataUtil.GetParameterValue(data.CoBorrowerName));
+            DataUtil.AddParameter(_providerFactory, commandParameters, "borrowerIncome", DbType.AnsiString, DataUtil.GetParameterValue(data.BorrowerIdentificationCardName));
+            DataUtil.AddParameter(_providerFactory, commandParameters, "borrowerIdentificationCardName", DbType.String, DataUtil.GetParameterValue(data.CoBorrowerName));
             DataUtil.AddParameter(_providerFactory, commandParameters, "coBorrowerBirthDate", DbType.Date, DataUtil.GetParameterValue(data.CoBorrowerBirthDate));
             DataUtil.AddParameter(_providerFactory, commandParameters, "coBorrowerAddressId", DbType.Guid, DataUtil.GetParameterValue(data.CoBorrowerAddressId));
             DataUtil.AddParameter(_providerFactory, commandParameters, "coBorrowerEmailAddressId", DbType.Guid, DataUtil.GetParameterValue(data.CoBorrowerEmailAddressId));

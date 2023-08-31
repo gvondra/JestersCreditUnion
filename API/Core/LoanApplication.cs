@@ -49,6 +49,7 @@ namespace JestersCreditUnion.Core
         public string BorrowerEmployerName { get => _data.BorrowerEmployerName; set => _data.BorrowerEmployerName = value; }
         public DateTime? BorrowerEmploymentHireDate { get => _data.BorrowerEmploymentHireDate; set => _data.BorrowerEmploymentHireDate = value; }
         public decimal? BorrowerIncome { get => _data.BorrowerIncome; set => _data.BorrowerIncome = value; }
+        internal string BorrowerIdentificationCardName { get => _data.BorrowerIdentificationCardName; set => _data.BorrowerIdentificationCardName = value; }
         public string CoBorrowerName { get => _data.CoBorrowerName; set => _data.CoBorrowerName = value; }
         public DateTime? CoBorrowerBirthDate { get => _data.CoBorrowerBirthDate; set => _data.CoBorrowerBirthDate = value; }
         public Guid? CoBorrowerAddressId { get => _data.CoBorrowerAddressId; set => _data.CoBorrowerAddressId = value; }
@@ -188,5 +189,7 @@ namespace JestersCreditUnion.Core
             if (!string.IsNullOrEmpty(text))
                 Status = LoanApplicationStatus.Denied;
         }
+
+        public IIdentificationCardSaver CreateIdentificationCardSaver() => new IdentificationCardSaver(this);
     }
 }

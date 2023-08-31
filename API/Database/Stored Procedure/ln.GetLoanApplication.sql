@@ -4,6 +4,7 @@ AS
 SELECT TOP 1 
 	[LoanApplicationId], [UserId], [Status], [ApplicationDate], 
 	[BorrowerName], [BorrowerBirthDate], [BorrowerAddressId], [BorrowerEmailAddressId], [BorrowerPhoneId], [BorrowerEmployerName], [BorrowerEmploymentHireDate], [BorrowerIncome],
+	[BorrowerIdentificationCardName],
 	[CoBorrowerName], [CoBorrowerBirthDate], [CoBorrowerAddressId], [CoBorrowerEmailAddressId], [CoBorrowerPhoneId], [CoBorrowerEmployerName], [CoBorrowerEmploymentHireDate], [CoBorrowerIncome],
 	[Amount], [Purpose], [MortgagePayment], [RentPayment],
 	[CreateTimestamp], [UpdateTimestamp]

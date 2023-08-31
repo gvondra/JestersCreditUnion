@@ -4,13 +4,14 @@ namespace JestersCreditUnion.Framework
 {
     public interface ISettings : JestersCreditUnion.CommonCore.ISettings
     {
-        public string BrassLoonAccountApiBaseAddress { get; }
-        public string BrassLoonConfigApiBaseAddress { get; }
-        public string BrassLoonWorkTaskApiBaseAddress { get; }
-        public Guid? BrassLoonClientId { get; }
-        public string BrassLoonClientSecret { get; }
-        public Guid? ConfigDomainId { get; }
-        public Guid? WorkTaskDomainId { get; }
-        public string WorkTaskConfigurationCode { get; }
+        string BrassLoonAccountApiBaseAddress { get; }
+        string BrassLoonConfigApiBaseAddress { get; }
+        string BrassLoonWorkTaskApiBaseAddress { get; }
+        Guid? BrassLoonClientId { get; }
+        string BrassLoonClientSecret { get; }
+        Guid? ConfigDomainId { get; }
+        Guid? WorkTaskDomainId { get; }
+        string WorkTaskConfigurationCode { get; }
+        string IdentitificationCardContainerName { get; }
     }
 }

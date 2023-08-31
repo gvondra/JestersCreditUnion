@@ -49,5 +49,6 @@ namespace JestersCreditUnion.Framework
         Task<string> GetStatusDescription(ISettings settings);
         ILoanApplicationComment CreateComment(string text, Guid userId, bool isInternal = true);
         void SetDenial(LoanApplicationDenialReason reason, DateTime date, Guid userId, string text);
+        IIdentificationCardSaver CreateIdentificationCardSaver();
     }
 }

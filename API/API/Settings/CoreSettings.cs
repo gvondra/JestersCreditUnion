@@ -32,6 +32,8 @@ namespace API
 
         public bool UseDefaultAzureSqlToken => _settings.EnableDatabaseAccessToken;
 
+        public string IdentitificationCardContainerName => _settings.IdentitificationCardContainerName;
+
         public Task<string> GetConnetionString() => Task.FromResult(_settings.ConnectionString);
 
         public Func<Task<string>> GetDatabaseAccessToken() => null;
