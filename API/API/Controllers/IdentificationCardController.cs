@@ -45,7 +45,7 @@ namespace API.Controllers
                 else
                 {
                     formCollection = await Request.ReadFormAsync();
-                    if (formCollection.Count == 0)
+                    if (formCollection.Files.Count == 0)
                     {
                         result = BadRequest("No file received");
                     }
@@ -61,6 +61,7 @@ namespace API.Controllers
                     IFormFile formFile = formCollection.Files[0];
                     IIdentificationCardSaver saver = loanApplication.CreateIdentificationCardSaver();
                     await saver.SaveBorrowerIdentificationCard(settings);
+                    result = Ok();
                 }
             }
             catch (System.Exception ex)

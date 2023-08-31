@@ -12,7 +12,10 @@ namespace JestersCreditUnion.Core
     {
         public async Task Upload(ISettings settings, string name)
         {
-            BlobContainerClient containerClient = new BlobContainerClient(new Uri(settings.IdentitificationCardContainerName), new DefaultAzureCredential());
+            BlobContainerClient containerClient = new BlobContainerClient(
+                new Uri(settings.IdentitificationCardContainerName),
+                new DefaultAzureCredential(
+                    new DefaultAzureCredentialOptions()));
             BlobClient blobClient = containerClient.GetBlobClient(name);
             using (Stream stream = await blobClient.OpenWriteAsync(true))
             {

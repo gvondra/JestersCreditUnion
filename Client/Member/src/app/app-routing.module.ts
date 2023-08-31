@@ -5,6 +5,7 @@ import { HomeComponent } from './home/home.component';
 import { LoanApplicationComponent } from './loan-application/loan-application.component';
 import { LoanApplicationsComponent } from './loan-applications/loan-applications.component';
 import { AutoLoginComponent } from './auto-login/auto-login.component';
+import { BorrowerIdentificationCodeUploadComponent } from './borrower-identification-code-upload/borrower-identification-code-upload.component';
 
 const routes: Routes = [
   {
@@ -27,6 +28,11 @@ const routes: Routes = [
   {
     path: "LoanApplications",
     component: LoanApplicationsComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: "LoanApplication/:id/BorrowerIdCard",
+    component: BorrowerIdentificationCodeUploadComponent,
     canActivate: [AuthGuard]
   }
 ];

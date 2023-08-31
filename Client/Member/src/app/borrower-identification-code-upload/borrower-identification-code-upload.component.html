@@ -1,0 +1,23 @@
+<h2>Loan Application</h2>
+<h3>Upload Identification Card</h3>
+<div *ngIf="ErrorMessage" class="alert alert-danger" role="alert">
+    {{ ErrorMessage }}
+</div>
+<p>As an adittional way to verify your identity, please upload a copy or image of a state issued identification card like a driver's license.</p>
+<form (ngSubmit)="Save()" #idCardForm="ngForm">
+    <div class="row">
+        <div [class]="InputColumnClass">
+            <input type="file" id="file" name="file" #file placeholder="Choose file" (change)="UploadFile(file.files)" class="form-control">
+        </div>
+    </div>
+    <div class="row">
+        <div class="offset-md-2 col-md-4" style="padding-top: 0.75em;">
+            <button class="btn btn-primary" type="submit" [disabled]="!idCardForm.form.valid || Saving">
+                Submit                    
+                <div *ngIf="!ErrorMessage && Saving" class="spinner-border spinner-border-sm text-secondary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </button>
+        </div>
+    </div>
+</form>
