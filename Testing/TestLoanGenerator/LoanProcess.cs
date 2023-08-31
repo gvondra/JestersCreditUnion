@@ -1,9 +1,7 @@
 ﻿using JestersCreditUnion.Interface;
 using JestersCreditUnion.Interface.Models;
-using System.Collections.Concurrent;
+using Serilog;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace JestersCreditUnion.Testing.LoanGenerator
@@ -11,66 +9,51 @@ namespace JestersCreditUnion.Testing.LoanGenerator
     public class LoanProcess : ILoanProcess, ILoanApplicationProcessObserver
     {
         private readonly ILoanProcess _process;
-        private readonly ConcurrentQueue<LoanApplication> _loanApplications = new ConcurrentQueue<LoanApplication>();
-        private readonly Thread _generateThread;
+        private readonly ProcessQueue<LoanApplication> _queue;
         private readonly ISettingsFactory _settingsFactory;
         private readonly ILoanService _loanService;
         private readonly ILoanPaymentAmountService _loanPaymentAmountService;
-        private readonly IWorkTaskService _workTaskService;
-        private readonly IWorkTaskStatusService _workTaskStatusService;
+        private readonly ILogger _logger;
         private bool _disposedValue;
-        private bool _exit;
 
         public LoanProcess(
             ISettingsFactory settingsFactory,
             ILoanService loanService,
             ILoanPaymentAmountService loanPaymentAmountService,
-            IWorkTaskService workTaskService,
-            IWorkTaskStatusService workTaskStatusService)
+            ILogger logger)
         {
             _settingsFactory = settingsFactory;
             _loanService = loanService;
             _loanPaymentAmountService = loanPaymentAmountService;
-            _workTaskService = workTaskService;
-            _workTaskStatusService = workTaskStatusService;
+            _logger = logger;
             _process = this;
-            _exit = false;
-            _generateThread = new Thread(ProcessQueue)
-            {
-                IsBackground = true,
-                Name = "Loan processor"
-            };
-            _generateThread.Start();
+            _queue = new ProcessQueue<LoanApplication>();
+            _queue.ItemsDequeued += LoanApplicationDequeued;
         }
 
-        public void AddLoanApplication(LoanApplication application)
+        private void LoanApplicationDequeued(object sender, IEnumerable<LoanApplication> e)
         {
-            lock (_loanApplications)
+            if (e != null)
             {
-                _loanApplications.Enqueue(application);
-                Monitor.PulseAll(_loanApplications);
-            }
-        }
-
-        public void ProcessQueue()
-        {
-            IEnumerable<LoanApplication> loanApplications;
-            while (!_exit || _loanApplications.Count > 0)
-            {
-                loanApplications = TryDeque();
-                foreach (LoanApplication application in loanApplications)
+                List<Task> tasks = new List<Task>();
+                foreach (LoanApplication application in e)
                 {
-                    Task.WaitAll(
-                        new Task[]
-                        {
-                            CloseWorkTasks(application),
-                            CreateLoan(application)
-                        });
+                    Loan loan = CreateLoan(application).Result;
+                    _logger.Information($"Created loan number {loan.Number}");
+                    tasks.Add(
+                        InitiateDisbursement(loan));
                 }
+                Task.WaitAll(tasks.ToArray());
             }
         }
 
-        private async Task CreateLoan(LoanApplication loanApplication)
+        private async Task InitiateDisbursement(Loan loan)
+        {
+            ApiSettings settings = await _settingsFactory.GetApiSettings();
+            await _loanService.InitiateDisbursement(settings, loan.LoanId.Value);
+        }
+
+        private async Task<Loan> CreateLoan(LoanApplication loanApplication)
         {
             ApiSettings settings = await _settingsFactory.GetApiSettings();
             LoanAgreement agreement = new LoanAgreement
@@ -92,7 +75,7 @@ namespace JestersCreditUnion.Testing.LoanGenerator
                 LoanApplicationId = loanApplication.LoanApplicationId.Value                
             };
             loan.Agreement.PaymentAmount = await GetPaymentAmount(settings, loan);
-            await _loanService.Create(settings, loan);
+            return await _loanService.Create(settings, loan);
         }
 
         private async Task<decimal> GetPaymentAmount(ApiSettings settings, Loan loan)
@@ -108,44 +91,9 @@ namespace JestersCreditUnion.Testing.LoanGenerator
             return response.PaymentAmount.Value;
         }
 
-        private async Task CloseWorkTasks(LoanApplication loanApplication)
+        public void AddLoanApplication(LoanApplication application)
         {
-            ApiSettings settings = await _settingsFactory.GetApiSettings();
-            List<WorkTask> workTasks = await _workTaskService.GetByContext(
-                settings,
-                1,
-                loanApplication.LoanApplicationId.Value.ToString("D"));
-            foreach (WorkTask task in workTasks)
-            {
-                List<WorkTaskStatus> statuses = await _workTaskStatusService.GetAll(settings, task.WorkTaskType.WorkTaskTypeId.Value);
-                task.WorkTaskStatus = statuses.First(s => s.IsClosedStatus ?? false);
-                await _workTaskService.Update(settings, task);
-            }
-        }
-
-        private IEnumerable<LoanApplication> TryDeque()
-        {
-            List<LoanApplication> result = new List<LoanApplication>();
-            LoanApplication application;
-            lock (_loanApplications)
-            {
-                while ((!_exit || _loanApplications.Count > 0) && result.Count == 0)
-                {
-                    application = null;
-                    while (!_exit && !_loanApplications.TryDequeue(out application))
-                    {
-                        Monitor.Wait(_loanApplications);
-                    }
-                    if (application != null)
-                        result.Add(application);
-                    while (_loanApplications.TryDequeue(out application))
-                    {
-                        result.Add(application);
-                    }
-                }
-                
-            }
-            return result;
+            _queue.Enqueue(application);
         }
 
         public Task LoanApplicationCreated(ILoanApplicationProcess loanApplicationProcess, params LoanApplication[] loanApplications)
@@ -166,23 +114,9 @@ namespace JestersCreditUnion.Testing.LoanGenerator
             {
                 if (disposing)
                 {
-                    Shutdown();
-                    try
-                    {
-                        _generateThread.Join(60000);
-                    }
-                    catch (ThreadStateException) { }
+                    _queue.Dispose();
                 }
                 _disposedValue = true;
-            }
-        }
-
-        public void Shutdown()
-        {
-            lock (_loanApplications)
-            {
-                _exit = true;
-                Monitor.PulseAll(_loanApplications);
             }
         }
 

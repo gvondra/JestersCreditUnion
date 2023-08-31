@@ -42,7 +42,7 @@ namespace JestersCreditUnion.Testing.LoanGenerator
                     createdApplication = await createQueue.Dequeue();
                     await NotifyObservers(_observers, this, createdApplication);
                 }
-                _logger.Information($"Creating loan. Borrower {loanApplication.BorrowerName}");
+                _logger.Information($"Creating loan application. Borrower {loanApplication.BorrowerName}");
                 createQueue.Enqueue(_loanApplicationService.Create(apiSettings, loanApplication));
             }
             await NotifyObservers(
