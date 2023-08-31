@@ -29,10 +29,13 @@ namespace JestersCreditUnion.Testing.LoanGenerator
             using ILifetimeScope scope = DependencyInjection.ContainerFactory.BeginLifetimeScope();
             using LoanProcess loanProcess = scope.Resolve<LoanProcess>();
             using LoanApplicationTaskProcess loanApplicationTaskProcess = scope.Resolve<LoanApplicationTaskProcess>();
+            using LoanTaskProcess loanTaskProcess = scope.Resolve<LoanTaskProcess>();
+            loanProcess.AddObserver(loanTaskProcess);
             ILoanApplicationProcess process = scope.Resolve<ILoanApplicationProcess>();
             process.AddObserver(loanProcess);
             process.AddObserver(loanApplicationTaskProcess);
             await process.GenerateLoanApplications();
+            loanProcess.WaitForProcessExit();
         }
 
         private static Settings LoadSettings(IConfiguration configuration)

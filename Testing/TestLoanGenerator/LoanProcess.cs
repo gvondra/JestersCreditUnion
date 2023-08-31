@@ -14,6 +14,7 @@ namespace JestersCreditUnion.Testing.LoanGenerator
         private readonly ILoanService _loanService;
         private readonly ILoanPaymentAmountService _loanPaymentAmountService;
         private readonly ILogger _logger;
+        private readonly List<ILoanProcessObserver> _observers = new List<ILoanProcessObserver>();
         private bool _disposedValue;
 
         public LoanProcess(
@@ -35,16 +36,24 @@ namespace JestersCreditUnion.Testing.LoanGenerator
         {
             if (e != null)
             {
-                List<Task> tasks = new List<Task>();
                 foreach (LoanApplication application in e)
                 {
                     Loan loan = CreateLoan(application).Result;
                     _logger.Information($"Created loan number {loan.Number}");
-                    tasks.Add(
-                        InitiateDisbursement(loan));
+                    InitiateDisbursement(loan).Wait();
+                    NotifiyObservers(loan).Wait();
                 }
-                Task.WaitAll(tasks.ToArray());
             }
+        }
+
+        private Task NotifiyObservers(Loan loan)
+        {
+            List<Task> tasks = new List<Task>();
+            foreach (ILoanProcessObserver observer in _observers)
+            {
+                tasks.Add(observer.LoanCreated(_process, loan));
+            }
+            return Task.WhenAll(tasks);
         }
 
         private async Task InitiateDisbursement(Loan loan)
@@ -108,6 +117,11 @@ namespace JestersCreditUnion.Testing.LoanGenerator
             return Task.CompletedTask;
         }
 
+        public void AddObserver(ILoanProcessObserver observer)
+        {
+            _observers.Add(observer);
+        }
+
         protected virtual void Dispose(bool disposing)
         {
             if (!_disposedValue)
@@ -125,6 +139,11 @@ namespace JestersCreditUnion.Testing.LoanGenerator
             // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
             Dispose(disposing: true);
             GC.SuppressFinalize(this);
+        }
+
+        public void WaitForProcessExit()
+        {
+            _queue.WaitForProcessExit();
         }
     }
 }

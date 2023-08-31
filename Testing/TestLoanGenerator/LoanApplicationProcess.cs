@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace JestersCreditUnion.Testing.LoanGenerator
 {
-    public class LoanApplicationProcessor : ILoanApplicationProcess
+    public class LoanApplicationProcess : ILoanApplicationProcess
     {
         private readonly ISettingsFactory _settingsFactory;
         private readonly IEnumerable<LoanApplication> _loanApplications;
@@ -14,7 +14,7 @@ namespace JestersCreditUnion.Testing.LoanGenerator
         private readonly ILogger _logger;
         private readonly List<ILoanApplicationProcessObserver> _observers = new List<ILoanApplicationProcessObserver>();
 
-        public LoanApplicationProcessor(
+        public LoanApplicationProcess(
             ISettingsFactory settingsFactory,
             Settings settings,
             ILoanApplicationService loanApplicationService,
@@ -35,6 +35,7 @@ namespace JestersCreditUnion.Testing.LoanGenerator
             LoanApplication createdApplication;
             ApiSettings apiSettings = await _settingsFactory.GetApiSettings();
             Queue<Task<LoanApplication>> createQueue = new Queue<Task<LoanApplication>>();
+            int i = 1;
             foreach (LoanApplication loanApplication in _loanApplications)
             {
                 while (createQueue.Count >= 3)
@@ -42,8 +43,9 @@ namespace JestersCreditUnion.Testing.LoanGenerator
                     createdApplication = await createQueue.Dequeue();
                     await NotifyObservers(_observers, this, createdApplication);
                 }
-                _logger.Information($"Creating loan application. Borrower {loanApplication.BorrowerName}");
+                _logger.Information($"Creating loan application #{i:###,###,##0}. Borrower {loanApplication.BorrowerName}");
                 createQueue.Enqueue(_loanApplicationService.Create(apiSettings, loanApplication));
+                i += 1;
             }
             await NotifyObservers(
                 _observers,

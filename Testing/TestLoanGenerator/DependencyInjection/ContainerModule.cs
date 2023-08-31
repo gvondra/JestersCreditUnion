@@ -15,10 +15,11 @@ namespace JestersCreditUnion.Testing.LoanGenerator.DependencyInjection
                 .As<ILoanApplicationFileWriter>();
             builder.RegisterType<LoanApplicationGenerator>()
                 .As<ILoanApplicationGenerator>();
-            builder.RegisterType<LoanApplicationProcessor>()
+            builder.RegisterType<LoanApplicationProcess>()
                 .As<ILoanApplicationProcess>();
             builder.RegisterType<LoanApplicationTaskProcess>();
             builder.RegisterType<LoanProcess>();
+            builder.RegisterType<LoanTaskProcess>();
             builder.RegisterType<NameGenerator>()
                 .As<INameGenerator>()
                 .SingleInstance();

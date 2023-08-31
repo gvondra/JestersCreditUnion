@@ -9,6 +9,7 @@ namespace JestersCreditUnion.Testing.LoanGenerator
     {
         private readonly ConcurrentQueue<T> _innerQueue = new ConcurrentQueue<T>();
         private readonly Thread _generateThread;
+        private readonly ManualResetEvent _processExitLock = new ManualResetEvent(false);
         private bool _exit;
         private bool _disposedValue;
 
@@ -43,6 +44,7 @@ namespace JestersCreditUnion.Testing.LoanGenerator
                 if (items != null && items.Count() > 0)
                     ItemsDequeued.Invoke(this, items);
             }
+            _processExitLock.Set();
         }
 
         private IEnumerable<T> TryDeque()
@@ -76,7 +78,13 @@ namespace JestersCreditUnion.Testing.LoanGenerator
             {
                 _exit = true;
                 Monitor.PulseAll(_innerQueue);
-            }
+            }            
+        }
+
+        public void WaitForProcessExit()
+        {
+            Shutdown();
+            _processExitLock.WaitOne();
         }
 
         protected virtual void Dispose(bool disposing)
