@@ -3,7 +3,7 @@
 	@loanId UNIQUEIDENTIFIER,
 	@date DATE,
 	@type SMALLINT,
-	@amount DECIMAL(7, 2),
+	@amount DECIMAL(11, 2),
 	@paymentId UNIQUEIDENTIFIER = NULL,
 	@termNumber SMALLINT = NULL,
 	@timestamp DATETIME2(4) OUT
