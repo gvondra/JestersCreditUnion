@@ -13,13 +13,21 @@ namespace JestersCreditUnion.Core
         {
             BlobContainerClient containerClient = new BlobContainerClient(
                 new Uri(settings.IdentitificationCardContainerName),
-                new DefaultAzureCredential(
-                    new DefaultAzureCredentialOptions()));
+                new DefaultAzureCredential());
             BlobClient blobClient = containerClient.GetBlobClient(name);
             using (Stream blobStream = await blobClient.OpenWriteAsync(true))
             {
                 await stream.CopyToAsync(blobStream);
             }
+        }
+
+        public async Task<Stream> Download(ISettings settings, string name)
+        {
+            BlobContainerClient containerClient = new BlobContainerClient(
+                new Uri(settings.IdentitificationCardContainerName),
+                new DefaultAzureCredential());
+            BlobClient blobClient = containerClient.GetBlobClient(name);
+            return await blobClient.OpenReadAsync();
         }
     }
 }

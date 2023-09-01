@@ -24,6 +24,12 @@ namespace JestersCreditUnion.Core
 
         public async Task SaveBorrowerIdentificationCard(ISettings settings, Stream stream)
         {
+            if (stream == null)
+                throw new ArgumentNullException(nameof(stream));
+            if (string.IsNullOrEmpty(settings.EncryptionKeyVault))
+                throw new ArgumentException($"Cannot read identifiation card. {nameof(ISettings.EncryptionKeyVault)} is not set");
+            if (string.IsNullOrEmpty(settings.IdentitificationCardContainerName))
+                throw new ArgumentException($"Cannot read identifiation card. {nameof(ISettings.IdentitificationCardContainerName)} is not set");
             string keyName = GetMasterKey();
             IdentificationCard card = _loanApplication.BorrowerIdentificationCard;
             if (card == null)

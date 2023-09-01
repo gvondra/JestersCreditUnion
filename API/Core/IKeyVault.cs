@@ -10,5 +10,6 @@ namespace JestersCreditUnion.Core
         Task<KeyVaultKey> GetKey(ISettings settings, string name);
         Task<bool> KeyExists(ISettings settings, string name);
         Task<byte[]> Encrypt(ISettings settings, string name, byte[] value);
+        Task<byte[]> Decrypt(ISettings settings, string name, byte[] value);
     }
 }

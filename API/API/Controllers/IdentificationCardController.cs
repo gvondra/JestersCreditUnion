@@ -29,8 +29,47 @@ namespace API.Controllers
         }
 
         [Authorize(Constants.POLICY_BL_AUTH)]
+        [HttpGet("BorrowerIdentificationCard")]
+        public async Task<IActionResult> GetBorrowerIdentificationCard([FromRoute] Guid? id)
+        {
+            DateTime start = DateTime.UtcNow;
+            IActionResult result = null;
+            try
+            {
+                CoreSettings settings = GetCoreSettings();
+                ILoanApplication loanApplication = null;
+                if (!id.HasValue || id.Value.Equals(Guid.Empty))
+                {
+                    result = BadRequest("Missing loan application id parameter value");
+                }
+                else
+                {
+                    loanApplication = await _loanApplicationFactory.Get(settings, id.Value);
+                    if (loanApplication == null)
+                        result = NotFound();
+                }
+                if (result == null && loanApplication != null)
+                {
+                    IIdentificationCardReader reader = loanApplication.CreateIdentificationCardReader();
+                    Stream stream = await reader.ReadBorrowerIdentificationCard(settings);
+                    result = File(stream, "application/octet-stream");
+                }
+            }
+            catch (System.Exception ex)
+            {
+                WriteException(ex);
+                result = StatusCode(StatusCodes.Status500InternalServerError);
+            }
+            finally
+            {
+                await WriteMetrics("get-borrower-id-card", start, result);
+            }
+            return result;
+        }
+
+        [Authorize(Constants.POLICY_BL_AUTH)]
         [HttpPost("BorrowerIdentificationCard")]
-        public async Task<IActionResult> BorrowerIdentificationCard([FromRoute] Guid? id)
+        public async Task<IActionResult> SaveBorrowerIdentificationCard([FromRoute] Guid? id)
         {
             DateTime start = DateTime.UtcNow;
             IActionResult result = null;

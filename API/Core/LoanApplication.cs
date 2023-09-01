@@ -235,5 +235,6 @@ namespace JestersCreditUnion.Core
         }
 
         public IIdentificationCardSaver CreateIdentificationCardSaver() => new IdentificationCardSaver(this);
+        public IIdentificationCardReader CreateIdentificationCardReader() => new IdentificationCardReader(this);
     }
 }

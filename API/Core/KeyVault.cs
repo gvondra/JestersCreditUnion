@@ -71,5 +71,13 @@ namespace JestersCreditUnion.Core
             EncryptResult result = await cryptographyClient.EncryptAsync(EncryptionAlgorithm.RsaOaep256, value);
             return result.Ciphertext;
         }
+
+        public async Task<byte[]> Decrypt(ISettings settings, string name, byte[] value)
+        {
+            KeyClient keyClient = new KeyClient(new Uri(settings.EncryptionKeyVault), new DefaultAzureCredential());
+            CryptographyClient cryptographyClient = keyClient.GetCryptographyClient(name);
+            DecryptResult result = await cryptographyClient.DecryptAsync(EncryptionAlgorithm.RsaOaep256, value);
+            return result.Plaintext;
+        }
     }
 }

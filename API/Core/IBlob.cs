@@ -7,5 +7,6 @@ namespace JestersCreditUnion.Core
     public interface IBlob
     {
         Task Upload(ISettings settings, string name, Stream stream);
+        Task<Stream> Download(ISettings settings, string name);
     }
 }
