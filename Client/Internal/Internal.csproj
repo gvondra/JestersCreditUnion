@@ -69,6 +69,7 @@
     <Compile Include="Behaviors\ExceptionLogLoader.cs" />
     <Compile Include="Behaviors\FindUserLoader.cs" />
     <Compile Include="Behaviors\FindUserSaver.cs" />
+    <Compile Include="Behaviors\IdentificationCardLoader.cs" />
     <Compile Include="Behaviors\LoanAmortizationLoader.cs" />
     <Compile Include="Behaviors\LoanApplicationDenialLoader.cs" />
     <Compile Include="Behaviors\LoanApplicationDenialSave.cs" />
@@ -432,7 +433,7 @@
       <Version>4.7.0.9</Version>
     </PackageReference>
     <PackageReference Include="JestersCreditUnion.Interface">
-      <Version>1.0.0-alpha.70</Version>
+      <Version>1.0.0-alpha.71</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Bcl.HashCode">
       <Version>1.1.1</Version>

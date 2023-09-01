@@ -4,6 +4,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Text.RegularExpressions;
 using System.Windows;
+using System.Windows.Media.Imaging;
 
 namespace JCU.Internal.ViewModel
 {
@@ -12,15 +13,40 @@ namespace JCU.Internal.ViewModel
         private readonly LoanApplication _loanApplication;
         private Visibility _busyVisibility = Visibility.Collapsed;
         private Visibility _commandsVisibility = Visibility.Hidden;
+        private Visibility _busyLoadingBorrowerCardVisibility = Visibility.Collapsed;
         private ObservableCollection<LoanApplicationCommentVM> _comments = new ObservableCollection<LoanApplicationCommentVM>();
         private string _newCommentText;
         private bool _newCommentIsPublic = false;
         private CreateLoanApplicationComment _createComment;
         private LoanApplicationUnderReview _underReview;
+        private BitmapSource _borrowerIdentificationImage;
 
         private LoanApplicationVM(LoanApplication loanApplication)
         {
             _loanApplication = loanApplication;
+        }
+
+        public Visibility BusyLoadingBorrowerCardVisibility
+        {
+            get => _busyLoadingBorrowerCardVisibility;
+            set
+            {
+                if (_busyLoadingBorrowerCardVisibility != value)
+                {
+                    _busyLoadingBorrowerCardVisibility = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+        public BitmapSource BorrowerIdentificationImage
+        {
+            get => _borrowerIdentificationImage;
+            set
+            {
+                _borrowerIdentificationImage = value;
+                NotifyPropertyChanged();
+            }
         }
 
         public Guid? LoanApplicationId => _loanApplication.LoanApplicationId;

@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using JCU.Internal.Behaviors;
 using JCU.Internal.Constants;
 using JCU.Internal.ViewModel;
 using JestersCreditUnion.Interface;
@@ -29,17 +30,18 @@ namespace JCU.Internal.NavigationPage
 
         public LoanApplication()
         {
+            this.DataContext = null;
+            this.LoanApplicationVM = null;
             NavigationCommands.BrowseBack.InputGestures.Clear();
             NavigationCommands.BrowseForward.InputGestures.Clear();
             InitializeComponent();
+            InitializeDetailGrid();
             this.Loaded += LoanApplication_Loaded;
         }
 
         public LoanApplication(Guid loanApplicationId)
             : this()
         {
-            this.DataContext = null;
-            this.LoanApplicationVM = null;
             _loanApplicationId = loanApplicationId;
         }
 
@@ -73,6 +75,9 @@ namespace JCU.Internal.NavigationPage
                 this.DataContext = this.LoanApplicationVM;
                 this.LoanApplicationVM.BusyVisibility = Visibility.Collapsed;
                 this.LoanApplicationVM.CommandsVisibility = Visibility.Visible;
+                IdentificationCardLoader identificationCardLoader = new IdentificationCardLoader(this.LoanApplicationVM);
+                this.LoanApplicationVM.AddBehavior(identificationCardLoader);
+                identificationCardLoader.LoadBorrowerIdentificationCard();
             }
             catch (System.Exception ex)
             {
@@ -172,6 +177,15 @@ namespace JCU.Internal.NavigationPage
             catch (System.Exception ex)
             {
                 ErrorWindow.Open(ex);
+            }
+        }
+        private void InitializeDetailGrid()
+        {
+            DetailGrid.RowDefinitions.Clear();
+            foreach (int i in Enumerable.Range(0, 38))
+            {
+                DetailGrid.RowDefinitions.Add(
+                    new RowDefinition() { Height = GridLength.Auto });
             }
         }
     }

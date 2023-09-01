@@ -12,6 +12,7 @@ namespace JestersCreditUnion.Interface
             builder.RegisterType<RestUtil>().SingleInstance();
             builder.RegisterType<AmortizationService>().As<IAmortizationService>();
             builder.RegisterType<ExceptionService>().As<IExceptionService>();
+            builder.RegisterType<IdentificationCardService>().As<IIdentificationCardService>();
             builder.RegisterType<LoanApplicationService>().As<ILoanApplicationService>();
             builder.RegisterType<LoanPaymentAmountService>().As<ILoanPaymentAmountService>();
             builder.RegisterType<LoanPaymentService>().As<ILoanPaymentService>();

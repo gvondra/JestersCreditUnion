@@ -34,50 +34,11 @@
             <fa:ImageAwesome Icon="CircleOutlineNotch" Spin="True" Height="24" Width="24" Visibility="{Binding BusyVisibility}" Foreground="Navy" HorizontalAlignment="Left" />
         </StackPanel>
         <ScrollViewer VerticalScrollBarVisibility="Visible">
-            <Grid>
+            <Grid x:Name="DetailGrid">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
                 <Label Grid.Column="0" Grid.Row="0">Application Date</Label>
                 <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding ApplicationDate, StringFormat='yyyy-MM-dd', ValidatesOnDataErrors=True, NotifyOnValidationError=True}" MaxLength="10" Style="{StaticResource TextBoxWithError}" />
                 <Label Grid.Column="0" Grid.Row="1">Application Status</Label>
@@ -103,44 +64,58 @@
                 <TextBox Grid.Column="1" Grid.Row="11" Text="{Binding BorrowerState, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" MaxLength="64" Style="{StaticResource TextBoxWithError}" />
                 <Label Grid.Column="0" Grid.Row="12">Postal Code</Label>
                 <TextBox Grid.Column="1" Grid.Row="12" Text="{Binding BorrowerPostalCode, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" MaxLength="128" Style="{StaticResource TextBoxWithError}" />
-                <Label Grid.Column="0" Grid.Row="13" Grid.ColumnSpan="99" Style="{StaticResource SubHeader}">Primary Borrower Employment</Label>
-                <Label Grid.Column="0" Grid.Row="14">Employer Name</Label>
-                <TextBox Grid.Column="1" Grid.Row="14" Text="{Binding BorrowerEmployerName, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" MaxLength="1024" Style="{StaticResource TextBoxWithError}" />
-                <Label Grid.Column="0" Grid.Row="15">Hire/Start Date</Label>
-                <TextBox Grid.Column="1" Grid.Row="15" Text="{Binding BorrowerEmploymentHireDate, StringFormat='yyyy-MM-dd', ValidatesOnDataErrors=True, NotifyOnValidationError=True, TargetNullValue=''}" MaxLength="10" Style="{StaticResource TextBoxWithError}" />
-                <Label Grid.Column="0" Grid.Row="16">Annual Income</Label>
-                <TextBox Grid.Column="1" Grid.Row="16" Text="{Binding BorrowerIncome, StringFormat='###,###,###,##0.00#', ValidatesOnDataErrors=True, NotifyOnValidationError=True, TargetNullValue=''}" MaxLength="128" Style="{StaticResource TextBoxWithError}" />
-                <Label Grid.Column="0" Grid.Row="17" Grid.ColumnSpan="99" Style="{StaticResource SubHeader}">Expenses</Label>
-                <Label Grid.Column="0" Grid.Row="18">Monthly Mortgage Payment</Label>
-                <TextBox Grid.Column="1" Grid.Row="18" Text="{Binding MortgagePayment, StringFormat='###,###,###,##0.00#', ValidatesOnDataErrors=True, NotifyOnValidationError=True, TargetNullValue=''}" MaxLength="128" Style="{StaticResource TextBoxWithError}" />
-                <Label Grid.Column="0" Grid.Row="19">Monthly Rent Payment</Label>
-                <TextBox Grid.Column="1" Grid.Row="19" Text="{Binding RentPayment, StringFormat='###,###,###,##0.00#', ValidatesOnDataErrors=True, NotifyOnValidationError=True, TargetNullValue=''}" MaxLength="128" Style="{StaticResource TextBoxWithError}" />
-                <Label Grid.Column="0" Grid.Row="20" Grid.ColumnSpan="99" Style="{StaticResource SubHeader}">Co-Borrower</Label>
-                <Label Grid.Column="0" Grid.Row="21">Co-Borrower Name</Label>
-                <TextBox Grid.Column="1" Grid.Row="21" Text="{Binding CoBorrowerName, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" MaxLength="1024" Style="{StaticResource TextBoxWithError}" />
-                <Label Grid.Column="0" Grid.Row="22">Birth Date</Label>
-                <TextBox Grid.Column="1" Grid.Row="22" Text="{Binding CoBorrowerBirthDate, StringFormat='yyyy-MM-dd', ValidatesOnDataErrors=True, NotifyOnValidationError=True, TargetNullValue=''}" MaxLength="10" Style="{StaticResource TextBoxWithError}" />
-                <Label Grid.Column="0" Grid.Row="23">Email</Label>
-                <TextBox Grid.Column="1" Grid.Row="23" Text="{Binding CoBorrowerEmailAddress, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" MaxLength="1024" Style="{StaticResource TextBoxWithError}" />
-                <Label Grid.Column="0" Grid.Row="24">Phone</Label>
-                <TextBox Grid.Column="1" Grid.Row="24" Text="{Binding CoBorrowerPhone, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" MaxLength="64" Style="{StaticResource TextBoxWithError}" />
-                <Label Grid.Column="0" Grid.Row="25">Address</Label>
-                <TextBox Grid.Column="1" Grid.Row="25" Text="{Binding CoBorrowerAddress, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" MaxLength="1024" Style="{StaticResource TextBoxWithError}" />
-                <Label Grid.Column="0" Grid.Row="26">City</Label>
-                <TextBox Grid.Column="1" Grid.Row="26" Text="{Binding CoBorrowerCity, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" MaxLength="1024" Style="{StaticResource TextBoxWithError}" />
-                <Label Grid.Column="0" Grid.Row="27">State</Label>
-                <TextBox Grid.Column="1" Grid.Row="27" Text="{Binding CoBorrowerState, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" MaxLength="64" Style="{StaticResource TextBoxWithError}" />
-                <Label Grid.Column="0" Grid.Row="28">Postal Code</Label>
-                <TextBox Grid.Column="1" Grid.Row="28" Text="{Binding CoBorrowerPostalCode, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" MaxLength="128" Style="{StaticResource TextBoxWithError}" />
-                <Label Grid.Column="0" Grid.Row="29" Grid.ColumnSpan="99" Style="{StaticResource SubHeader}">Co-Borrower Employment</Label>
-                <Label Grid.Column="0" Grid.Row="30">Employer Name</Label>
-                <TextBox Grid.Column="1" Grid.Row="30" Text="{Binding CoBorrowerEmployerName, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" MaxLength="1024" Style="{StaticResource TextBoxWithError}" />
-                <Label Grid.Column="0" Grid.Row="31">Hire/Start Date</Label>
-                <TextBox Grid.Column="1" Grid.Row="31" Text="{Binding CoBorrowerEmploymentHireDate, StringFormat='yyyy-MM-dd', ValidatesOnDataErrors=True, NotifyOnValidationError=True, TargetNullValue=''}" MaxLength="10" Style="{StaticResource TextBoxWithError}" />
-                <Label Grid.Column="0" Grid.Row="32">Annual Income</Label>
-                <TextBox Grid.Column="1" Grid.Row="32" Text="{Binding CoBorrowerIncome, StringFormat='###,###,###,##0.00#', ValidatesOnDataErrors=True, NotifyOnValidationError=True, TargetNullValue=''}" MaxLength="128" Style="{StaticResource TextBoxWithError}" />
-                <Label Grid.Column="0" Grid.Row="33">Comments</Label>
-                <ItemsControl Grid.Column="1" Grid.Row="33" ItemsSource="{Binding Comments}" Margin="0,5">
+                <Label Grid.Column="0" Grid.Row="13">Identification</Label>
+                <fa:ImageAwesome Grid.Column="1" Grid.Row="13" Icon="CircleOutlineNotch" Spin="True" Height="24" Width="24" Visibility="{Binding BusyLoadingBorrowerCardVisibility}" Foreground="Navy" HorizontalAlignment="Left" />
+                <Border Grid.Column="1" Grid.Row="13" BorderBrush="DarkGray" BorderThickness="1" Padding="1" HorizontalAlignment="Left">
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding BorrowerIdentificationImage}" Value="{x:Null}">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                    <Image Source="{Binding BorrowerIdentificationImage}" MinWidth="80" MinHeight="60" MaxWidth="800" MaxHeight="600"/>
+                </Border>                
+                <Label Grid.Column="0" Grid.Row="14" Grid.ColumnSpan="99" Style="{StaticResource SubHeader}">Primary Borrower Employment</Label>
+                <Label Grid.Column="0" Grid.Row="15">Employer Name</Label>
+                <TextBox Grid.Column="1" Grid.Row="15" Text="{Binding BorrowerEmployerName, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" MaxLength="1024" Style="{StaticResource TextBoxWithError}" />
+                <Label Grid.Column="0" Grid.Row="16">Hire/Start Date</Label>
+                <TextBox Grid.Column="1" Grid.Row="16" Text="{Binding BorrowerEmploymentHireDate, StringFormat='yyyy-MM-dd', ValidatesOnDataErrors=True, NotifyOnValidationError=True, TargetNullValue=''}" MaxLength="10" Style="{StaticResource TextBoxWithError}" />
+                <Label Grid.Column="0" Grid.Row="17">Annual Income</Label>
+                <TextBox Grid.Column="1" Grid.Row="17" Text="{Binding BorrowerIncome, StringFormat='###,###,###,##0.00#', ValidatesOnDataErrors=True, NotifyOnValidationError=True, TargetNullValue=''}" MaxLength="128" Style="{StaticResource TextBoxWithError}" />
+                <Label Grid.Column="0" Grid.Row="18" Grid.ColumnSpan="99" Style="{StaticResource SubHeader}">Expenses</Label>
+                <Label Grid.Column="0" Grid.Row="19">Monthly Mortgage Payment</Label>
+                <TextBox Grid.Column="1" Grid.Row="19" Text="{Binding MortgagePayment, StringFormat='###,###,###,##0.00#', ValidatesOnDataErrors=True, NotifyOnValidationError=True, TargetNullValue=''}" MaxLength="128" Style="{StaticResource TextBoxWithError}" />
+                <Label Grid.Column="0" Grid.Row="20">Monthly Rent Payment</Label>
+                <TextBox Grid.Column="1" Grid.Row="20" Text="{Binding RentPayment, StringFormat='###,###,###,##0.00#', ValidatesOnDataErrors=True, NotifyOnValidationError=True, TargetNullValue=''}" MaxLength="128" Style="{StaticResource TextBoxWithError}" />
+                <Label Grid.Column="0" Grid.Row="21" Grid.ColumnSpan="99" Style="{StaticResource SubHeader}">Co-Borrower</Label>
+                <Label Grid.Column="0" Grid.Row="22">Co-Borrower Name</Label>
+                <TextBox Grid.Column="1" Grid.Row="22" Text="{Binding CoBorrowerName, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" MaxLength="1024" Style="{StaticResource TextBoxWithError}" />
+                <Label Grid.Column="0" Grid.Row="23">Birth Date</Label>
+                <TextBox Grid.Column="1" Grid.Row="23" Text="{Binding CoBorrowerBirthDate, StringFormat='yyyy-MM-dd', ValidatesOnDataErrors=True, NotifyOnValidationError=True, TargetNullValue=''}" MaxLength="10" Style="{StaticResource TextBoxWithError}" />
+                <Label Grid.Column="0" Grid.Row="24">Email</Label>
+                <TextBox Grid.Column="1" Grid.Row="24" Text="{Binding CoBorrowerEmailAddress, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" MaxLength="1024" Style="{StaticResource TextBoxWithError}" />
+                <Label Grid.Column="0" Grid.Row="25">Phone</Label>
+                <TextBox Grid.Column="1" Grid.Row="25" Text="{Binding CoBorrowerPhone, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" MaxLength="64" Style="{StaticResource TextBoxWithError}" />
+                <Label Grid.Column="0" Grid.Row="26">Address</Label>
+                <TextBox Grid.Column="1" Grid.Row="26" Text="{Binding CoBorrowerAddress, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" MaxLength="1024" Style="{StaticResource TextBoxWithError}" />
+                <Label Grid.Column="0" Grid.Row="27">City</Label>
+                <TextBox Grid.Column="1" Grid.Row="27" Text="{Binding CoBorrowerCity, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" MaxLength="1024" Style="{StaticResource TextBoxWithError}" />
+                <Label Grid.Column="0" Grid.Row="28">State</Label>
+                <TextBox Grid.Column="1" Grid.Row="28" Text="{Binding CoBorrowerState, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" MaxLength="64" Style="{StaticResource TextBoxWithError}" />
+                <Label Grid.Column="0" Grid.Row="29">Postal Code</Label>
+                <TextBox Grid.Column="1" Grid.Row="29" Text="{Binding CoBorrowerPostalCode, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" MaxLength="128" Style="{StaticResource TextBoxWithError}" />
+                <Label Grid.Column="0" Grid.Row="30" Grid.ColumnSpan="99" Style="{StaticResource SubHeader}">Co-Borrower Employment</Label>
+                <Label Grid.Column="0" Grid.Row="31">Employer Name</Label>
+                <TextBox Grid.Column="1" Grid.Row="31" Text="{Binding CoBorrowerEmployerName, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" MaxLength="1024" Style="{StaticResource TextBoxWithError}" />
+                <Label Grid.Column="0" Grid.Row="32">Hire/Start Date</Label>
+                <TextBox Grid.Column="1" Grid.Row="32" Text="{Binding CoBorrowerEmploymentHireDate, StringFormat='yyyy-MM-dd', ValidatesOnDataErrors=True, NotifyOnValidationError=True, TargetNullValue=''}" MaxLength="10" Style="{StaticResource TextBoxWithError}" />
+                <Label Grid.Column="0" Grid.Row="33">Annual Income</Label>
+                <TextBox Grid.Column="1" Grid.Row="33" Text="{Binding CoBorrowerIncome, StringFormat='###,###,###,##0.00#', ValidatesOnDataErrors=True, NotifyOnValidationError=True, TargetNullValue=''}" MaxLength="128" Style="{StaticResource TextBoxWithError}" />
+                <Label Grid.Column="0" Grid.Row="34">Comments</Label>
+                <ItemsControl Grid.Column="1" Grid.Row="34" ItemsSource="{Binding Comments}" Margin="0,5">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <StackPanel Orientation="Vertical"/>
@@ -160,10 +135,10 @@
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
-                <Label Grid.Column="0" Grid.Row="34">Add Comment</Label>
-                <TextBox Grid.Column="1" Grid.Row="34" Text="{Binding NewCommentText, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" AcceptsReturn="True" MinHeight="40" MaxLength="1024" Style="{StaticResource TextBoxWithError}" />
-                <CheckBox Grid.Column="1" Grid.Row="35" IsChecked="{Binding NewCommentIsPublic}">Is Public</CheckBox>
-                <Button Grid.Column="1" Grid.Row="36" HorizontalAlignment="Left" Padding="2,2" Margin="0,5" Command="{Binding CreateComment}" CommandParameter="{Binding .}">Add Comment</Button>
+                <Label Grid.Column="0" Grid.Row="35">Add Comment</Label>
+                <TextBox Grid.Column="1" Grid.Row="35" Text="{Binding NewCommentText, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" AcceptsReturn="True" MinHeight="40" MaxLength="1024" Style="{StaticResource TextBoxWithError}" />
+                <CheckBox Grid.Column="1" Grid.Row="36" IsChecked="{Binding NewCommentIsPublic}">Is Public</CheckBox>
+                <Button Grid.Column="1" Grid.Row="37" HorizontalAlignment="Left" Padding="2,2" Margin="0,5" Command="{Binding CreateComment}" CommandParameter="{Binding .}">Add Comment</Button>
             </Grid>
         </ScrollViewer>
     </DockPanel>
