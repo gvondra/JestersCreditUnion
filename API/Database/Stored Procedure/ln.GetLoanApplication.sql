@@ -4,7 +4,7 @@ AS
 SELECT TOP 1 
 	[LoanApplicationId], [UserId], [Status], [ApplicationDate], 
 	[BorrowerName], [BorrowerBirthDate], [BorrowerAddressId], [BorrowerEmailAddressId], [BorrowerPhoneId], [BorrowerEmployerName], [BorrowerEmploymentHireDate], [BorrowerIncome],
-	[BorrowerIdentificationCardName],
+	[BorrowerIdentificationCardId],
 	[CoBorrowerName], [CoBorrowerBirthDate], [CoBorrowerAddressId], [CoBorrowerEmailAddressId], [CoBorrowerPhoneId], [CoBorrowerEmployerName], [CoBorrowerEmploymentHireDate], [CoBorrowerIncome],
 	[Amount], [Purpose], [MortgagePayment], [RentPayment],
 	[CreateTimestamp], [UpdateTimestamp]
@@ -13,4 +13,5 @@ WHERE [LoanApplicationId] = @id
 
 EXEC [ln].[GetLoanApplicationDenial] @id;
 EXEC [ln].[GetLoanApplicationComment_by_LoanApplicationId] @id;
+EXEC [ln].[GetIdentificationCard_by_LoanApplicationId] @id;
 ;

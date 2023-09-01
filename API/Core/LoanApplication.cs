@@ -15,6 +15,7 @@ namespace JestersCreditUnion.Core
         private readonly ILoanApplicationDataSaver _dataSaver;
         private readonly ILoanApplicationFactory _factory;
         private readonly ILookupFactory _lookupFactory;
+        private readonly IIdentificationCardDataSaver _identificationCardDataSaver;
         private IAddress _borrowerAddress;
         private IAddress _coborrowerAddress;
         private IEmailAddress _borrowerEmailAddress;
@@ -23,17 +24,20 @@ namespace JestersCreditUnion.Core
         private IPhone _coborrowerPhone;
         private readonly List<ILoanApplicationComment> _comments;
         private ILoanApplicationDenial _loanApplicationDenial;
+        private IdentificationCard _borrowerIdentificationCard;
 
         public LoanApplication(LoanApplicationData data,
             ILoanApplicationDataSaver dataSaver,
             ILoanApplicationFactory factory,
-            ILookupFactory lookupFactory)
+            ILookupFactory lookupFactory,
+            IIdentificationCardDataSaver identificationCardDataSaver)
         {
             _data = data;
             _dataSaver = dataSaver;
             _factory = factory;
             _lookupFactory = lookupFactory;
             _comments = InitiallizeComments(data.Comments, dataSaver);
+            _identificationCardDataSaver = identificationCardDataSaver;
         }
 
         public Guid LoanApplicationId => _data.LoanApplicationId;
@@ -49,7 +53,7 @@ namespace JestersCreditUnion.Core
         public string BorrowerEmployerName { get => _data.BorrowerEmployerName; set => _data.BorrowerEmployerName = value; }
         public DateTime? BorrowerEmploymentHireDate { get => _data.BorrowerEmploymentHireDate; set => _data.BorrowerEmploymentHireDate = value; }
         public decimal? BorrowerIncome { get => _data.BorrowerIncome; set => _data.BorrowerIncome = value; }
-        internal string BorrowerIdentificationCardName { get => _data.BorrowerIdentificationCardName; set => _data.BorrowerIdentificationCardName = value; }
+        private Guid? BorrowerIdentificationCardId { get => _data.BorrowerIdentificationCardId; set => _data.BorrowerIdentificationCardId = value; }
         public string CoBorrowerName { get => _data.CoBorrowerName; set => _data.CoBorrowerName = value; }
         public DateTime? CoBorrowerBirthDate { get => _data.CoBorrowerBirthDate; set => _data.CoBorrowerBirthDate = value; }
         public Guid? CoBorrowerAddressId { get => _data.CoBorrowerAddressId; set => _data.CoBorrowerAddressId = value; }
@@ -79,6 +83,17 @@ namespace JestersCreditUnion.Core
                     _loanApplicationDenial = new LoanApplicationDenial(_data.Denial, _dataSaver, _lookupFactory);
                 return _loanApplicationDenial;
             }
+        }
+
+        internal IdentificationCard BorrowerIdentificationCard
+        {
+            get
+            {
+                if (_borrowerIdentificationCard == null && _data.BorrowerIdentificationCard != null)
+                    _borrowerIdentificationCard = new IdentificationCard(_data.BorrowerIdentificationCard, _identificationCardDataSaver);
+                return _borrowerIdentificationCard;
+            }
+            private set => _borrowerIdentificationCard = value;
         }
 
         public Task Create(CommonCore.ITransactionHandler transactionHandler) => _dataSaver.Create(transactionHandler, _data);
@@ -161,7 +176,18 @@ namespace JestersCreditUnion.Core
             return result;
         }
 
-        public Task Update(CommonCore.ITransactionHandler transactionHandler) => _dataSaver.Update(transactionHandler, _data);
+        public async Task Update(CommonCore.ITransactionHandler transactionHandler)
+        {
+            if (_borrowerIdentificationCard != null)
+            {
+                if (_borrowerIdentificationCard.IsNew)
+                    await _borrowerIdentificationCard.Create(transactionHandler);
+                else
+                    await _borrowerIdentificationCard.Update(transactionHandler);
+                BorrowerIdentificationCardId = _borrowerIdentificationCard.IdentificationCardId;
+            }
+            await _dataSaver.Update(transactionHandler, _data);
+        }
 
         private static List<ILoanApplicationComment> InitiallizeComments(IEnumerable<LoanApplicationCommentData> commentData, ILoanApplicationDataSaver dataSaver)
         {
@@ -188,6 +214,24 @@ namespace JestersCreditUnion.Core
             };
             if (!string.IsNullOrEmpty(text))
                 Status = LoanApplicationStatus.Denied;
+        }
+
+        internal IdentificationCard SetBorrowerIdentificationCard(byte[] initializationVector, byte[] key)
+        {
+            IdentificationCard card = BorrowerIdentificationCard;
+            if (card == null)
+            {
+                card = new IdentificationCard(
+                    new IdentificationCardData
+                    {
+                        IdentificationCardId = _data.BorrowerIdentificationCardId ?? Guid.NewGuid()
+                    },
+                    _identificationCardDataSaver);
+                BorrowerIdentificationCard = card;
+            }
+            card.InitializationVector = initializationVector;
+            card.Key = key;
+            return card;
         }
 
         public IIdentificationCardSaver CreateIdentificationCardSaver() => new IdentificationCardSaver(this);

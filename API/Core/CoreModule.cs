@@ -15,6 +15,7 @@ namespace JestersCreditUnion.Core
             builder.RegisterType<AmortizationBuilder>().As<IAmortizationBuilder>();
             builder.RegisterType<EmailAddressFactory>().As<IEmailAddressFactory>();
             builder.RegisterType<EmailAddressSaver>().As<IEmailAddressSaver>();
+            builder.RegisterType<KeyVault>().As<IKeyVault>();
             builder.RegisterType<LoanApplicationFactory>()
                 .As<ILoanApplicationFactory>()
                 .PropertiesAutowired();

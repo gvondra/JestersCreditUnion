@@ -13,21 +13,24 @@ namespace JestersCreditUnion.Core
         private readonly ILoanApplicationDataFactory _dataFactory;
         private readonly ILoanApplicationDataSaver _dataSaver;
         private readonly ILookupFactory _lookupFactory;
+        private readonly IIdentificationCardDataSaver _identificationCardDataSaver;
 
         public LoanApplicationFactory(ILoanApplicationDataFactory dataFactory,
             ILoanApplicationDataSaver dataSaver,
-            ILookupFactory lookupFactory)
+            ILookupFactory lookupFactory,
+            IIdentificationCardDataSaver identificationCardDataSaver)
         {
             _dataFactory = dataFactory;
             _dataSaver = dataSaver;
             _lookupFactory = lookupFactory;
+            _identificationCardDataSaver = identificationCardDataSaver;
         }
 
         public IAddressFactory AddressFactory { get; set; }
         public IEmailAddressFactory EmailAddressFactory { get; set; }
         public IPhoneFactory PhoneFactory { get; set; }
 
-        private LoanApplication Create(LoanApplicationData data) => new LoanApplication(data, _dataSaver, this, _lookupFactory);
+        private LoanApplication Create(LoanApplicationData data) => new LoanApplication(data, _dataSaver, this, _lookupFactory, _identificationCardDataSaver);
 
         public ILoanApplication Create(Guid userId)
         {

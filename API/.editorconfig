@@ -186,3 +186,8 @@ dotnet_diagnostic.IDE0031.severity = none
 dotnet_diagnostic.IDE0032.severity = none
 
 dotnet_diagnostic.IDE0010.severity = none
+
+# Null check can be simplified
+dotnet_diagnostic.IDE0029.severity = none
+dotnet_diagnostic.IDE0030.severity = none
+dotnet_diagnostic.IDE0270.severity = none

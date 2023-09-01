@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
+using System.IO;
 using System.Threading.Tasks;
 using AuthorizationAPI = BrassLoon.Interface.Authorization;
 
@@ -59,8 +60,11 @@ namespace API.Controllers
                 if (result == null && formCollection != null && loanApplication != null)
                 {
                     IFormFile formFile = formCollection.Files[0];
-                    IIdentificationCardSaver saver = loanApplication.CreateIdentificationCardSaver();
-                    await saver.SaveBorrowerIdentificationCard(settings);
+                    using (Stream stream = formFile.OpenReadStream())
+                    {
+                        IIdentificationCardSaver saver = loanApplication.CreateIdentificationCardSaver();
+                        await saver.SaveBorrowerIdentificationCard(settings, stream);
+                    }
                     result = Ok();
                 }
             }

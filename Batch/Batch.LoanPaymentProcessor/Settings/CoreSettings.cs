@@ -31,6 +31,10 @@ namespace JestersCreditUnion.Batch.LoanPaymentProcessor
 
         public bool UseDefaultAzureSqlToken => _settings.UseDefaultAzureSqlToken;
 
+        public string IdentitificationCardContainerName => throw new NotImplementedException();
+
+        public string EncryptionKeyVault => throw new NotImplementedException();
+
         public Task<string> GetConnetionString() => Task.FromResult(_settings.ConnectionString);
 
         public Func<Task<string>> GetDatabaseAccessToken() => null;

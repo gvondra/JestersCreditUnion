@@ -16,7 +16,7 @@ namespace JestersCreditUnion.Data.Models
         [ColumnMapping] public string BorrowerEmployerName { get; set; }
         [ColumnMapping] public DateTime? BorrowerEmploymentHireDate { get; set; }
         [ColumnMapping] public decimal? BorrowerIncome { get; set; }
-        [ColumnMapping] public string BorrowerIdentificationCardName { get; set; }
+        [ColumnMapping] public Guid? BorrowerIdentificationCardId { get; set; }
         [ColumnMapping] public string CoBorrowerName { get; set; }
         [ColumnMapping] public DateTime? CoBorrowerBirthDate { get; set; }
         [ColumnMapping] public Guid? CoBorrowerAddressId { get; set; }
@@ -33,5 +33,6 @@ namespace JestersCreditUnion.Data.Models
         [ColumnMapping(IsUtc = true)] public DateTime UpdateTimestamp { get; set; }
         public List<LoanApplicationCommentData> Comments { get; set; }
         public LoanApplicationDenialData Denial { get; set; }
+        public IdentificationCardData BorrowerIdentificationCard { get; set; }
     }
 }

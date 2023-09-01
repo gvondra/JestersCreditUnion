@@ -12,7 +12,7 @@
 	[BorrowerEmployerName] NVARCHAR(1024) NOT NULL,
 	[BorrowerEmploymentHireDate] DATE NULL,
 	[BorrowerIncome] DECIMAL(11, 2) NULL,
-	[BorrowerIdentificationCardName] VARCHAR(32) CONSTRAINT [DF_LoanApplication_BorrowerIdentificationCardName] DEFAULT '' NOT NULL,
+	[BorrowerIdentificationCardId] UNIQUEIDENTIFIER NULL,
 	[CoBorrowerName] NVARCHAR(1024) NOT NULL,
 	[CoBorrowerBirthDate] DATE NULL,
 	[CoBorrowerAddressId] UNIQUEIDENTIFIER NULL,
@@ -27,7 +27,8 @@
 	[RentPayment] DECIMAL(7, 2) NULL,
 	[CreateTimestamp] DATETIME2(4) CONSTRAINT [DF_LoanApplication_CreateTimestamp] DEFAULT (SYSUTCDATETIME()) NOT NULL,
 	[UpdateTimestamp] DATETIME2(4) CONSTRAINT [DF_LoanApplication_UpdateTimestamp] DEFAULT (SYSUTCDATETIME()) NOT NULL,
-	CONSTRAINT [PK_LoanApplication] PRIMARY KEY NONCLUSTERED ([LoanApplicationId]) 
+	CONSTRAINT [PK_LoanApplication] PRIMARY KEY NONCLUSTERED ([LoanApplicationId]), 
+    CONSTRAINT [FK_LoanApplication_To_BorrowerIdentificationCard] FOREIGN KEY ([BorrowerIdentificationCardId]) REFERENCES [ln].[IdentificationCard]([IdentificationCardId]) 
 )
 
 GO

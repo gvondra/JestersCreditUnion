@@ -13,5 +13,6 @@ namespace JestersCreditUnion.Framework
         Guid? WorkTaskDomainId { get; }
         string WorkTaskConfigurationCode { get; }
         string IdentitificationCardContainerName { get; }
+        string EncryptionKeyVault { get; }
     }
 }

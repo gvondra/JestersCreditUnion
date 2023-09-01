@@ -20,6 +20,7 @@ namespace JestersCreditUnion.Data.Internal
             };
             DataReaderProcess dataReaderProcess = new DataReaderProcess();
             LoanApplicationData data = null;
+            List<IdentificationCardData> identificationCards = null;
             await dataReaderProcess.Read(
                 settings,
                 _providerFactory,
@@ -33,12 +34,19 @@ namespace JestersCreditUnion.Data.Internal
                     {
                         GenericDataFactory<LoanApplicationDenialData> denialFactory = new GenericDataFactory<LoanApplicationDenialData>();
                         GenericDataFactory<LoanApplicationCommentData> commentFactory = new GenericDataFactory<LoanApplicationCommentData>();
-                        reader.NextResult();
+                        GenericDataFactory<IdentificationCardData> identificationCardFactory = new GenericDataFactory<IdentificationCardData>();
+                        await reader.NextResultAsync();
                         data.Denial = (await denialFactory.LoadData(reader, () => new LoanApplicationDenialData(), DataUtil.AssignDataStateManager)).FirstOrDefault();
-                        reader.NextResult();
+                        await reader.NextResultAsync();
                         data.Comments = (await commentFactory.LoadData(reader, () => new LoanApplicationCommentData(), DataUtil.AssignDataStateManager)).ToList();
+                        await reader.NextResultAsync();
+                        identificationCards = (await identificationCardFactory.LoadData(reader, () => new IdentificationCardData(), DataUtil.AssignDataStateManager)).ToList();
                     }
                 });
+            if (data.BorrowerIdentificationCardId.HasValue && identificationCards != null)
+            {
+                data.BorrowerIdentificationCard = identificationCards.FirstOrDefault(c => c.IdentificationCardId.Equals(data.BorrowerIdentificationCardId.Value));
+            }
             return data;
         }
 
@@ -52,6 +60,7 @@ namespace JestersCreditUnion.Data.Internal
             IEnumerable<LoanApplicationData> result = null;
             List<LoanApplicationDenialData> denials = null;
             List<LoanApplicationCommentData> comments = null;
+            List<IdentificationCardData> identificationCards = null;
             await dataReaderProcess.Read(
                 settings,
                 _providerFactory,
@@ -63,10 +72,13 @@ namespace JestersCreditUnion.Data.Internal
                     result = (await _genericDataFactory.LoadData(reader, Create, DataUtil.AssignDataStateManager)).ToList();
                     GenericDataFactory<LoanApplicationDenialData> denialFactory = new GenericDataFactory<LoanApplicationDenialData>();
                     GenericDataFactory<LoanApplicationCommentData> commentFactory = new GenericDataFactory<LoanApplicationCommentData>();
-                    reader.NextResult();
+                    GenericDataFactory<IdentificationCardData> identificationCardFactory = new GenericDataFactory<IdentificationCardData>();
+                    await reader.NextResultAsync();
                     denials = (await denialFactory.LoadData(reader, () => new LoanApplicationDenialData(), DataUtil.AssignDataStateManager)).ToList();
-                    reader.NextResult();
+                    await reader.NextResultAsync();
                     comments = (await commentFactory.LoadData(reader, () => new LoanApplicationCommentData(), DataUtil.AssignDataStateManager)).ToList();
+                    await reader.NextResultAsync();
+                    identificationCards = (await identificationCardFactory.LoadData(reader, () => new IdentificationCardData(), DataUtil.AssignDataStateManager)).ToList();
                 });
             result = result
                 .GroupJoin(
@@ -85,6 +97,18 @@ namespace JestersCreditUnion.Data.Internal
                 (app, cmmnts) =>
                 {
                     app.Comments = cmmnts.ToList();
+                    return app;
+                })
+                .GroupJoin(
+                identificationCards,
+                a => a.BorrowerIdentificationCardId,
+                c => c.IdentificationCardId,
+                (app, crds) =>
+                {
+                    if (app.BorrowerIdentificationCardId.HasValue)
+                    {
+                        app.BorrowerIdentificationCard = crds.FirstOrDefault(c => c.IdentificationCardId.Equals(app.BorrowerIdentificationCardId.Value));
+                    }
                     return app;
                 });
             return result.ToList();

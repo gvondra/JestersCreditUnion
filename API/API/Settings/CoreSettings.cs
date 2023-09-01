@@ -34,6 +34,8 @@ namespace API
 
         public string IdentitificationCardContainerName => _settings.IdentitificationCardContainerName;
 
+        public string EncryptionKeyVault => _settings.EncryptionKeyVault;
+
         public Task<string> GetConnetionString() => Task.FromResult(_settings.ConnectionString);
 
         public Func<Task<string>> GetDatabaseAccessToken() => null;

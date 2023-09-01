@@ -11,7 +11,7 @@
 	@borrowerEmployerName NVARCHAR(1024),
 	@borrowerEmploymentHireDate DATE,
 	@borrowerIncome DECIMAL(11, 2),
-	@borrowerIdentificationCardName VARCHAR(32) = '',
+	@borrowerIdentificationCardId UNIQUEIDENTIFIER = NULL,
 	@coBorrowerName NVARCHAR(1024),
 	@coBorrowerBirthDate DATE,
 	@coBorrowerAddressId UNIQUEIDENTIFIER,
@@ -32,14 +32,14 @@ BEGIN
 	INSERT INTO [ln].[LoanApplication] (
 	[LoanApplicationId], [UserId], [Status], [ApplicationDate], 
 	[BorrowerName], [BorrowerBirthDate], [BorrowerAddressId], [BorrowerEmailAddressId], [BorrowerPhoneId], [BorrowerEmployerName], [BorrowerEmploymentHireDate], [BorrowerIncome],
-	[BorrowerIdentificationCardName],
+	[BorrowerIdentificationCardId],
 	[CoBorrowerName], [CoBorrowerBirthDate], [CoBorrowerAddressId], [CoBorrowerEmailAddressId], [CoBorrowerPhoneId], [CoBorrowerEmployerName], [CoBorrowerEmploymentHireDate], [CoBorrowerIncome],
 	[Amount], [Purpose], [MortgagePayment], [RentPayment],
 	[CreateTimestamp], [UpdateTimestamp])
 	VALUES (
 	@id, @userId, @status, @applicationDate,
 	@borrowerName, @borrowerBirthDate, @borrowerAddressId, @borrowerEmailAddressId, @borrowerPhoneId, @borrowerEmployerName, @borrowerEmploymentHireDate, @borrowerIncome,
-	@borrowerIdentificationCardName,
+	@borrowerIdentificationCardId,
 	@coBorrowerName, @coBorrowerBirthDate, @coBorrowerAddressId, @coBorrowerEmailAddressId, @coBorrowerPhoneId, @coBorrowerEmployerName, @coBorrowerEmploymentHireDate, @coBorrowerIncome,
 	@amount, @purpose, @mortgagePayment, @rentPayment,
 	@timestamp, @timestamp);

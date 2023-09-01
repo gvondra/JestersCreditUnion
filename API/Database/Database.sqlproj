@@ -118,6 +118,12 @@
     <Build Include="Stored Procedure\ln.GetPaymentTransaction_by_LoanId.sql" />
     <Build Include="Stored Procedure\ln.GetLoan_with_UnprocessedPayments.sql" />
     <Build Include="Stored Procedure\ln.GetLoanAgreement_with_UnprocessedPayments.sql" />
+    <Build Include="Table\ln.IdentificationCard.sql" />
+    <Build Include="Stored Procedure\ln.GetIdentificationCard.sql" />
+    <Build Include="Stored Procedure\ln.CreateIdentificationCard.sql" />
+    <Build Include="Stored Procedure\ln.UpdateIdentificationCard.sql" />
+    <Build Include="Stored Procedure\ln.GetIdentificationCard_by_LoanApplicationId.sql" />
+    <Build Include="Stored Procedure\ln.GetIdentificationCard_by_LoanApplicationUserId.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="LocalSqlSchemaCompare.scmp" />
