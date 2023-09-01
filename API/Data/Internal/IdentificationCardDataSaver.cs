@@ -63,6 +63,7 @@ namespace JestersCreditUnion.Data.Internal
             DataUtil.AddParameter(_providerFactory, commandParameters, "id", DbType.Guid, DataUtil.GetParameterValue(data.IdentificationCardId));
             DataUtil.AddParameter(_providerFactory, commandParameters, "initializationVector", DbType.Binary, DataUtil.GetParameterValue(data.InitializationVector));
             DataUtil.AddParameter(_providerFactory, commandParameters, "key", DbType.Binary, DataUtil.GetParameterValue(data.Key));
+            DataUtil.AddParameter(_providerFactory, commandParameters, "masterKeyName", DbType.AnsiString, DataUtil.GetParameterValue(data.MasterKeyName));
         }
     }
 }

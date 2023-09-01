@@ -12,6 +12,8 @@ namespace JestersCreditUnion.Core
 {
     public class KeyVault : IKeyVault
     {
+        private static SortedSet<string> _knownKeys = new SortedSet<string>();
+
         public async Task<KeyVaultKey> CreateKey(ISettings settings, string name)
         {
             KeyClient keyClient = new KeyClient(new Uri(settings.EncryptionKeyVault), new DefaultAzureCredential());
@@ -46,8 +48,20 @@ namespace JestersCreditUnion.Core
 
         public async Task<bool> KeyExists(ISettings settings, string name)
         {
-            ICollection<string> keys = await GetKeys(settings);
-            return keys.Any(k => string.Equals(name, k, StringComparison.OrdinalIgnoreCase));
+            bool exists = _knownKeys.Contains(name);
+            if (!exists)
+            {
+                ICollection<string> keys = await GetKeys(settings);
+                exists = keys.Any(k => string.Equals(name, k, StringComparison.OrdinalIgnoreCase));
+                if (exists)
+                {
+                    lock (_knownKeys)
+                    {
+                        _knownKeys.Add(name);
+                    }
+                }
+            }
+            return exists;
         }
 
         public async Task<byte[]> Encrypt(ISettings settings, string name, byte[] value)
