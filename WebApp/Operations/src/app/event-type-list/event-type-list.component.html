@@ -1,9 +1,0 @@
-<h2>Events</h2>
-<div [hidden]="SpinnerHidden">  
-  <i class="fa fa-cog fa-spin" style="font-size:36px; margin: 25px;"></i>
-</div>
-<div *ngIf="EventTypes">
-    <ul>
-        <li *ngFor="let et of EventTypes"><a [routerLink]="['/eventtype', et.EventTypeId]">{{ et.Title }}</a></li>
-    </ul>
-</div>

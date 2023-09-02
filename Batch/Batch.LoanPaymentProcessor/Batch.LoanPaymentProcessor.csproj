@@ -1,0 +1,51 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>disable</ImplicitUsings>
+		<Nullable>disable</Nullable>
+		<AssemblyName>JCU.Batch.LoanPaymentProcessor</AssemblyName>
+		<RootNamespace>JestersCreditUnion.Batch.LoanPaymentProcessor</RootNamespace>
+		<Authors>Greg Vondra</Authors>
+		<Company />
+		<Product>Jesters Credit Union</Product>
+		<PackageLicenseExpression>GPL-3.0-only</PackageLicenseExpression>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<DebugType>none</DebugType>
+		<Optimize>True</Optimize>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<DebugType>full</DebugType>
+		<Optimize>False</Optimize>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <Content Include="appsettings.json">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Content>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="Autofac" Version="7.1.*" />
+	  <PackageReference Include="BrassLoon.Extensions.Logging" Version="1.0.0-beta.*" />
+	  <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.*" />
+	  <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.*" />
+	  <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="6.0.*" />
+	  <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="6.0.*" />
+	  <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="6.0.*" />
+	  <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.*" />
+	  <PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.*" />
+	  <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.*" />
+	  <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="6.0.*" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\API\Core\Core.csproj" />
+	  <ProjectReference Include="..\..\API\Framework\Framework.csproj" />
+	</ItemGroup>
+
+</Project>

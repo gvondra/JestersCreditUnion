@@ -1,0 +1,37 @@
+﻿<Page x:Class="JCU.Internal.NavigationPage.WorkGroups"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:JCU.Internal.NavigationPage"
+      xmlns:fa="http://schemas.fontawesome.io/icons/"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      KeepAlive="True"
+      Title="JCU: Work Groups" Style="{StaticResource DefaultPageStyle}">
+
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Top" Orientation="Vertical">
+            <TextBlock Style="{StaticResource PageTitle}">Work Groups</TextBlock>
+            <fa:ImageAwesome Icon="CircleOutlineNotch" Spin="True" Height="24" Width="24" Visibility="{Binding BusyVisibility}" Foreground="Navy" HorizontalAlignment="Left" />
+        </StackPanel>
+        <StackPanel DockPanel.Dock="Right" Margin="10,0" Orientation="Vertical">
+            <TextBlock>
+                <Hyperlink Click="CreateHyperlink_Click">Create</Hyperlink>
+            </TextBlock>
+        </StackPanel>
+        <DataGrid AutoGenerateColumns="False" IsReadOnly="True" ItemsSource="{Binding Items}" MouseDoubleClick="DataGrid_MouseDoubleClick">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Title" Binding="{Binding Title}"/>
+                <DataGridTextColumn Header="Description" Binding="{Binding DescriptionLine1}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="TextWrapping" Value="NoWrap"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Last Update" Binding="{Binding UpdateTimestamp, StringFormat='yyyy-MM-dd H:mm'}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
+</Page>

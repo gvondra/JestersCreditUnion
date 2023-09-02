@@ -1,0 +1,14 @@
+﻿<UserControl x:Class="JCU.Internal.NavigationPage.Log.LeftNav"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:JCU.Internal.NavigationPage.Log"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <StackPanel Orientation="Vertical" Margin="15">
+        <TextBlock><Hyperlink Command="NavigationCommands.GoToPage" CommandParameter="NavigationPage/Log/MetricLog.xaml">Metrics</Hyperlink></TextBlock>
+        <TextBlock><Hyperlink Command="NavigationCommands.GoToPage" CommandParameter="NavigationPage/Log/ErrorLog.xaml">Errors</Hyperlink></TextBlock>
+        <TextBlock><Hyperlink Command="NavigationCommands.GoToPage" CommandParameter="NavigationPage/Log/TraceLog.xaml">Trace</Hyperlink></TextBlock>
+    </StackPanel>
+</UserControl>

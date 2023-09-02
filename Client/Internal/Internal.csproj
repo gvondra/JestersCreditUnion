@@ -1,0 +1,473 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{AD4A0BC6-FF1A-4849-991F-13E6B5C43276}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>JCU.Internal</RootNamespace>
+    <AssemblyName>JCU.Internal</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="AccessToken.cs" />
+    <Compile Include="Behaviors\BeginLoanAgreementDisburse.cs" />
+    <Compile Include="Behaviors\BeginLoanAgreementLoader.cs" />
+    <Compile Include="Behaviors\BeginLoanAgreementSave.cs" />
+    <Compile Include="Behaviors\BeginLoanAgreementValidator.cs" />
+    <Compile Include="Behaviors\CreateLoanApplicationComment.cs" />
+    <Compile Include="Behaviors\ExceptionLogLoader.cs" />
+    <Compile Include="Behaviors\FindUserLoader.cs" />
+    <Compile Include="Behaviors\FindUserSaver.cs" />
+    <Compile Include="Behaviors\IdentificationCardLoader.cs" />
+    <Compile Include="Behaviors\LoanAmortizationLoader.cs" />
+    <Compile Include="Behaviors\LoanApplicationDenialLoader.cs" />
+    <Compile Include="Behaviors\LoanApplicationDenialSave.cs" />
+    <Compile Include="Behaviors\LoanApplicationDenialValidator.cs" />
+    <Compile Include="Behaviors\LoanApplicationUnderReview.cs" />
+    <Compile Include="Behaviors\LoanApplicationValidator.cs" />
+    <Compile Include="Behaviors\LoanDisburse.cs" />
+    <Compile Include="Behaviors\LoanSearch.cs" />
+    <Compile Include="Behaviors\LoanSearchValidator.cs" />
+    <Compile Include="Behaviors\LookupDelete.cs" />
+    <Compile Include="Behaviors\LookupsAdd.cs" />
+    <Compile Include="Behaviors\LookupSave.cs" />
+    <Compile Include="Behaviors\LookupsLoader.cs" />
+    <Compile Include="Behaviors\LookupValueAdd.cs" />
+    <Compile Include="Behaviors\MetricLogLoader.cs" />
+    <Compile Include="Behaviors\ReceiveLoanPaymentSave.cs" />
+    <Compile Include="Behaviors\ReceiveLoanPaymentValidator.cs" />
+    <Compile Include="Behaviors\RoleSaver.cs" />
+    <Compile Include="Behaviors\RolesLoader.cs" />
+    <Compile Include="Behaviors\RoleValidator.cs" />
+    <Compile Include="Behaviors\TraceLogLoader.cs" />
+    <Compile Include="Behaviors\WorkGroupLoader.cs" />
+    <Compile Include="Behaviors\WorkGroupMemberRemove.cs" />
+    <Compile Include="Behaviors\WorkGroupMemberAdd.cs" />
+    <Compile Include="Behaviors\WorkGroupMembersFind.cs" />
+    <Compile Include="Behaviors\WorkGroupSaver.cs" />
+    <Compile Include="Behaviors\WorkGroupsLoader.cs" />
+    <Compile Include="Behaviors\WorkGroupValidator.cs" />
+    <Compile Include="Behaviors\WorkTaskRelease.cs" />
+    <Compile Include="Behaviors\WorkTaskClaim.cs" />
+    <Compile Include="Behaviors\WorkTaskConfigurationLoader.cs" />
+    <Compile Include="Behaviors\WorkTaskConfigurationSaver.cs" />
+    <Compile Include="Behaviors\WorkTaskSave.cs" />
+    <Compile Include="Behaviors\WorkTasksHomeLoader.cs" />
+    <Compile Include="Behaviors\WorkTaskStatusDeleter.cs" />
+    <Compile Include="Behaviors\WorkTaskStatusesLoader.cs" />
+    <Compile Include="Behaviors\WorkTaskStatusSaver.cs" />
+    <Compile Include="Behaviors\WorkTaskTypeSaver.cs" />
+    <Compile Include="Behaviors\WorkTaskTypesLoader.cs" />
+    <Compile Include="Behaviors\WorkTaskTypeValidator.cs" />
+    <Compile Include="Constants.cs" />
+    <Compile Include="Control\ErrorLogItem.xaml.cs">
+      <DependentUpon>ErrorLogItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Control\ExceptionItem.xaml.cs">
+      <DependentUpon>ExceptionItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Control\LookupEdit.xaml.cs">
+      <DependentUpon>LookupEdit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Control\WorkGroupDetail.xaml.cs">
+      <DependentUpon>WorkGroupDetail.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Control\WorkGroupMembers.xaml.cs">
+      <DependentUpon>WorkGroupMembers.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Control\WorkGroupTaskTypes.xaml.cs">
+      <DependentUpon>WorkGroupTaskTypes.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Control\WorkTasksHome.xaml.cs">
+      <DependentUpon>WorkTasksHome.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Control\WorkTaskStatus.xaml.cs">
+      <DependentUpon>WorkTaskStatus.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DependencyInjection\ContainerFactory.cs" />
+    <Compile Include="DependencyInjection\InternalModule.cs" />
+    <Compile Include="ErrorWindow.xaml.cs">
+      <DependentUpon>ErrorWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GoogleLogin.xaml.cs">
+      <DependentUpon>GoogleLogin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NavigationPage\BeginLoanAgreement.xaml.cs">
+      <DependentUpon>BeginLoanAgreement.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NavigationPage\Home.xaml.cs">
+      <DependentUpon>Home.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NavigationPage\Loan.xaml.cs">
+      <DependentUpon>Loan.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NavigationPage\LoanAmortization.xaml.cs">
+      <DependentUpon>LoanAmortization.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NavigationPage\LoanApplication.xaml.cs">
+      <DependentUpon>LoanApplication.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NavigationPage\LoanApplicationDenial.xaml.cs">
+      <DependentUpon>LoanApplicationDenial.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NavigationPage\LoanSearch.xaml.cs">
+      <DependentUpon>LoanSearch.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NavigationPage\Log\ErrorLog.xaml.cs">
+      <DependentUpon>ErrorLog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NavigationPage\Log\LeftNav.xaml.cs">
+      <DependentUpon>LeftNav.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NavigationPage\Log\MetricLog.xaml.cs">
+      <DependentUpon>MetricLog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NavigationPage\Log\TraceLog.xaml.cs">
+      <DependentUpon>TraceLog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NavigationPage\Lookups.xaml.cs">
+      <DependentUpon>Lookups.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NavigationPage\ReceiveLoanPayment.xaml.cs">
+      <DependentUpon>ReceiveLoanPayment.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NavigationPage\Roles.xaml.cs">
+      <DependentUpon>Roles.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NavigationPage\User.xaml.cs">
+      <DependentUpon>User.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NavigationPage\WorkGroup.xaml.cs">
+      <DependentUpon>WorkGroup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NavigationPage\WorkGroups.xaml.cs">
+      <DependentUpon>WorkGroups.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NavigationPage\WorkTaskConfiguration.xaml.cs">
+      <DependentUpon>WorkTaskConfiguration.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NavigationPage\WorkTaskFrame.xaml.cs">
+      <DependentUpon>WorkTaskFrame.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NavigationPage\WorkTaskType.xaml.cs">
+      <DependentUpon>WorkTaskType.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NavigationPage\WorkTaskTypes.xaml.cs">
+      <DependentUpon>WorkTaskTypes.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ParentFinder.cs" />
+    <Compile Include="Settings\APISettings.cs" />
+    <Compile Include="Settings\ISettingsFactory.cs" />
+    <Compile Include="Settings\Settings.cs" />
+    <Compile Include="Settings\SettingsFactory.cs" />
+    <Compile Include="StringFormatter.cs" />
+    <Compile Include="ViewModelBase.cs" />
+    <Compile Include="ViewModel\AmortizationItemVM.cs" />
+    <Compile Include="ViewModel\BeginLoanAgreementVM.cs" />
+    <Compile Include="ViewModel\ErrorLogVM.cs" />
+    <Compile Include="ViewModel\ExceptionLogItemVM.cs" />
+    <Compile Include="ViewModel\ExceptionLogItemWindowVM.cs" />
+    <Compile Include="ViewModel\FindUserRoleVM.cs" />
+    <Compile Include="ViewModel\FindUserVM.cs" />
+    <Compile Include="ViewModel\HomeVM.cs" />
+    <Compile Include="ViewModel\LoanAgreementVM.cs" />
+    <Compile Include="ViewModel\LoanAmortizationVM.cs" />
+    <Compile Include="ViewModel\LoanApplicationCommentVM.cs" />
+    <Compile Include="ViewModel\LoanApplicationDenialVM.cs" />
+    <Compile Include="ViewModel\LoanApplicationVM.cs" />
+    <Compile Include="ViewModel\LoanSearchVM.cs" />
+    <Compile Include="ViewModel\LoanVM.cs" />
+    <Compile Include="ViewModel\LookupsVM.cs" />
+    <Compile Include="ViewModel\LookupVM.cs" />
+    <Compile Include="ViewModel\MainWindowVM.cs" />
+    <Compile Include="ViewModel\MetricLogItemVM.cs" />
+    <Compile Include="ViewModel\MetricLogVM.cs" />
+    <Compile Include="ViewModel\ReceiveLoanPaymentVM.cs" />
+    <Compile Include="ViewModel\RolesVM.cs" />
+    <Compile Include="ViewModel\RoleVM.cs" />
+    <Compile Include="ViewModel\TraceLogItemVM.cs" />
+    <Compile Include="ViewModel\TraceLogVM.cs" />
+    <Compile Include="ViewModel\WorkGroupMemberVM.cs" />
+    <Compile Include="ViewModel\WorkGroupsVM.cs" />
+    <Compile Include="ViewModel\WorkGroupTaskTypeVM.cs" />
+    <Compile Include="ViewModel\WorkGroupVM.cs" />
+    <Compile Include="ViewModel\WorkTaskConfigurationVM.cs" />
+    <Compile Include="ViewModel\WorkTasksHomeVM.cs" />
+    <Compile Include="ViewModel\WorkTasksHome\WorkTaskStatusVM.cs" />
+    <Compile Include="ViewModel\WorkTasksHome\WorkTaskTypeVM.cs" />
+    <Compile Include="ViewModel\WorkTasksHome\WorkTaskVM.cs" />
+    <Compile Include="ViewModel\WorkTaskStatusesVM.cs" />
+    <Compile Include="ViewModel\WorkTaskStatusVM.cs" />
+    <Compile Include="ViewModel\WorkTaskTypesVM.cs" />
+    <Compile Include="ViewModel\WorkTaskTypeVM.cs" />
+    <Compile Include="ViewModel\WorkTaskVM.cs" />
+    <Compile Include="CommonWindow\ErrorLogItemWindow.xaml.cs">
+      <DependentUpon>ErrorLogItemWindow.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Control\ErrorLogItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Control\ExceptionItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Control\LookupEdit.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Control\WorkGroupDetail.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Control\WorkGroupMembers.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Control\WorkGroupTaskTypes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Control\WorkTasksHome.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Control\WorkTaskStatus.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ErrorWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GoogleLogin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="NavigationPage\BeginLoanAgreement.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NavigationPage\Home.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NavigationPage\Loan.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NavigationPage\LoanAmortization.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NavigationPage\LoanApplication.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NavigationPage\LoanApplicationDenial.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NavigationPage\LoanSearch.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NavigationPage\Log\ErrorLog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NavigationPage\Log\LeftNav.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NavigationPage\Log\MetricLog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NavigationPage\Log\TraceLog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NavigationPage\Lookups.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NavigationPage\ReceiveLoanPayment.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NavigationPage\Roles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NavigationPage\User.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NavigationPage\WorkGroup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NavigationPage\WorkGroups.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NavigationPage\WorkTaskConfiguration.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NavigationPage\WorkTaskFrame.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NavigationPage\WorkTaskType.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NavigationPage\WorkTaskTypes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CommonWindow\ErrorLogItemWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\btn_google_sign-in.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Autofac">
+      <Version>7.1.0</Version>
+    </PackageReference>
+    <PackageReference Include="FontAwesome.WPF">
+      <Version>4.7.0.9</Version>
+    </PackageReference>
+    <PackageReference Include="JestersCreditUnion.Interface">
+      <Version>1.0.0-alpha.72</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Bcl.HashCode">
+      <Version>1.1.1</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.CSharp">
+      <Version>4.7.0</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory">
+      <Version>6.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions">
+      <Version>6.0.4</Version>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>13.0.3</Version>
+    </PackageReference>
+    <PackageReference Include="Polly">
+      <Version>7.2.4</Version>
+    </PackageReference>
+    <PackageReference Include="System.ComponentModel.Annotations">
+      <Version>5.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="System.Diagnostics.DiagnosticSource">
+      <Version>6.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt">
+      <Version>6.32.2</Version>
+    </PackageReference>
+    <PackageReference Include="System.Memory">
+      <Version>4.5.5</Version>
+    </PackageReference>
+    <PackageReference Include="System.Text.Json">
+      <Version>6.0.8</Version>
+    </PackageReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

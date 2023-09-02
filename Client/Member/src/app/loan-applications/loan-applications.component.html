@@ -1,0 +1,19 @@
+<h2>Loan Applications</h2>
+<div *ngIf="ErrorMessage" class="alert alert-danger" role="alert">
+    {{ ErrorMessage }}
+</div>
+<div *ngIf="!ErrorMessage && !LoanApplications" class="spinner-border text-primary" role="status">
+    <span class="visually-hidden">Loading...</span>
+</div>
+<div class="row">
+    <div class="col-md-3">
+        <ul style="list-style-type: none; list-style-position: inside; margin: 0; padding: 0;">
+            <li *ngFor="let app of LoanApplications" style="white-space: nowrap; overflow: hidden;">
+                <button type="button" class="btn btn-link" (click)="Select(app)">{{ ToLocalDateString(app.CreateTimestamp) }} {{ app.Purpose }}</button>                
+            </li>
+        </ul>
+    </div>
+    <div *ngIf="SelectedLoanApplication" class="col-md-9">
+        <app-loan-application-view [LoanApplication]="SelectedLoanApplication"></app-loan-application-view>
+    </div>
+</div>
