@@ -16,6 +16,7 @@ namespace Core.Test
         public async Task ProcessFirstPaymentIsLateTest()
         {
             Mock<ISettings> settings = new Mock<ISettings>();
+            Mock<ILoanSaver> loanSaver = new Mock<ILoanSaver>();
             Mock<IPaymentSaver> paymentSaver = new Mock<IPaymentSaver>();
 
             List<IPaymentTransaction> paymentTransactions = new List<IPaymentTransaction>();
@@ -53,13 +54,14 @@ namespace Core.Test
             loan.SetupGet(l => l.Agreement).Returns(agreement.Object);
             loan.Setup(l => l.GetPayments(settings.Object)).Returns(Task.FromResult<IEnumerable<IPayment>>(new List<IPayment> { payment.Object }));
 
-            LoanPaymentProcessor loanPaymentProcessor = new LoanPaymentProcessor(paymentSaver.Object);
+            LoanPaymentProcessor loanPaymentProcessor = new LoanPaymentProcessor(loanSaver.Object, paymentSaver.Object);
             await loanPaymentProcessor.Process(settings.Object, loan.Object);
             Assert.AreEqual(2, paymentTransactions.Where(t => t.Type == TransactionType.InterestPayment).Count());
             Assert.AreEqual(1, paymentTransactions.Where(t => t.Type == TransactionType.PrincipalPayment).Count());
             Assert.AreEqual(1, paymentTransactions.Where(t => t.TermNumber == 1).Count());
             Assert.AreEqual(2, paymentTransactions.Where(t => t.TermNumber == 2).Count());
             Assert.AreEqual(new DateTime(2022, 10, 1), loan.Object.NextPaymentDue.Value);
+            loanSaver.Verify(s => s.Update(settings.Object, loan.Object), Times.Once);
             paymentSaver.Verify(s => s.Update(settings.Object, It.IsNotNull<IEnumerable<IPayment>>()), Times.Once);
         }
     }

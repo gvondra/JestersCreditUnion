@@ -9,10 +9,12 @@ namespace JestersCreditUnion.Core
 {
     public class LoanPaymentProcessor : ILoanPaymentProcessor
     {
+        private readonly ILoanSaver _loanSaver;
         private readonly IPaymentSaver _paymentSaver;
 
-        public LoanPaymentProcessor(IPaymentSaver paymentSaver)
+        public LoanPaymentProcessor(ILoanSaver loanSaver, IPaymentSaver paymentSaver)
         {
+            _loanSaver = loanSaver;
             _paymentSaver = paymentSaver;
         }
 
@@ -29,6 +31,7 @@ namespace JestersCreditUnion.Core
             };
             ProcessTerm(settings, paymentTerm);
             await UpdatePayments(settings, paymentTerm.Payments.Where(p => p.Status == PaymentStatus.Unprocessed));
+            await _loanSaver.Update(settings, loan);
         }
 
         private async Task UpdatePayments(ISettings settings, IEnumerable<IPayment> payments)
@@ -65,7 +68,9 @@ namespace JestersCreditUnion.Core
                 if (interestDue == 0.0M && paymentTerm.Loan.NextPaymentDue.Value == paymentTerm.EndDate)
                     paymentTerm.Loan.NextPaymentDue = PaymentDateCalculator.NextPaymentDate(paymentTerm.Loan.NextPaymentDue.Value, paymentTerm.Loan.Agreement.PaymentFrequency);
             }
-            if (paymentTerm.EndDate < DateTime.Today)
+            if (remainingPrincipal <= 0.0M)
+                paymentTerm.Loan.Status = LoanStatus.Closed;
+            if (paymentTerm.EndDate < DateTime.Today && remainingPrincipal > 0.0M)
             {
                 ProcessTerm(settings, paymentTerm.NextTerm(remainingPrincipal));
             }

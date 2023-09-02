@@ -1,7 +1,7 @@
 ﻿CREATE PROCEDURE [ln].[GetLoan_with_UnprocessedPayments]
 AS
 BEGIN 
-	SELECT [LoanId], [Number], [LoanApplicationId], [InitialDisbursementDate], [FirstPaymentDue], [NextPaymentDue],
+	SELECT [LoanId], [Number], [LoanApplicationId], [InitialDisbursementDate], [FirstPaymentDue], [NextPaymentDue], [Status],
 		[CreateTimestamp], [UpdateTimestamp]
 	FROM [ln].[Loan]
 	WHERE EXISTS (SELECT TOP 1 1

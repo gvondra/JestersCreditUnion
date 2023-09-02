@@ -2,7 +2,7 @@
 	@number VARCHAR(16)
 AS
 BEGIN
-	SELECT TOP 1 [LoanId], [Number], [LoanApplicationId], [InitialDisbursementDate], [FirstPaymentDue], [NextPaymentDue],
+	SELECT TOP 1 [LoanId], [Number], [LoanApplicationId], [InitialDisbursementDate], [FirstPaymentDue], [NextPaymentDue], [Status],
 		[CreateTimestamp], [UpdateTimestamp]
 	FROM [ln].[Loan]
 	WHERE [Number] = @number;

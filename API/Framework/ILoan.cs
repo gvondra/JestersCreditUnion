@@ -15,6 +15,7 @@ namespace JestersCreditUnion.Framework
         DateTime? InitialDisbursementDate { get; set; }
         DateTime? FirstPaymentDue { get; set; }
         DateTime? NextPaymentDue { get; set; }
+        LoanStatus Status { get; set; }
         DateTime CreateTimestamp { get; }
         DateTime UpdateTimestamp { get; }
 

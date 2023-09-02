@@ -3,6 +3,7 @@
 	@initialDisbursementDate DATE,
 	@firstPaymentDue DATE,
 	@nextPaymentDue DATE,
+	@status SMALLINT = 0,
 	@timestamp DATETIME2(4) OUT
 AS
 BEGIN
@@ -11,6 +12,7 @@ BEGIN
 	SET [InitialDisbursementDate] = @initialDisbursementDate, 
 	[FirstPaymentDue] = @firstPaymentDue,
 	[NextPaymentDue] = @nextPaymentDue,
+	[Status] = @status,
 	[UpdateTimestamp] = @timestamp
 	WHERE [LoanId] = @id;
 END

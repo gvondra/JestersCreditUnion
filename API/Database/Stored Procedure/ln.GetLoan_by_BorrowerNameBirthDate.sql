@@ -3,7 +3,7 @@
 	@birthDate DATE
 AS
 BEGIN
-	SELECT [LoanId], [Number], [LoanApplicationId], [InitialDisbursementDate], [FirstPaymentDue], [NextPaymentDue],
+	SELECT [LoanId], [Number], [LoanApplicationId], [InitialDisbursementDate], [FirstPaymentDue], [NextPaymentDue], [Status],
 		[CreateTimestamp], [UpdateTimestamp]
 	FROM [ln].[Loan] [l]
 	WHERE EXISTS (SELECT TOP 1 1

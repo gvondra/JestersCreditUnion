@@ -7,6 +7,13 @@ namespace JestersCreditUnion.Framework.Enumerations
         Processed = 1
     }
 
+    public enum LoanStatus : short
+    {
+        New = 0,
+        Open = 1,
+        Closed = 2
+    }
+
     public enum LoanApplicationStatus : short
     {
         Unset = 0,
