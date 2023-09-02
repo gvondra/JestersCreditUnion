@@ -25,5 +25,6 @@ namespace JestersCreditUnion.Framework
         ITransaction CreateTransaction(DateTime date, TransactionType type, decimal amount);
         Task<IEnumerable<ITransaction>> GetTransactions(ISettings settings);
         Task<IEnumerable<IPayment>> GetPayments(ISettings settings);
+        Task<string> GetStatusDescription(ISettings settings);
     }
 }

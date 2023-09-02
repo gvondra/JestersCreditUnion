@@ -61,7 +61,7 @@ namespace API.Controllers
         [Authorize(Constants.POLICY_LOAN_READ)]
         [ProducesResponseType(typeof(Loan), 200)]
         [ProducesResponseType(typeof(Loan[]), 200)]
-        [HttpGet()]
+        [HttpGet]
         public async Task<IActionResult> Search(
             [FromQuery] Guid? loanApplicationId,
             [FromQuery] string number,
@@ -382,6 +382,7 @@ namespace API.Controllers
             loan.Agreement.CoBorrowerEmailAddress = coborrowerEmailAddress != null ? coborrowerEmailAddress.Address : string.Empty;
             loan.Agreement.BorrowerPhone = borrowerPhone != null ? borrowerPhone.Number : string.Empty;
             loan.Agreement.CoBorrowerPhone = coborrowerPhone != null ? coborrowerPhone.Number : string.Empty;
+            loan.StatusDescription = await innerLoan.GetStatusDescription(settings);
 
             return loan;
         }

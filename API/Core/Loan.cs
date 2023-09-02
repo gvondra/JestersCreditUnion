@@ -15,17 +15,20 @@ namespace JestersCreditUnion.Core
         private readonly ILoanDataSaver _dataSaver;
         private readonly ILoanFactory _factory;
         private readonly IPaymentFactory _paymentFactory;
+        private readonly ILookupFactory _lookupFactory;
         private ILoanAgreement _agreement;
 
         public Loan(LoanData data,
             ILoanDataSaver dataSaver,
             ILoanFactory factory,
-            IPaymentFactory paymentFactory)
+            IPaymentFactory paymentFactory,
+            ILookupFactory lookupFactory)
         {
             _data = data;
             _dataSaver = dataSaver;
             _factory = factory;
             _paymentFactory = paymentFactory;
+            _lookupFactory = lookupFactory;
         }
 
         public Guid LoanId => _data.LoanId;
@@ -78,5 +81,15 @@ namespace JestersCreditUnion.Core
         public Task<IEnumerable<ITransaction>> GetTransactions(Framework.ISettings settings) => _factory.TransactionFacatory.GetByLoanId(settings, LoanId);
         public ITransaction CreateTransaction(DateTime date, TransactionType type, decimal amount) => _factory.TransactionFacatory.Create(this, date, type, amount);
         public Task<IEnumerable<IPayment>> GetPayments(Framework.ISettings settings) => _paymentFactory.GetByLoanId(settings, LoanId);
+        public async Task<string> GetStatusDescription(Framework.ISettings settings)
+        {
+            string result = null;
+            ILookup lookup = await _lookupFactory.GetLookup(settings, typeof(LoanStatus));
+            if (lookup != null)
+            {
+                result = lookup.GetDataValue(Status);
+            }
+            return result;
+        }
     }
 }

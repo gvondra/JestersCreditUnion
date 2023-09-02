@@ -14,18 +14,21 @@ namespace JestersCreditUnion.Core
         private readonly ILoanDataSaver _dataSaver;
         private readonly LoanNumberGenerator _numberGenerator;
         private readonly IPaymentFactory _paymentFactory;
+        private readonly ILookupFactory _lookupFactory;
 
         public LoanFactory(ILoanDataFactory dataFactory,
             ILoanDataSaver dataSaver,
             LoanNumberGenerator numberGenerator,
             IPaymentDataFactory paymentDataFactory,
             IPaymentDataSaver paymentDataSaver,
-            ITransactionDataSaver transactionDataSaver)
+            ITransactionDataSaver transactionDataSaver,
+            ILookupFactory lookupFactory)
         {
             _dataFactory = dataFactory;
             _dataSaver = dataSaver;
             _numberGenerator = numberGenerator;
             _paymentFactory = new PaymentFactory(paymentDataFactory, transactionDataSaver, paymentDataSaver);
+            _lookupFactory = lookupFactory;
         }
 
         public IAddressFactory AddressFactory { get; set; }
@@ -33,7 +36,7 @@ namespace JestersCreditUnion.Core
         public IPhoneFactory PhoneFactory { get; set; }
         public ITransactionFacatory TransactionFacatory { get; set; }
 
-        private Loan Create(LoanData data) => new Loan(data, _dataSaver, this, _paymentFactory);
+        private Loan Create(LoanData data) => new Loan(data, _dataSaver, this, _paymentFactory, _lookupFactory);
 
         public ILoan Create(ILoanApplication loanApplication)
         {

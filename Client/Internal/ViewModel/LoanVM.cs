@@ -28,6 +28,8 @@ namespace JCU.Internal.ViewModel
 
         public string Number => _innerLoan.Number;
 
+        public string StatusDescription => _innerLoan.StatusDescription ?? string.Empty;
+
         public DateTime? FirstPaymentDue
         {
             get => _innerLoan.FirstPaymentDue;
