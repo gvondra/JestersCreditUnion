@@ -4,8 +4,8 @@
 		<TargetFramework>net6.0</TargetFramework>
 		<ImplicitUsings>disable</ImplicitUsings>
 		<Nullable>disable</Nullable>
-		<AssemblyName>JCU.Data</AssemblyName>
-		<RootNamespace>JestersCreditUnion.Data</RootNamespace>
+		<AssemblyName>JCU.Loan.Data</AssemblyName>
+		<RootNamespace>JestersCreditUnion.Loan.Data</RootNamespace>
 		<Authors>Greg Vondra</Authors>
 		<Company />
 		<Product>Jesters Credit Union</Product>
