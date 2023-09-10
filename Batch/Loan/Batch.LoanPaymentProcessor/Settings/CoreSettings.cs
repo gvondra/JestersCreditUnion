@@ -1,4 +1,4 @@
-﻿using JestersCreditUnion.Framework;
+﻿using JestersCreditUnion.Loan.Framework;
 using System;
 using System.Threading.Tasks;
 
