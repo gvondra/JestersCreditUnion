@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using JestersCreditUnion.CommonAPI;
-using JestersCreditUnion.Framework;
+using JestersCreditUnion.Loan.Framework;
 using JestersCreditUnion.Interface.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -410,8 +410,8 @@ namespace API.Controllers
                 }
                 if (result == null)
                 {
-                    if (innerLoan.Agreement.Status == JestersCreditUnion.Framework.Enumerations.LoanAgrementStatus.PendingSignoff)
-                        innerLoan.Agreement.Status = JestersCreditUnion.Framework.Enumerations.LoanAgrementStatus.Agreed;
+                    if (innerLoan.Agreement.Status == JestersCreditUnion.Loan.Framework.Enumerations.LoanAgrementStatus.PendingSignoff)
+                        innerLoan.Agreement.Status = JestersCreditUnion.Loan.Framework.Enumerations.LoanAgrementStatus.Agreed;
                     await _loanSaver.InitiateDisburseFundsUpdate(settings, innerLoan);
                     IMapper mapper = MapperConfiguration.CreateMapper();
                     result = Ok(

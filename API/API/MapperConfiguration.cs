@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using JestersCreditUnion.Framework;
+using JestersCreditUnion.Loan.Framework;
 using JestersCreditUnion.Interface.Models;
 using AuthorizationAPI = BrassLoon.Interface.Authorization.Models;
 using ConfigAPI = BrassLoon.Interface.Config.Models;

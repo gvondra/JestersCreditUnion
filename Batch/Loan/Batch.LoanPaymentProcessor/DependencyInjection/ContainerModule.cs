@@ -7,7 +7,7 @@ namespace JestersCreditUnion.Batch.LoanPaymentProcessor.DependencyInjection
         protected override void Load(ContainerBuilder builder)
         {
             base.Load(builder);
-            builder.RegisterModule(new JestersCreditUnion.Loan.Core.CoreModule());
+            builder.RegisterModule(new JestersCreditUnion.Loan.Core.LoanCoreModule());
             builder.RegisterType<LoanPaymentProcessor>().SingleInstance();
             builder.RegisterType<SettingsFactory>().SingleInstance();
         }

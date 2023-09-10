@@ -3,7 +3,7 @@ using JestersCreditUnion.Loan.Framework;
 
 namespace JestersCreditUnion.Loan.Core
 {
-    public class CoreModule : Module
+    public class LoanCoreModule : Module
     {
         protected override void Load(ContainerBuilder builder)
         {

@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using JestersCreditUnion.CommonAPI;
-using JestersCreditUnion.Framework;
-using JestersCreditUnion.Framework.Constants;
+using JestersCreditUnion.Loan.Framework;
+using JestersCreditUnion.Loan.Framework.Constants;
 using JestersCreditUnion.Interface.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;

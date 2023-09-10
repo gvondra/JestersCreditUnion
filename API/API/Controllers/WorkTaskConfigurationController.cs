@@ -1,6 +1,6 @@
 ﻿using BrassLoon.Interface.Config.Models;
 using JestersCreditUnion.CommonAPI;
-using JestersCreditUnion.Framework.Constants;
+using JestersCreditUnion.Loan.Framework.Constants;
 using JestersCreditUnion.Interface.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;

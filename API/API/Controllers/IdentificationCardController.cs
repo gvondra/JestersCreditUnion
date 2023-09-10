@@ -1,5 +1,5 @@
 ﻿using JestersCreditUnion.CommonAPI;
-using JestersCreditUnion.Framework;
+using JestersCreditUnion.Loan.Framework;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
