@@ -1,9 +1,9 @@
-﻿using JestersCreditUnion.Interface.Models;
+﻿using JestersCreditUnion.Interface.Loan.Models;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace JestersCreditUnion.Interface
+namespace JestersCreditUnion.Interface.Loan
 {
     public interface IAmortizationService
     {

@@ -1,11 +1,11 @@
 ﻿using BrassLoon.RestClient;
-using JestersCreditUnion.Interface.Models;
+using JestersCreditUnion.Interface.Loan.Models;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace JestersCreditUnion.Interface
+namespace JestersCreditUnion.Interface.Loan
 {
     public class AmortizationService : IAmortizationService
     {

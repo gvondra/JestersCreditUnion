@@ -1,4 +1,4 @@
-﻿namespace JestersCreditUnion.Interface.Models
+﻿namespace JestersCreditUnion.Interface.Loan.Models
 {
     public class AmortizationItem
     {

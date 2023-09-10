@@ -4,15 +4,15 @@
 		<TargetFrameworks>net6.0;netstandard2.0;net48</TargetFrameworks>
 		<ImplicitUsings>disable</ImplicitUsings>
 		<Nullable>disable</Nullable>
-		<AssemblyName>JestersCreditUnion.Interface</AssemblyName>
-		<RootNamespace>JestersCreditUnion.Interface</RootNamespace>
+		<AssemblyName>JestersCreditUnion.Interface.Loan</AssemblyName>
+		<RootNamespace>JestersCreditUnion.Interface.Loan</RootNamespace>
 		<Authors>Greg Vondra</Authors>
 		<Company />
 		<Product>Jesters Credit Union</Product>
 		<PackageLicenseExpression>GPL-3.0-only</PackageLicenseExpression>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<Version>1.0.0-alpha.73</Version>
-		<AssemblyVersion>1.0.0.73</AssemblyVersion>
+		<Version>1.0.0-alpha.1</Version>
+		<AssemblyVersion>1.0.0.1</AssemblyVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

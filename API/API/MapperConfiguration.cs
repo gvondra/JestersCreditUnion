@@ -8,7 +8,7 @@ using WorkTaskAPI = BrassLoon.Interface.WorkTask.Models;
 
 namespace API
 {
-    public sealed class MapperConfiguration
+    public static class MapperConfiguration
     {
         private static readonly AutoMapper.MapperConfiguration _mapperConfiguration;
 

@@ -1,38 +1,37 @@
-﻿using JestersCreditUnion.CommonAPI;
+﻿using BrassLoon.Interface.Authorization;
+using JestersCreditUnion.CommonAPI;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System;
 using AuthorizationAPI = BrassLoon.Interface.Authorization;
 
-namespace API
+namespace LoanAPI
 {
-    public abstract class APIControllerBase : CommonControllerBase
+    public class LoanApiControllerBase : CommonControllerBase
     {
-        protected readonly ISettingsFactory _settingsFactory;
         protected readonly IOptions<Settings> _settings;
+        protected readonly ISettingsFactory _settingsFactory;
         private CoreSettings _coreSettings;
         private AuthorizationSettings _authorizationSettings;
-        private ConfigurationSettings _configSettings;
-        private WorkTaskSettings _workTaskSettings;
 
-        public APIControllerBase(
+        public LoanApiControllerBase(
             IOptions<Settings> settings,
             ISettingsFactory settingsFactory,
-            AuthorizationAPI.IUserService userService,
-            ILogger logger
-            ) : base(userService, logger)
+            IUserService userService,
+            ILogger logger)
+            : base(userService, logger)
         {
-            _settingsFactory = settingsFactory;
             _settings = settings;
+            _settingsFactory = settingsFactory;
         }
 
         protected async Task WriteMetrics(string eventCode, double? magnitude, IActionResult actionResult = null, Dictionary<string, string> data = null)
         {
             await base.WriteMetrics(
-                _settingsFactory.CreateAuthorization(_settings.Value),
+                _settingsFactory.CreateAuthorization(),
                 _settings.Value.AuthorizationDomainId.Value,
                 eventCode,
                 magnitude: magnitude,
@@ -61,29 +60,15 @@ namespace API
         protected virtual CoreSettings GetCoreSettings()
         {
             if (_coreSettings == null)
-                _coreSettings = _settingsFactory.CreateCore(_settings.Value);
+                _coreSettings = _settingsFactory.CreateCore();
             return _coreSettings;
         }
 
         protected virtual AuthorizationSettings GetAuthorizationSettings()
         {
             if (_authorizationSettings == null)
-                _authorizationSettings = _settingsFactory.CreateAuthorization(_settings.Value);
+                _authorizationSettings = _settingsFactory.CreateAuthorization();
             return _authorizationSettings;
-        }
-
-        protected virtual ConfigurationSettings GetConfigurationSettings()
-        {
-            if (_configSettings == null)
-                _configSettings = _settingsFactory.CreateConfiguration(_settings.Value);
-            return _configSettings;
-        }
-
-        protected virtual WorkTaskSettings GetWorkTaskSettings()
-        {
-            if (_workTaskSettings == null)
-                _workTaskSettings = _settingsFactory.CreateWorkTask(_settings.Value);
-            return _workTaskSettings;
         }
     }
 }
