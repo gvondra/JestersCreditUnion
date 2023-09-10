@@ -1,10 +1,10 @@
-﻿using JestersCreditUnion.Data.Models;
+﻿using JestersCreditUnion.Loan.Data.Models;
 using System.Data.Common;
 using System.Data;
 using System.Threading.Tasks;
 using System.Collections;
 
-namespace JestersCreditUnion.Data.Internal
+namespace JestersCreditUnion.Loan.Data.Internal
 {
     public class AddressDataSaver : DataSaverBase, IAddressDataSaver
     {

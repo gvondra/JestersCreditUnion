@@ -1,4 +1,4 @@
-﻿namespace JestersCreditUnion.Data.Internal
+﻿namespace JestersCreditUnion.Loan.Data.Internal
 {
     public abstract class DataSaverBase
     {

@@ -1,7 +1,7 @@
-﻿using JestersCreditUnion.Data.Models;
+﻿using JestersCreditUnion.Loan.Data.Models;
 using System.Threading.Tasks;
 
-namespace JestersCreditUnion.Data
+namespace JestersCreditUnion.Loan.Data
 {
     public interface IPhoneDataFactory
     {

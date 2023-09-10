@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace JestersCreditUnion.Data.Models
+namespace JestersCreditUnion.Loan.Data.Models
 {
     public class PaymentData : DataManagedStateBase
     {

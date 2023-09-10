@@ -1,4 +1,4 @@
-﻿using JestersCreditUnion.Data.Models;
+﻿using JestersCreditUnion.Loan.Data.Models;
 using System.Data.Common;
 using System.Data;
 using System.Linq;
@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Globalization;
 using System.Collections.Generic;
 
-namespace JestersCreditUnion.Data.Internal
+namespace JestersCreditUnion.Loan.Data.Internal
 {
     public class LoanDataFactory : DataFactoryBase<LoanData>, ILoanDataFactory
     {

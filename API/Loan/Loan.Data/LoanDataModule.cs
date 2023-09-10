@@ -1,9 +1,9 @@
 ﻿using Autofac;
-using JestersCreditUnion.Data.Internal;
+using JestersCreditUnion.Loan.Data.Internal;
 
-namespace JestersCreditUnion.Data
+namespace JestersCreditUnion.Loan.Data
 {
-    public class DataModule : Module
+    public class LoanDataModule : Module
     {
         protected override void Load(ContainerBuilder builder)
         {

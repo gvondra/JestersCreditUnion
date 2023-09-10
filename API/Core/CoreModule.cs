@@ -8,7 +8,7 @@ namespace JestersCreditUnion.Core
         protected override void Load(ContainerBuilder builder)
         {
             base.Load(builder);
-            builder.RegisterModule(new JestersCreditUnion.Data.DataModule());
+            builder.RegisterModule(new JestersCreditUnion.Data.LoanDataModule());
             builder.RegisterType<SettingsFactory>().InstancePerLifetimeScope();
             builder.RegisterType<AddressFactory>().As<IAddressFactory>();
             builder.RegisterType<AddressSaver>().As<IAddressSaver>();

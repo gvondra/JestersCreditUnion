@@ -1,4 +1,4 @@
-﻿using JestersCreditUnion.Data.Models;
+﻿using JestersCreditUnion.Loan.Data.Models;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
@@ -6,7 +6,7 @@ using System.Data.Common;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace JestersCreditUnion.Data.Internal
+namespace JestersCreditUnion.Loan.Data.Internal
 {
     public class PaymentDataSaver : DataSaverBase, IPaymentDataSaver
     {

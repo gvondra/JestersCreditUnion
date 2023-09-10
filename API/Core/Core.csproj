@@ -36,8 +36,8 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\CommonCore\CommonCore.csproj" />
-		<ProjectReference Include="..\Data\Data.csproj" />
 		<ProjectReference Include="..\Framework\Framework.csproj" />
+		<ProjectReference Include="..\Loan\Loan.Data\Loan.Data.csproj" />
 	</ItemGroup>
 
 </Project>
