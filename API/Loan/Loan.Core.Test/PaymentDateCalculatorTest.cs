@@ -1,9 +1,9 @@
-﻿using JestersCreditUnion.Core;
-using JestersCreditUnion.Framework.Enumerations;
+﻿using JestersCreditUnion.Loan.Core;
+using JestersCreditUnion.Loan.Framework.Enumerations;
 using System;
 using System.Linq;
 
-namespace Core.Test
+namespace Loan.Core.Test
 {
     [TestClass]
     public class PaymentDateCalculatorTest

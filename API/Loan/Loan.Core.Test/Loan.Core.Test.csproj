@@ -20,8 +20,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Core\Core.csproj" />
-    <ProjectReference Include="..\Framework\Framework.csproj" />
+    <ProjectReference Include="..\Loan.Core\Loan.Core.csproj" />
+    <ProjectReference Include="..\Loan.Framework\Loan.Framework.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,4 @@
-﻿using JestersCreditUnion.Core;
+﻿using JestersCreditUnion.Loan.Core;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace Core.Test
+namespace Loan.Core.Test
 {
     [TestClass]
     public class LoanNumberGeneratorTest

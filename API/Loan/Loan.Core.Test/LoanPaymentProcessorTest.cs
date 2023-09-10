@@ -1,13 +1,13 @@
-﻿using JestersCreditUnion.Core;
-using JestersCreditUnion.Framework;
-using JestersCreditUnion.Framework.Enumerations;
+﻿using JestersCreditUnion.Loan.Core;
+using JestersCreditUnion.Loan.Framework;
+using JestersCreditUnion.Loan.Framework.Enumerations;
 using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Core.Test
+namespace Loan.Core.Test
 {
     [TestClass]
     public class LoanPaymentProcessorTest
