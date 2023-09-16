@@ -7,6 +7,7 @@
 	[FirstPaymentDue] DATE NULL,
 	[NextPaymentDue] DATE NULL,
 	[Status] SMALLINT CONSTRAINT [DF_Loan_Status] DEFAULT 0 NOT NULL,
+	[Balance] DECIMAL(11,2) NULL,
 	[CreateTimestamp] DATETIME2(4) CONSTRAINT [DF_Loan_CreateTimestamp] DEFAULT (SYSUTCDATETIME()) NOT NULL,
 	[UpdateTimestamp] DATETIME2(4) CONSTRAINT [DF_Loan_UpdateTimestamp] DEFAULT (SYSUTCDATETIME()) NOT NULL,
 	CONSTRAINT [PK_Loan] PRIMARY KEY NONCLUSTERED ([LoanId]), 

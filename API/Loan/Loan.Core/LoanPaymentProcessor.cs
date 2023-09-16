@@ -74,6 +74,10 @@ namespace JestersCreditUnion.Loan.Core
             {
                 ProcessTerm(settings, paymentTerm.NextTerm(remainingPrincipal));
             }
+            else
+            {
+                paymentTerm.Loan.Balance = remainingPrincipal;
+            }
         }
 
         private static void SetPaymentTransactions(

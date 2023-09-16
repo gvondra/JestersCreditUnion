@@ -4,6 +4,7 @@
 	@firstPaymentDue DATE,
 	@nextPaymentDue DATE,
 	@status SMALLINT = 0,
+	@balance DECIMAL(11,2) = NULL,
 	@timestamp DATETIME2(4) OUT
 AS
 BEGIN
@@ -13,6 +14,7 @@ BEGIN
 	[FirstPaymentDue] = @firstPaymentDue,
 	[NextPaymentDue] = @nextPaymentDue,
 	[Status] = @status,
+	[Balance] = @balance,
 	[UpdateTimestamp] = @timestamp
 	WHERE [LoanId] = @id;
 END

@@ -13,6 +13,7 @@ namespace JestersCreditUnion.Interface.Loan.Models
         public DateTime? NextPaymentDue { get; set; }
         public short? Status { get; set; }
         public string StatusDescription { get; set; }
+        public decimal? Balance { get; set; }
         public DateTime? CreateTimestamp { get; set; }
         public DateTime? UpdateTimestamp { get; set; }
     }

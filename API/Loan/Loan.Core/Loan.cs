@@ -62,6 +62,7 @@ namespace JestersCreditUnion.Loan.Core
         public DateTime? FirstPaymentDue { get => _data.FirstPaymentDue; set => _data.FirstPaymentDue = value; }
         public DateTime? NextPaymentDue { get => _data.NextPaymentDue; set => _data.NextPaymentDue = value; }
         public LoanStatus Status { get => (LoanStatus)_data.Status; set => _data.Status = (short)value; }
+        public decimal? Balance { get => _data.Balance; set => _data.Balance = value; }
 
         public async Task Create(ITransactionHandler transactionHandler)
         {

@@ -70,6 +70,7 @@ namespace JestersCreditUnion.Loan.Data.Internal
             DataUtil.AddParameter(_providerFactory, commandParameters, "firstPaymentDue", DbType.Date, DataUtil.GetParameterValue(data.FirstPaymentDue));
             DataUtil.AddParameter(_providerFactory, commandParameters, "nextPaymentDue", DbType.Date, DataUtil.GetParameterValue(data.NextPaymentDue));
             DataUtil.AddParameter(_providerFactory, commandParameters, "status", DbType.Int16, DataUtil.GetParameterValue(data.Status));
+            DataUtil.AddParameter(_providerFactory, commandParameters, "balance", DbType.Decimal, DataUtil.GetParameterValue(data.Balance));
         }
     }
 }

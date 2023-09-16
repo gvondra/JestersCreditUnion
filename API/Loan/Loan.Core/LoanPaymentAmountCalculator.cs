@@ -13,7 +13,7 @@ namespace JestersCreditUnion.Loan.Core
         {
             double rate = (double)annualInterestRate / (double)paymentFrequency;
             return (decimal)Math.Round(
-                (double)totalPrincipal * ((rate * Math.Pow(1.0 + rate, term)) / (Math.Pow(1.0 + rate, term) - 1.0))
+                (double)totalPrincipal * (rate * Math.Pow(1.0 + rate, term) / (Math.Pow(1.0 + rate, term) - 1.0))
                 , 5,
                 MidpointRounding.ToEven);
         }

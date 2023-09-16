@@ -9,6 +9,7 @@
         [ColumnMapping] public DateTime? FirstPaymentDue { get; set; }
         [ColumnMapping] public DateTime? NextPaymentDue { get; set; }
         [ColumnMapping] public short Status { get; set; }
+        [ColumnMapping] public decimal? Balance { get; set; }
         [ColumnMapping(IsUtc = true)] public DateTime CreateTimestamp { get; set; }
         [ColumnMapping(IsUtc = true)] public DateTime UpdateTimestamp { get; set; }
         public LoanAgreementData Agreement { get; set; }
