@@ -64,6 +64,9 @@
     <Folder Include="ln" />
     <Folder Include="ln\Table" />
     <Folder Include="ln\Stored Procedure" />
+    <Folder Include="lnwrk" />
+    <Folder Include="lnwrk\Table" />
+    <Folder Include="lnwrk\Stored Procedure" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="ln.sql" />
@@ -131,6 +134,13 @@
     <Build Include="ln\Stored Procedure\ln.UpdateLoanApplication.sql" />
     <Build Include="ln\Stored Procedure\ln.UpdateLoanApplicationDenial.sql" />
     <Build Include="ln\Stored Procedure\ln.UpdatePayment.sql" />
+    <Build Include="lnwrk.sql" />
+    <Build Include="lnwrk\Table\lnwrk.Loan.sql" />
+    <Build Include="lnwrk\Table\lnwrk.LoanAgreement.sql" />
+    <Build Include="lnwrk\Table\lnwrk.LoanBalance.sql" />
+    <Build Include="lnwrk\Stored Procedure\lnwrk.MergeLoan.sql" />
+    <Build Include="lnwrk\Stored Procedure\lnwrk.MergeLoanAgreement.sql" />
+    <Build Include="lnwrk\Stored Procedure\lnwrk.MergeLoanBalance.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="LocalSqlSchemaCompare.scmp" />
