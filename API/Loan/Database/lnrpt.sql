@@ -1,0 +1,1 @@
+﻿CREATE SCHEMA [lnrpt] AUTHORIZATION [dbo];
