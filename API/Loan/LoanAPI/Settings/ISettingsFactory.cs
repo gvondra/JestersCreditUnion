@@ -6,6 +6,7 @@ namespace LoanAPI
     {
         CoreSettings CreateCore();
         AuthorizationSettings CreateAuthorization();
+        ConfigurationSettings CreateConfiguration();
     }
 }
 #pragma warning restore IDE0130 // Namespace does not match folder structure

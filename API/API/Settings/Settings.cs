@@ -20,7 +20,6 @@ namespace API
         public Guid? WorkTaskDomainId { get; set; }
         public string AuthorizationApiBaseAddress { get; set; }
         public string WorkTaskConfigurationCode { get; set; }
-        public string LookupIndexConfigurationCode { get; set; }
         public string IdentitificationCardContainerName { get; set; }
         public string EncryptionKeyVault { get; set; }
     }

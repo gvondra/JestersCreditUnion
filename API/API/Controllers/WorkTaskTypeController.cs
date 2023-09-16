@@ -23,7 +23,7 @@ namespace API.Controllers
         public WorkTaskTypeController(IOptions<Settings> settings,
             ISettingsFactory settingsFactory,
             AuthorizationAPI.IUserService userService,
-            ILogger<LoanApplicationController> logger,
+            ILogger<WorkTaskTypeController> logger,
             WorkTaskAPI.IWorkTaskTypeService workTaskTypeService)
             : base(settings, settingsFactory, userService, logger)
         {

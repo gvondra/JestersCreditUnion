@@ -13,7 +13,6 @@ namespace API
     {
         protected readonly ISettingsFactory _settingsFactory;
         protected readonly IOptions<Settings> _settings;
-        private CoreSettings _coreSettings;
         private AuthorizationSettings _authorizationSettings;
         private ConfigurationSettings _configSettings;
         private WorkTaskSettings _workTaskSettings;
@@ -57,13 +56,6 @@ namespace API
 
         protected virtual Task<string> GetCurrentUserEmailAddress(AuthorizationAPI.ISettings settings)
             => GetCurrentUserEmailAddress(settings, _settings.Value.AuthorizationDomainId.Value);
-
-        protected virtual CoreSettings GetCoreSettings()
-        {
-            if (_coreSettings == null)
-                _coreSettings = _settingsFactory.CreateCore(_settings.Value);
-            return _coreSettings;
-        }
 
         protected virtual AuthorizationSettings GetAuthorizationSettings()
         {

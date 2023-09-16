@@ -24,7 +24,7 @@ namespace API.Controllers
         public WorkGroupController(IOptions<Settings> settings,
             ISettingsFactory settingsFactory,
             AuthorizationAPI.IUserService userService,
-            ILogger<LoanApplicationController> logger,
+            ILogger<WorkGroupController> logger,
             WorkTaskAPI.IWorkGroupService workGroupService)
             : base(settings, settingsFactory, userService, logger)
         {

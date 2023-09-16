@@ -34,9 +34,6 @@ namespace API
                 settings.BrassLoonLogClientSecret);
         }
 
-        public CoreSettings CreateCore(Settings settings)
-            => new CoreSettings(settings);
-
         public LogSettings CreateLog(Settings settings)
         {
             return new LogSettings(_tokenService,

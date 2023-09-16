@@ -11,7 +11,6 @@ namespace API
             builder.RegisterModule(new BrassLoon.Interface.Config.ConfigInterfaceModule());
             builder.RegisterModule(new BrassLoon.Interface.Log.LogInterfaceModule());
             builder.RegisterModule(new BrassLoon.Interface.WorkTask.WorkTaskInterfaceModule());
-            builder.RegisterModule(new JestersCreditUnion.Loan.Core.LoanCoreModule());
             builder.RegisterType<SettingsFactory>().As<ISettingsFactory>().InstancePerLifetimeScope();
         }
     }

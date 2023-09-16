@@ -24,7 +24,7 @@ namespace API.Controllers
         public UserController(IOptions<Settings> settings,
             ISettingsFactory settingsFactory,
             AuthorizationAPI.IUserService userService,
-            ILogger<LoanApplicationController> logger)
+            ILogger<UserController> logger)
             : base(settings, settingsFactory, userService, logger)
         {
             _userService = userService;

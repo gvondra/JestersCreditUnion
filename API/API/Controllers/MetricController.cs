@@ -25,7 +25,7 @@ namespace API.Controllers
         public MetricController(IOptions<Settings> settings,
             ISettingsFactory settingsFactory,
             AuthorizationAPI.IUserService userService,
-            ILogger<LoanApplicationController> logger,
+            ILogger<MetricController> logger,
             Log.IMetricService metricService)
             : base(settings, settingsFactory, userService, logger)
         {

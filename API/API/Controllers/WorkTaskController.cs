@@ -24,7 +24,7 @@ namespace API.Controllers
         public WorkTaskController(IOptions<Settings> settings,
             ISettingsFactory settingsFactory,
             AuthorizationAPI.IUserService userService,
-            ILogger<LoanApplicationController> logger,
+            ILogger<WorkTaskController> logger,
             WorkTaskAPI.IWorkTaskService workTaskService)
             : base(settings, settingsFactory, userService, logger)
         {

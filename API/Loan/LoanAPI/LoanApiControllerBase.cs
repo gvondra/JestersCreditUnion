@@ -16,6 +16,7 @@ namespace LoanAPI
         protected readonly ISettingsFactory _settingsFactory;
         private CoreSettings _coreSettings;
         private AuthorizationSettings _authorizationSettings;
+        private ConfigurationSettings _configurationSettings;
 
         public LoanApiControllerBase(
             IOptions<Settings> settings,
@@ -69,6 +70,13 @@ namespace LoanAPI
             if (_authorizationSettings == null)
                 _authorizationSettings = _settingsFactory.CreateAuthorization();
             return _authorizationSettings;
+        }
+
+        protected virtual ConfigurationSettings GetConfigurationSettings()
+        {
+            if (_configurationSettings == null)
+                _configurationSettings = _settingsFactory.CreateConfiguration();
+            return _configurationSettings;
         }
     }
 }

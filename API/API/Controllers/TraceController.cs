@@ -24,7 +24,7 @@ namespace API.Controllers
         public TraceController(IOptions<Settings> settings,
             ISettingsFactory settingsFactory,
             AuthorizationAPI.IUserService userService,
-            ILogger<LoanApplicationController> logger,
+            ILogger<TraceController> logger,
             Log.ITraceService traceService)
             : base(settings, settingsFactory, userService, logger)
         {

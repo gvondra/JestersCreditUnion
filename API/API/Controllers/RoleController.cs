@@ -23,7 +23,7 @@ namespace API.Controllers
         public RoleController(IOptions<Settings> settings,
             ISettingsFactory settingsFactory,
             AuthorizationAPI.IUserService userService,
-            ILogger<LoanApplicationController> logger,
+            ILogger<RoleController> logger,
             AuthorizationAPI.IRoleService roleService)
             : base(settings, settingsFactory, userService, logger)
         {

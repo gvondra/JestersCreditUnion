@@ -39,8 +39,6 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\CommonAPI\CommonAPI.csproj" />
-		<ProjectReference Include="..\Loan\Loan.Core\Loan.Core.csproj" />
-		<ProjectReference Include="..\Loan\Loan.Framework\Loan.Framework.csproj" />
 	</ItemGroup>
 
 </Project>

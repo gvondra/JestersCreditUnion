@@ -24,7 +24,7 @@ namespace API.Controllers
         public ExceptionController(IOptions<Settings> settings,
             ISettingsFactory settingsFactory,
             AuthorizationAPI.IUserService userService,
-            ILogger<LoanApplicationController> logger,
+            ILogger<ExceptionController> logger,
             Log.IExceptionService exceptionService)
             : base(settings, settingsFactory, userService, logger)
         {

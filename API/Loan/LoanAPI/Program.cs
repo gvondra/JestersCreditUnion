@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Serialization;
 using System;
@@ -27,9 +28,8 @@ namespace LoanAPI
 
             builder.Services.AddLogging(b =>
             {
-#if !DEBUG
                 b.ClearProviders();
-#endif
+                b.AddConsole();
                 Settings settings = new Settings();
                 builder.Configuration.Bind(settings);
                 if (settings.LogDomainId.HasValue && !string.IsNullOrEmpty(settings.BrassLoonLogRpcBaseAddress) && settings.BrassLoonClientId.HasValue)

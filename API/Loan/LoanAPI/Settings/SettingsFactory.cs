@@ -25,6 +25,17 @@ namespace LoanAPI
                 _options.Value.BrassLoonClientId,
                 _options.Value.BrassLoonClientSecret);
         }
+
+        public ConfigurationSettings CreateConfiguration()
+        {
+            return new ConfigurationSettings(
+                _tokenService,
+                _options.Value.BrassLoonConfigApiBaseAddress,
+                _options.Value.BrassLoonAccountApiBaseAddress,
+                _options.Value.BrassLoonClientId,
+                _options.Value.BrassLoonClientSecret);
+        }
+
         public CoreSettings CreateCore() => new CoreSettings(_options.Value);
     }
 }
