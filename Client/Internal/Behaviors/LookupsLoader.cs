@@ -1,12 +1,10 @@
 ﻿using Autofac;
 using JCU.Internal.ViewModel;
-using JestersCreditUnion.Interface;
-using JestersCreditUnion.Interface.Models;
+using JestersCreditUnion.Interface.Loan;
+using JestersCreditUnion.Interface.Loan.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -45,7 +43,7 @@ namespace JCU.Internal.Behaviors
                         ILookupService lookupService = scope.Resolve<ILookupService>();
                         try
                         {
-                            return lookupService.Get(settingsFactory.CreateApi(), code).Result;
+                            return lookupService.Get(settingsFactory.CreateLoanApi(), code).Result;
                         }
                         catch (BrassLoon.RestClient.Exceptions.RequestError ex)
                         {
@@ -102,7 +100,7 @@ namespace JCU.Internal.Behaviors
                 {
                     ISettingsFactory settingsFactory = scope.Resolve<ISettingsFactory>();
                     ILookupService lookupService = scope.Resolve<ILookupService>();
-                    return lookupService.GetIndex(settingsFactory.CreateApi()).Result;
+                    return lookupService.GetIndex(settingsFactory.CreateLoanApi()).Result;
                 }
             })
                 .ContinueWith(LoadCallback, null, TaskScheduler.FromCurrentSynchronizationContext());

@@ -1,12 +1,8 @@
 ﻿using Autofac;
-using Autofac.Core;
 using JCU.Internal.ViewModel;
-using JestersCreditUnion.Interface;
-using JestersCreditUnion.Interface.Models;
+using JestersCreditUnion.Interface.Loan;
+using JestersCreditUnion.Interface.Loan.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -52,7 +48,7 @@ namespace JCU.Internal.Behaviors
                     Text = text
                 };
                 return loanApplicationService.AppendComent(
-                    settingsFactory.CreateApi(),
+                    settingsFactory.CreateLoanApi(),
                     id,
                     comment,
                     isPublic).Result;

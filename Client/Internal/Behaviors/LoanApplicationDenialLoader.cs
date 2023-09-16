@@ -1,7 +1,8 @@
 ﻿using Autofac;
 using JCU.Internal.ViewModel;
 using JestersCreditUnion.Interface;
-using JestersCreditUnion.Interface.Models;
+using JestersCreditUnion.Interface.Loan;
+using JestersCreditUnion.Interface.Loan.Models;
 using System.Threading.Tasks;
 
 namespace JCU.Internal.Behaviors
@@ -52,7 +53,7 @@ namespace JCU.Internal.Behaviors
                 {
                     ISettingsFactory settingsFactory = scope.Resolve<ISettingsFactory>();
                     ILookupService lookupService = scope.Resolve<ILookupService>();
-                    return lookupService.Get(settingsFactory.CreateApi(), "loan-app-denial-reason").Result;
+                    return lookupService.Get(settingsFactory.CreateLoanApi(), "loan-app-denial-reason").Result;
                 }
             })
                 .ContinueWith(LoadReasonsLookupCallback, null, TaskScheduler.FromCurrentSynchronizationContext());

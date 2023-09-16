@@ -1,5 +1,5 @@
 ﻿using JCU.Internal.Behaviors;
-using JestersCreditUnion.Interface.Models;
+using JestersCreditUnion.Interface.Loan.Models;
 using System;
 
 namespace JCU.Internal.ViewModel

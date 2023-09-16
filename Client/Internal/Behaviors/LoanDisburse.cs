@@ -1,7 +1,7 @@
 ﻿using Autofac;
 using JCU.Internal.ViewModel;
-using JestersCreditUnion.Interface;
-using JestersCreditUnion.Interface.Models;
+using JestersCreditUnion.Interface.Loan;
+using JestersCreditUnion.Interface.Loan.Models;
 using System;
 using System.Threading.Tasks;
 using System.Windows;
@@ -36,7 +36,7 @@ namespace JCU.Internal.Behaviors
             using (ILifetimeScope scope = DependencyInjection.ContainerFactory.Container.BeginLifetimeScope())
             {
                 ISettingsFactory settingsFactory = scope.Resolve<ISettingsFactory>();
-                ISettings settings = settingsFactory.CreateApi();
+                ISettings settings = settingsFactory.CreateLoanApi();
                 ILoanService loanService = scope.Resolve<ILoanService>();
                 return loanService.DisburseFunds(settings, loanId).Result;
             }

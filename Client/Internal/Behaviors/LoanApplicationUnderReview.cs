@@ -1,11 +1,8 @@
 ﻿using Autofac;
 using JCU.Internal.ViewModel;
-using JestersCreditUnion.Interface;
-using JestersCreditUnion.Interface.Models;
+using JestersCreditUnion.Interface.Loan;
+using JestersCreditUnion.Interface.Loan.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -42,7 +39,7 @@ namespace JCU.Internal.Behaviors
             {
                 ISettingsFactory settingsFactory = scope.Resolve<ISettingsFactory>();
                 ILoanApplicationService loanApplicationService = scope.Resolve<ILoanApplicationService>();
-                return loanApplicationService.Update(settingsFactory.CreateApi(), loanApplication).Result;
+                return loanApplicationService.Update(settingsFactory.CreateLoanApi(), loanApplication).Result;
             }
         }
 

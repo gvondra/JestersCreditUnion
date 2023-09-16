@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace JCU.Internal
 {
@@ -20,6 +16,13 @@ namespace JCU.Internal
             if (string.IsNullOrEmpty(token))
                 throw new ArgumentNullException(nameof(token));
             return new APISettings(Settings.ApiBaseAddress, token);
+        }
+
+        public JestersCreditUnion.Interface.Loan.ISettings CreateLoanApi()
+        {
+            if (string.IsNullOrEmpty(AccessToken.Get.Token))
+                throw new ArgumentNullException(nameof(AccessToken.Token));
+            return new LoanApiSettings(Settings.LoanApiBaseAddress, AccessToken.Get.Token);
         }
     }
 }

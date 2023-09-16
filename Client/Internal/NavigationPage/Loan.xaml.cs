@@ -1,6 +1,6 @@
 ﻿using Autofac;
 using JCU.Internal.ViewModel;
-using JestersCreditUnion.Interface;
+using JestersCreditUnion.Interface.Loan;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Models = JestersCreditUnion.Interface.Models;
+using Models = JestersCreditUnion.Interface.Loan.Models;
 
 namespace JCU.Internal.NavigationPage
 {
@@ -63,7 +63,7 @@ namespace JCU.Internal.NavigationPage
             using (ILifetimeScope scope = DependencyInjection.ContainerFactory.Container.BeginLifetimeScope())
             {
                 ISettingsFactory settingsFactory = scope.Resolve<ISettingsFactory>();
-                ISettings settings = settingsFactory.CreateApi();
+                ISettings settings = settingsFactory.CreateLoanApi();
                 ILoanService loanService = scope.Resolve<ILoanService>();
                 Models.Loan loan = loanService.Get(settings, loanId).Result;
                 return LoanVM.Create(loan);

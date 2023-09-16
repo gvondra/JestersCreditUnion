@@ -7,7 +7,8 @@ namespace JCU.Internal.DependencyInjection
         protected override void Load(ContainerBuilder builder)
         {
             base.Load(builder);
-            builder.RegisterModule(new JestersCreditUnion.Interface.JestersCreditUnionInterfaceModule());   
+            builder.RegisterModule(new JestersCreditUnion.Interface.JestersCreditUnionInterfaceModule());
+            builder.RegisterModule(new JestersCreditUnion.Interface.Loan.JestersCreditUnionLoanInterfaceModule());
             builder.RegisterType<SettingsFactory>().As<ISettingsFactory>().SingleInstance();
         }
     }

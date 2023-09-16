@@ -1,10 +1,9 @@
 ﻿using Autofac;
 using JCU.Internal.ViewModel;
-using JestersCreditUnion.Interface;
+using JestersCreditUnion.Interface.Loan;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -34,7 +33,7 @@ namespace JCU.Internal.Behaviors
                     ISettingsFactory settingsFactory = scope.Resolve<ISettingsFactory>();
                     ILookupService lookupService = scope.Resolve<ILookupService>();
                     Dictionary<string ,string> data = lookupVM.Items.ToDictionary(i => i.Key, i => i.Value);
-                    lookupService.Save(settingsFactory.CreateApi(), lookupVM.Code, data).Wait();
+                    lookupService.Save(settingsFactory.CreateLoanApi(), lookupVM.Code, data).Wait();
                 }
             })
                 .ContinueWith(SaveCallback, parameter, TaskScheduler.FromCurrentSynchronizationContext());

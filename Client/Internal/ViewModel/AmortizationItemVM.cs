@@ -1,4 +1,4 @@
-﻿using JestersCreditUnion.Interface.Models;
+﻿using JestersCreditUnion.Interface.Loan.Models;
 
 namespace JCU.Internal.ViewModel
 {

@@ -1,7 +1,7 @@
 ﻿using Autofac;
 using JCU.Internal.ViewModel;
-using JestersCreditUnion.Interface;
-using JestersCreditUnion.Interface.Models;
+using JestersCreditUnion.Interface.Loan;
+using JestersCreditUnion.Interface.Loan.Models;
 using System;
 using System.Threading.Tasks;
 
@@ -43,7 +43,7 @@ namespace JCU.Internal.Behaviors
                     ISettingsFactory settingsFactory = scope.Resolve<ISettingsFactory>();
                     ILoanPaymentAmountService service = scope.Resolve<ILoanPaymentAmountService>();
                     return service.Calculate(
-                        settingsFactory.CreateApi(),
+                        settingsFactory.CreateLoanApi(),
                         new LoanPaymentAmountRequest
                         {
                             AnnualInterestRate = loanAgreementVM.InterestPercentage / 100.0M,

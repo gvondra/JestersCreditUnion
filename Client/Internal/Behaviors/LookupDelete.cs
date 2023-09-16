@@ -1,10 +1,7 @@
 ﻿using Autofac;
 using JCU.Internal.ViewModel;
-using JestersCreditUnion.Interface;
+using JestersCreditUnion.Interface.Loan;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -37,7 +34,7 @@ namespace JCU.Internal.Behaviors
                     {
                         ISettingsFactory settingsFactory = scope.Resolve<ISettingsFactory>();
                         ILookupService lookupService = scope.Resolve<ILookupService>();
-                        lookupService.Delete(settingsFactory.CreateApi(), lookupVM.Code).Wait();
+                        lookupService.Delete(settingsFactory.CreateLoanApi(), lookupVM.Code).Wait();
                     }
                 })
                     .ContinueWith(DeleteCallback, parameter, TaskScheduler.FromCurrentSynchronizationContext());

@@ -1,8 +1,7 @@
 ﻿using Autofac;
 using JCU.Internal.ViewModel;
-using JestersCreditUnion.Interface;
+using JestersCreditUnion.Interface.Loan;
 using System.IO;
-using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
@@ -27,7 +26,7 @@ namespace JCU.Internal.Behaviors
                 {
                     ISettingsFactory settingsFactory = scope.Resolve<ISettingsFactory>();
                     IIdentificationCardService identificationCardService = scope.Resolve<IIdentificationCardService>();
-                    return identificationCardService.GetBorrowerIdentificationCard(settingsFactory.CreateApi(), _loanApplicationVM.LoanApplicationId.Value).Result;                    
+                    return identificationCardService.GetBorrowerIdentificationCard(settingsFactory.CreateLoanApi(), _loanApplicationVM.LoanApplicationId.Value).Result;                    
                 }
             }).ContinueWith(LoadBorrowerIdentificationCardCallback, null, TaskScheduler.FromCurrentSynchronizationContext());
         }

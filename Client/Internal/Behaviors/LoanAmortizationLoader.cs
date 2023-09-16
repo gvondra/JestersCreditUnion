@@ -1,7 +1,7 @@
 ﻿using Autofac;
 using JCU.Internal.ViewModel;
-using JestersCreditUnion.Interface;
-using JestersCreditUnion.Interface.Models;
+using JestersCreditUnion.Interface.Loan;
+using JestersCreditUnion.Interface.Loan.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
@@ -27,7 +27,7 @@ namespace JCU.Internal.Behaviors
                 {
                     ISettingsFactory settingsFactory = scope.Resolve<ISettingsFactory>();
                     IAmortizationService amortizationService = scope.Resolve<IAmortizationService>();
-                    return amortizationService.Get(settingsFactory.CreateApi(), _loanAmortizationVM.LoanId).Result;
+                    return amortizationService.Get(settingsFactory.CreateLoanApi(), _loanAmortizationVM.LoanId).Result;
                 }
             }).ContinueWith(LoadCallback, null, TaskScheduler.FromCurrentSynchronizationContext());
         }

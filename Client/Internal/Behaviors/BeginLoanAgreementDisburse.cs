@@ -2,6 +2,8 @@
 using JCU.Internal.Constants;
 using JCU.Internal.ViewModel;
 using JestersCreditUnion.Interface;
+using JestersCreditUnion.Interface.Loan;
+using JestersCreditUnion.Interface.Loan.Models;
 using JestersCreditUnion.Interface.Models;
 using System;
 using System.Collections.Generic;
@@ -40,7 +42,7 @@ namespace JCU.Internal.Behaviors
             using (ILifetimeScope scope = DependencyInjection.ContainerFactory.Container.BeginLifetimeScope())
             {
                 ISettingsFactory settingsFactory = scope.Resolve<ISettingsFactory>();
-                ISettings settings = settingsFactory.CreateApi();
+                JestersCreditUnion.Interface.Loan.ISettings settings = settingsFactory.CreateLoanApi();
                 ILoanService loanService = scope.Resolve<ILoanService>();
                 return loanService.InitiateDisbursement(settings, loanId).Result;
             }
@@ -69,7 +71,7 @@ namespace JCU.Internal.Behaviors
             using (ILifetimeScope scope = DependencyInjection.ContainerFactory.Container.BeginLifetimeScope())
             {
                 ISettingsFactory settingsFactory = scope.Resolve<ISettingsFactory>();
-                ISettings settings = settingsFactory.CreateApi();
+                JestersCreditUnion.Interface.ISettings settings = settingsFactory.CreateApi();
                 IWorkTaskService workTaskService = scope.Resolve<IWorkTaskService>();
                 IWorkTaskStatusService workTaskStatusService = scope.Resolve<IWorkTaskStatusService>();
                 List<WorkTask> worktasks = workTaskService.GetByContext(settings, WorkTaskContextTypes.LoanApplicationId, loanApplicationId.ToString("D"), false).Result;

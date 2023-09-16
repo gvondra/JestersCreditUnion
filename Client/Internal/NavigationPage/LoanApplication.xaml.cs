@@ -2,7 +2,7 @@
 using JCU.Internal.Behaviors;
 using JCU.Internal.Constants;
 using JCU.Internal.ViewModel;
-using JestersCreditUnion.Interface;
+using JestersCreditUnion.Interface.Loan;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +17,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Models = JestersCreditUnion.Interface.Models;
+using Models = JestersCreditUnion.Interface.Loan.Models;
 
 namespace JCU.Internal.NavigationPage
 {
@@ -62,7 +62,7 @@ namespace JCU.Internal.NavigationPage
             {
                 ISettingsFactory settingsFactory = scope.Resolve<ISettingsFactory>();                
                 ILoanApplicationService loanApplicationService = scope.Resolve<ILoanApplicationService>();
-                return loanApplicationService.Get(settingsFactory.CreateApi(), loanApplicationId).Result;
+                return loanApplicationService.Get(settingsFactory.CreateLoanApi(), loanApplicationId).Result;
             }
         }
 
@@ -127,7 +127,7 @@ namespace JCU.Internal.NavigationPage
                 ISettingsFactory settingsFactory = scope.Resolve<ISettingsFactory>();
                 ILoanApplicationService loanApplicationService = scope.Resolve<ILoanApplicationService>();
                 loanApplicationVM.Status = LoanApplicationStatuses.Approved;
-                loanApplicationService.Update(settingsFactory.CreateApi(), loanApplicationVM.InnerLoanApplication).Wait();
+                loanApplicationService.Update(settingsFactory.CreateLoanApi(), loanApplicationVM.InnerLoanApplication).Wait();
             }
         }
 
@@ -152,7 +152,7 @@ namespace JCU.Internal.NavigationPage
             {
                 ISettingsFactory settingsFactory = scope.Resolve<ISettingsFactory>();
                 ILoanService loanService = scope.Resolve<ILoanService>();
-                return loanService.GetByLoanApplicationId(settingsFactory.CreateApi(), loanApplicationId).Result;
+                return loanService.GetByLoanApplicationId(settingsFactory.CreateLoanApi(), loanApplicationId).Result;
             }
         }
 

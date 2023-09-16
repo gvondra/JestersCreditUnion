@@ -1,10 +1,7 @@
 ﻿using Autofac;
 using JCU.Internal.ViewModel;
-using JestersCreditUnion.Interface;
+using JestersCreditUnion.Interface.Loan;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -38,7 +35,7 @@ namespace JCU.Internal.Behaviors
                 ISettingsFactory settingsFactory = scope.Resolve<ISettingsFactory>();
                 ILoanApplicationService loanApplicationService = scope.Resolve<ILoanApplicationService>();
                 loanApplicationService.Deny(
-                    settingsFactory.CreateApi(), 
+                    settingsFactory.CreateLoanApi(), 
                     loanApplicationDenialVM.LoanApplicationId, 
                     loanApplicationDenialVM.InnerLoanApplicationDenial).Wait();
             }
