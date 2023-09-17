@@ -2,7 +2,7 @@
 	@name NVARCHAR(1024),
 	@birthDate DATE
 AS
-SELECT TOP 1 [LoanId], [Status], [CreateDate], [AgreementDate],
+SELECT [LoanId], [Status], [CreateDate], [AgreementDate],
 	[BorrowerName], [BorrowerBirthDate], [BorrowerAddressId], [BorrowerEmailAddressId], [BorrowerPhoneId],
 	[CoBorrowerName], [CoBorrowerBirthDate], [CoBorrowerAddressId], [CoBorrowerEmailAddressId], [CoBorrowerPhoneId],
 	[OriginalAmount], [OriginalTerm], [InterestRate], [PaymentAmount], [PaymentFrequency],
