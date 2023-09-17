@@ -7,6 +7,7 @@ namespace JestersCreditUnion.Batch.ReportingLoader
         public string ConnectionString { get; set; }
         public bool UseDefaultAzureToken { get; set; }
         public string BrassLoonLogRpcBaseAddress { get; set; }
+        public string ApiBaseAddress { get; set; }
         public string LoanApiBaseAddress { get; set; }
         public Guid? ClientId { get; set; }
         public string ClientSecret { get; set; }

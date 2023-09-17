@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace JestersCreditUnion.Batch.ReportingLoader
@@ -20,7 +21,10 @@ namespace JestersCreditUnion.Batch.ReportingLoader
                 try
                 {
                     await PurgeWorkingData(reporters);
+                    await StageWorkingData(reporters);
+#if !DEBUG
                     await PurgeWorkingData(reporters);
+#endif
                 }
                 finally
                 {
@@ -44,6 +48,19 @@ namespace JestersCreditUnion.Batch.ReportingLoader
             foreach (IReporter reporter in reporters)
             {
                 tasks.Add(reporter.PurgeWorkingData());
+            }
+            return Task.WhenAll(tasks);
+        }
+
+        private static Task StageWorkingData(IEnumerable<IReporter> reporters)
+        {
+            List<Task> tasks = new List<Task>();
+            foreach (IReporter reporter in reporters
+                .GroupBy(r => r.Order)
+                .OrderBy(g => g.Key)
+                .SelectMany(g => g))
+            {
+                tasks.Add(Task.Run(reporter.StageWorkingData));
             }
             return Task.WhenAll(tasks);
         }

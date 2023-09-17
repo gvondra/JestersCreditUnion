@@ -18,6 +18,8 @@ namespace JestersCreditUnion.Batch.ReportingLoader
             _providerFactory = providerFactory;
         }
 
+        protected ISettingsFactory SettingsFactory => _settingsFactory;
+
         protected async Task<DbConnection> GetConnection()
         {
             if (_connection == null)

@@ -18,11 +18,18 @@ namespace JestersCreditUnion.Batch.ReportingLoader
             _purger = purger;
         }
 
+        public int Order => 2;
+
         public async Task PurgeWorkingData()
         {
             await _purger.Purge(
                 await GetConnection(),
                 _workingTableName);
+        }
+
+        public async Task StageWorkingData()
+        {
+            
         }
     }
 }
