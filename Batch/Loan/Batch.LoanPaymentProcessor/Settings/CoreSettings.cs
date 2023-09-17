@@ -13,21 +13,21 @@ namespace JestersCreditUnion.Batch.LoanPaymentProcessor
             _settings = settings;
         }
 
-        public string BrassLoonAccountApiBaseAddress => throw new NotImplementedException();
+        public string BrassLoonAccountApiBaseAddress => _settings.BrassLoonAccountApiBaseAddress;
 
-        public string BrassLoonConfigApiBaseAddress => throw new NotImplementedException();
+        public string BrassLoonConfigApiBaseAddress => _settings.BrassLoonConfigApiBaseAddress;
 
-        public string BrassLoonWorkTaskApiBaseAddress => throw new NotImplementedException();
+        public string BrassLoonWorkTaskApiBaseAddress => _settings.BrassLoonWorkTaskApiBaseAddress;
 
         public Guid? BrassLoonClientId => _settings.BrassLoonLogClientId;
 
         public string BrassLoonClientSecret => _settings.BrassLoonLogClientSecret;
 
-        public Guid? ConfigDomainId => throw new NotImplementedException();
+        public Guid? ConfigDomainId => _settings.ConfigDomainId;
 
-        public Guid? WorkTaskDomainId => throw new NotImplementedException();
+        public Guid? WorkTaskDomainId => _settings.WorkTaskDomainId;
 
-        public string WorkTaskConfigurationCode => throw new NotImplementedException();
+        public string WorkTaskConfigurationCode => _settings.WorkTaskConfigurationCode;
 
         public bool UseDefaultAzureSqlToken => _settings.UseDefaultAzureSqlToken;
 
