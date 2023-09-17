@@ -1,7 +1,7 @@
 ﻿using Autofac;
 using JCU.Internal.Behaviors;
 using JCU.Internal.ViewModel;
-using JestersCreditUnion.Interface;
+using JestersCreditUnion.Interface.Loan;
 using System;
 using System.Collections.Generic;
 using System.Linq;
