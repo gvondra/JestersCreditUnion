@@ -22,7 +22,7 @@ export class LoanApplicationService {
     }
     return this.httpClientUtil.CreateAuthHeader(this.tokenService).pipe(
       mergeMap((httpHeaders: HttpHeaders) => {
-        return this.httpClient.get<LoanApplication[]>(`${this.httpClientUtil.GetApiBaseAddress()}LoanApplication`, {headers: httpHeaders, params: params});
+        return this.httpClient.get<LoanApplication[]>(`${this.httpClientUtil.GetLoanApiBaseAddress()}LoanApplication`, {headers: httpHeaders, params: params});
       })
     );
   }
@@ -30,7 +30,7 @@ export class LoanApplicationService {
   Get(id: string) : Observable<LoanApplication> {
     return this.httpClientUtil.CreateAuthHeader(this.tokenService).pipe(
       mergeMap((httpHeaders: HttpHeaders) => {
-        return this.httpClient.get<LoanApplication>(`${this.httpClientUtil.GetApiBaseAddress()}LoanApplication/${id}`, { headers: httpHeaders});
+        return this.httpClient.get<LoanApplication>(`${this.httpClientUtil.GetLoanApiBaseAddress()}LoanApplication/${id}`, { headers: httpHeaders});
       })
     );
   }
@@ -38,7 +38,7 @@ export class LoanApplicationService {
   Create(loanApplication: LoanApplication): Observable<LoanApplication> {
     return this.httpClientUtil.CreateAuthHeader(this.tokenService).pipe(
       mergeMap((httpHeaders: HttpHeaders) => {
-        return this.httpClient.post<LoanApplication>(`${this.httpClientUtil.GetApiBaseAddress()}LoanApplication`, loanApplication, {headers: httpHeaders});
+        return this.httpClient.post<LoanApplication>(`${this.httpClientUtil.GetLoanApiBaseAddress()}LoanApplication`, loanApplication, {headers: httpHeaders});
       })
     );
   }
@@ -50,7 +50,7 @@ export class LoanApplicationService {
     }
     return this.httpClientUtil.CreateAuthHeader(this.tokenService).pipe(
       mergeMap((httpHeaders: HttpHeaders) => {
-        return this.httpClient.post(`${this.httpClientUtil.GetApiBaseAddress()}LoanApplication/${id}/Comment`, comment, {headers: httpHeaders, params: params})
+        return this.httpClient.post(`${this.httpClientUtil.GetLoanApiBaseAddress()}LoanApplication/${id}/Comment`, comment, {headers: httpHeaders, params: params})
       })
     );
   }
@@ -58,7 +58,7 @@ export class LoanApplicationService {
   SaveIdentificationCard(id: string, formData: FormData) : Observable<any> {
     return this.httpClientUtil.CreateAuthHeader(this.tokenService).pipe(
       mergeMap((httpHeaders: HttpHeaders) => {
-        return this.httpClient.post(`${this.httpClientUtil.GetApiBaseAddress()}LoanApplication/${id}/BorrowerIdentificationCard`, formData, { headers: httpHeaders });
+        return this.httpClient.post(`${this.httpClientUtil.GetLoanApiBaseAddress()}LoanApplication/${id}/BorrowerIdentificationCard`, formData, { headers: httpHeaders });
       })      
     );
   }

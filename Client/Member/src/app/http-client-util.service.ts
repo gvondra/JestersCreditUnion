@@ -17,6 +17,10 @@ export class HttpClientUtilService {
     return this.appSettings.GetSettings().ApiBaseAddress;
   }
 
+  GetLoanApiBaseAddress() : string {
+    return this.appSettings.GetSettings().LoanApiBaseAddress;
+  }
+
   CreateUserTokenAuthHeader() : Observable<HttpHeaders> {
     return this.oidcSecurityService.getIdToken()
     .pipe(
