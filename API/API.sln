@@ -30,9 +30,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Loan.Core.Test", "Loan\Loan
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Batch.LoanPaymentProcessor", "..\Batch\Loan\Batch.LoanPaymentProcessor\Batch.LoanPaymentProcessor.csproj", "{CCBE38C7-75B6-4358-8492-94DF30AD00B0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoanAPI", "Loan\LoanAPI\LoanAPI.csproj", "{E575C2E4-00F7-421E-A536-F7228E6260E6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoanAPI", "Loan\LoanAPI\LoanAPI.csproj", "{E575C2E4-00F7-421E-A536-F7228E6260E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Interface.Loan", "Loan\Interface.Loan\Interface.Loan.csproj", "{32439540-FACB-4FC3-B40D-12CCB52B0FF3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Interface.Loan", "Loan\Interface.Loan\Interface.Loan.csproj", "{32439540-FACB-4FC3-B40D-12CCB52B0FF3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Batch.ReportingLoader", "..\Batch\Loan\Batch.ReportingLoader\Batch.ReportingLoader.csproj", "{1A42F2AC-3D96-4883-9211-8139BFEE7D18}"
+	ProjectSection(ProjectDependencies) = postProject
+		{440E1DFE-5851-43BF-B402-27BE535CA210} = {440E1DFE-5851-43BF-B402-27BE535CA210}
+		{E575C2E4-00F7-421E-A536-F7228E6260E6} = {E575C2E4-00F7-421E-A536-F7228E6260E6}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -90,6 +96,10 @@ Global
 		{32439540-FACB-4FC3-B40D-12CCB52B0FF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{32439540-FACB-4FC3-B40D-12CCB52B0FF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{32439540-FACB-4FC3-B40D-12CCB52B0FF3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A42F2AC-3D96-4883-9211-8139BFEE7D18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A42F2AC-3D96-4883-9211-8139BFEE7D18}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A42F2AC-3D96-4883-9211-8139BFEE7D18}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A42F2AC-3D96-4883-9211-8139BFEE7D18}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -103,6 +113,7 @@ Global
 		{CCBE38C7-75B6-4358-8492-94DF30AD00B0} = {9B5CFD91-E330-422A-B2FE-DAC0E7696AD6}
 		{E575C2E4-00F7-421E-A536-F7228E6260E6} = {9B5CFD91-E330-422A-B2FE-DAC0E7696AD6}
 		{32439540-FACB-4FC3-B40D-12CCB52B0FF3} = {9B5CFD91-E330-422A-B2FE-DAC0E7696AD6}
+		{1A42F2AC-3D96-4883-9211-8139BFEE7D18} = {9B5CFD91-E330-422A-B2FE-DAC0E7696AD6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4CDE28EF-6616-4F7E-AD38-E25F6A7ED799}

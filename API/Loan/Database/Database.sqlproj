@@ -147,6 +147,9 @@
     <Build Include="ln\Table\ln.LoanAgreementHistory.sql" />
     <Build Include="ln\Stored Procedure\ln.CreateLoanAgreementHistory.sql" />
     <Build Include="ln\Stored Procedure\ln.UpdateLoanAgreementHistory.sql" />
+    <Build Include="lnrpt\Table\lnrpt.LoanStatus.sql" />
+    <Build Include="lnwrk\Table\lnwrk.LoanStatus.sql" />
+    <Build Include="lnwrk\Stored Procedure\lnwrk.MergeLoanStatus.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="LocalSqlSchemaCompare.scmp" />
