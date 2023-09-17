@@ -22,6 +22,7 @@ namespace JestersCreditUnion.Batch.ReportingLoader
                 {
                     await PurgeWorkingData(reporters);
                     await StageWorkingData(reporters);
+                    await MergeWorkingDataToDestination(reporters);
 #if !DEBUG
                     await PurgeWorkingData(reporters);
 #endif
@@ -52,17 +53,36 @@ namespace JestersCreditUnion.Batch.ReportingLoader
             return Task.WhenAll(tasks);
         }
 
-        private static Task StageWorkingData(IEnumerable<IReporter> reporters)
+        private static async Task StageWorkingData(IEnumerable<IReporter> reporters)
         {
-            List<Task> tasks = new List<Task>();
-            foreach (IReporter reporter in reporters
+            List<Task> tasks;
+            foreach (IGrouping<int, IReporter> reporterGroup in reporters
                 .GroupBy(r => r.Order)
-                .OrderBy(g => g.Key)
-                .SelectMany(g => g))
+                .OrderBy(g => g.Key))
             {
-                tasks.Add(Task.Run(reporter.StageWorkingData));
+                tasks = new List<Task>();
+                foreach (IReporter reporter in reporterGroup)
+                {
+                    tasks.Add(Task.Run(reporter.StageWorkingData));
+                }
+                await Task.WhenAll(tasks);
             }
-            return Task.WhenAll(tasks);
+        }
+
+        private static async Task MergeWorkingDataToDestination(IEnumerable<IReporter> reporters)
+        {
+            List<Task> tasks;
+            foreach (IGrouping<int, IReporter> reporterGroup in reporters
+                .GroupBy(r => r.Order)
+                .OrderBy(g => g.Key))
+            {
+                tasks = new List<Task>();
+                foreach (IReporter reporter in reporterGroup)
+                {
+                    tasks.Add(reporter.MergeWorkingDataToDestination());
+                }
+                await Task.WhenAll(tasks);
+            }
         }
 
         private static Settings LoadSettings(IConfiguration configuration)

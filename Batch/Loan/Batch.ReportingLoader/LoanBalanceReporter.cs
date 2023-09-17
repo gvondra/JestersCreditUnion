@@ -20,6 +20,11 @@ namespace JestersCreditUnion.Batch.ReportingLoader
 
         public int Order => 2;
 
+        public async Task MergeWorkingDataToDestination()
+        {
+
+        }
+
         public async Task PurgeWorkingData()
         {
             await _purger.Purge(

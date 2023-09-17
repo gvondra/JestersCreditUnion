@@ -8,5 +8,6 @@ namespace JestersCreditUnion.Batch.ReportingLoader
         int Order { get; }
         Task PurgeWorkingData();
         Task StageWorkingData();
+        Task MergeWorkingDataToDestination();
     }
 }

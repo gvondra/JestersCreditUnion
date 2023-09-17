@@ -5,6 +5,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Threading.Tasks;
 
 namespace JestersCreditUnion.Batch.ReportingLoader
@@ -34,11 +35,22 @@ namespace JestersCreditUnion.Batch.ReportingLoader
 
         public int Order => 1;
 
+        public async Task MergeWorkingDataToDestination()
+        {
+            using DbCommand command = (await GetConnection()).CreateCommand();
+            command.CommandType = CommandType.StoredProcedure;
+            command.CommandText = "[lnwrk].[MergeLoanStatus]";
+            command.CommandTimeout = 60;
+            await command.ExecuteNonQueryAsync();
+        }
+
         public async Task PurgeWorkingData()
         {
+            _logger.LogInformation("Merging loan statuses to destination");
             await _purger.Purge(
                 await GetConnection(),
                 _workingTableName);
+            _logger.LogInformation("Merged loan statuses to destination");
         }
 
         public async Task StageWorkingData()
@@ -48,6 +60,7 @@ namespace JestersCreditUnion.Batch.ReportingLoader
                 PopulateTable(
                     CreateTable(),
                     await _lookupService.Get(SettingsFactory.CreateLoanApiSettings(), _settings.LoanStatusLookupCode)));
+            _logger.LogInformation("Staged loan statuses");
         }
 
         private async Task StageWorkingData(DataTable table)
