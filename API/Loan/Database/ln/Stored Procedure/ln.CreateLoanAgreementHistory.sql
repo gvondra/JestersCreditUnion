@@ -1,5 +1,6 @@
-﻿CREATE PROCEDURE [ln].[CreateLoanAgreement]
-	@id UNIQUEIDENTIFIER,
+﻿CREATE PROCEDURE [ln].[CreateLoanAgreementHistory]
+	@id UNIQUEIDENTIFIER OUT,
+	@loanId UNIQUEIDENTIFIER,
 	@status SMALLINT,
 	@createDate DATE,
 	@agreementDate DATE,
@@ -21,24 +22,18 @@
 	@timestamp DATETIME2(4) OUT
 AS
 BEGIN
+	SET @id = NEWID();
 	SET @timestamp = SYSUTCDATETIME();
-	INSERT INTO [ln].[LoanAgreement] (
-	[LoanId], [Status], [CreateDate], [AgreementDate],
+	INSERT INTO [ln].[LoanAgreementHistory] (
+	[LoanAgreementHistoryId], [LoanId], [Status], [CreateDate], [AgreementDate],
 	[BorrowerName], [BorrowerBirthDate], [BorrowerAddressId], [BorrowerEmailAddressId], [BorrowerPhoneId],
 	[CoBorrowerName], [CoBorrowerBirthDate], [CoBorrowerAddressId], [CoBorrowerEmailAddressId], [CoBorrowerPhoneId],
 	[OriginalAmount], [OriginalTerm], [InterestRate], [PaymentAmount], [PaymentFrequency],
 	[CreateTimestamp], [UpdateTimestamp]) 
 	VALUES (
-	@id, @status, @createDate, @agreementDate,
+	@id, @loanId, @status, @createDate, @agreementDate,
 	@borrowerName, @borrowerBirthDate, @borrowerAddressId, @borrowerEmailAddressId, @borrowerPhoneId,
 	@coBorrowerName, @coBorrowerBirthDate, @coBorrowerAddressId, @coBorrowerEmailAddressId, @coBorrowerPhoneId,
 	@originalAmount, @originalTerm, @interestRate, @paymentAmount, @paymentFrequency,
 	@timestamp, @timestamp);
-	
-	DECLARE @historyId UNIQUEIDENTIFIER;
-	DECLARE @historyTimestamp DATETIME2(4);
-	EXEC [ln].[CreateLoanAgreementHistory] @historyId OUT, @id, @status, @createDate, @agreementDate,
-		@borrowerName, @borrowerBirthDate, @borrowerAddressId, @borrowerEmailAddressId, @borrowerPhoneId,
-		@coBorrowerName, @coBorrowerBirthDate, @coBorrowerAddressId, @coBorrowerEmailAddressId, @coBorrowerPhoneId, 
-		@originalAmount, @originalTerm, @interestRate, @paymentAmount, @paymentFrequency, @historyTimestamp OUT;
 END

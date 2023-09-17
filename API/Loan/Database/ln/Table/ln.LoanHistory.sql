@@ -11,6 +11,7 @@
 	[CreateTimestamp] DATETIME2(4) CONSTRAINT [DF_LoanHistory_CreateTimestamp] DEFAULT (SYSUTCDATETIME()) NOT NULL,
 	[UpdateTimestamp] DATETIME2(4) CONSTRAINT [DF_LoanHistory_UpdateTimestamp] DEFAULT (SYSUTCDATETIME()) NOT NULL,
 	CONSTRAINT [PK_LoanHistory] PRIMARY KEY NONCLUSTERED ([LoanHistoryId]), 
+    CONSTRAINT [FK_LoanHistory_Loan] FOREIGN KEY ([LoanId]) REFERENCES [ln].[Loan]([LoanId]), 
 )
 
 GO
