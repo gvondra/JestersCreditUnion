@@ -18,5 +18,5 @@ BEGIN
 
 	DECLARE @historyId UNIQUEIDENTIFIER;
 	DECLARE @historyTimestamp DATETIME2(4);
-	EXEC [ln].[CreateLoanHistory] @historyId OUT, @id, @loanApplicationId, @initialDisbursementDate, @firstPaymentDue, @nextPaymentDue, @status, @balance, @historyTimestamp OUT;
+	EXEC [ln].[CreateLoanHistory] @historyId OUT, @id, @initialDisbursementDate, @firstPaymentDue, @nextPaymentDue, @status, @balance, @historyTimestamp OUT;
 END

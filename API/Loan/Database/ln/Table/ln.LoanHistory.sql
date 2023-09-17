@@ -2,7 +2,6 @@
 (
 	[LoanHistoryId] UNIQUEIDENTIFIER NOT NULL,
 	[LoanId] UNIQUEIDENTIFIER NOT NULL,
-	[LoanApplicationId] UNIQUEIDENTIFIER NOT NULL,
 	[InitialDisbursementDate] DATE NULL,
 	[FirstPaymentDue] DATE NULL,
 	[NextPaymentDue] DATE NULL,
