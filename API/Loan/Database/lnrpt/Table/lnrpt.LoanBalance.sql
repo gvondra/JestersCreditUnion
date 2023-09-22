@@ -2,7 +2,7 @@
 (
 	[Id] BIGINT IDENTITY(1,1) NOT NULL, 
 	[Date] DATE NOT NULL,
-    [Balance] DECIMAL(11,2) NULL,
+    [Balance] DECIMAL(11,2) NOT NULL,
 	[LoanId] BIGINT NOT NULL,
 	[LoanAgreementId] BIGINT NOT NULL,
 	[LoanStatus] SMALLINT NOT NULL,
