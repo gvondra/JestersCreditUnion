@@ -40,7 +40,7 @@ namespace JestersCreditUnion.Batch.ReportingLoader
 
         public async Task MergeWorkingDataToDestination()
         {
-            using DbCommand command = (await GetConnection()).CreateCommand();
+            using DbCommand command = (await GetDestinationConnection()).CreateCommand();
             command.CommandType = CommandType.StoredProcedure;
             command.CommandText = "[lnwrk].[MergeLoan]";
             command.CommandTimeout = 60;
@@ -50,7 +50,7 @@ namespace JestersCreditUnion.Batch.ReportingLoader
         public async Task PurgeWorkingData()
         {
             await _purger.Purge(
-                await GetConnection(),
+                await GetDestinationConnection(),
                 _workingTableName);
         }
 
@@ -69,7 +69,7 @@ namespace JestersCreditUnion.Batch.ReportingLoader
         private async Task StageWorkingData(DataTable table)
         {
             SqlBulkCopyOptions options = SqlBulkCopyOptions.TableLock;
-            using SqlBulkCopy bulkCopy = new SqlBulkCopy((SqlConnection)await GetConnection(), options, null);
+            using SqlBulkCopy bulkCopy = new SqlBulkCopy((SqlConnection)await GetDestinationConnection(), options, null);
             bulkCopy.DestinationTableName = _workingTableName;
             await bulkCopy.WriteToServerAsync(table);
         }
@@ -80,7 +80,7 @@ namespace JestersCreditUnion.Batch.ReportingLoader
             sql.Append("SELECT [l].[LoanId], [l].[Number], [lh].[InitialDisbursementDate], [lh].[FirstPaymentDue], [lh].[NextPaymentDue] ");
             sql.AppendFormat("FROM {0} [lh] ", _sourceTableName);
             sql.Append("INNER JOIN [ln].[Loan] [l] on [lh].[LoanId] = [l].[LoanId];");
-            DbCommand command = (await GetConnection()).CreateCommand();
+            DbCommand command = (await GetSourceConnection()).CreateCommand();
             command.CommandType = CommandType.Text;
             command.CommandText = sql.ToString();
             return await command.ExecuteReaderAsync();

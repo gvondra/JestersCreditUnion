@@ -4,7 +4,6 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Data;
 using System.Data.Common;
-using System.Globalization;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -38,7 +37,7 @@ namespace JestersCreditUnion.Batch.ReportingLoader
         public async Task PurgeWorkingData()
         {
             await _purger.Purge(
-                await GetConnection(),
+                await GetDestinationConnection(),
                 _workingTableName);
         }
 
@@ -57,7 +56,7 @@ namespace JestersCreditUnion.Batch.ReportingLoader
         private async Task StageWorkingData(DataTable table)
         {
             SqlBulkCopyOptions options = SqlBulkCopyOptions.TableLock;
-            using SqlBulkCopy bulkCopy = new SqlBulkCopy((SqlConnection)await GetConnection(), options, null);
+            using SqlBulkCopy bulkCopy = new SqlBulkCopy((SqlConnection)await GetDestinationConnection(), options, null);
             bulkCopy.DestinationTableName = _workingTableName;
             await bulkCopy.WriteToServerAsync(table);
         }
@@ -68,8 +67,7 @@ namespace JestersCreditUnion.Batch.ReportingLoader
             sql.Append("SELECT [lh].[UpdateTimestamp] [Timestamp], [lh].[Status], [lh].[Balance], [l].[LoanId], [l].[Number], [lh].[InitialDisbursementDate], [lh].[FirstPaymentDue], [lh].[NextPaymentDue] ");
             sql.AppendFormat("FROM {0} [lh] ", _sourceTableName);
             sql.Append("INNER JOIN [ln].[Loan] [l] on [lh].[LoanId] = [l].[LoanId] ");
-            sql.Append("ORDER BY [l].[LoanId];");
-            DbCommand command = (await GetConnection()).CreateCommand();
+            DbCommand command = (await GetSourceConnection()).CreateCommand();
             command.CommandType = CommandType.Text;
             command.CommandText = sql.ToString();
             return await command.ExecuteReaderAsync();
@@ -77,20 +75,25 @@ namespace JestersCreditUnion.Batch.ReportingLoader
 
         private static async Task<DataTable> PopulateTable(DataTable table, DbDataReader reader)
         {
-            int ordinal;
             while (await reader.ReadAsync())
             {
-                DataRow row = table.NewRow();
-                ordinal = reader.GetOrdinal("Timestamp");
-                row["Timestamp"] = await reader.GetFieldValueAsync<DateTime>(ordinal);
-                row["Date"] = GetLocalDate((DateTime)row["Timestamp"]);
-                ordinal = reader.GetOrdinal("Balance");
-                row["Balance"] = reader.IsDBNull(ordinal) ? DBNull.Value : await reader.GetFieldValueAsync<decimal>(ordinal);
-                ordinal = reader.GetOrdinal("Status");
-                row["LoanStatus"] = await reader.GetFieldValueAsync<short>(ordinal);
-                table.Rows.Add(row);
+                table.Rows.Add(
+                    await PopulateRow(table.NewRow(), reader));
             }
             return table;
+        }
+
+        private static async Task<DataRow> PopulateRow(DataRow row, DbDataReader reader)
+        {
+            int ordinal;
+            ordinal = reader.GetOrdinal("Timestamp");
+            row["Timestamp"] = await reader.GetFieldValueAsync<DateTime>(ordinal);
+            row["Date"] = GetLocalDate((DateTime)row["Timestamp"]);
+            ordinal = reader.GetOrdinal("Balance");
+            row["Balance"] = reader.IsDBNull(ordinal) ? DBNull.Value : await reader.GetFieldValueAsync<decimal>(ordinal);
+            ordinal = reader.GetOrdinal("Status");
+            row["LoanStatus"] = await reader.GetFieldValueAsync<short>(ordinal);
+            return row;
         }
 
         private static DateTime GetLocalDate(DateTime dateTimeUtc)

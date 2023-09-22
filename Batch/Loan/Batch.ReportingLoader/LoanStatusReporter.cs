@@ -37,7 +37,7 @@ namespace JestersCreditUnion.Batch.ReportingLoader
 
         public async Task MergeWorkingDataToDestination()
         {
-            using DbCommand command = (await GetConnection()).CreateCommand();
+            using DbCommand command = (await GetDestinationConnection()).CreateCommand();
             command.CommandType = CommandType.StoredProcedure;
             command.CommandText = "[lnwrk].[MergeLoanStatus]";
             command.CommandTimeout = 60;
@@ -48,7 +48,7 @@ namespace JestersCreditUnion.Batch.ReportingLoader
         {
             _logger.LogInformation("Merging loan statuses to destination");
             await _purger.Purge(
-                await GetConnection(),
+                await GetDestinationConnection(),
                 _workingTableName);
             _logger.LogInformation("Merged loan statuses to destination");
         }
@@ -66,7 +66,7 @@ namespace JestersCreditUnion.Batch.ReportingLoader
         private async Task StageWorkingData(DataTable table)
         {
             SqlBulkCopyOptions options = SqlBulkCopyOptions.TableLock;            
-            using SqlBulkCopy bulkCopy = new SqlBulkCopy((SqlConnection)await GetConnection(), options, null);
+            using SqlBulkCopy bulkCopy = new SqlBulkCopy((SqlConnection)await GetDestinationConnection(), options, null);
             bulkCopy.DestinationTableName = _workingTableName;
             await bulkCopy.WriteToServerAsync(table);
         }

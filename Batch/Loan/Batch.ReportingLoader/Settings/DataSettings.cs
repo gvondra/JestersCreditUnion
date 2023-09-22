@@ -6,17 +6,19 @@ namespace JestersCreditUnion.Batch.ReportingLoader
 {
     public class DataSettings : ISqlSettings
     {
-        private readonly Settings _settings;
+        private readonly string _connectionString;
+        private readonly bool _useDefaultAzureToken;
 
-        public DataSettings(Settings settings)
+        public DataSettings(string connectionString, bool useDefaultAzureToken)
         {
-            _settings = settings;
+            _connectionString = connectionString;
+            _useDefaultAzureToken = useDefaultAzureToken;
         }
 
         public Func<Task<string>> GetAccessToken => null;
 
-        public bool UseDefaultAzureToken => _settings.UseDefaultAzureToken;
+        public bool UseDefaultAzureToken => _useDefaultAzureToken;
 
-        public Task<string> GetConnectionString() => Task.FromResult(_settings.ConnectionString);
+        public Task<string> GetConnectionString() => Task.FromResult(_connectionString);
     }
 }

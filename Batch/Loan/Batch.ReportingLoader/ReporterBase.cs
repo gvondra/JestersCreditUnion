@@ -10,7 +10,8 @@ namespace JestersCreditUnion.Batch.ReportingLoader
         private readonly IDbProviderFactory _providerFactory;
         private readonly ISettingsFactory _settingsFactory;
         private bool _disposedValue;
-        private DbConnection _connection;
+        private DbConnection _sourceConnection;
+        private DbConnection _destinationConnection;
 
         protected ReporterBase(ISettingsFactory settings, IDbProviderFactory providerFactory)
         {
@@ -20,13 +21,22 @@ namespace JestersCreditUnion.Batch.ReportingLoader
 
         protected ISettingsFactory SettingsFactory => _settingsFactory;
 
-        protected async Task<DbConnection> GetConnection()
+        protected async Task<DbConnection> GetSourceConnection()
         {
-            if (_connection == null)
+            if (_sourceConnection == null)
             {
-                _connection = await _providerFactory.OpenConnection(_settingsFactory.CreateData());
+                _sourceConnection = await _providerFactory.OpenConnection(_settingsFactory.CreateSourceData());
             }
-            return _connection;
+            return _sourceConnection;
+        }
+
+        protected async Task<DbConnection> GetDestinationConnection()
+        {
+            if (_destinationConnection == null)
+            {
+                _destinationConnection = await _providerFactory.OpenConnection(_settingsFactory.CreateDestinationData());
+            }
+            return _destinationConnection;
         }
 
         protected virtual void Dispose(bool disposing)
@@ -35,11 +45,14 @@ namespace JestersCreditUnion.Batch.ReportingLoader
             {
                 if (disposing)
                 {
-                    if (_connection != null)
-                        _connection.Dispose();
+                    if (_sourceConnection != null)
+                        _sourceConnection.Dispose();
+                    if (_destinationConnection != null)
+                        _destinationConnection.Dispose();
                 }
 
-                _connection = null;
+                _sourceConnection = null;
+                _destinationConnection = null;
                 _disposedValue = true;
             }
         }

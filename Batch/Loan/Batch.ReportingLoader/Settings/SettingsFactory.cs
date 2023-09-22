@@ -13,8 +13,10 @@ namespace JestersCreditUnion.Batch.ReportingLoader
             _tokenService = tokenService;
         }
 
-        public DataSettings CreateData() => new DataSettings(_settings);
+        public DataSettings CreateDestinationData() => new DataSettings(_settings.DestinationConnectionString, _settings.UseDefaultAzureToken);
 
         public LoanApiSettings CreateLoanApiSettings() => new LoanApiSettings(_settings, _tokenService);
+
+        public DataSettings CreateSourceData() => new DataSettings(_settings.SourceConnectionString, _settings.UseDefaultAzureToken);
     }
 }

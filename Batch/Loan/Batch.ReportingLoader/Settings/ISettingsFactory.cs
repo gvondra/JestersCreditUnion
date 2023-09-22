@@ -2,7 +2,8 @@
 {
     public interface ISettingsFactory
     {
-        DataSettings CreateData();
+        DataSettings CreateSourceData();
+        DataSettings CreateDestinationData();
         LoanApiSettings CreateLoanApiSettings();
     }
 }
