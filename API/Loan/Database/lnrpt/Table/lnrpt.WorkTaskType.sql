@@ -1,0 +1,6 @@
+﻿CREATE TABLE [lnrpt].[WorkTaskType]
+(
+	[Code] NVARCHAR(128) NOT NULL,
+	[Title] NVARCHAR(512) NOT NULL,
+	CONSTRAINT [PK_WorkTaskType] PRIMARY KEY CLUSTERED ([Code])
+)

@@ -1,7 +1,6 @@
 ﻿CREATE PROCEDURE [ln].[CreateLoanHistory]
 	@id UNIQUEIDENTIFIER OUT,
 	@loanId UNIQUEIDENTIFIER,
-	@loanApplicationId UNIQUEIDENTIFIER,
 	@initialDisbursementDate DATE,
 	@firstPaymentDue DATE,
 	@nextPaymentDue DATE,
@@ -12,8 +11,8 @@ AS
 BEGIN
 	SET @id = NEWID();
 	SET @timestamp = SYSUTCDATETIME();
-	INSERT INTO [ln].[LoanHistory] ([LoanHistoryId], [LoanId], [LoanApplicationId], [InitialDisbursementDate], [FirstPaymentDue], [NextPaymentDue], [Status], [Balance],
+	INSERT INTO [ln].[LoanHistory] ([LoanHistoryId], [LoanId], [InitialDisbursementDate], [FirstPaymentDue], [NextPaymentDue], [Status], [Balance],
 	[CreateTimestamp], [UpdateTimestamp])
-	VALUES (@id, @loanId, @loanApplicationId, @initialDisbursementDate, @firstPaymentDue, @nextPaymentDue, @status, @balance,
+	VALUES (@id, @loanId, @initialDisbursementDate, @firstPaymentDue, @nextPaymentDue, @status, @balance,
 	@timestamp, @timestamp);
 END

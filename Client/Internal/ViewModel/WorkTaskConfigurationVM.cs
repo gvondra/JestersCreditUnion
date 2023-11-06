@@ -1,6 +1,6 @@
 ﻿using JCU.Internal.Behaviors;
-using JestersCreditUnion.Interface;
-using JestersCreditUnion.Interface.Models;
+using JestersCreditUnion.Interface.Loan;
+using JestersCreditUnion.Interface.Loan.Models;
 using System.Windows;
 
 namespace JCU.Internal.ViewModel

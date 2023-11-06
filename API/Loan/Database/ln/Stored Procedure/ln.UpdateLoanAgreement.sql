@@ -44,4 +44,18 @@ BEGIN
 	[PaymentFrequency] = @paymentFrequency,
 	[UpdateTimestamp] = @timestamp
 	WHERE [LoanId] = @id;
+
+	DECLARE @historyId UNIQUEIDENTIFIER;
+	DECLARE @historyTimestamp DATETIME2(4);
+	EXEC [ln].[UpdateLoanAgreementHistory] @timestamp, @id, @status, @createDate, @agreementDate,
+		@borrowerName, @borrowerBirthDate, @borrowerAddressId, @borrowerEmailAddressId, @borrowerPhoneId,
+		@coBorrowerName, @coBorrowerBirthDate, @coBorrowerAddressId, @coBorrowerEmailAddressId, @coBorrowerPhoneId, 
+		@originalAmount, @originalTerm, @interestRate, @paymentAmount, @paymentFrequency, @historyTimestamp OUT;
+	IF @@ROWCOUNT = 0
+	BEGIN
+		EXEC [ln].[CreateLoanAgreementHistory] @historyId OUT, @id, @status, @createDate, @agreementDate,
+			@borrowerName, @borrowerBirthDate, @borrowerAddressId, @borrowerEmailAddressId, @borrowerPhoneId,
+			@coBorrowerName, @coBorrowerBirthDate, @coBorrowerAddressId, @coBorrowerEmailAddressId, @coBorrowerPhoneId, 
+			@originalAmount, @originalTerm, @interestRate, @paymentAmount, @paymentFrequency, @historyTimestamp OUT;
+	END
 END

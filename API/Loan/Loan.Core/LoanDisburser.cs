@@ -12,6 +12,7 @@ namespace JestersCreditUnion.Loan.Core
             ITransaction transaction = loan.CreateTransaction(DateTime.Today, TransactionType.Disbursement, loan.Agreement.OriginalAmount * -1);
             loan.Status = LoanStatus.Open;
             loan.InitialDisbursementDate = DateTime.Today;
+            loan.Balance = loan.Agreement.OriginalAmount;
             if (!loan.FirstPaymentDue.HasValue)
             {
                 loan.FirstPaymentDue = PaymentDateCalculator.FirstPaymentDate(loan.Agreement.PaymentFrequency);

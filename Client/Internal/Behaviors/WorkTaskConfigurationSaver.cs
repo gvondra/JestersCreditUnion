@@ -1,9 +1,6 @@
 ﻿using JCU.Internal.ViewModel;
-using JestersCreditUnion.Interface;
+using JestersCreditUnion.Interface.Loan;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -36,7 +33,7 @@ namespace JCU.Internal.Behaviors
             WorkTaskConfigurationVM vm = (WorkTaskConfigurationVM)parameter;
             Task.Run(() =>
             {
-                ISettings settings = _settingsFactory.CreateApi();
+                ISettings settings = _settingsFactory.CreateLoanApi();
                 _configService.Save(settings, vm.InnerConfiguration).Wait();
             })
                 .ContinueWith(SaveCallback, null, TaskScheduler.FromCurrentSynchronizationContext());

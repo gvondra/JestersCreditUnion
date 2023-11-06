@@ -31,7 +31,7 @@ namespace JCU.Internal.Behaviors
 
         private void ValidateLoanNumber(string propertyName, string loanNumber, ViewModelBase viewModelBase)
         {
-            if (!Regex.IsMatch(loanNumber, @"^\d+$", RegexOptions.IgnoreCase))
+            if (!string.IsNullOrEmpty(loanNumber) && !Regex.IsMatch(loanNumber, @"^\d+$", RegexOptions.IgnoreCase))
                 viewModelBase[propertyName] = "Invalid";
         }
 

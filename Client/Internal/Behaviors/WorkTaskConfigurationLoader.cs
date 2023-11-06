@@ -1,7 +1,7 @@
 ﻿using Autofac;
 using JCU.Internal.ViewModel;
-using JestersCreditUnion.Interface;
-using JestersCreditUnion.Interface.Models;
+using JestersCreditUnion.Interface.Loan;
+using JestersCreditUnion.Interface.Loan.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +25,7 @@ namespace JCU.Internal.Behaviors
         {   
             Task.Run(() =>
             {
-                ISettings settings = _settingsFactory.CreateApi();
+                ISettings settings = _settingsFactory.CreateLoanApi();
                 return _workTaskConfigurationService.Get(settings).Result;
             })
                 .ContinueWith(LoadCallback, callback, TaskScheduler.FromCurrentSynchronizationContext());
