@@ -150,6 +150,18 @@
     <Build Include="lnrpt\Table\lnrpt.LoanStatus.sql" />
     <Build Include="lnwrk\Table\lnwrk.LoanStatus.sql" />
     <Build Include="lnwrk\Stored Procedure\lnwrk.MergeLoanStatus.sql" />
+    <Build Include="lnrpt\Table\lnrpt.User.sql" />
+    <Build Include="lnwrk\Table\lnwrk.User.sql" />
+    <Build Include="lnwrk\Stored Procedure\lnwrk.MergeUser.sql" />
+    <Build Include="lnwrk\Table\lnwrk.WorkTask.sql" />
+    <Build Include="lnrpt\Table\lnrpt.WorkTask.sql" />
+    <Build Include="lnrpt\Table\lnrpt.WorkTaskType.sql" />
+    <Build Include="lnrpt\Table\lnrpt.WorkTaskStatus.sql" />
+    <Build Include="lnrpt\Table\lnrpt.WorkTaskCycle.sql" />
+    <Build Include="lnwrk\Stored Procedure\lnwrk.MergeWorkTaskStatus.sql" />
+    <Build Include="lnwrk\Stored Procedure\lnwrk.MergeWorkTaskType.sql" />
+    <Build Include="lnwrk\Stored Procedure\lnwrk.MergeWorkTask.sql" />
+    <Build Include="lnwrk\Stored Procedure\lnwrk.MergeWorkTaskCycle.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="LocalSqlSchemaCompare.scmp" />

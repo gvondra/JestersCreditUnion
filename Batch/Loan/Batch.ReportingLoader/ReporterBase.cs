@@ -1,5 +1,6 @@
 ﻿using BrassLoon.DataClient;
 using System;
+using System.Data;
 using System.Data.Common;
 using System.Threading.Tasks;
 
@@ -37,6 +38,15 @@ namespace JestersCreditUnion.Batch.ReportingLoader
                 _destinationConnection = await _providerFactory.OpenConnection(_settingsFactory.CreateDestinationData());
             }
             return _destinationConnection;
+        }
+
+        protected static async Task ExecuteNonQuery(DbConnection connection, string procedureName)
+        {
+            using DbCommand command = connection.CreateCommand();
+            command.CommandType = CommandType.StoredProcedure;
+            command.CommandText = procedureName;
+            command.CommandTimeout = 60;
+            await command.ExecuteNonQueryAsync();
         }
 
         protected virtual void Dispose(bool disposing)

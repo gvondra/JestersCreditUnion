@@ -23,6 +23,9 @@
 		<PackageReference Include="Autofac" Version="7.1.*" />
 		<PackageReference Include="BrassLoon.DataClient" Version="3.3.*" />
 		<PackageReference Include="BrassLoon.Extensions.Logging" Version="1.0.0-beta.*" />
+		<PackageReference Include="BrassLoon.Interface.Account" Version="4.1.*" />
+		<PackageReference Include="BrassLoon.Interface.Authorization" Version="4.0.*" />
+		<PackageReference Include="BrassLoon.Interface.WorkTask" Version="3.0.*" />
 		<PackageReference Include="JestersCreditUnion.Interface" Version="1.0.0-alpha.*" />
 		<PackageReference Include="JestersCreditUnion.Interface.Loan" Version="1.0.0-alpha.*" />
 		<PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.*" />

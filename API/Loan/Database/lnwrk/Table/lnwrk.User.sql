@@ -1,0 +1,6 @@
+﻿CREATE TABLE [lnwrk].[User]
+(
+	[UserId] UNIQUEIDENTIFIER NOT NULL,
+	[Name] NVARCHAR(1024) NOT NULL,
+	[EmailAddress] NVARCHAR(2048) NOT NULL
+)

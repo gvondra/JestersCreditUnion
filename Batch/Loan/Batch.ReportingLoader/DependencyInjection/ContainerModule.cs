@@ -8,6 +8,9 @@ namespace JestersCreditUnion.Batch.ReportingLoader.DependencyInjection
         protected override void Load(ContainerBuilder builder)
         {
             base.Load(builder);
+            builder.RegisterModule(new BrassLoon.Interface.Account.AccountInterfaceModule());
+            builder.RegisterModule(new BrassLoon.Interface.Authorization.AuthorizationInterfaceModule());
+            builder.RegisterModule(new BrassLoon.Interface.WorkTask.WorkTaskInterfaceModule());
             builder.RegisterModule(new JestersCreditUnion.Interface.JestersCreditUnionInterfaceModule());
             builder.RegisterModule(new JestersCreditUnion.Interface.Loan.JestersCreditUnionLoanInterfaceModule());
 
@@ -22,6 +25,8 @@ namespace JestersCreditUnion.Batch.ReportingLoader.DependencyInjection
             builder.RegisterType<LoanBalanceReporter>().As<IReporter>();
             builder.RegisterType<LoanReporter>().As<IReporter>();
             builder.RegisterType<LoanStatusReporter>().As<IReporter>();
+            builder.RegisterType<UserReporter>().As<IReporter>();
+            builder.RegisterType<WorkTaskReporter>().As<IReporter>();
         }
     }
 }

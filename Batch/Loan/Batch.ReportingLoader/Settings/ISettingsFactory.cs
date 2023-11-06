@@ -5,5 +5,7 @@
         DataSettings CreateSourceData();
         DataSettings CreateDestinationData();
         LoanApiSettings CreateLoanApiSettings();
+        AuthorizationSettings CreateAuthorizationSettings();
+        WorkTaskSettings CreateWorkTaskSettings();
     }
 }
