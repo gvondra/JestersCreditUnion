@@ -35,6 +35,10 @@ namespace JestersCreditUnion.Batch.LoanPaymentProcessor
 
         public string EncryptionKeyVault => throw new NotImplementedException();
 
+        public string BrassLoonAddressApiBaseAddress => _settings.BrassLoonAddressApiBaseAddress;
+
+        public Guid? AddressDomainId => _settings.AddressDomainId;
+
         public Task<string> GetConnetionString() => Task.FromResult(_settings.ConnectionString);
 
         public Func<Task<string>> GetDatabaseAccessToken() => null;

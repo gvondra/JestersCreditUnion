@@ -185,18 +185,10 @@ namespace LoanAPI.Controllers
         {
             IAddress borrowerAddress = await GetAddress(settings, loanApplication.BorrowerAddress);
             IAddress coborrowerAddress = await GetAddress(settings, loanApplication.CoBorrowerAddress);
-            IEmailAddress borrowerEmailAddress = await GetEmailAddress(settings, loanApplication.BorrowerEmailAddress);
-            IEmailAddress coborrowerEmailAddress = await GetEmailAddress(settings, loanApplication.CoBorrowerEmailAddress);
-            IPhone borrowerPhone = await GetPhone(settings, loanApplication.BorrowerPhone);
-            IPhone coborrowerPhone = await GetPhone(settings, loanApplication.CoBorrowerPhone);
 
             mapper.Map(loanApplication, innerLoanApplication);
             innerLoanApplication.BorrowerAddressId = borrowerAddress?.AddressId;
             innerLoanApplication.CoBorrowerAddressId = coborrowerAddress?.AddressId;
-            innerLoanApplication.BorrowerEmailAddressId = borrowerEmailAddress?.EmailAddressId;
-            innerLoanApplication.CoBorrowerEmailAddressId = coborrowerEmailAddress?.EmailAddressId;
-            innerLoanApplication.BorrowerPhoneId = borrowerPhone?.PhoneId;
-            innerLoanApplication.CoBorrowerPhoneId = coborrowerPhone?.PhoneId;
         }
 
         [NonAction]
@@ -204,18 +196,10 @@ namespace LoanAPI.Controllers
         {
             IAddress borrowerAddress = await innerLoanApplication.GetBorrowerAddress(settings);
             IAddress coborrowerAddress = await innerLoanApplication.GetCoBorrowerAddress(settings);
-            IEmailAddress borrowerEmailAddress = await innerLoanApplication.GetBorrowerEmailAddress(settings);
-            IEmailAddress coborrowerEmailAddress = await innerLoanApplication.GetCoBorrowerEmailAddress(settings);
-            IPhone borrowerPhone = await innerLoanApplication.GetBorrowerPhone(settings);
-            IPhone coborrowerPhone = await innerLoanApplication.GetCoBorrowerPhone(settings);
 
             LoanApplication loanApplication = mapper.Map<LoanApplication>(innerLoanApplication);
             loanApplication.BorrowerAddress = borrowerAddress != null ? mapper.Map<Address>(borrowerAddress) : null;
             loanApplication.CoBorrowerAddress = coborrowerAddress != null ? mapper.Map<Address>(coborrowerAddress) : null;
-            loanApplication.BorrowerEmailAddress = borrowerEmailAddress != null ? borrowerEmailAddress.Address : string.Empty;
-            loanApplication.CoBorrowerEmailAddress = coborrowerEmailAddress != null ? coborrowerEmailAddress.Address : string.Empty;
-            loanApplication.BorrowerPhone = borrowerPhone != null ? borrowerPhone.Number : string.Empty;
-            loanApplication.CoBorrowerPhone = coborrowerPhone != null ? coborrowerPhone.Number : string.Empty;
             loanApplication.StatusDescription = await innerLoanApplication.GetStatusDescription(settings);
 
             await MapComments(mapper, innerLoanApplication, loanApplication);
@@ -285,38 +269,6 @@ namespace LoanAPI.Controllers
                 await WriteMetrics("create-loan-application", start, result);
             }
             return result;
-        }
-
-        [NonAction]
-        private async Task<IPhone> GetPhone(ISettings settings, string number)
-        {
-            IPhone innerPhone = null;
-            if (!string.IsNullOrEmpty(number))
-            {
-                innerPhone = await _phoneFactory.Get(settings, number);
-                if (innerPhone == null)
-                {
-                    innerPhone = _phoneFactory.Create(ref number);
-                    await _phoneSaver.Create(settings, innerPhone);
-                }
-            }
-            return innerPhone;
-        }
-
-        [NonAction]
-        private async Task<IEmailAddress> GetEmailAddress(ISettings settings, string address)
-        {
-            IEmailAddress innerEmailAddress = null;
-            if (!string.IsNullOrEmpty(address))
-            {
-                innerEmailAddress = await _emailAddressFactory.Get(settings, address);
-                if (innerEmailAddress == null)
-                {
-                    innerEmailAddress = _emailAddressFactory.Create(address);
-                    await _emailAddressSaver.Create(settings, innerEmailAddress);
-                }
-            }
-            return innerEmailAddress;
         }
 
         [NonAction]

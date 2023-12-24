@@ -48,7 +48,7 @@ namespace JestersCreditUnion.Loan.Core
             card.InitializationVector = aes.IV;
             card.Key = await KeyVault.Encrypt(settings, keyName, aes.Key);
             card.MasterKeyName = keyName;
-            await CommonCore.Saver.Save(new CommonCore.TransactionHandler(settings), (th) => _loanApplication.Update(th));
+            await CommonCore.Saver.Save(new CommonCore.TransactionHandler(settings), (th) => _loanApplication.Update(th, settings));
         }
 
         private static string GetMasterKey()

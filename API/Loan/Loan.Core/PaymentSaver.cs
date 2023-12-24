@@ -2,7 +2,6 @@
 using JestersCreditUnion.Loan.Data;
 using JestersCreditUnion.Loan.Data.Models;
 using JestersCreditUnion.Loan.Framework;
-using JestersCreditUnion.Loan.Framework.Enumerations;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;

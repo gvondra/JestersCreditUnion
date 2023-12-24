@@ -17,5 +17,8 @@ namespace JestersCreditUnion.Loan.Core
 
         internal WorkTaskSettings CreateWorkTask(ISettings settings)
             => new WorkTaskSettings(settings, _tokenService);
+
+        internal AddressSettings CreateAddress(ISettings settings)
+            => new AddressSettings(settings, _tokenService);
     }
 }
