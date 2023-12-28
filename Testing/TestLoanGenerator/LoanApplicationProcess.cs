@@ -1,5 +1,5 @@
-﻿using JestersCreditUnion.Interface;
-using JestersCreditUnion.Interface.Models;
+﻿using JestersCreditUnion.Interface.Loan;
+using JestersCreditUnion.Interface.Loan.Models;
 using Serilog;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -33,7 +33,7 @@ namespace JestersCreditUnion.Testing.LoanGenerator
         public async Task GenerateLoanApplications()
         {
             LoanApplication createdApplication;
-            ApiSettings apiSettings = await _settingsFactory.GetApiSettings();
+            LoanApiSettings apiSettings = await _settingsFactory.GetLoanApiSettings();
             Queue<Task<LoanApplication>> createQueue = new Queue<Task<LoanApplication>>();
             int i = 1;
             foreach (LoanApplication loanApplication in _loanApplications)

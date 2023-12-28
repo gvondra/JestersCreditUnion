@@ -1,5 +1,5 @@
-﻿using JestersCreditUnion.Interface;
-using JestersCreditUnion.Interface.Models;
+﻿using JestersCreditUnion.Interface.Loan;
+using JestersCreditUnion.Interface.Loan.Models;
 using Serilog;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -60,13 +60,12 @@ namespace JestersCreditUnion.Testing.LoanGenerator
 
         private async Task InitiateDisbursement(Loan loan)
         {
-            ApiSettings settings = await _settingsFactory.GetApiSettings();
+            LoanApiSettings settings = await _settingsFactory.GetLoanApiSettings();
             await _loanService.InitiateDisbursement(settings, loan.LoanId.Value);
         }
 
         private async Task<Loan> CreateLoan(LoanApplication loanApplication)
         {
-            ApiSettings settings = await _settingsFactory.GetApiSettings();
             LoanAgreement agreement = new LoanAgreement
             {
                 BorrowerAddress = loanApplication.BorrowerAddress,
@@ -85,11 +84,12 @@ namespace JestersCreditUnion.Testing.LoanGenerator
                 Agreement = agreement,
                 LoanApplicationId = loanApplication.LoanApplicationId.Value                
             };
-            loan.Agreement.PaymentAmount = await GetPaymentAmount(settings, loan);
-            return await _loanService.Create(settings, loan);
+            LoanApiSettings loanApiSettings = await _settingsFactory.GetLoanApiSettings();
+            loan.Agreement.PaymentAmount = await GetPaymentAmount(loanApiSettings, loan);
+            return await _loanService.Create(loanApiSettings, loan);
         }
 
-        private async Task<decimal> GetPaymentAmount(ApiSettings settings, Loan loan)
+        private async Task<decimal> GetPaymentAmount(LoanApiSettings settings, Loan loan)
         {
             LoanPaymentAmountRequest requet = new LoanPaymentAmountRequest
             {

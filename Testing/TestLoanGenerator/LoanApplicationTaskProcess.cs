@@ -1,5 +1,6 @@
 ﻿using JestersCreditUnion.Interface;
 using JestersCreditUnion.Interface.Models;
+using JestersCreditUnion.Interface.Loan.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;

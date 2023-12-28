@@ -1,5 +1,5 @@
-﻿using JestersCreditUnion.Interface;
-using JestersCreditUnion.Interface.Models;
+﻿using JestersCreditUnion.Interface.Loan;
+using JestersCreditUnion.Interface.Loan.Models;
 using Serilog;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -61,7 +61,7 @@ namespace JestersCreditUnion.Testing.LoanGenerator
 
         private async Task Disburse(Loan loan)
         {
-            ApiSettings settings = await _settingsFactory.GetApiSettings();
+            LoanApiSettings settings = await _settingsFactory.GetLoanApiSettings();
             await _loanService.DisburseFunds(settings, loan.LoanId.Value);
             _logger.Information($"Funds disbursed for loan number {loan.Number}");
         }
