@@ -6,7 +6,7 @@ namespace JestersCreditUnion.Loan.Framework
 {
     public interface ILoanApplicationFactory
     {
-        IAddressFactory AddressFactory { get; set; }
+        IAddressFactory AddressFactory { get; }
         IEmailAddressFactory EmailAddressFactory { get; set; }
         IPhoneFactory PhoneFactory { get; set; }
 

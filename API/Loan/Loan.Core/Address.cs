@@ -39,6 +39,6 @@ namespace JestersCreditUnion.Loan.Core
 
         public DateTime CreateTimestamp => _data.CreateTimestamp;
 
-        public Task Create(ITransactionHandler transactionHandler) => _dataSaver.Create(transactionHandler, _data);
+        public Task Create(ITransactionHandler transactionHandler, Framework.ISettings settings) => _dataSaver.Create(transactionHandler, _data);
     }
 }

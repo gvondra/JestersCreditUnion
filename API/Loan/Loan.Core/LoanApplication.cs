@@ -53,7 +53,7 @@ namespace JestersCreditUnion.Loan.Core
         public LoanApplicationStatus Status { get => (LoanApplicationStatus)_data.Status; set => _data.Status = (short)value; }
         public string BorrowerName { get => _data.BorrowerName; set => _data.BorrowerName = value; }
         public DateTime BorrowerBirthDate { get => _data.BorrowerBirthDate; set => _data.BorrowerBirthDate = value; }
-        public Guid? BorrowerAddressId { get => _data.BorrowerAddressId; set => _data.BorrowerAddressId = value; }
+        private Guid? BorrowerAddressId { get => _data.BorrowerAddressId; set => _data.BorrowerAddressId = value; }
         internal Guid? BorrowerEmailAddressId { get => _data.BorrowerEmailAddressId; set => _data.BorrowerEmailAddressId = value; }
         internal Guid? BorrowerPhoneId { get => _data.BorrowerPhoneId; set => _data.BorrowerPhoneId = value; }
         public string BorrowerEmployerName { get => _data.BorrowerEmployerName; set => _data.BorrowerEmployerName = value; }
@@ -62,7 +62,7 @@ namespace JestersCreditUnion.Loan.Core
         private Guid? BorrowerIdentificationCardId { get => _data.BorrowerIdentificationCardId; set => _data.BorrowerIdentificationCardId = value; }
         public string CoBorrowerName { get => _data.CoBorrowerName; set => _data.CoBorrowerName = value; }
         public DateTime? CoBorrowerBirthDate { get => _data.CoBorrowerBirthDate; set => _data.CoBorrowerBirthDate = value; }
-        public Guid? CoBorrowerAddressId { get => _data.CoBorrowerAddressId; set => _data.CoBorrowerAddressId = value; }
+        private Guid? CoBorrowerAddressId { get => _data.CoBorrowerAddressId; set => _data.CoBorrowerAddressId = value; }
         internal Guid? CoBorrowerEmailAddressId { get => _data.CoBorrowerEmailAddressId; set => _data.CoBorrowerEmailAddressId = value; }
         internal Guid? CoBorrowerPhoneId { get => _data.CoBorrowerPhoneId; set => _data.CoBorrowerPhoneId = value; }
         public string CoBorrowerEmployerName { get => _data.CoBorrowerEmployerName; set => _data.CoBorrowerEmployerName = value; }
@@ -108,8 +108,12 @@ namespace JestersCreditUnion.Loan.Core
 
         public async Task Create(CommonCore.ITransactionHandler transactionHandler, ISettings settings)
         {
-            await SavePhones(settings);
-            await SaveEmailAddresses(settings);
+            await Task.WhenAll(new Task[]
+            {
+                SaveAddresses(transactionHandler, settings),
+                SavePhones(settings),
+                SaveEmailAddresses(settings)
+            });
             await _dataSaver.Create(transactionHandler, _data);
         }
 
@@ -135,6 +139,12 @@ namespace JestersCreditUnion.Loan.Core
             return _borrowerAddress;
         }
 
+        public void SetBorrowerAddress(IAddress address)
+        {
+            _borrowerAddress = address;
+            BorrowerAddressId = null;
+        }
+
         public async Task<IAddress> GetCoBorrowerAddress(ISettings settings)
         {
             if (CoBorrowerAddressId.HasValue && (_coborrowerAddress == null || !_coborrowerAddress.AddressId.Equals(CoBorrowerAddressId.Value)))
@@ -142,6 +152,12 @@ namespace JestersCreditUnion.Loan.Core
                 _coborrowerAddress = await _factory.AddressFactory.Get(settings, CoBorrowerAddressId.Value);
             }
             return _coborrowerAddress;
+        }
+
+        public void SetCoBorrowerAddress(IAddress address)
+        {
+            _coborrowerAddress = address;
+            CoBorrowerAddressId = null;
         }
 
         public async Task<string> GetStatusDescription(ISettings settings)
@@ -165,8 +181,12 @@ namespace JestersCreditUnion.Loan.Core
                     await _borrowerIdentificationCard.Update(transactionHandler);
                 BorrowerIdentificationCardId = _borrowerIdentificationCard.IdentificationCardId;
             }
-            await SavePhones(settings);
-            await SaveEmailAddresses(settings);
+            await Task.WhenAll(new Task[]
+            {
+                SaveAddresses(transactionHandler, settings),
+                SavePhones(settings),
+                SaveEmailAddresses(settings)
+            });
             await _dataSaver.Update(transactionHandler, _data);
         }
 
@@ -246,6 +266,16 @@ namespace JestersCreditUnion.Loan.Core
             {
                 CoBorrowerEmailAddressId = null;
             }
+        }
+
+        private async Task SaveAddresses(CommonCore.ITransactionHandler transactionHandler, ISettings settings)
+        {
+            if (_borrowerAddress != null)
+                await _borrowerAddress.Create(transactionHandler, settings);
+            BorrowerAddressId = _borrowerAddress != null ? _borrowerAddress.AddressId : null;
+            if (_coborrowerAddress != null)
+                await _coborrowerAddress.Create(transactionHandler, settings);
+            CoBorrowerAddressId = _coborrowerAddress != null ? _coborrowerAddress.AddressId : null;
         }
 
         private async Task SavePhones(ISettings settings)

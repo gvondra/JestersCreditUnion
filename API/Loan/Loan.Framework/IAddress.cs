@@ -17,6 +17,6 @@ namespace JestersCreditUnion.Loan.Framework
         string PostalCode { get; }
         DateTime CreateTimestamp { get; }
 
-        Task Create(ITransactionHandler transactionHandler);
+        Task Create(ITransactionHandler transactionHandler, ISettings settings);
     }
 }

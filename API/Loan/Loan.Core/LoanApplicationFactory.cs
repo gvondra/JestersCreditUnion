@@ -1,4 +1,5 @@
-﻿using JestersCreditUnion.Loan.Data;
+﻿using Autofac.Features.Indexed;
+using JestersCreditUnion.Loan.Data;
 using JestersCreditUnion.Loan.Data.Models;
 using JestersCreditUnion.Loan.Framework;
 using System;
@@ -18,6 +19,7 @@ namespace JestersCreditUnion.Loan.Core
         private readonly AddressInterface.IPhoneService _phoneService;
         private readonly AddressInterface.IEmailAddressService _emailService;
         private readonly SettingsFactory _settingsFactory;
+        private readonly IAddressFactory _addressFactory;
 
         public LoanApplicationFactory(
             ILoanApplicationDataFactory dataFactory,
@@ -26,7 +28,8 @@ namespace JestersCreditUnion.Loan.Core
             IIdentificationCardDataSaver identificationCardDataSaver,
             AddressInterface.IPhoneService phoneService,
             AddressInterface.IEmailAddressService emailService,
-            SettingsFactory settingsFactory)
+            SettingsFactory settingsFactory,
+            IIndex<string, IAddressFactory> addressFactoryIndex)
         {
             _dataFactory = dataFactory;
             _dataSaver = dataSaver;
@@ -35,9 +38,10 @@ namespace JestersCreditUnion.Loan.Core
             _phoneService = phoneService;
             _emailService = emailService;
             _settingsFactory = settingsFactory;
+            _addressFactory = addressFactoryIndex["v2"];
         }
 
-        public IAddressFactory AddressFactory { get; set; }
+        public IAddressFactory AddressFactory => _addressFactory;
         public IEmailAddressFactory EmailAddressFactory { get; set; }
         public IPhoneFactory PhoneFactory { get; set; }
 

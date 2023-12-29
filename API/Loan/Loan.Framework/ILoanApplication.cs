@@ -14,7 +14,7 @@ namespace JestersCreditUnion.Loan.Framework
         DateTime ApplicationDate { get; }
         string BorrowerName { get; set; }
         DateTime BorrowerBirthDate { get; set; }
-        Guid? BorrowerAddressId { get; set; }
+        //Guid? BorrowerAddressId { get; set; }
         string BorrowerEmailAddress { get; set; }
         string BorrowerPhone { get; set; }
         string BorrowerEmployerName { get; set; }
@@ -22,7 +22,7 @@ namespace JestersCreditUnion.Loan.Framework
         decimal? BorrowerIncome { get; set; }
         string CoBorrowerName { get; set; }
         DateTime? CoBorrowerBirthDate { get; set; }
-        Guid? CoBorrowerAddressId { get; set; }
+        //Guid? CoBorrowerAddressId { get; set; }
         string CoBorrowerEmailAddress { get; set; }
         string CoBorrowerPhone { get; set; }
         string CoBorrowerEmployerName { get; set; }
@@ -41,7 +41,9 @@ namespace JestersCreditUnion.Loan.Framework
         Task Update(ITransactionHandler transactionHandler, ISettings settings);
 
         Task<IAddress> GetBorrowerAddress(ISettings settings);
+        void SetBorrowerAddress(IAddress address);
         Task<IAddress> GetCoBorrowerAddress(ISettings settings);
+        void SetCoBorrowerAddress(IAddress address);
         Task<string> GetStatusDescription(ISettings settings);
         ILoanApplicationComment CreateComment(string text, Guid userId, bool isInternal = true);
         void SetDenial(LoanApplicationDenialReason reason, DateTime date, Guid userId, string text);

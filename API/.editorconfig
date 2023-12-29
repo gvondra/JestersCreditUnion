@@ -81,7 +81,7 @@ dotnet_diagnostic.IDE0063.severity = suggestion
 
 # CA1051: Do not declare visible instance fields
 dotnet_diagnostic.CA1051.severity = suggestion
-csharp_style_prefer_primary_constructors = true:suggestion
+csharp_style_prefer_primary_constructors = false:suggestion
 
 [*.{cs,vb}]
 
