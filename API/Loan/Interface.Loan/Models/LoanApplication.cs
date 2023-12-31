@@ -31,6 +31,7 @@ namespace JestersCreditUnion.Interface.Loan.Models
         public decimal? RentPayment { get; set; }
         public List<LoanApplicationComment> Comments { get; set; }
         public LoanApplicationDenial Denial { get; set; }
+        public DateTime? ClosedDate { get; set; }
         public DateTime? CreateTimestamp { get; set; }
         public DateTime? UpdateTimestamp { get; set; }
     }

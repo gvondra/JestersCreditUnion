@@ -32,6 +32,7 @@ namespace JestersCreditUnion.Loan.Framework
         string Purpose { get; set; }
         decimal? MortgagePayment { get; set; }
         decimal? RentPayment { get; set; }
+        DateTime? ClosedDate { get; set; }
         DateTime CreateTimestamp { get; }
         DateTime UpdateTimestamp { get; }
         List<ILoanApplicationComment> Comments { get; }

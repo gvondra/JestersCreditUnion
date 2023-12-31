@@ -27,6 +27,7 @@
 	[RentPayment] DECIMAL(7, 2) NULL,
 	[CreateTimestamp] DATETIME2(4) CONSTRAINT [DF_LoanApplication_CreateTimestamp] DEFAULT (SYSUTCDATETIME()) NOT NULL,
 	[UpdateTimestamp] DATETIME2(4) CONSTRAINT [DF_LoanApplication_UpdateTimestamp] DEFAULT (SYSUTCDATETIME()) NOT NULL,
+	[ClosedDate] DATE NULL,
 	CONSTRAINT [PK_LoanApplication] PRIMARY KEY NONCLUSTERED ([LoanApplicationId]), 
     CONSTRAINT [FK_LoanApplication_To_BorrowerIdentificationCard] FOREIGN KEY ([BorrowerIdentificationCardId]) REFERENCES [ln].[IdentificationCard]([IdentificationCardId]) 
 )

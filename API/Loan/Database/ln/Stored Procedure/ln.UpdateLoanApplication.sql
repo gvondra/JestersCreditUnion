@@ -23,6 +23,7 @@
 	@purpose NVARCHAR(2048),
 	@mortgagePayment DECIMAL(7, 2),
 	@rentPayment DECIMAL(7, 2),
+	@closedDate DATE,
 	@timestamp DATETIME2(4) OUT
 AS
 BEGIN
@@ -51,6 +52,7 @@ BEGIN
 	[Purpose] = @purpose, 
 	[MortgagePayment] = @mortgagePayment,
 	[RentPayment] = @rentPayment,
+	[ClosedDate] = @closedDate,
 	[UpdateTimestamp] = @timestamp
 	WHERE [LoanApplicationId] = @id;
 END

@@ -148,6 +148,7 @@ namespace JestersCreditUnion.Loan.Data.Internal
             DataUtil.AddParameter(_providerFactory, commandParameters, "purpose", DbType.String, DataUtil.GetParameterValue(data.Purpose));
             DataUtil.AddParameter(_providerFactory, commandParameters, "mortgagePayment", DbType.Decimal, DataUtil.GetParameterValue(data.MortgagePayment));
             DataUtil.AddParameter(_providerFactory, commandParameters, "rentPayment", DbType.Decimal, DataUtil.GetParameterValue(data.RentPayment));
+            DataUtil.AddParameter(_providerFactory, commandParameters, "closedDate", DbType.Date, DataUtil.GetParameterValue(data.ClosedDate));
         }
     }
 }

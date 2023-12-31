@@ -77,6 +77,8 @@ namespace JestersCreditUnion.Loan.Core
         public string CoBorrowerEmailAddress { get; set; } = string.Empty;
         public string CoBorrowerPhone { get; set; } = string.Empty;
 
+        public DateTime? ClosedDate { get => _data.ClosedDate; set => _data.ClosedDate = value; }
+
         public DateTime CreateTimestamp => _data.CreateTimestamp;
 
         public DateTime UpdateTimestamp => _data.UpdateTimestamp;
@@ -213,8 +215,8 @@ namespace JestersCreditUnion.Loan.Core
                 Text = text,
                 Reason = (short)reason
             };
-            if (!string.IsNullOrEmpty(text))
-                Status = LoanApplicationStatus.Denied;
+            Status = LoanApplicationStatus.Denied;
+            ClosedDate = date;
         }
 
         internal IdentificationCard SetBorrowerIdentificationCard(byte[] initializationVector, byte[] key)

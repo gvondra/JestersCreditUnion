@@ -6,7 +6,7 @@ SELECT
 	[BorrowerName], [BorrowerBirthDate], [BorrowerAddressId], [BorrowerEmailAddressId], [BorrowerPhoneId], [BorrowerEmployerName], [BorrowerEmploymentHireDate], [BorrowerIncome],
 	[BorrowerIdentificationCardId],
 	[CoBorrowerName], [CoBorrowerBirthDate], [CoBorrowerAddressId], [CoBorrowerEmailAddressId], [CoBorrowerPhoneId], [CoBorrowerEmployerName], [CoBorrowerEmploymentHireDate], [CoBorrowerIncome],
-	[Amount], [Purpose], [MortgagePayment], [RentPayment],
+	[Amount], [Purpose], [MortgagePayment], [RentPayment],[ClosedDate],
 	[CreateTimestamp], [UpdateTimestamp]
 FROM [ln].[LoanApplication]
 WHERE [UserId] = @userId

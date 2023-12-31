@@ -178,6 +178,8 @@ namespace LoanAPI.Controllers
                 GetAddress(loanApplication.BorrowerAddress));
             innerLoanApplication.SetCoBorrowerAddress(
                 GetAddress(loanApplication.CoBorrowerAddress));
+            if (!innerLoanApplication.ClosedDate.HasValue && innerLoanApplication.Status != LoanApplicationStatus.Unset && innerLoanApplication.Status != LoanApplicationStatus.UnderReview)
+                innerLoanApplication.ClosedDate = DateTime.Today;
         }
 
         [NonAction]
