@@ -46,11 +46,9 @@ namespace JestersCreditUnion.Batch.ReportingLoader
 
         public async Task PurgeWorkingData()
         {
-            _logger.LogInformation("Merging loan statuses to destination");
             await _purger.Purge(
                 await GetDestinationConnection(),
                 _workingTableName);
-            _logger.LogInformation("Merged loan statuses to destination");
         }
 
         public async Task StageWorkingData()

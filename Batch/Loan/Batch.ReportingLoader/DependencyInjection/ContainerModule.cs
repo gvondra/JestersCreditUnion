@@ -22,6 +22,8 @@ namespace JestersCreditUnion.Batch.ReportingLoader.DependencyInjection
                 .As<ISettingsFactory>();
 
             builder.RegisterType<LoanAgreementReporter>().As<IReporter>();
+            builder.RegisterType<LoanApplicationFactReporter>().As<IReporter>();
+            builder.RegisterType<LoanApplicationStatusReporter>().As<IReporter>();
             builder.RegisterType<LoanBalanceReporter>().As<IReporter>();
             builder.RegisterType<LoanReporter>().As<IReporter>();
             builder.RegisterType<LoanStatusReporter>().As<IReporter>();
