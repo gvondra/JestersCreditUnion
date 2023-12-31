@@ -43,7 +43,7 @@ namespace JestersCreditUnion.Loan.Core
             await _paymentSaver.Update(settings, payments);
         }
 
-        private void ProcessTerm(ISettings settings, PaymentTerm paymentTerm)
+        private static void ProcessTerm(ISettings settings, PaymentTerm paymentTerm)
         {
             decimal remainingPrincipal = paymentTerm.Principal;
             decimal interestDue = InterestDue(paymentTerm);

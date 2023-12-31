@@ -33,12 +33,11 @@ namespace JestersCreditUnion.Batch.LoanPaymentProcessor
             _loanQueue = new ConcurrentQueue<ILoan>(
                 (await _loanFactory.GetWithUnprocessedPayments(_settingsFactory.CreateCore())));
             _logger.LogInformation($"Loaded {_loanQueue.Count:###,###,##0} loans");
-            Task[] tasks = new Task[_threadCount - 1];
+            Task[] tasks = new Task[_threadCount];
             for (int i = 0; i < tasks.Length; i += 1)
             {
                 tasks[i] = Task.Run(ProcessPaymentQueue);
             }
-            await ProcessPaymentQueue();
             await Task.WhenAll(tasks);
         }
 
