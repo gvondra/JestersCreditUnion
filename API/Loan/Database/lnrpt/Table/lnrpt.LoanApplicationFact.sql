@@ -1,10 +1,11 @@
 ﻿CREATE TABLE [lnrpt].[LoanApplicationFact]
 (
 	[Id] BIGINT IDENTITY(1,1) NOT NULL,
-	[CreateTimestamp] DATETIME2(4) NOT NULL,
 	[ApplicationDate] DATE NOT NULL,
 	[ClosedDate] DATE NULL,
 	[Amount] DECIMAL(11, 2) NOT NULL,
+	[Count] INT CONSTRAINT [DF_LoanApplicationFact_Count] DEFAULT 1 NOT NULL, -- default added to allow the column to be added to existing tables having data
+																			  -- long term, the default constraint can be removed
 	[Status] SMALLINT NOT NULL,
 	[UserId] UNIQUEIDENTIFIER NULL,
 	CONSTRAINT [PK_LoanApplicationFact] PRIMARY KEY NONCLUSTERED ([Id]), 

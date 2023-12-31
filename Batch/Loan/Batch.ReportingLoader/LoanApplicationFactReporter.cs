@@ -78,9 +78,6 @@ namespace JestersCreditUnion.Batch.ReportingLoader
         private static async Task<DataRow> PopulateRow(DataRow row, DbDataReader reader)
         {
             int ordinal;
-            DateTime createTimestamp = await reader.GetFieldValueAsync<DateTime>(reader.GetOrdinal("CreateTimestamp"));
-            row["CreateTimestamp"] = GetLocalTimestamp(createTimestamp);
-
             ordinal = reader.GetOrdinal("ApplicationDate");
             row["ApplicationDate"] = await reader.GetFieldValueAsync<DateTime>(ordinal);
             ordinal = reader.GetOrdinal("ClosedDate");
@@ -95,17 +92,10 @@ namespace JestersCreditUnion.Batch.ReportingLoader
             return row;
         }
 
-        private static DateTime GetLocalTimestamp(DateTime dateTimeUtc)
-        {
-            return TimeZoneInfo.ConvertTime(
-                DateTime.SpecifyKind(dateTimeUtc, DateTimeKind.Utc),
-                TimeZoneInfo.FindSystemTimeZoneById("Central Standard Time"));
-        }
-
         private async Task<DbDataReader> OpenReader()
         {
             StringBuilder sql = new StringBuilder();
-            sql.Append("SELECT [la].[CreateTimestamp], [la].[ApplicationDate], [la].[ClosedDate], [la].[Amount], [la].[Status], [la].[UserId] ");
+            sql.Append("SELECT [la].[ApplicationDate], [la].[ClosedDate], [la].[Amount], [la].[Status], [la].[UserId] ");
             sql.AppendFormat("FROM {0} [la] ", _sourceTableName);
             DbCommand command = (await GetSourceConnection()).CreateCommand();
             command.CommandType = CommandType.Text;
@@ -116,7 +106,6 @@ namespace JestersCreditUnion.Batch.ReportingLoader
         private static DataTable CreateTable()
         {
             DataTable table = new DataTable();
-            table.Columns.Add("CreateTimestamp", typeof(DateTime));
             table.Columns.Add("ApplicationDate", typeof(DateTime));
             table.Columns.Add("ClosedDate", typeof(DateTime));
             table.Columns.Add("Amount", typeof(decimal));
