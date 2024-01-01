@@ -25,10 +25,6 @@ namespace LoanAPI.Controllers
         private readonly ILoanSaver _loanSaver;
         private readonly IAddressFactory _addressFactory;
         private readonly IAddressSaver _addressSaver;
-        private readonly IEmailAddressFactory _emailAddressFactory;
-        private readonly IEmailAddressSaver _emailAddressSaver;
-        private readonly IPhoneFactory _phoneFactory;
-        private readonly IPhoneSaver _phoneSaver;
 
         public LoanController(IOptions<Settings> settings,
             ISettingsFactory settingsFactory,
@@ -39,11 +35,7 @@ namespace LoanAPI.Controllers
             ILoanFactory loanFactory,
             ILoanSaver loanSaver,
             IAddressFactory addressFactory,
-            IAddressSaver addressSaver,
-            IEmailAddressFactory emailAddressFactory,
-            IEmailAddressSaver emailAddressSaver,
-            IPhoneFactory phoneFactory,
-            IPhoneSaver phoneSaver)
+            IAddressSaver addressSaver)
             : base(settings, settingsFactory, userService, logger)
         {
             _loanApplicationFactory = loanApplicationFactory;
@@ -52,10 +44,6 @@ namespace LoanAPI.Controllers
             _loanSaver = loanSaver;
             _addressFactory = addressFactory;
             _addressSaver = addressSaver;
-            _emailAddressFactory = emailAddressFactory;
-            _emailAddressSaver = emailAddressSaver;
-            _phoneFactory = phoneFactory;
-            _phoneSaver = phoneSaver;
         }
 
         [Authorize(Constants.POLICY_LOAN_READ)]
@@ -256,52 +244,11 @@ namespace LoanAPI.Controllers
         {
             IAddress borrowerAddress = await GetAddress(settings, loan.Agreement.BorrowerAddress);
             IAddress coborrowerAddress = await GetAddress(settings, loan.Agreement.CoBorrowerAddress);
-            IEmailAddress borrowerEmailAddress = await GetEmailAddress(settings, loan.Agreement.BorrowerEmailAddress);
-            IEmailAddress coborrowerEmailAddress = await GetEmailAddress(settings, loan.Agreement.CoBorrowerEmailAddress);
-            IPhone borrowerPhone = await GetPhone(settings, loan.Agreement.BorrowerPhone);
-            IPhone coborrowerPhone = await GetPhone(settings, loan.Agreement.CoBorrowerPhone);
 
             mapper.Map(loan, innerLoan);
             mapper.Map(loan.Agreement, innerLoan.Agreement);
             innerLoan.Agreement.BorrowerAddressId = borrowerAddress?.AddressId;
             innerLoan.Agreement.CoBorrowerAddressId = coborrowerAddress?.AddressId;
-            innerLoan.Agreement.BorrowerEmailAddressId = borrowerEmailAddress?.EmailAddressId;
-            innerLoan.Agreement.CoBorrowerEmailAddressId = coborrowerEmailAddress?.EmailAddressId;
-            innerLoan.Agreement.BorrowerPhoneId = borrowerPhone?.PhoneId;
-            innerLoan.Agreement.CoBorrowerPhoneId = coborrowerPhone?.PhoneId;
-        }
-
-        [NonAction]
-        private async Task<IPhone> GetPhone(ISettings settings, string number)
-        {
-            IPhone innerPhone = null;
-            if (!string.IsNullOrEmpty(number))
-            {
-                innerPhone = await _phoneFactory.Get(settings, number);
-                if (innerPhone == null)
-                {
-                    innerPhone = _phoneFactory.Create(ref number);
-                    await _phoneSaver.Create(settings, innerPhone);
-                }
-            }
-            return innerPhone;
-        }
-
-        [NonAction]
-        private async Task<IEmailAddress> GetEmailAddress(ISettings settings, string address)
-        {
-            IEmailAddress innerEmailAddress = null;
-            if (!string.IsNullOrEmpty(address))
-            {
-                innerEmailAddress = await _emailAddressFactory.Get(settings, address);
-                if (innerEmailAddress == null)
-                {
-                    innerEmailAddress = _emailAddressFactory.Create(address);
-                    await _emailAddressSaver.Create(settings, innerEmailAddress);
-                }
-
-            }
-            return innerEmailAddress;
         }
 
         [NonAction]
@@ -370,18 +317,10 @@ namespace LoanAPI.Controllers
         {
             IAddress borrowerAddress = await innerLoan.Agreement.GetBorrowerAddress(settings);
             IAddress coborrowerAddress = await innerLoan.Agreement.GetCoBorrowerAddress(settings);
-            IEmailAddress borrowerEmailAddress = await innerLoan.Agreement.GetBorrowerEmailAddress(settings);
-            IEmailAddress coborrowerEmailAddress = await innerLoan.Agreement.GetCoBorrowerEmailAddress(settings);
-            IPhone borrowerPhone = await innerLoan.Agreement.GetBorrowerPhone(settings);
-            IPhone coborrowerPhone = await innerLoan.Agreement.GetCoBorrowerPhone(settings);
 
             Loan loan = mapper.Map<Loan>(innerLoan);
             loan.Agreement.BorrowerAddress = borrowerAddress != null ? mapper.Map<Address>(borrowerAddress) : null;
             loan.Agreement.CoBorrowerAddress = coborrowerAddress != null ? mapper.Map<Address>(coborrowerAddress) : null;
-            loan.Agreement.BorrowerEmailAddress = borrowerEmailAddress != null ? borrowerEmailAddress.Address : string.Empty;
-            loan.Agreement.CoBorrowerEmailAddress = coborrowerEmailAddress != null ? coborrowerEmailAddress.Address : string.Empty;
-            loan.Agreement.BorrowerPhone = borrowerPhone != null ? borrowerPhone.Number : string.Empty;
-            loan.Agreement.CoBorrowerPhone = coborrowerPhone != null ? coborrowerPhone.Number : string.Empty;
             loan.StatusDescription = await innerLoan.GetStatusDescription(settings);
 
             return loan;

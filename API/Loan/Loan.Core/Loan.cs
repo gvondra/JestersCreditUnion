@@ -6,6 +6,7 @@ using JestersCreditUnion.Loan.Framework.Enumerations;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using AddressInterface = BrassLoon.Interface.Address;
 
 namespace JestersCreditUnion.Loan.Core
 {
@@ -16,15 +17,25 @@ namespace JestersCreditUnion.Loan.Core
         private readonly ILoanFactory _factory;
         private readonly IPaymentFactory _paymentFactory;
         private readonly ILookupFactory _lookupFactory;
+        private readonly AddressInterface.IPhoneService _phoneService;
+        private readonly AddressInterface.IEmailAddressService _emailService;
+        private readonly SettingsFactory _settingsFactory;
         private ILoanAgreement _agreement;
 
-        public Loan(LoanData data,
+        public Loan(
+            LoanData data,
+            SettingsFactory settingsFactory,
+            AddressInterface.IPhoneService phoneService,
+            AddressInterface.IEmailAddressService emailService,
             ILoanDataSaver dataSaver,
             ILoanFactory factory,
             IPaymentFactory paymentFactory,
             ILookupFactory lookupFactory)
         {
             _data = data;
+            _settingsFactory = settingsFactory;
+            _phoneService = phoneService;
+            _emailService = emailService;
             _dataSaver = dataSaver;
             _factory = factory;
             _paymentFactory = paymentFactory;
@@ -47,7 +58,7 @@ namespace JestersCreditUnion.Loan.Core
                     {
                         _data.Agreement = new LoanAgreementData();
                     }
-                    _agreement = new LoanAgreement(_data.Agreement, _dataSaver.LoanAgrementDataSaver, _factory, this);
+                    _agreement = new LoanAgreement(_data.Agreement, _settingsFactory, _phoneService, _emailService, _dataSaver.LoanAgrementDataSaver, _factory, this);
                 }
                 return _agreement;
             }
@@ -64,19 +75,19 @@ namespace JestersCreditUnion.Loan.Core
         public LoanStatus Status { get => (LoanStatus)_data.Status; set => _data.Status = (short)value; }
         public decimal? Balance { get => _data.Balance; set => _data.Balance = value; }
 
-        public async Task Create(ITransactionHandler transactionHandler)
+        public async Task Create(ITransactionHandler transactionHandler, Framework.ISettings settings)
         {
             if (_agreement == null)
                 throw new ApplicationException("Cannot create loan. No loan agreement set");
-            await _agreement.Create(transactionHandler);
+            await _agreement.Create(transactionHandler, settings);
             await _dataSaver.Create(transactionHandler, _data);
         }
 
-        public async Task Update(ITransactionHandler transactionHandler)
+        public async Task Update(ITransactionHandler transactionHandler, Framework.ISettings settings)
         {
             await _dataSaver.Update(transactionHandler, _data);
             if (_agreement != null)
-                await _agreement.Update(transactionHandler);
+                await _agreement.Update(transactionHandler, settings);
         }
 
         public Task<IEnumerable<ITransaction>> GetTransactions(Framework.ISettings settings) => _factory.TransactionFacatory.GetByLoanId(settings, LoanId);

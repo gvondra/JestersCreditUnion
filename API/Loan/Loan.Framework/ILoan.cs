@@ -20,8 +20,8 @@ namespace JestersCreditUnion.Loan.Framework
         DateTime CreateTimestamp { get; }
         DateTime UpdateTimestamp { get; }
 
-        Task Create(ITransactionHandler transactionHandler);
-        Task Update(ITransactionHandler transactionHandler);
+        Task Create(ITransactionHandler transactionHandler, ISettings settings);
+        Task Update(ITransactionHandler transactionHandler, ISettings settings);
 
         ITransaction CreateTransaction(DateTime date, TransactionType type, decimal amount);
         Task<IEnumerable<ITransaction>> GetTransactions(ISettings settings);

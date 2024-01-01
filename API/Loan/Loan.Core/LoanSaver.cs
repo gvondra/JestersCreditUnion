@@ -34,7 +34,7 @@ namespace JestersCreditUnion.Loan.Core
         }
 
         public Task Create(ISettings settings, ILoan loan)
-            => CommonCore.Saver.Save(new CommonCore.TransactionHandler(settings), loan.Create);
+            => CommonCore.Saver.Save(new CommonCore.TransactionHandler(settings), (th) => loan.Create(th, settings));
 
         public async Task InitiateDisburseFundsUpdate(ISettings settings, ILoan loan)
         {
@@ -58,7 +58,7 @@ namespace JestersCreditUnion.Loan.Core
 
             await CommonCore.Saver.Save(new CommonCore.TransactionHandler(settings), async th =>
             {
-                await loan.Update(th);
+                await loan.Update(th, settings);
 
                 if (workTaskType != null && workTaskStatus != null)
                 {
@@ -72,7 +72,7 @@ namespace JestersCreditUnion.Loan.Core
         }
 
         public Task Update(ISettings settings, ILoan loan)
-            => CommonCore.Saver.Save(new CommonCore.TransactionHandler(settings), loan.Update);
+            => CommonCore.Saver.Save(new CommonCore.TransactionHandler(settings), (th) => loan.Update(th, settings));
 
 
         private async Task CreateDisburseFundsWorkTask(

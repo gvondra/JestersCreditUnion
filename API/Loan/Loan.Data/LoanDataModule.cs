@@ -12,8 +12,6 @@ namespace JestersCreditUnion.Loan.Data
                 .As<IDbProviderFactory>();
             builder.RegisterType<AddressDataFactory>().As<IAddressDataFactory>();
             builder.RegisterType<AddressDataSaver>().As<IAddressDataSaver>();
-            builder.RegisterType<EmailAddressDataFactory>().As<IEmailAddressDataFactory>();
-            builder.RegisterType<EmailAddressDataSaver>().As<IEmailAddressDataSaver>();
             builder.RegisterType<IdentificationCardDataSaver>().As<IIdentificationCardDataSaver>();
             builder.RegisterType<LoanAgreementDataSaver>().As<ILoanAgreementDataSaver>();
             builder.RegisterType<LoanApplicationDataFactory>().As<ILoanApplicationDataFactory>();
@@ -24,8 +22,6 @@ namespace JestersCreditUnion.Loan.Data
                 .As<ILoanDataSaver>();
             builder.RegisterType<PaymentDataFactory>().As<IPaymentDataFactory>();
             builder.RegisterType<PaymentDataSaver>().As<IPaymentDataSaver>();
-            builder.RegisterType<PhoneDataFactory>().As<IPhoneDataFactory>();
-            builder.RegisterType<PhoneDataSaver>().As<IPhoneDataSaver>();
             builder.RegisterType<TransactionDataFactory>().As<ITransactionDataFactory>();
             builder.RegisterType<TransactionDataSaver>().As<ITransactionDataSaver>();
         }

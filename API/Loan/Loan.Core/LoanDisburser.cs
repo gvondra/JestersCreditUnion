@@ -20,7 +20,7 @@ namespace JestersCreditUnion.Loan.Core
             }
             await CommonCore.Saver.Save(new CommonCore.TransactionHandler(settings), async th =>
             {
-                await loan.Update(th);
+                await loan.Update(th, settings);
                 await transaction.Create(th);
             });
             return transaction;

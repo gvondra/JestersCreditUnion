@@ -19,8 +19,6 @@ namespace JestersCreditUnion.Loan.Core
                 .Keyed<IAddressFactory>("v2");
             builder.RegisterType<AddressSaver>().As<IAddressSaver>();
             builder.RegisterType<AmortizationBuilder>().As<IAmortizationBuilder>();
-            builder.RegisterType<EmailAddressFactory>().As<IEmailAddressFactory>();
-            builder.RegisterType<EmailAddressSaver>().As<IEmailAddressSaver>();
             builder.RegisterType<KeyVault>().As<IKeyVault>();
             builder.RegisterType<LoanApplicationFactory>()
                 .As<ILoanApplicationFactory>()
@@ -43,8 +41,6 @@ namespace JestersCreditUnion.Loan.Core
             builder.RegisterType<LoanPaymentProcessor>()
                 .InstancePerLifetimeScope()
                 .As<ILoanPaymentProcessor>();
-            builder.RegisterType<PhoneFactory>().As<IPhoneFactory>();
-            builder.RegisterType<PhoneSaver>().As<IPhoneSaver>();
             builder.RegisterType<TransactionFactory>().As<ITransactionFacatory>();
             builder.RegisterType<WorkTaskTypeCodeLookup>().InstancePerLifetimeScope();
         }

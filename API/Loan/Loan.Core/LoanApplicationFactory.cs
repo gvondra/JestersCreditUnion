@@ -42,8 +42,6 @@ namespace JestersCreditUnion.Loan.Core
         }
 
         public IAddressFactory AddressFactory => _addressFactory;
-        public IEmailAddressFactory EmailAddressFactory { get; set; }
-        public IPhoneFactory PhoneFactory { get; set; }
 
         private LoanApplication Create(LoanApplicationData data)
         {

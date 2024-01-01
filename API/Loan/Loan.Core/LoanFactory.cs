@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AddressInterface = BrassLoon.Interface.Address;
 
 namespace JestersCreditUnion.Loan.Core
 {
@@ -15,6 +16,9 @@ namespace JestersCreditUnion.Loan.Core
         private readonly LoanNumberGenerator _numberGenerator;
         private readonly IPaymentFactory _paymentFactory;
         private readonly ILookupFactory _lookupFactory;
+        private readonly AddressInterface.IPhoneService _phoneService;
+        private readonly AddressInterface.IEmailAddressService _emailService;
+        private readonly SettingsFactory _settingsFactory;
 
         public LoanFactory(ILoanDataFactory dataFactory,
             ILoanDataSaver dataSaver,
@@ -22,21 +26,54 @@ namespace JestersCreditUnion.Loan.Core
             IPaymentDataFactory paymentDataFactory,
             IPaymentDataSaver paymentDataSaver,
             ITransactionDataSaver transactionDataSaver,
-            ILookupFactory lookupFactory)
+            ILookupFactory lookupFactory,
+            AddressInterface.IPhoneService phoneService,
+            AddressInterface.IEmailAddressService emailService,
+            SettingsFactory settingsFactory)
         {
             _dataFactory = dataFactory;
             _dataSaver = dataSaver;
             _numberGenerator = numberGenerator;
             _paymentFactory = new PaymentFactory(paymentDataFactory, transactionDataSaver, paymentDataSaver);
             _lookupFactory = lookupFactory;
+            _phoneService = phoneService;
+            _emailService = emailService;
+            _settingsFactory = settingsFactory;
         }
 
         public IAddressFactory AddressFactory { get; set; }
-        public IEmailAddressFactory EmailAddressFactory { get; set; }
-        public IPhoneFactory PhoneFactory { get; set; }
         public ITransactionFacatory TransactionFacatory { get; set; }
 
-        private Loan Create(LoanData data) => new Loan(data, _dataSaver, this, _paymentFactory, _lookupFactory);
+        private Loan Create(LoanData data) => new Loan(data, _settingsFactory, _phoneService, _emailService, _dataSaver, this, _paymentFactory, _lookupFactory);
+
+        private async Task<Loan> Create(ISettings settings, LoanData data)
+        {
+            Loan loan = Create(data);
+            AddressInterface.ISettings addressSettings = _settingsFactory.CreateAddress(settings);
+            AddressInterface.Models.Phone phone;
+            AddressInterface.Models.EmailAddress email;
+            if (data.Agreement?.BorrowerEmailAddressId.HasValue ?? false)
+            {
+                email = await _emailService.Get(addressSettings, settings.AddressDomainId.Value, data.Agreement.BorrowerEmailAddressId.Value);
+                loan.Agreement.BorrowerEmailAddress = email?.Address ?? string.Empty;
+            }
+            if (data.Agreement?.CoBorrowerEmailAddressId.HasValue ?? false)
+            {
+                email = await _emailService.Get(addressSettings, settings.AddressDomainId.Value, data.Agreement.CoBorrowerEmailAddressId.Value);
+                loan.Agreement.CoBorrowerEmailAddress = email?.Address ?? string.Empty;
+            }
+            if (data.Agreement?.BorrowerPhoneId.HasValue ?? false)
+            {
+                phone = await _phoneService.Get(addressSettings, settings.AddressDomainId.Value, data.Agreement.BorrowerPhoneId.Value);
+                loan.Agreement.BorrowerPhone = phone.Number ?? string.Empty;
+            }
+            if (data.Agreement?.CoBorrowerPhoneId.HasValue ?? false)
+            {
+                phone = await _phoneService.Get(addressSettings, settings.AddressDomainId.Value, data.Agreement.CoBorrowerPhoneId.Value);
+                loan.Agreement.CoBorrowerPhone = phone.Number ?? string.Empty;
+            }
+            return loan;
+        }
 
         public ILoan Create(ILoanApplication loanApplication)
         {
@@ -60,7 +97,7 @@ namespace JestersCreditUnion.Loan.Core
             Loan result = null;
             LoanData data = await _dataFactory.GetByNumber(new CommonCore.DataSettings(settings), number);
             if (data != null)
-                result = Create(data);
+                result = await Create(settings, data);
             return result;
         }
 
@@ -69,7 +106,7 @@ namespace JestersCreditUnion.Loan.Core
             Loan result = null;
             LoanData data = await _dataFactory.GetByLoanApplicationId(new CommonCore.DataSettings(settings), loanApplicationId);
             if (data != null)
-                result = Create(data);
+                result = await Create(settings, data);
             return result;
         }
 
@@ -78,20 +115,22 @@ namespace JestersCreditUnion.Loan.Core
             Loan result = null;
             LoanData data = await _dataFactory.Get(new CommonCore.DataSettings(settings), id);
             if (data != null)
-                result = Create(data);
+                result = await Create(settings, data);
             return result;
         }
 
         public async Task<IEnumerable<ILoan>> GetByNameBirthDate(ISettings settings, string name, DateTime birthDate)
         {
-            return (await _dataFactory.GetByNameBirthDate(new CommonCore.DataSettings(settings), name, birthDate))
-                .Select<LoanData, ILoan>(Create);
+            return await Task.WhenAll(
+                (await _dataFactory.GetByNameBirthDate(new CommonCore.DataSettings(settings), name, birthDate))
+                .Select<LoanData, Task<Loan>>(d => Create(settings, d)));
         }
 
         public async Task<IEnumerable<ILoan>> GetWithUnprocessedPayments(ISettings settings)
         {
-            return (await _dataFactory.GetWithUnprocessedPayments(new CommonCore.DataSettings(settings)))
-                .Select<LoanData, ILoan>(Create);
+            return await Task.WhenAll(
+                (await _dataFactory.GetWithUnprocessedPayments(new CommonCore.DataSettings(settings)))
+                .Select<LoanData, Task<Loan>>(d => Create(settings, d)));
         }
     }
 }
