@@ -24,7 +24,6 @@ namespace LoanAPI.Controllers
         private readonly ILoanApplicationFactory _loanApplicationFactory;
         private readonly ILoanApplicationSaver _loanApplicationSaver;
         private readonly IAddressFactory _addressFactory;
-        private readonly IAddressSaver _addressSaver;
         private readonly AuthorizationAPI.IUserService _userService;
 
         public LoanApplicationController(
@@ -34,14 +33,12 @@ namespace LoanAPI.Controllers
             ILogger<LoanApplicationController> logger,
             ILoanApplicationFactory loanApplicationFactory,
             ILoanApplicationSaver loanApplicationSaver,
-            IIndex<string, IAddressFactory> addressFactoryIndex,
-            IAddressSaver addressSaver)
+            IIndex<string, IAddressFactory> addressFactoryIndex)
             : base(settings, settingsFactory, userService, logger)
         {
             _loanApplicationFactory = loanApplicationFactory;
             _loanApplicationSaver = loanApplicationSaver;
             _addressFactory = addressFactoryIndex["v2"];
-            _addressSaver = addressSaver;
             _userService = userService;
         }
 
