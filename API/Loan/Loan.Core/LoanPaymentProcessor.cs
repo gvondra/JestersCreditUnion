@@ -51,10 +51,11 @@ namespace JestersCreditUnion.Loan.Core
                 .Where(p => p.Status == PaymentStatus.Unprocessed)
                 .OrderBy(p => p.Date))
             {
-                decimal paymentAmount = PaymentAmount(payment);
+                decimal paymentAmount = PaymentAmount(payment); // money received that has not been accounted for
                 decimal interestAmount = Math.Min(
                     Math.Round(paymentTerm.Principal * Rate(paymentTerm.Loan), 2, MidpointRounding.ToEven),
                     paymentAmount);
+                interestAmount = Math.Max(Math.Min(interestDue, interestAmount), 0.0M); // interest amount should not be greater that interest due
                 decimal principalAmount = 0.0M;
                 if (payment.Date <= paymentTerm.EndDate)
                 {
