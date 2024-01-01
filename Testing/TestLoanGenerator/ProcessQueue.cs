@@ -6,7 +6,7 @@ namespace JestersCreditUnion.Testing.LoanGenerator
 {
     internal class ProcessQueue<T> : IDisposable where T : class
     {
-        private const int _maxQueueLength = 25;
+        private const int _maxQueueLength = 16;
         private readonly Queue<T> _innerQueue = new Queue<T>();
         private readonly Thread _generateThread;
         private readonly ManualResetEvent _processExitLock = new ManualResetEvent(false);

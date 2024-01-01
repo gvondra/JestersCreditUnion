@@ -38,7 +38,7 @@ namespace JestersCreditUnion.Testing.LoanGenerator
             int i = 1;
             foreach (LoanApplication loanApplication in _loanApplications)
             {
-                while (createQueue.Count >= 3)
+                while (createQueue.Count >= 4)
                 {
                     createdApplication = await createQueue.Dequeue();
                     await NotifyObservers(_observers, this, createdApplication);
