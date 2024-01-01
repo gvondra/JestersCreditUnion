@@ -1,6 +1,7 @@
 ﻿using JestersCreditUnion.Interface;
-using JestersCreditUnion.Interface.Models;
 using JestersCreditUnion.Interface.Loan.Models;
+using JestersCreditUnion.Interface.Models;
+using Serilog;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,12 +15,14 @@ namespace JestersCreditUnion.Testing.LoanGenerator
         private readonly ISettingsFactory _settingsFactory;
         private readonly IWorkTaskService _workTaskService;
         private readonly IWorkTaskStatusService _workTaskStatusService;
+        private readonly ILogger _logger;
         private bool _disposedValue;
 
         public LoanApplicationTaskProcess(
             ISettingsFactory settingsFactory,
             IWorkTaskService workTaskService,
-            IWorkTaskStatusService workTaskStatusService)
+            IWorkTaskStatusService workTaskStatusService,
+            ILogger logger)
         {
             _settingsFactory = settingsFactory;
             _workTaskService = workTaskService;
@@ -27,6 +30,8 @@ namespace JestersCreditUnion.Testing.LoanGenerator
             _process = this;
             _queue = new ProcessQueue<LoanApplication>();
             _queue.ItemsDequeued += LoanApplicationDequeued;
+            _logger = logger;
+
         }
 
         private void LoanApplicationDequeued(object sender, IEnumerable<LoanApplication> e)
@@ -62,7 +67,10 @@ namespace JestersCreditUnion.Testing.LoanGenerator
                 });
             }
             if (patchData.Count > 0)
+            {
+                _logger.Information($"Closing {patchData.Count} application tasks");
                 await _workTaskService.Patch(settings, patchData);
+            }   
         }
 
         public void AddLoanApplication(LoanApplication application)
