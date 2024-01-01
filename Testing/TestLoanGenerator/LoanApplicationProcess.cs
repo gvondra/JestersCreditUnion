@@ -44,13 +44,21 @@ namespace JestersCreditUnion.Testing.LoanGenerator
                     await NotifyObservers(_observers, this, createdApplication);
                 }
                 _logger.Information($"Creating loan application #{i:###,###,##0}. Borrower {loanApplication.BorrowerName}");
-                createQueue.Enqueue(_loanApplicationService.Create(apiSettings, loanApplication));
+                createQueue.Enqueue(Create(apiSettings, loanApplication));
                 i += 1;
             }
             await NotifyObservers(
                 _observers,
                 this,
                 await Task.WhenAll(createQueue));
+        }
+
+        private async Task<LoanApplication> Create(LoanApiSettings apiSettings, LoanApplication loanApplication)
+        {
+            loanApplication = await _loanApplicationService.Create(apiSettings, loanApplication);
+            loanApplication.Status = 1;
+            loanApplication = await _loanApplicationService.Update(apiSettings, loanApplication);
+            return loanApplication;
         }
 
         private static Task NotifyObservers(IEnumerable<ILoanApplicationProcessObserver> observers, ILoanApplicationProcess process, params LoanApplication[] loanApplications)
