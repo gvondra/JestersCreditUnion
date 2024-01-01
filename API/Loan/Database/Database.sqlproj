@@ -85,7 +85,6 @@
     <Build Include="ln\Table\ln.PaymentTransaction.sql" />
     <Build Include="ln\Table\ln.Transaction.sql" />
     <Build Include="ln\Stored Procedure\ln.CreateAddress.sql" />
-    <Build Include="ln\Stored Procedure\ln.CreateEmailAddress.sql" />
     <Build Include="ln\Stored Procedure\ln.CreateIdentificationCard.sql" />
     <Build Include="ln\Stored Procedure\ln.CreateLoan.sql" />
     <Build Include="ln\Stored Procedure\ln.CreateLoanAgreement.sql" />
@@ -93,12 +92,9 @@
     <Build Include="ln\Stored Procedure\ln.CreateLoanApplicationComment.sql" />
     <Build Include="ln\Stored Procedure\ln.CreateLoanApplicationDenial.sql" />
     <Build Include="ln\Stored Procedure\ln.CreatePayment.sql" />
-    <Build Include="ln\Stored Procedure\ln.CreatePhone.sql" />
     <Build Include="ln\Stored Procedure\ln.CreateTransaction.sql" />
     <Build Include="ln\Stored Procedure\ln.GetAddress.sql" />
     <Build Include="ln\Stored Procedure\ln.GetAddress_by_Hash.sql" />
-    <Build Include="ln\Stored Procedure\ln.GetEmailAddress.sql" />
-    <Build Include="ln\Stored Procedure\ln.GetEmailAddress_by_Address.sql" />
     <Build Include="ln\Stored Procedure\ln.GetIdentificationCard.sql" />
     <Build Include="ln\Stored Procedure\ln.GetIdentificationCard_by_LoanApplicationId.sql" />
     <Build Include="ln\Stored Procedure\ln.GetIdentificationCard_by_LoanApplicationUserId.sql" />
@@ -122,8 +118,6 @@
     <Build Include="ln\Stored Procedure\ln.GetPayment_by_LoanId.sql" />
     <Build Include="ln\Stored Procedure\ln.GetPaymentTransaction_by_LoanId.sql" />
     <Build Include="ln\Stored Procedure\ln.GetPaymentTransaction_by_PaymentDate_LoanId_TransactionNumber.sql" />
-    <Build Include="ln\Stored Procedure\ln.GetPhone.sql" />
-    <Build Include="ln\Stored Procedure\ln.GetPhone_by_Number.sql" />
     <Build Include="ln\Stored Procedure\ln.GetTransaction_by_LoanId.sql" />
     <Build Include="ln\Stored Procedure\ln.SetLoanApplicationDenial.sql" />
     <Build Include="ln\Stored Procedure\ln.UpdateIdentificationCard.sql" />
