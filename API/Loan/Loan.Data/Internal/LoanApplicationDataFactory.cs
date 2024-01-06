@@ -14,10 +14,10 @@ namespace JestersCreditUnion.Loan.Data.Internal
 
         public async Task<LoanApplicationData> Get(ISqlSettings settings, Guid id)
         {
-            IDataParameter[] parameters = new IDataParameter[]
-            {
+            IDataParameter[] parameters =
+            [
                 DataUtil.CreateParameter(_providerFactory, "id", DbType.Guid, DataUtil.GetParameterValue(id))
-            };
+            ];
             DataReaderProcess dataReaderProcess = new DataReaderProcess();
             LoanApplicationData data = null;
             List<IdentificationCardData> identificationCards = null;

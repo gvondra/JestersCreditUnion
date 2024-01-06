@@ -20,3 +20,7 @@ CREATE NONCLUSTERED INDEX [IX_LoanApplicationFact_Status] ON [lnrpt].[LoanApplic
 GO
 
 CREATE NONCLUSTERED INDEX [IX_LoanApplicationFact_UserId] ON [lnrpt].[LoanApplicationFact] ([UserId])
+
+GO
+
+CREATE INDEX [IX_LoanApplicationFact_ApplicationDate_ClosedDate] ON [lnrpt].[LoanApplicationFact] ([ApplicationDate] DESC, [ClosedDate] DESC)

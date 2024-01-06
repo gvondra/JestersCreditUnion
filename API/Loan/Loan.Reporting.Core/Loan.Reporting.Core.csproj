@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+      <ImplicitUsings>disable</ImplicitUsings>
+      <Nullable>disable</Nullable>
+      <AssemblyName>JCU.Loan.Reporting.Core</AssemblyName>
+      <RootNamespace>JestersCreditUnion.Loan.Reporting.Core</RootNamespace>
+      <Authors>Greg Vondra</Authors>
+      <Company />
+      <Product>Jesters Credit Union</Product>
+      <PackageLicenseExpression>GPL-3.0-only</PackageLicenseExpression>
+  </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+        <DebugType>none</DebugType>
+        <Optimize>True</Optimize>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+        <DebugType>full</DebugType>
+        <Optimize>False</Optimize>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Autofac" Version="7.1.*" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\CommonCore\CommonCore.csproj" />
+      <ProjectReference Include="..\Loan.Framework\Loan.Framework.csproj" />
+      <ProjectReference Include="..\Loan.Reporting.Data\Loan.Reporting.Data.csproj" />
+    </ItemGroup>
+
+</Project>

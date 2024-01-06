@@ -12,6 +12,7 @@ namespace LoanAPI
             builder.RegisterModule(new BrassLoon.Interface.Log.LogInterfaceModule());
             builder.RegisterModule(new BrassLoon.Interface.WorkTask.WorkTaskInterfaceModule());
             builder.RegisterModule(new JestersCreditUnion.Loan.Core.LoanCoreModule());
+            builder.RegisterModule(new JestersCreditUnion.Loan.Reporting.Core.LoanReportingCoreModule());
             builder.RegisterType<SettingsFactory>().As<ISettingsFactory>().InstancePerLifetimeScope();
         }
 

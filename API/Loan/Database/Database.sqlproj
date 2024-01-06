@@ -67,6 +67,7 @@
     <Folder Include="lnwrk" />
     <Folder Include="lnwrk\Table" />
     <Folder Include="lnwrk\Stored Procedure" />
+    <Folder Include="lnrpt\Stored Procedure" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="ln.sql" />
@@ -160,6 +161,8 @@
     <Build Include="lnwrk\Table\lnwrk.LoanApplicationFact.sql" />
     <Build Include="lnwrk\Stored Procedure\lnwrk.MergeLoanApplicationStatus.sql" />
     <Build Include="lnwrk\Stored Procedure\lnwrk.MergeLoanApplicationFact.sql" />
+    <Build Include="lnrpt\Stored Procedure\lnrpt.GetLoanApplicationCount.sql" />
+    <Build Include="lnrpt\Stored Procedure\lnrpt.GetLoanApplicationClose.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="LocalSqlSchemaCompare.scmp" />
