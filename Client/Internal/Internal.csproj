@@ -74,6 +74,7 @@
     <Compile Include="Behaviors\LoanApplicationDenialLoader.cs" />
     <Compile Include="Behaviors\LoanApplicationDenialSave.cs" />
     <Compile Include="Behaviors\LoanApplicationDenialValidator.cs" />
+    <Compile Include="Behaviors\LoanApplicationSummaryLoader.cs" />
     <Compile Include="Behaviors\LoanApplicationUnderReview.cs" />
     <Compile Include="Behaviors\LoanApplicationValidator.cs" />
     <Compile Include="Behaviors\LoanDisburse.cs" />
@@ -161,6 +162,9 @@
     <Compile Include="NavigationPage\LoanApplicationDenial.xaml.cs">
       <DependentUpon>LoanApplicationDenial.xaml</DependentUpon>
     </Compile>
+    <Compile Include="NavigationPage\LoanApplicationSummary.xaml.cs">
+      <DependentUpon>LoanApplicationSummary.xaml</DependentUpon>
+    </Compile>
     <Compile Include="NavigationPage\LoanSearch.xaml.cs">
       <DependentUpon>LoanSearch.xaml</DependentUpon>
     </Compile>
@@ -226,6 +230,7 @@
     <Compile Include="ViewModel\LoanAmortizationVM.cs" />
     <Compile Include="ViewModel\LoanApplicationCommentVM.cs" />
     <Compile Include="ViewModel\LoanApplicationDenialVM.cs" />
+    <Compile Include="ViewModel\LoanApplicationSummaryVM.cs" />
     <Compile Include="ViewModel\LoanApplicationVM.cs" />
     <Compile Include="ViewModel\LoanSearchVM.cs" />
     <Compile Include="ViewModel\LoanVM.cs" />
@@ -329,6 +334,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="NavigationPage\LoanApplicationDenial.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NavigationPage\LoanApplicationSummary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -437,7 +446,10 @@
       <Version>1.0.0-alpha.78</Version>
     </PackageReference>
     <PackageReference Include="JestersCreditUnion.Interface.Loan">
-      <Version>1.0.0-alpha.8</Version>
+      <Version>1.0.0-alpha.9</Version>
+    </PackageReference>
+    <PackageReference Include="LiveCharts.Wpf">
+      <Version>0.9.7</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Bcl.HashCode">
       <Version>1.1.1</Version>

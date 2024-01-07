@@ -62,6 +62,8 @@ namespace JCU.Internal
 
         public bool UserHasClaimWorkTaskAccess() => UserHasRoleAccess("WORKTASK:CLAIM");
 
+        public bool UserHasReadLoanApplicationAccess() => UserHasRoleAccess("LOANAPP:READ");
+
         public bool UserHasReadLoanAccess() => UserHasRoleAccess("LOAN:READ") || UserHasEditLoanAccess();
 
         public bool UserHasEditLoanAccess() => UserHasRoleAccess("LOAN:EDIT");

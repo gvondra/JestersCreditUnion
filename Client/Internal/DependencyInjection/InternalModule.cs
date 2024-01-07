@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using JCU.Internal.Behaviors;
 
 namespace JCU.Internal.DependencyInjection
 {
@@ -10,6 +11,8 @@ namespace JCU.Internal.DependencyInjection
             builder.RegisterModule(new JestersCreditUnion.Interface.JestersCreditUnionInterfaceModule());
             builder.RegisterModule(new JestersCreditUnion.Interface.Loan.JestersCreditUnionLoanInterfaceModule());
             builder.RegisterType<SettingsFactory>().As<ISettingsFactory>().SingleInstance();
+
+            builder.RegisterType<LoanApplicationSummaryLoader>();
         }
     }
 }

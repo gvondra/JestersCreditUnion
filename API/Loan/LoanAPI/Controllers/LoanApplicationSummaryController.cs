@@ -25,7 +25,7 @@ namespace LoanAPI.Controllers
             IOptions<Settings> settings,
             ISettingsFactory settingsFactory,
             IUserService userService,
-            ILogger logger,
+            ILogger<LoanApplicationSummaryController> logger,
             ILoanApplicationFactory loanApplicationFactory)
             : base(settings, settingsFactory, userService, logger)
         {
@@ -43,13 +43,14 @@ namespace LoanAPI.Controllers
                 if (!minApplicationDate.HasValue)
                 {
                     minApplicationDate = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1)
-                        .AddMonths(DateTime.Today.Day <= 15 ? 6 : 7);
+                        .AddMonths(-6);
                 }
                 CoreSettings settings = GetCoreSettings();
                 IEnumerable<LoanApplicationSummaryItem> innerItems = await _loanApplicationFactory.GetLoanApplicationSummary(settings, minApplicationDate.Value);
                 IMapper mapper = MapperConfiguration.CreateMapper();
                 result = Ok(
-                    innerItems.Select(i => mapper.Map<Models.LoanApplicationSummaryItem>(i))
+                    innerItems
+                    .Select(i => mapper.Map<Models.LoanApplicationSummaryItem>(i))
                     .ToList());
             }
             catch (System.Exception ex)
