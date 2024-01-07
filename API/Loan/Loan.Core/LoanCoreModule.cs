@@ -9,12 +9,12 @@ namespace JestersCreditUnion.Loan.Core
         {
             base.Load(builder);
             builder.RegisterModule(new JestersCreditUnion.Loan.Data.LoanDataModule());
+            builder.RegisterModule(new BrassLoon.Interface.Address.AddressInterfaceModule());
             builder.RegisterType<SettingsFactory>().InstancePerLifetimeScope();
-            builder.RegisterType<AddressFactory>().As<IAddressFactory>();
-            builder.RegisterType<AddressSaver>().As<IAddressSaver>();
+            builder.RegisterType<Address2Factory>()
+                .As<IAddressFactory>()
+                .Keyed<IAddressFactory>("v2");
             builder.RegisterType<AmortizationBuilder>().As<IAmortizationBuilder>();
-            builder.RegisterType<EmailAddressFactory>().As<IEmailAddressFactory>();
-            builder.RegisterType<EmailAddressSaver>().As<IEmailAddressSaver>();
             builder.RegisterType<KeyVault>().As<IKeyVault>();
             builder.RegisterType<LoanApplicationFactory>()
                 .As<ILoanApplicationFactory>()
@@ -37,8 +37,6 @@ namespace JestersCreditUnion.Loan.Core
             builder.RegisterType<LoanPaymentProcessor>()
                 .InstancePerLifetimeScope()
                 .As<ILoanPaymentProcessor>();
-            builder.RegisterType<PhoneFactory>().As<IPhoneFactory>();
-            builder.RegisterType<PhoneSaver>().As<IPhoneSaver>();
             builder.RegisterType<TransactionFactory>().As<ITransactionFacatory>();
             builder.RegisterType<WorkTaskTypeCodeLookup>().InstancePerLifetimeScope();
         }

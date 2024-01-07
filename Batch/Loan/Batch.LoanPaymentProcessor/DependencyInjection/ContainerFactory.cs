@@ -10,11 +10,6 @@ namespace JestersCreditUnion.Batch.LoanPaymentProcessor.DependencyInjection
     {
         private static IContainer _container;
 
-        static ContainerFactory()
-        {
-            Initialize();
-        }
-
         public static void Initialize(
             Settings settings = null)
         {

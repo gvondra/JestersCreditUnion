@@ -4,10 +4,8 @@ DECLARE @loanId UNIQUEIDENTIFIER;
 DECLARE loanApplicationCursor CURSOR
 FOR SELECT [app].[LoanApplicationId], [l].[LoanId]
 FROM [ln].[LoanApplication] [app]
-INNER JOIN  [ln].[EmailAddress] [eml] on [app].[BorrowerEmailAddressId] = [eml].[EmailAddressId]
 LEFT JOIN [ln].[Loan] [l] on [app].[LoanApplicationId] = [l].[LoanApplicationId]
 WHERE [app].[Purpose] = 'Automated test'
-AND [eml].[Address] like '%@test.org'
 ;
 
 OPEN loanApplicationCursor;
@@ -36,7 +34,13 @@ BEGIN
         DELETE FROM [ln].[Payment]
         WHERE [LoanId] = @loanId;
 
+        DELETE FROM [ln].[LoanHistory]
+        WHERE [LoanId] = @loanId;
+
         DELETE FROM [ln].[Loan]
+        WHERE [LoanId] = @loanId;
+        
+        DELETE FROM [ln].[LoanAgreementHistory]
         WHERE [LoanId] = @loanId;
 
         DELETE FROM [ln].[LoanAgreement]

@@ -24,6 +24,7 @@
 	@purpose NVARCHAR(2048),
 	@mortgagePayment DECIMAL(7, 2),
 	@rentPayment DECIMAL(7, 2),
+	@closedDate DATE,
 	@timestamp DATETIME2(4) OUT
 AS
 BEGIN
@@ -34,13 +35,13 @@ BEGIN
 	[BorrowerName], [BorrowerBirthDate], [BorrowerAddressId], [BorrowerEmailAddressId], [BorrowerPhoneId], [BorrowerEmployerName], [BorrowerEmploymentHireDate], [BorrowerIncome],
 	[BorrowerIdentificationCardId],
 	[CoBorrowerName], [CoBorrowerBirthDate], [CoBorrowerAddressId], [CoBorrowerEmailAddressId], [CoBorrowerPhoneId], [CoBorrowerEmployerName], [CoBorrowerEmploymentHireDate], [CoBorrowerIncome],
-	[Amount], [Purpose], [MortgagePayment], [RentPayment],
+	[Amount], [Purpose], [MortgagePayment], [RentPayment],[ClosedDate],
 	[CreateTimestamp], [UpdateTimestamp])
 	VALUES (
 	@id, @userId, @status, @applicationDate,
 	@borrowerName, @borrowerBirthDate, @borrowerAddressId, @borrowerEmailAddressId, @borrowerPhoneId, @borrowerEmployerName, @borrowerEmploymentHireDate, @borrowerIncome,
 	@borrowerIdentificationCardId,
 	@coBorrowerName, @coBorrowerBirthDate, @coBorrowerAddressId, @coBorrowerEmailAddressId, @coBorrowerPhoneId, @coBorrowerEmployerName, @coBorrowerEmploymentHireDate, @coBorrowerIncome,
-	@amount, @purpose, @mortgagePayment, @rentPayment,
+	@amount, @purpose, @mortgagePayment, @rentPayment,@closedDate,
 	@timestamp, @timestamp);
 END

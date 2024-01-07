@@ -8,6 +8,6 @@ namespace JestersCreditUnion.Loan.Data
         Task Create(ISqlTransactionHandler transactionHandler, LoanApplicationData data);
         Task Update(ISqlTransactionHandler transactionHandler, LoanApplicationData data);
         Task AppendComment(ISqlTransactionHandler transactionHandler, LoanApplicationCommentData data);
-        Task SetDenial(ISqlTransactionHandler transactionHandler, Guid id, short loanApplicationStatus, LoanApplicationDenialData denial);
+        Task SetDenial(ISqlTransactionHandler transactionHandler, Guid id, short loanApplicationStatus, DateTime? closedDate, LoanApplicationDenialData denial);
     }
 }

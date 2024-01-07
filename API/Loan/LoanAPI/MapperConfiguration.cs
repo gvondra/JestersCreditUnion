@@ -30,6 +30,7 @@ namespace LoanAPI
             exp.CreateMap<LoanApplicationComment, ILoanApplicationComment>();
             exp.CreateMap<ILoanApplicationDenial, LoanApplicationDenial>();
             exp.CreateMap<LoanApplicationDenial, ILoanApplicationDenial>();
+            exp.CreateMap<JestersCreditUnion.Loan.Framework.Reporting.LoanApplicationSummaryItem, LoanApplicationSummaryItem>();
             exp.CreateMap<LoanPaymentAmountRequest, LoanPaymentAmountResponse>();
             exp.CreateMap<ILookup, Lookup>();
             exp.CreateMap<LoanPayment, IPayment>();

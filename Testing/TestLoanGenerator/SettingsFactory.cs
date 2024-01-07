@@ -25,6 +25,15 @@ namespace JestersCreditUnion.Testing.LoanGenerator
             };
         }
 
+        public async Task<LoanApiSettings> GetLoanApiSettings()
+        {
+            return new LoanApiSettings
+            {
+                BaseAddress = _settings.LoanApiBaseAddress,
+                AccessToken = await GetAccessToken()
+            };
+        }
+
         private async Task<string> GetAccessToken()
         {   
             if (string.IsNullOrEmpty(_accessToken))

@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AuthorizationAPI = BrassLoon.Interface.Authorization;
+using Autofac.Features.Indexed;
 
 namespace LoanAPI.Controllers
 {
@@ -23,35 +24,21 @@ namespace LoanAPI.Controllers
         private readonly ILoanApplicationFactory _loanApplicationFactory;
         private readonly ILoanApplicationSaver _loanApplicationSaver;
         private readonly IAddressFactory _addressFactory;
-        private readonly IAddressSaver _addressSaver;
-        private readonly IEmailAddressFactory _emailAddressFactory;
-        private readonly IEmailAddressSaver _emailAddressSaver;
-        private readonly IPhoneFactory _phoneFactory;
-        private readonly IPhoneSaver _phoneSaver;
         private readonly AuthorizationAPI.IUserService _userService;
 
-        public LoanApplicationController(IOptions<Settings> settings,
+        public LoanApplicationController(
+            IOptions<Settings> settings,
             ISettingsFactory settingsFactory,
             AuthorizationAPI.IUserService userService,
             ILogger<LoanApplicationController> logger,
             ILoanApplicationFactory loanApplicationFactory,
             ILoanApplicationSaver loanApplicationSaver,
-            IAddressFactory addressFactory,
-            IAddressSaver addressSaver,
-            IEmailAddressFactory emailAddressFactory,
-            IEmailAddressSaver emailAddressSaver,
-            IPhoneFactory phoneFactory,
-            IPhoneSaver phoneSaver)
+            IIndex<string, IAddressFactory> addressFactoryIndex)
             : base(settings, settingsFactory, userService, logger)
         {
             _loanApplicationFactory = loanApplicationFactory;
             _loanApplicationSaver = loanApplicationSaver;
-            _addressFactory = addressFactory;
-            _addressSaver = addressSaver;
-            _emailAddressFactory = emailAddressFactory;
-            _emailAddressSaver = emailAddressSaver;
-            _phoneFactory = phoneFactory;
-            _phoneSaver = phoneSaver;
+            _addressFactory = addressFactoryIndex["v2"];
             _userService = userService;
         }
 
@@ -181,22 +168,15 @@ namespace LoanAPI.Controllers
         }
 
         [NonAction]
-        private async Task Map(IMapper mapper, CoreSettings settings, LoanApplication loanApplication, ILoanApplication innerLoanApplication)
+        private void Map(IMapper mapper, LoanApplication loanApplication, ILoanApplication innerLoanApplication)
         {
-            IAddress borrowerAddress = await GetAddress(settings, loanApplication.BorrowerAddress);
-            IAddress coborrowerAddress = await GetAddress(settings, loanApplication.CoBorrowerAddress);
-            IEmailAddress borrowerEmailAddress = await GetEmailAddress(settings, loanApplication.BorrowerEmailAddress);
-            IEmailAddress coborrowerEmailAddress = await GetEmailAddress(settings, loanApplication.CoBorrowerEmailAddress);
-            IPhone borrowerPhone = await GetPhone(settings, loanApplication.BorrowerPhone);
-            IPhone coborrowerPhone = await GetPhone(settings, loanApplication.CoBorrowerPhone);
-
             mapper.Map(loanApplication, innerLoanApplication);
-            innerLoanApplication.BorrowerAddressId = borrowerAddress?.AddressId;
-            innerLoanApplication.CoBorrowerAddressId = coborrowerAddress?.AddressId;
-            innerLoanApplication.BorrowerEmailAddressId = borrowerEmailAddress?.EmailAddressId;
-            innerLoanApplication.CoBorrowerEmailAddressId = coborrowerEmailAddress?.EmailAddressId;
-            innerLoanApplication.BorrowerPhoneId = borrowerPhone?.PhoneId;
-            innerLoanApplication.CoBorrowerPhoneId = coborrowerPhone?.PhoneId;
+            innerLoanApplication.SetBorrowerAddress(
+                GetAddress(loanApplication.BorrowerAddress));
+            innerLoanApplication.SetCoBorrowerAddress(
+                GetAddress(loanApplication.CoBorrowerAddress));
+            if (!innerLoanApplication.ClosedDate.HasValue && innerLoanApplication.Status != LoanApplicationStatus.Unset && innerLoanApplication.Status != LoanApplicationStatus.UnderReview)
+                innerLoanApplication.ClosedDate = DateTime.Today;
         }
 
         [NonAction]
@@ -204,18 +184,10 @@ namespace LoanAPI.Controllers
         {
             IAddress borrowerAddress = await innerLoanApplication.GetBorrowerAddress(settings);
             IAddress coborrowerAddress = await innerLoanApplication.GetCoBorrowerAddress(settings);
-            IEmailAddress borrowerEmailAddress = await innerLoanApplication.GetBorrowerEmailAddress(settings);
-            IEmailAddress coborrowerEmailAddress = await innerLoanApplication.GetCoBorrowerEmailAddress(settings);
-            IPhone borrowerPhone = await innerLoanApplication.GetBorrowerPhone(settings);
-            IPhone coborrowerPhone = await innerLoanApplication.GetCoBorrowerPhone(settings);
 
             LoanApplication loanApplication = mapper.Map<LoanApplication>(innerLoanApplication);
             loanApplication.BorrowerAddress = borrowerAddress != null ? mapper.Map<Address>(borrowerAddress) : null;
             loanApplication.CoBorrowerAddress = coborrowerAddress != null ? mapper.Map<Address>(coborrowerAddress) : null;
-            loanApplication.BorrowerEmailAddress = borrowerEmailAddress != null ? borrowerEmailAddress.Address : string.Empty;
-            loanApplication.CoBorrowerEmailAddress = coborrowerEmailAddress != null ? coborrowerEmailAddress.Address : string.Empty;
-            loanApplication.BorrowerPhone = borrowerPhone != null ? borrowerPhone.Number : string.Empty;
-            loanApplication.CoBorrowerPhone = coborrowerPhone != null ? coborrowerPhone.Number : string.Empty;
             loanApplication.StatusDescription = await innerLoanApplication.GetStatusDescription(settings);
 
             await MapComments(mapper, innerLoanApplication, loanApplication);
@@ -267,7 +239,7 @@ namespace LoanAPI.Controllers
                 CoreSettings settings = GetCoreSettings();
                 ILoanApplication innerLoanApplication = _loanApplicationFactory.Create((await GetCurrentUserId()).Value);
                 IMapper mapper = MapperConfiguration.CreateMapper();
-                await Map(mapper, settings, loanApplication, innerLoanApplication);
+                Map(mapper, loanApplication, innerLoanApplication);
 
                 await _loanApplicationSaver.Create(settings, innerLoanApplication);
 
@@ -288,39 +260,7 @@ namespace LoanAPI.Controllers
         }
 
         [NonAction]
-        private async Task<IPhone> GetPhone(ISettings settings, string number)
-        {
-            IPhone innerPhone = null;
-            if (!string.IsNullOrEmpty(number))
-            {
-                innerPhone = await _phoneFactory.Get(settings, number);
-                if (innerPhone == null)
-                {
-                    innerPhone = _phoneFactory.Create(ref number);
-                    await _phoneSaver.Create(settings, innerPhone);
-                }
-            }
-            return innerPhone;
-        }
-
-        [NonAction]
-        private async Task<IEmailAddress> GetEmailAddress(ISettings settings, string address)
-        {
-            IEmailAddress innerEmailAddress = null;
-            if (!string.IsNullOrEmpty(address))
-            {
-                innerEmailAddress = await _emailAddressFactory.Get(settings, address);
-                if (innerEmailAddress == null)
-                {
-                    innerEmailAddress = _emailAddressFactory.Create(address);
-                    await _emailAddressSaver.Create(settings, innerEmailAddress);
-                }
-            }
-            return innerEmailAddress;
-        }
-
-        [NonAction]
-        private async Task<IAddress> GetAddress(ISettings settings, Address address)
+        private IAddress GetAddress(Address address)
         {
             IAddress innerAddress = null;
             if (address != null)
@@ -328,16 +268,6 @@ namespace LoanAPI.Controllers
                 string state = address.State;
                 string postalCode = address.PostalCode;
                 innerAddress = _addressFactory.Create(address.Recipient, address.Attention, address.Delivery, address.Secondary, address.City, ref state, ref postalCode);
-
-                IAddress existingAddress = await _addressFactory.GetByHash(settings, innerAddress.Hash);
-                if (existingAddress != null)
-                {
-                    innerAddress = existingAddress;
-                }
-                else
-                {
-                    await _addressSaver.Create(settings, innerAddress);
-                }
             }
             return innerAddress;
         }
@@ -412,7 +342,7 @@ namespace LoanAPI.Controllers
                 if (result == null && innerLoanApplication != null)
                 {
                     IMapper mapper = MapperConfiguration.CreateMapper();
-                    await Map(mapper, settings, loanApplication, innerLoanApplication);
+                    Map(mapper, loanApplication, innerLoanApplication);
                     await _loanApplicationSaver.Update(settings, innerLoanApplication);
                     result = Ok(await Map(mapper, settings, innerLoanApplication));
                 }

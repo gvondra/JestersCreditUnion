@@ -8,6 +8,7 @@ namespace JestersCreditUnion.Testing.LoanGenerator.DependencyInjection
         {
             base.Load(builder);
             builder.RegisterModule(new JestersCreditUnion.Interface.JestersCreditUnionInterfaceModule());
+            builder.RegisterModule(new JestersCreditUnion.Interface.Loan.JestersCreditUnionLoanInterfaceModule());
             builder.RegisterType<DateGenerator>()
                 .As<IDateGenerator>()
                 .SingleInstance();

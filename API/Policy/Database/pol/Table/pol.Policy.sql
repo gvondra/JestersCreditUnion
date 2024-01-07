@@ -1,0 +1,11 @@
+﻿CREATE TABLE [pol].[Policy]
+(
+	[PolicyId] UNIQUEIDENTIFIER NOT NULL,
+	[Number] VARCHAR(16) NOT NULL,
+	[EffectiveDate] DATE NOT NULL,
+	[ExpirationDate] DATE NULL,
+	[Status] SMALLINT CONSTRAINT [DF_Policy_Status] DEFAULT 0 NOT NULL,
+	[CreateTimestamp] DATETIME2(4) CONSTRAINT [DF_Policy_CreateTimestamp] DEFAULT (SYSUTCDATETIME()) NOT NULL,
+	[UpdateTimestamp] DATETIME2(4) CONSTRAINT [DF_Policy_UpdateTimestamp] DEFAULT (SYSUTCDATETIME()) NOT NULL,
+	CONSTRAINT [PK_Policy] PRIMARY KEY NONCLUSTERED ([PolicyId])
+)

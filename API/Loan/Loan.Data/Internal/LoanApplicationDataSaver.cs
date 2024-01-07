@@ -42,7 +42,7 @@ namespace JestersCreditUnion.Loan.Data.Internal
             }
         }
 
-        public async Task SetDenial(ISqlTransactionHandler transactionHandler, Guid id, short loanApplicationStatus, LoanApplicationDenialData denial)
+        public async Task SetDenial(ISqlTransactionHandler transactionHandler, Guid id, short loanApplicationStatus, DateTime? closedDate, LoanApplicationDenialData denial)
         {
             await _providerFactory.EstablishTransaction(transactionHandler, denial);
             using (DbCommand command = transactionHandler.Connection.CreateCommand())
@@ -57,6 +57,7 @@ namespace JestersCreditUnion.Loan.Data.Internal
 
                 DataUtil.AddParameter(_providerFactory, command.Parameters, "id", DbType.Guid, DataUtil.GetParameterValue(id));
                 DataUtil.AddParameter(_providerFactory, command.Parameters, "status", DbType.Int16, DataUtil.GetParameterValue(loanApplicationStatus));
+                DataUtil.AddParameter(_providerFactory, command.Parameters, "closedDate", DbType.Date, DataUtil.GetParameterValue(closedDate));
                 DataUtil.AddParameter(_providerFactory, command.Parameters, "userId", DbType.Guid, DataUtil.GetParameterValue(denial.UserId));
                 DataUtil.AddParameter(_providerFactory, command.Parameters, "reason", DbType.Int16, DataUtil.GetParameterValue(denial.Reason));
                 DataUtil.AddParameter(_providerFactory, command.Parameters, "date", DbType.Date, DataUtil.GetParameterValue(denial.Date));
@@ -148,6 +149,7 @@ namespace JestersCreditUnion.Loan.Data.Internal
             DataUtil.AddParameter(_providerFactory, commandParameters, "purpose", DbType.String, DataUtil.GetParameterValue(data.Purpose));
             DataUtil.AddParameter(_providerFactory, commandParameters, "mortgagePayment", DbType.Decimal, DataUtil.GetParameterValue(data.MortgagePayment));
             DataUtil.AddParameter(_providerFactory, commandParameters, "rentPayment", DbType.Decimal, DataUtil.GetParameterValue(data.RentPayment));
+            DataUtil.AddParameter(_providerFactory, commandParameters, "closedDate", DbType.Date, DataUtil.GetParameterValue(data.ClosedDate));
         }
     }
 }

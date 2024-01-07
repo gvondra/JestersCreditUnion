@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
 	<PropertyGroup>
-		<TargetFramework>net6.0</TargetFramework>
+		<TargetFramework>net8.0</TargetFramework>
 		<ImplicitUsings>disable</ImplicitUsings>
 		<Nullable>disable</Nullable>
 		<AssemblyName>JCU.LOANAPI</AssemblyName>
@@ -25,6 +25,7 @@
 		<ProjectReference Include="..\..\CommonAPI\CommonAPI.csproj" />
 		<ProjectReference Include="..\Loan.Core\Loan.Core.csproj" />
 		<ProjectReference Include="..\Loan.Framework\Loan.Framework.csproj" />
+		<ProjectReference Include="..\Loan.Reporting.Core\Loan.Reporting.Core.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -36,9 +37,9 @@
 		<PackageReference Include="BrassLoon.Interface.Authorization" Version="4.0.*" />
 		<PackageReference Include="BrassLoon.Interface.Config" Version="4.0.*" />
 		<PackageReference Include="BrassLoon.Interface.Log" Version="4.0.*" />
-		<PackageReference Include="BrassLoon.Interface.WorkTask" Version="3.0.*" />
+		<PackageReference Include="BrassLoon.Interface.WorkTask" Version="3.1.1-prerelease.*" />
 		<PackageReference Include="JestersCreditUnion.Interface.Loan" Version="1.0.0-alpha.*" />
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.*" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.*" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.*" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.*" />
 	</ItemGroup>

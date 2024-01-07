@@ -29,6 +29,7 @@ namespace JestersCreditUnion.Loan.Data.Models
         [ColumnMapping] public string Purpose { get; set; }
         [ColumnMapping] public decimal? MortgagePayment { get; set; }
         [ColumnMapping] public decimal? RentPayment { get; set; }
+        [ColumnMapping] public DateTime? ClosedDate { get; set; }
         [ColumnMapping(IsUtc = true)] public DateTime CreateTimestamp { get; set; }
         [ColumnMapping(IsUtc = true)] public DateTime UpdateTimestamp { get; set; }
         public List<LoanApplicationCommentData> Comments { get; set; }

@@ -1,5 +1,5 @@
-﻿using JestersCreditUnion.Interface;
-using JestersCreditUnion.Interface.Models;
+﻿using JestersCreditUnion.Interface.Loan;
+using JestersCreditUnion.Interface.Loan.Models;
 using Serilog;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -12,6 +12,7 @@ namespace JestersCreditUnion.Testing.LoanGenerator
         private readonly ProcessQueue<LoanApplication> _queue;
         private readonly ISettingsFactory _settingsFactory;
         private readonly ILoanService _loanService;
+        private readonly ILoanApplicationService _loanApplicationService;
         private readonly ILoanPaymentAmountService _loanPaymentAmountService;
         private readonly ILogger _logger;
         private readonly List<ILoanProcessObserver> _observers = new List<ILoanProcessObserver>();
@@ -21,11 +22,13 @@ namespace JestersCreditUnion.Testing.LoanGenerator
         public LoanProcess(
             ISettingsFactory settingsFactory,
             ILoanService loanService,
+            ILoanApplicationService loanApplicationService,
             ILoanPaymentAmountService loanPaymentAmountService,
             ILogger logger)
         {
             _settingsFactory = settingsFactory;
             _loanService = loanService;
+            _loanApplicationService = loanApplicationService;
             _loanPaymentAmountService = loanPaymentAmountService;
             _logger = logger;
             _process = this;
@@ -40,12 +43,25 @@ namespace JestersCreditUnion.Testing.LoanGenerator
                 foreach (LoanApplication application in e)
                 {
                     _count += 1;
-                    Loan loan = CreateLoan(application).Result;
+                    Loan loan = CreateLoan(
+                        SetLoanApplicationStatus(application).Result)
+                        .Result;
                     _logger.Information($"Loan #{_count:###,###,##0} created with number {loan.Number}");
                     InitiateDisbursement(loan).Wait();
                     NotifiyObservers(loan).Wait();
                 }
             }
+        }
+
+        private async Task<LoanApplication> SetLoanApplicationStatus(LoanApplication application)
+        {
+            if ((application.Status ?? 0) != 3)
+            {
+                LoanApiSettings settings = await _settingsFactory.GetLoanApiSettings();
+                application.Status = 3; // approved
+                application = await _loanApplicationService.Update(settings, application);
+            }
+            return application;
         }
 
         private Task NotifiyObservers(Loan loan)
@@ -60,13 +76,12 @@ namespace JestersCreditUnion.Testing.LoanGenerator
 
         private async Task InitiateDisbursement(Loan loan)
         {
-            ApiSettings settings = await _settingsFactory.GetApiSettings();
+            LoanApiSettings settings = await _settingsFactory.GetLoanApiSettings();
             await _loanService.InitiateDisbursement(settings, loan.LoanId.Value);
         }
 
         private async Task<Loan> CreateLoan(LoanApplication loanApplication)
         {
-            ApiSettings settings = await _settingsFactory.GetApiSettings();
             LoanAgreement agreement = new LoanAgreement
             {
                 BorrowerAddress = loanApplication.BorrowerAddress,
@@ -85,11 +100,12 @@ namespace JestersCreditUnion.Testing.LoanGenerator
                 Agreement = agreement,
                 LoanApplicationId = loanApplication.LoanApplicationId.Value                
             };
-            loan.Agreement.PaymentAmount = await GetPaymentAmount(settings, loan);
-            return await _loanService.Create(settings, loan);
+            LoanApiSettings loanApiSettings = await _settingsFactory.GetLoanApiSettings();
+            loan.Agreement.PaymentAmount = await GetPaymentAmount(loanApiSettings, loan);
+            return await _loanService.Create(loanApiSettings, loan);
         }
 
-        private async Task<decimal> GetPaymentAmount(ApiSettings settings, Loan loan)
+        private async Task<decimal> GetPaymentAmount(LoanApiSettings settings, Loan loan)
         {
             LoanPaymentAmountRequest requet = new LoanPaymentAmountRequest
             {

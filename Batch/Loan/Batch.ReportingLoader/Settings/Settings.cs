@@ -21,5 +21,6 @@ namespace JestersCreditUnion.Batch.ReportingLoader
         public Guid? LogDomainId { get; set; }
         public Guid? WorkTaskDomainId { get; set; }
         public string LoanStatusLookupCode { get; set; }
+        public string LoanApplicationStatusLookupCode { get; set; }
     }
 }

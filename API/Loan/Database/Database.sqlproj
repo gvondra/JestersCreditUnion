@@ -67,6 +67,7 @@
     <Folder Include="lnwrk" />
     <Folder Include="lnwrk\Table" />
     <Folder Include="lnwrk\Stored Procedure" />
+    <Folder Include="lnrpt\Stored Procedure" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="ln.sql" />
@@ -74,8 +75,6 @@
     <Build Include="lnrpt\Table\lnrpt.LoanBalance.sql" />
     <Build Include="lnrpt\Table\lnrpt.Loan.sql" />
     <Build Include="lnrpt\Table\lnrpt.LoanAgreement.sql" />
-    <Build Include="ln\Table\ln.Address.sql" />
-    <Build Include="ln\Table\ln.EmailAddress.sql" />
     <Build Include="ln\Table\ln.IdentificationCard.sql" />
     <Build Include="ln\Table\ln.Loan.sql" />
     <Build Include="ln\Table\ln.LoanAgreement.sql" />
@@ -84,10 +83,7 @@
     <Build Include="ln\Table\ln.LoanApplicationDenial.sql" />
     <Build Include="ln\Table\ln.Payment.sql" />
     <Build Include="ln\Table\ln.PaymentTransaction.sql" />
-    <Build Include="ln\Table\ln.Phone.sql" />
     <Build Include="ln\Table\ln.Transaction.sql" />
-    <Build Include="ln\Stored Procedure\ln.CreateAddress.sql" />
-    <Build Include="ln\Stored Procedure\ln.CreateEmailAddress.sql" />
     <Build Include="ln\Stored Procedure\ln.CreateIdentificationCard.sql" />
     <Build Include="ln\Stored Procedure\ln.CreateLoan.sql" />
     <Build Include="ln\Stored Procedure\ln.CreateLoanAgreement.sql" />
@@ -95,12 +91,7 @@
     <Build Include="ln\Stored Procedure\ln.CreateLoanApplicationComment.sql" />
     <Build Include="ln\Stored Procedure\ln.CreateLoanApplicationDenial.sql" />
     <Build Include="ln\Stored Procedure\ln.CreatePayment.sql" />
-    <Build Include="ln\Stored Procedure\ln.CreatePhone.sql" />
     <Build Include="ln\Stored Procedure\ln.CreateTransaction.sql" />
-    <Build Include="ln\Stored Procedure\ln.GetAddress.sql" />
-    <Build Include="ln\Stored Procedure\ln.GetAddress_by_Hash.sql" />
-    <Build Include="ln\Stored Procedure\ln.GetEmailAddress.sql" />
-    <Build Include="ln\Stored Procedure\ln.GetEmailAddress_by_Address.sql" />
     <Build Include="ln\Stored Procedure\ln.GetIdentificationCard.sql" />
     <Build Include="ln\Stored Procedure\ln.GetIdentificationCard_by_LoanApplicationId.sql" />
     <Build Include="ln\Stored Procedure\ln.GetIdentificationCard_by_LoanApplicationUserId.sql" />
@@ -124,8 +115,6 @@
     <Build Include="ln\Stored Procedure\ln.GetPayment_by_LoanId.sql" />
     <Build Include="ln\Stored Procedure\ln.GetPaymentTransaction_by_LoanId.sql" />
     <Build Include="ln\Stored Procedure\ln.GetPaymentTransaction_by_PaymentDate_LoanId_TransactionNumber.sql" />
-    <Build Include="ln\Stored Procedure\ln.GetPhone.sql" />
-    <Build Include="ln\Stored Procedure\ln.GetPhone_by_Number.sql" />
     <Build Include="ln\Stored Procedure\ln.GetTransaction_by_LoanId.sql" />
     <Build Include="ln\Stored Procedure\ln.SetLoanApplicationDenial.sql" />
     <Build Include="ln\Stored Procedure\ln.UpdateIdentificationCard.sql" />
@@ -162,6 +151,14 @@
     <Build Include="lnwrk\Stored Procedure\lnwrk.MergeWorkTaskType.sql" />
     <Build Include="lnwrk\Stored Procedure\lnwrk.MergeWorkTask.sql" />
     <Build Include="lnwrk\Stored Procedure\lnwrk.MergeWorkTaskCycle.sql" />
+    <Build Include="lnrpt\Table\lnrpt.LoanApplicationFact.sql" />
+    <Build Include="lnrpt\Table\lnrpt.LoanApplicationStatus.sql" />
+    <Build Include="lnwrk\Table\lnwrk.LoanApplicationStatus.sql" />
+    <Build Include="lnwrk\Table\lnwrk.LoanApplicationFact.sql" />
+    <Build Include="lnwrk\Stored Procedure\lnwrk.MergeLoanApplicationStatus.sql" />
+    <Build Include="lnwrk\Stored Procedure\lnwrk.MergeLoanApplicationFact.sql" />
+    <Build Include="lnrpt\Stored Procedure\lnrpt.GetLoanApplicationCount.sql" />
+    <Build Include="lnrpt\Stored Procedure\lnrpt.GetLoanApplicationClose.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="LocalSqlSchemaCompare.scmp" />

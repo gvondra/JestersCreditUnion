@@ -1,5 +1,5 @@
-﻿using JestersCreditUnion.Interface;
-using JestersCreditUnion.Interface.Models;
+﻿using JestersCreditUnion.Interface.Loan;
+using JestersCreditUnion.Interface.Loan.Models;
 using Serilog;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -33,24 +33,32 @@ namespace JestersCreditUnion.Testing.LoanGenerator
         public async Task GenerateLoanApplications()
         {
             LoanApplication createdApplication;
-            ApiSettings apiSettings = await _settingsFactory.GetApiSettings();
+            LoanApiSettings apiSettings = await _settingsFactory.GetLoanApiSettings();
             Queue<Task<LoanApplication>> createQueue = new Queue<Task<LoanApplication>>();
             int i = 1;
             foreach (LoanApplication loanApplication in _loanApplications)
             {
-                while (createQueue.Count >= 3)
+                while (createQueue.Count >= 4)
                 {
                     createdApplication = await createQueue.Dequeue();
                     await NotifyObservers(_observers, this, createdApplication);
                 }
                 _logger.Information($"Creating loan application #{i:###,###,##0}. Borrower {loanApplication.BorrowerName}");
-                createQueue.Enqueue(_loanApplicationService.Create(apiSettings, loanApplication));
+                createQueue.Enqueue(Create(apiSettings, loanApplication));
                 i += 1;
             }
             await NotifyObservers(
                 _observers,
                 this,
                 await Task.WhenAll(createQueue));
+        }
+
+        private async Task<LoanApplication> Create(LoanApiSettings apiSettings, LoanApplication loanApplication)
+        {
+            loanApplication = await _loanApplicationService.Create(apiSettings, loanApplication);
+            loanApplication.Status = 1;
+            loanApplication = await _loanApplicationService.Update(apiSettings, loanApplication);
+            return loanApplication;
         }
 
         private static Task NotifyObservers(IEnumerable<ILoanApplicationProcessObserver> observers, ILoanApplicationProcess process, params LoanApplication[] loanApplications)
