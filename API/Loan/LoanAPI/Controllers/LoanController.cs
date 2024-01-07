@@ -24,7 +24,6 @@ namespace LoanAPI.Controllers
         private readonly ILoanFactory _loanFactory;
         private readonly ILoanSaver _loanSaver;
         private readonly IAddressFactory _addressFactory;
-        private readonly IAddressSaver _addressSaver;
 
         public LoanController(IOptions<Settings> settings,
             ISettingsFactory settingsFactory,
@@ -34,8 +33,7 @@ namespace LoanAPI.Controllers
             ILoanDisburser loanDisburser,
             ILoanFactory loanFactory,
             ILoanSaver loanSaver,
-            IAddressFactory addressFactory,
-            IAddressSaver addressSaver)
+            IAddressFactory addressFactory)
             : base(settings, settingsFactory, userService, logger)
         {
             _loanApplicationFactory = loanApplicationFactory;
@@ -43,7 +41,6 @@ namespace LoanAPI.Controllers
             _loanFactory = loanFactory;
             _loanSaver = loanSaver;
             _addressFactory = addressFactory;
-            _addressSaver = addressSaver;
         }
 
         [Authorize(Constants.POLICY_LOAN_READ)]
@@ -175,7 +172,7 @@ namespace LoanAPI.Controllers
                 {
                     ILoan innerLoan = _loanFactory.Create(loanApplication);
                     IMapper mapper = MapperConfiguration.CreateMapper();
-                    await MapAgreement(mapper, settings, loan, innerLoan);
+                    MapAgreement(mapper, loan, innerLoan);
                     await _loanSaver.Create(settings, innerLoan);
                     result = Ok(
                         await Map(mapper, settings, innerLoan));
@@ -221,7 +218,7 @@ namespace LoanAPI.Controllers
                 if (result == null)
                 {
                     IMapper mapper = MapperConfiguration.CreateMapper();
-                    await MapAgreement(mapper, settings, loan, innerLoan);
+                    MapAgreement(mapper, loan, innerLoan);
                     await _loanSaver.Update(settings, innerLoan);
                     result = Ok(
                         await Map(mapper, settings, innerLoan));
@@ -240,19 +237,18 @@ namespace LoanAPI.Controllers
         }
 
         [NonAction]
-        private async Task MapAgreement(IMapper mapper, CoreSettings settings, Loan loan, ILoan innerLoan)
+        private void MapAgreement(IMapper mapper, Loan loan, ILoan innerLoan)
         {
-            IAddress borrowerAddress = await GetAddress(settings, loan.Agreement.BorrowerAddress);
-            IAddress coborrowerAddress = await GetAddress(settings, loan.Agreement.CoBorrowerAddress);
-
             mapper.Map(loan, innerLoan);
             mapper.Map(loan.Agreement, innerLoan.Agreement);
-            innerLoan.Agreement.BorrowerAddressId = borrowerAddress?.AddressId;
-            innerLoan.Agreement.CoBorrowerAddressId = coborrowerAddress?.AddressId;
+            innerLoan.Agreement.SetBorrowerAddress(
+                GetAddress(loan.Agreement.BorrowerAddress));
+            innerLoan.Agreement.SetCoBorrowerAddress(
+                GetAddress(loan.Agreement.CoBorrowerAddress));
         }
 
         [NonAction]
-        private async Task<IAddress> GetAddress(ISettings settings, Address address)
+        private IAddress GetAddress(Address address)
         {
             IAddress innerAddress = null;
             if (address != null)
@@ -260,16 +256,6 @@ namespace LoanAPI.Controllers
                 string state = address.State;
                 string postalCode = address.PostalCode;
                 innerAddress = _addressFactory.Create(address.Recipient, address.Attention, address.Delivery, address.Secondary, address.City, ref state, ref postalCode);
-
-                IAddress existingAddress = await _addressFactory.GetByHash(settings, innerAddress.Hash);
-                if (existingAddress != null)
-                {
-                    innerAddress = existingAddress;
-                }
-                else
-                {
-                    await _addressSaver.Create(settings, innerAddress);
-                }
             }
             return innerAddress;
         }

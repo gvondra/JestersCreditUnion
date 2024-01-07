@@ -10,8 +10,6 @@ namespace JestersCreditUnion.Loan.Data
             base.Load(builder);
             builder.RegisterType<SqlClientProviderFactory>()
                 .As<IDbProviderFactory>();
-            builder.RegisterType<AddressDataFactory>().As<IAddressDataFactory>();
-            builder.RegisterType<AddressDataSaver>().As<IAddressDataSaver>();
             builder.RegisterType<IdentificationCardDataSaver>().As<IIdentificationCardDataSaver>();
             builder.RegisterType<LoanAgreementDataSaver>().As<ILoanAgreementDataSaver>();
             builder.RegisterType<LoanApplicationDataFactory>().As<ILoanApplicationDataFactory>();

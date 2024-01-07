@@ -12,12 +12,10 @@ namespace JestersCreditUnion.Loan.Framework
         DateTime? AgreementDate { get; set; }
         string BorrowerName { get; set; }
         DateTime BorrowerBirthDate { get; set; }
-        Guid? BorrowerAddressId { get; set; }
         string BorrowerEmailAddress { get; set; }
         string BorrowerPhone { get; set; }
         string CoBorrowerName { get; set; }
         DateTime? CoBorrowerBirthDate { get; set; }
-        Guid? CoBorrowerAddressId { get; set; }
         string CoBorrowerEmailAddress { get; set; }
         string CoBorrowerPhone { get; set; }
         decimal OriginalAmount { get; set; }
@@ -29,6 +27,8 @@ namespace JestersCreditUnion.Loan.Framework
         Task Create(CommonCore.ITransactionHandler transactionHandler, ISettings settings);
         Task Update(CommonCore.ITransactionHandler transactionHandler, ISettings settings);
         Task<IAddress> GetBorrowerAddress(ISettings settings);
+        void SetBorrowerAddress(IAddress address);
         Task<IAddress> GetCoBorrowerAddress(ISettings settings);
+        void SetCoBorrowerAddress(IAddress address);
     }
 }

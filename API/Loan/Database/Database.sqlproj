@@ -75,7 +75,6 @@
     <Build Include="lnrpt\Table\lnrpt.LoanBalance.sql" />
     <Build Include="lnrpt\Table\lnrpt.Loan.sql" />
     <Build Include="lnrpt\Table\lnrpt.LoanAgreement.sql" />
-    <Build Include="ln\Table\ln.Address.sql" />
     <Build Include="ln\Table\ln.IdentificationCard.sql" />
     <Build Include="ln\Table\ln.Loan.sql" />
     <Build Include="ln\Table\ln.LoanAgreement.sql" />
@@ -85,7 +84,6 @@
     <Build Include="ln\Table\ln.Payment.sql" />
     <Build Include="ln\Table\ln.PaymentTransaction.sql" />
     <Build Include="ln\Table\ln.Transaction.sql" />
-    <Build Include="ln\Stored Procedure\ln.CreateAddress.sql" />
     <Build Include="ln\Stored Procedure\ln.CreateIdentificationCard.sql" />
     <Build Include="ln\Stored Procedure\ln.CreateLoan.sql" />
     <Build Include="ln\Stored Procedure\ln.CreateLoanAgreement.sql" />
@@ -94,8 +92,6 @@
     <Build Include="ln\Stored Procedure\ln.CreateLoanApplicationDenial.sql" />
     <Build Include="ln\Stored Procedure\ln.CreatePayment.sql" />
     <Build Include="ln\Stored Procedure\ln.CreateTransaction.sql" />
-    <Build Include="ln\Stored Procedure\ln.GetAddress.sql" />
-    <Build Include="ln\Stored Procedure\ln.GetAddress_by_Hash.sql" />
     <Build Include="ln\Stored Procedure\ln.GetIdentificationCard.sql" />
     <Build Include="ln\Stored Procedure\ln.GetIdentificationCard_by_LoanApplicationId.sql" />
     <Build Include="ln\Stored Procedure\ln.GetIdentificationCard_by_LoanApplicationUserId.sql" />

@@ -11,13 +11,9 @@ namespace JestersCreditUnion.Loan.Core
             builder.RegisterModule(new JestersCreditUnion.Loan.Data.LoanDataModule());
             builder.RegisterModule(new BrassLoon.Interface.Address.AddressInterfaceModule());
             builder.RegisterType<SettingsFactory>().InstancePerLifetimeScope();
-            builder.RegisterType<AddressFactory>()
-                .As<IAddressFactory>()
-                .Keyed<IAddressFactory>("v1");
             builder.RegisterType<Address2Factory>()
-                .PreserveExistingDefaults()
+                .As<IAddressFactory>()
                 .Keyed<IAddressFactory>("v2");
-            builder.RegisterType<AddressSaver>().As<IAddressSaver>();
             builder.RegisterType<AmortizationBuilder>().As<IAmortizationBuilder>();
             builder.RegisterType<KeyVault>().As<IKeyVault>();
             builder.RegisterType<LoanApplicationFactory>()

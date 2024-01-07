@@ -17,6 +17,8 @@ namespace JestersCreditUnion.Loan.Core
         private readonly AddressInterface.IPhoneService _phoneService;
         private readonly AddressInterface.IEmailAddressService _emailService;
         private readonly SettingsFactory _settingsFactory;
+        private IAddress _borrowerAddress;
+        private IAddress _coborrowerAddress;
 
         public LoanAgreement(
             LoanAgreementData data,
@@ -80,36 +82,62 @@ namespace JestersCreditUnion.Loan.Core
             LoanId = _loan.LoanId;
             await Task.WhenAll(new Task[]
             {
+                SaveAddresses(transactionHandler, settings),
                 SaveEmailAddresses(settings),
                 SavePhones(settings)
             });
             await _dataSaver.Create(transactionHandler, _data);
         }
 
-        public Task<IAddress> GetBorrowerAddress(ISettings settings)
+        public async Task<IAddress> GetBorrowerAddress(ISettings settings)
         {
-            if (BorrowerAddressId.HasValue)
-                return _loanFactory.AddressFactory.Get(settings, BorrowerAddressId.Value);
-            else
-                return Task.FromResult<IAddress>(null);
+            if (BorrowerAddressId.HasValue && (_borrowerAddress == null || !_borrowerAddress.AddressId.Equals(BorrowerAddressId.Value)))
+            {
+                _borrowerAddress = await _loanFactory.AddressFactory.Get(settings, BorrowerAddressId.Value);
+            }
+            return _borrowerAddress;
         }
 
-        public Task<IAddress> GetCoBorrowerAddress(ISettings settings)
+        public void SetBorrowerAddress(IAddress address)
         {
-            if (CoBorrowerAddressId.HasValue)
-                return _loanFactory.AddressFactory.Get(settings, CoBorrowerAddressId.Value);
-            else
-                return Task.FromResult<IAddress>(null);
+            _borrowerAddress = address;
+            BorrowerAddressId = null;
+        }
+
+        public async Task<IAddress> GetCoBorrowerAddress(ISettings settings)
+        {
+            if (CoBorrowerAddressId.HasValue && (_coborrowerAddress == null || !_coborrowerAddress.AddressId.Equals(CoBorrowerAddressId.Value)))
+            {
+                _coborrowerAddress = await _loanFactory.AddressFactory.Get(settings, CoBorrowerAddressId.Value);
+            }
+            return _coborrowerAddress;
+        }
+
+        public void SetCoBorrowerAddress(IAddress address)
+        {
+            _coborrowerAddress = address;
+            CoBorrowerAddressId = null;
         }
 
         public async Task Update(CommonCore.ITransactionHandler transactionHandler, ISettings settings)
         {
             await Task.WhenAll(new Task[]
             {
+                SaveAddresses(transactionHandler, settings),
                 SaveEmailAddresses(settings),
                 SavePhones(settings)
             });
             await _dataSaver.Update(transactionHandler, _data);
+        }
+
+        private async Task SaveAddresses(CommonCore.ITransactionHandler transactionHandler, ISettings settings)
+        {
+            if (_borrowerAddress != null)
+                await _borrowerAddress.Create(transactionHandler, settings);
+            BorrowerAddressId = _borrowerAddress != null ? _borrowerAddress.AddressId : null;
+            if (_coborrowerAddress != null)
+                await _coborrowerAddress.Create(transactionHandler, settings);
+            CoBorrowerAddressId = _coborrowerAddress != null ? _coborrowerAddress.AddressId : null;
         }
 
         private async Task SaveEmailAddresses(ISettings settings)
