@@ -91,7 +91,7 @@ namespace JestersCreditUnion.Loan.Core
 
                 await CommonCore.Saver.Save(new CommonCore.TransactionHandler(settings), async th =>
                 {
-                    await denial.Save(th, loanApplication.LoanApplicationId, loanApplication.Status);
+                    await denial.Save(th, loanApplication.LoanApplicationId, loanApplication.Status, loanApplication.ClosedDate);
 
                     if (workTaskType != null && workTaskStatus != null)
                     {

@@ -45,7 +45,7 @@ namespace JestersCreditUnion.Batch.ReportingLoader
             using DbCommand command = connection.CreateCommand();
             command.CommandType = CommandType.StoredProcedure;
             command.CommandText = procedureName;
-            command.CommandTimeout = 60;
+            command.CommandTimeout = 150;
             await command.ExecuteNonQueryAsync();
         }
 

@@ -27,7 +27,8 @@ namespace JestersCreditUnion.Loan.Core
         public Guid UserId { get => _data.UserId; set => _data.UserId = value; }
         public string Text { get => _data.Text; set => _data.Text = (value ?? string.Empty).Trim(); }
 
-        public Task Save(CommonCore.ITransactionHandler transactionHandler, Guid id, LoanApplicationStatus status) => _dataSaver.SetDenial(transactionHandler, id, (short)status, _data);
+        public Task Save(CommonCore.ITransactionHandler transactionHandler, Guid id, LoanApplicationStatus status, DateTime? closedDate)
+            => _dataSaver.SetDenial(transactionHandler, id, (short)status, closedDate, _data);
 
         public async Task<string> GetReasonDescription(ISettings settings)
         {

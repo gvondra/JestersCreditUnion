@@ -1,6 +1,7 @@
 ﻿CREATE PROCEDURE [ln].[SetLoanApplicationDenial]
 	@id UNIQUEIDENTIFIER,
 	@status SMALLINT,
+	@closedDate DATE,
 	@userId UNIQUEIDENTIFIER,
 	@reason SMALLINT,
 	@date DATE,
@@ -17,6 +18,7 @@ BEGIN
 
 	UPDATE [ln].[LoanApplication]
 	SET [Status] = @status,
+	[ClosedDate] = @closedDate,
 	[UpdateTimestamp] = @timestamp
 	WHERE [LoanApplicationId] = @id;
 END

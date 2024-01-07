@@ -12,7 +12,7 @@ namespace JestersCreditUnion.Loan.Framework
         public Guid UserId { get; set; }
         public string Text { get; set; }
 
-        Task Save(ITransactionHandler transactionHandler, Guid id, LoanApplicationStatus status);
+        Task Save(ITransactionHandler transactionHandler, Guid id, LoanApplicationStatus status, DateTime? closedDate);
         Task<string> GetReasonDescription(ISettings settings);
     }
 }
