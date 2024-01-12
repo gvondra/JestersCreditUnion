@@ -1,10 +1,10 @@
 ﻿using Autofac;
-using BrassLoon.Extensions.Logging;
-using Microsoft.Extensions.Logging;
-using System;
 using System.Reflection;
+using System;
+using Microsoft.Extensions.Logging;
+using BrassLoon.Extensions.Logging;
 
-namespace JestersCreditUnion.Batch.ReportingLoader.DependencyInjection
+namespace JestersCreditUnion.Batch.ServiceBusProcessor.DependencyInjection
 {
     internal static class ContainerFactory
     {
