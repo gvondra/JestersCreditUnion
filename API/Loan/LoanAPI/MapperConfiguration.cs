@@ -37,6 +37,7 @@ namespace LoanAPI
             exp.CreateMap<IPayment, LoanPayment>()
                 .ForMember(p => p.Message, config => config.Ignore());
             exp.CreateMap<ITransaction, Transaction>();
+            exp.CreateMap<JestersCreditUnion.Loan.Framework.Reporting.WorkTaskCycleSummaryItem, WorkTaskCycleSummaryItem>();
         }
 
         public static AutoMapper.MapperConfiguration Get() => _mapperConfiguration;

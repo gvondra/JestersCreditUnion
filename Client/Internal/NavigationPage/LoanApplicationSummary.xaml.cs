@@ -2,19 +2,9 @@
 using JCU.Internal.Behaviors;
 using JCU.Internal.ViewModel;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace JCU.Internal.NavigationPage
 {
@@ -39,11 +29,17 @@ namespace JCU.Internal.NavigationPage
         {
             using (ILifetimeScope scope = DependencyInjection.ContainerFactory.Container.BeginLifetimeScope())
             {
-                LoanApplicationSummaryVM = new LoanApplicationSummaryVM();
-                DataContext = LoanApplicationSummaryVM;
-                LoanApplicationSummaryLoader loader = scope.Resolve<Func<LoanApplicationSummaryVM, LoanApplicationSummaryLoader>>()(LoanApplicationSummaryVM);
-                LoanApplicationSummaryVM.AddBehavior(loader);
-                loader.Load();
+                if (LoanApplicationSummaryVM == null)
+                {
+                    LoanApplicationSummaryVM = new LoanApplicationSummaryVM();
+                    DataContext = LoanApplicationSummaryVM;
+                }
+                if (!LoanApplicationSummaryVM.ContainsBehavior<LoanApplicationSummaryLoader>())
+                {
+                    LoanApplicationSummaryLoader loader = scope.Resolve<Func<LoanApplicationSummaryVM, LoanApplicationSummaryLoader>>()(LoanApplicationSummaryVM);
+                    LoanApplicationSummaryVM.AddBehavior(loader);
+                    loader.Load();
+                }
             }
         }
     }

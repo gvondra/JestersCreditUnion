@@ -159,6 +159,7 @@
     <Build Include="lnwrk\Stored Procedure\lnwrk.MergeLoanApplicationFact.sql" />
     <Build Include="lnrpt\Stored Procedure\lnrpt.GetLoanApplicationCount.sql" />
     <Build Include="lnrpt\Stored Procedure\lnrpt.GetLoanApplicationClose.sql" />
+    <Build Include="lnrpt\Stored Procedure\lnrpt.GetWorkTaskCycleSummary.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="LocalSqlSchemaCompare.scmp" />

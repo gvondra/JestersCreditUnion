@@ -1,7 +1,6 @@
 ﻿using JCU.Internal.Behaviors;
 using JestersCreditUnion.Interface.Models;
 using System;
-using System.Collections.Generic;
 
 namespace JCU.Internal.ViewModel
 {

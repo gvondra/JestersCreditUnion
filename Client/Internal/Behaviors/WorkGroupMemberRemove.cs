@@ -1,6 +1,5 @@
 ﻿using JCU.Internal.ViewModel;
 using System;
-using System.Linq;
 using System.Windows.Input;
 
 namespace JCU.Internal.Behaviors

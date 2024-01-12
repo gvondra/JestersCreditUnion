@@ -2,19 +2,11 @@
 using JCU.Internal.ViewModel;
 using JestersCreditUnion.Interface;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace JCU.Internal.NavigationPage
 {
@@ -86,6 +78,8 @@ namespace JCU.Internal.NavigationPage
 
         private void LoadDocument()
         {
+            ListItem listItem;
+            Hyperlink hyperlink;
             HomeVM.Document = new FlowDocument();
             Paragraph paragraph = new Paragraph(new Run("Welcome"));
             HomeVM.Document.Blocks.Add(paragraph);
@@ -93,17 +87,35 @@ namespace JCU.Internal.NavigationPage
             {
                 paragraph = new Paragraph();
                 HomeVM.Document.Blocks.Add(paragraph);
-                Hyperlink hyperlink = new Hyperlink(new Run("Loan Search"));
+                hyperlink = new Hyperlink(new Run("Loan Search"));
                 hyperlink.Click += SearchHyperlink_Click;
                 paragraph.Inlines.Add(hyperlink);
             }
             if (AccessToken.Get.UserHasReadLoanApplicationAccess())
             {
-                paragraph = new Paragraph();
+                paragraph = new Paragraph(new Run("Reporting"));
                 HomeVM.Document.Blocks.Add(paragraph);
-                Hyperlink hyperlink = new Hyperlink(new Run("Loan Application Summary"));
-                hyperlink.Click += ApplicationSummaryHyperlink_Click;
+
+                List summaries = new List
+                {
+                    MarkerStyle = TextMarkerStyle.Disc
+                };
+
+                hyperlink = new Hyperlink(new Run("Loan Application Summary"));
+                hyperlink.Click += ApplicationSummaryHyperlink_Click;                
+                paragraph = new Paragraph();
                 paragraph.Inlines.Add(hyperlink);
+                listItem = new ListItem(paragraph);
+                summaries.ListItems.Add(listItem);
+
+                hyperlink = new Hyperlink(new Run("Work Task Cycle Summary"));
+                hyperlink.Click += WorkTaskCycleSummaryHyperlink_Click;
+                paragraph = new Paragraph();
+                paragraph.Inlines.Add(hyperlink);
+                listItem = new ListItem(paragraph);
+                summaries.ListItems.Add(listItem);
+
+                HomeVM.Document.Blocks.Add(summaries);
             }
         }
 
@@ -126,6 +138,19 @@ namespace JCU.Internal.NavigationPage
             {
                 NavigationService navigationService = NavigationService.GetNavigationService(this);
                 navigationService.Navigate(new Uri("NavigationPage/LoanApplicationSummary.xaml", UriKind.Relative));
+            }
+            catch (System.Exception ex)
+            {
+                ErrorWindow.Open(ex, Window.GetWindow(this));
+            }
+        }
+
+        private void WorkTaskCycleSummaryHyperlink_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                NavigationService navigationService = NavigationService.GetNavigationService(this);
+                navigationService.Navigate(new Uri("NavigationPage/WorkTaskCycleSummary.xaml", UriKind.Relative));
             }
             catch (System.Exception ex)
             {

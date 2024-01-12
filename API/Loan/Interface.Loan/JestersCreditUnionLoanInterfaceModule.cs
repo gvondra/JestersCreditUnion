@@ -19,6 +19,7 @@ namespace JestersCreditUnion.Interface.Loan
             builder.RegisterType<LoanService>().As<ILoanService>();
             builder.RegisterType<LookupService>().As<ILookupService>();
             builder.RegisterType<WorkTaskConfigurationService>().As<IWorkTaskConfigurationService>();
+            builder.RegisterType<WorkTaskCycleService>().As<IWorkTaskCycleService>();
         }
     }
 }

@@ -30,3 +30,7 @@ CREATE NONCLUSTERED INDEX [IX_WorkTaskCycle_TypeCode] ON [lnrpt].[WorkTaskCycle]
 GO
 
 CREATE NONCLUSTERED INDEX [IX_WorkTaskCycle_StatusCode] ON [lnrpt].[WorkTaskCycle] ([StatusCode])
+
+GO
+
+CREATE NONCLUSTERED INDEX [IX_WorkTaskCycle_CreateDate] ON [lnrpt].[WorkTaskCycle] ([CreateDate] DESC)
