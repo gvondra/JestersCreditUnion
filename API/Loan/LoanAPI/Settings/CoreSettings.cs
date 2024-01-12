@@ -40,6 +40,10 @@ namespace LoanAPI
 
         public Guid? AddressDomainId => _settings.AddressDomainId;
 
+        public string ServiceBusNamespace => _settings.ServiceBusNamespace;
+
+        public string ServiceBusNewLoanAppQueue => _settings.ServiceBusNewLoanAppQueue;
+
         public Task<string> GetConnetionString() => Task.FromResult(_settings.ConnectionString);
         public Func<Task<string>> GetDatabaseAccessToken() => null;
     }

@@ -16,5 +16,7 @@ namespace JestersCreditUnion.Loan.Framework
         string WorkTaskConfigurationCode { get; }
         string IdentitificationCardContainerName { get; }
         string EncryptionKeyVault { get; }
+        string ServiceBusNamespace { get; }
+        string ServiceBusNewLoanAppQueue { get; }
     }
 }

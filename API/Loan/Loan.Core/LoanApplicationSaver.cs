@@ -61,9 +61,10 @@ namespace JestersCreditUnion.Loan.Core
                     AsyncRetryPolicy retry = Policy.Handle<Exception>()
                         .WaitAndRetryAsync(new TimeSpan[] { TimeSpan.FromSeconds(0.5), TimeSpan.FromSeconds(0.667) });
                     await retry.ExecuteAsync(
-                        () => CreateNewLoanApplicationWorkTask(settings, workTaskType, workTaskStatus, loanApplication.LoanApplicationId)
-                        );
+                        () => CreateNewLoanApplicationWorkTask(settings, workTaskType, workTaskStatus, loanApplication.LoanApplicationId));
                 }
+
+                await ServiceBusService.NewLoanApplicationEnqueue(settings, loanApplication.LoanApplicationId);
             });
         }
 
