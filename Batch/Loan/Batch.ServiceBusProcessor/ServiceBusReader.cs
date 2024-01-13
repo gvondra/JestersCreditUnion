@@ -40,11 +40,13 @@ namespace JestersCreditUnion.Batch.ServiceBusProcessor
             await DisposeAsync();
         }
 
-        private Task ProcessMessageAsync(ProcessMessageEventArgs arg)
+        private async Task ProcessMessageAsync(ProcessMessageEventArgs arg)
         {
+            _logger.LogTrace("Received new loan application request");
             _logger.LogTrace(arg.Message.Body.ToString());
-            //return arg.CompleteMessageAsync(arg.Message);
-            return arg.AbandonMessageAsync(arg.Message);
+            await _messsageHandler?.Process(arg.Message.Body.ToString());
+            await arg.CompleteMessageAsync(arg.Message);
+            //await arg.AbandonMessageAsync(arg.Message);
         }
 
         private Task ProcessErrorAsync(ProcessErrorEventArgs arg)

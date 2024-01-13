@@ -1,5 +1,9 @@
 ﻿using BrassLoon.RestClient;
 using JestersCreditUnion.Interface.Models;
+using Microsoft.Extensions.Caching.Memory;
+using Polly;
+using Polly.Caching;
+using Polly.Caching.Memory;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -9,6 +13,7 @@ namespace JestersCreditUnion.Interface
 {
     public class WorkTaskTypeService : IWorkTaskTypeService
     {
+        private static readonly AsyncPolicy _codeLookupCache = Policy.CacheAsync(new MemoryCacheProvider(new MemoryCache(new MemoryCacheOptions())), new SlidingTtl(TimeSpan.FromMinutes(12)));
         private readonly RestUtil _restUtil;
         private readonly IService _service;
 
@@ -69,9 +74,30 @@ namespace JestersCreditUnion.Interface
             IRequest request = _service.CreateRequest(new Uri(settings.BaseAddress), HttpMethod.Get)
                 .AddPath("WorkGroup/{workGroupId}/WorkTaskType")
                 .AddPathParameter("workGroupId", workGroupId.ToString("N"))
-                .AddJwtAuthorizationToken(settings.GetToken)
-                ;
+                .AddJwtAuthorizationToken(settings.GetToken);
             return _restUtil.Send<List<WorkTaskType>>(_service, request);
+        }
+
+        public Task<string> LookupCode(ISettings settings, string name)
+        {
+            if (string.IsNullOrEmpty(name))
+                throw new ArgumentNullException(nameof(name));
+            AsyncPolicy retry = Policy.Handle<System.Exception>()
+                .WaitAndRetryAsync(new TimeSpan[] { TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(1.5) });
+            return _codeLookupCache.ExecuteAsync(context =>
+            {
+                return retry.ExecuteAsync(() => InnerLookupCode(settings, name));
+            },
+            new Context(name));
+        }
+
+        private Task<string> InnerLookupCode(ISettings settings, string name)
+        {
+            IRequest request = _service.CreateRequest(new Uri(settings.BaseAddress), HttpMethod.Get)
+                    .AddPath("WorkTaskTypeCode")
+                    .AddQueryParameter("name", name)
+                    .AddJwtAuthorizationToken(settings.GetToken);
+            return _restUtil.Send<string>(_service, request);
         }
 
         public Task<WorkTaskType> Update(ISettings settings, WorkTaskType workTaskType)
@@ -83,8 +109,7 @@ namespace JestersCreditUnion.Interface
             IRequest request = _service.CreateRequest(new Uri(settings.BaseAddress), HttpMethod.Put, workTaskType)
                 .AddPath("WorkTaskType")
                 .AddPath(workTaskType.WorkTaskTypeId.Value.ToString("N"))
-                .AddJwtAuthorizationToken(settings.GetToken)
-                ;
+                .AddJwtAuthorizationToken(settings.GetToken);
             return _restUtil.Send<WorkTaskType>(_service, request);
         }
     }

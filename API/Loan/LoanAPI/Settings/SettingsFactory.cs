@@ -20,7 +20,7 @@ namespace LoanAPI
         {
             return new AuthorizationSettings(
                 _tokenService,
-                _options.Value.AuthorizationApiBaseAddress,
+                _options.Value.BrassLoonAuthorizationApiBaseAddress,
                 _options.Value.BrassLoonAccountApiBaseAddress,
                 _options.Value.BrassLoonClientId,
                 _options.Value.BrassLoonClientSecret);

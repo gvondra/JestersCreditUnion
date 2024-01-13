@@ -10,6 +10,7 @@ namespace JestersCreditUnion.Loan.Core
             base.Load(builder);
             builder.RegisterModule(new JestersCreditUnion.Loan.Data.LoanDataModule());
             builder.RegisterModule(new BrassLoon.Interface.Address.AddressInterfaceModule());
+            builder.RegisterModule(new JestersCreditUnion.Interface.JestersCreditUnionInterfaceModule());
             builder.RegisterType<SettingsFactory>().InstancePerLifetimeScope();
             builder.RegisterType<Address2Factory>()
                 .As<IAddressFactory>()
@@ -38,7 +39,10 @@ namespace JestersCreditUnion.Loan.Core
                 .InstancePerLifetimeScope()
                 .As<ILoanPaymentProcessor>();
             builder.RegisterType<TransactionFactory>().As<ITransactionFacatory>();
-            builder.RegisterType<WorkTaskTypeCodeLookup>().InstancePerLifetimeScope();
+            builder.RegisterType<WorkTaskTypeCodeLookup>()
+                .InstancePerLifetimeScope()
+                .AsSelf()
+                .As<IWorkTaskTypeCodeLookup>();
         }
     }
 }

@@ -13,5 +13,6 @@ namespace JestersCreditUnion.Interface
         Task<List<WorkTaskType>> GetByWorkGroupId(ISettings settings, Guid workGroupId);
         Task<WorkTaskType> Create(ISettings settings, WorkTaskType workTaskType);
         Task<WorkTaskType> Update(ISettings settings, WorkTaskType workTaskType);
+        Task<string> LookupCode(ISettings settings, string name);
     }
 }

@@ -46,7 +46,7 @@ namespace API.Controllers
                 {
                     result = Ok(
                         (await _workTaskService.GetByContext(settings, _settings.Value.WorkTaskDomainId.Value, referenceType.Value, referenceValue, includeClosed))
-                        .Select(wt => mapper.Map<WorkTask>(wt))
+                        .Select(mapper.Map<WorkTask>)
                         .ToList()
                         );
                 }
@@ -89,7 +89,7 @@ namespace API.Controllers
                     IMapper mapper = MapperConfiguration.CreateMapper();
                     result = Ok(
                         (await _workTaskService.GetByWorkGroupId(settings, _settings.Value.WorkTaskDomainId.Value, workGroupId.Value, includeClosed))
-                        .Select(wt => mapper.Map<WorkTask>(wt))
+                        .Select(mapper.Map<WorkTask>)
                         .ToList()
                         );
                 }
@@ -199,7 +199,7 @@ namespace API.Controllers
                 IMapper mapper = MapperConfiguration.CreateMapper();
                 result = Ok(
                     (await _workTaskService.Patch(settings, _settings.Value.WorkTaskDomainId.Value, patchData))
-                    .Select(wt => mapper.Map<WorkTask>(wt))
+                    .Select(mapper.Map<WorkTask>)
                     .ToList()
                     );
             }

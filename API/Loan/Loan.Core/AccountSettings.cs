@@ -16,9 +16,6 @@ namespace JestersCreditUnion.Loan.Core
 
         public string BaseAddress => _settings.BrassLoonAccountApiBaseAddress;
 
-        public Task<string> GetToken()
-        {
-            throw new NotImplementedException();
-        }
+        public Task<string> GetToken() => throw new NotImplementedException();
     }
 }

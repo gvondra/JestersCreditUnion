@@ -2,5 +2,6 @@
 {
     public interface ISettingsFactory
     {
+        LoanSettings CreateLoan();
     }
 }
