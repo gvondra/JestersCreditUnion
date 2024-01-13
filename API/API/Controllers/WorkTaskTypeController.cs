@@ -264,7 +264,7 @@ namespace API.Controllers
             return result;
         }
 
-        [HttpGet("/WorkTaskTypeCode")]
+        [HttpGet("/api/WorkTaskTypeCode")]
         [Authorize(Constants.POLICY_WORKTASK_TYPE_READ)]
         [ProducesResponseType(typeof(string), 200)]
         public async Task<IActionResult> CodeLookup([FromQuery] string name)

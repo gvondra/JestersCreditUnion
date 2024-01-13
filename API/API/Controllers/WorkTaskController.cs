@@ -147,6 +147,46 @@ namespace API.Controllers
             return result;
         }
 
+        [HttpPost()]
+        [Authorize(Constants.POLICY_WORKTASK_EDIT)]
+        [ProducesResponseType(typeof(WorkTask), 200)]
+        public async Task<IActionResult> Create([FromBody] WorkTask workTask)
+        {
+            DateTime start = DateTime.UtcNow;
+            IActionResult result = null;
+            try
+            {
+                if (workTask == null)
+                {
+                    result = BadRequest("Missing work task details");
+                }
+                else
+                {
+                    WorkTaskSettings settings = GetWorkTaskSettings();
+                    IMapper mapper = MapperConfiguration.CreateMapper();
+                    WorkTaskAPI.Models.WorkTask innerWorkTask = mapper.Map<WorkTaskAPI.Models.WorkTask>(workTask);
+                    innerWorkTask.DomainId = _settings.Value.WorkTaskDomainId.Value;
+                    innerWorkTask = await _workTaskService.Create(settings, innerWorkTask);
+                    result = Ok(mapper.Map<WorkTask>(innerWorkTask));
+                }
+            }
+            catch (BrassLoon.RestClient.Exceptions.RequestError ex)
+            {
+                WriteException(ex);
+                result = StatusCode((int)ex.StatusCode);
+            }
+            catch (System.Exception ex)
+            {
+                WriteException(ex);
+                result = StatusCode(StatusCodes.Status500InternalServerError);
+            }
+            finally
+            {
+                await WriteMetrics("update-worktask", start, result);
+            }
+            return result;
+        }
+
         [HttpPut("{id}")]
         [Authorize(Constants.POLICY_WORKTASK_EDIT)]
         [ProducesResponseType(typeof(WorkTask), 200)]

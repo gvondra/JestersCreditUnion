@@ -3,5 +3,6 @@
     public interface ISettingsFactory
     {
         LoanSettings CreateLoan();
+        ApiSettings CreateApi();
     }
 }

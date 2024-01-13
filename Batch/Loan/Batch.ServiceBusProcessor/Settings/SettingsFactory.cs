@@ -14,5 +14,7 @@ namespace JestersCreditUnion.Batch.ServiceBusProcessor
         }
 
         public LoanSettings CreateLoan() => new LoanSettings(_settings, _tokenService);
+
+        public ApiSettings CreateApi() => new ApiSettings(_settings, _tokenService);
     }
 }

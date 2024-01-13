@@ -79,6 +79,17 @@ namespace JestersCreditUnion.Interface
             return _restUtil.Send<List<Models.WorkTask>>(_service, request);
         }
 
+        public Task<WorkTask> Create(ISettings settings, WorkTask workTask)
+        {
+            if (workTask == null)
+                throw new ArgumentNullException(nameof(workTask));
+            IRequest request = _service.CreateRequest(new Uri(settings.BaseAddress), HttpMethod.Post, workTask)
+                .AddPath("WorkTask")
+                .AddJwtAuthorizationToken(settings.GetToken)
+                ;
+            return _restUtil.Send<Models.WorkTask>(_service, request);
+        }
+
         public Task<WorkTask> Update(ISettings settings, WorkTask workTask)
         {
             if (workTask == null)
