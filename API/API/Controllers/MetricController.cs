@@ -50,9 +50,9 @@ namespace API.Controllers
                 if (result == null)
                 {
                     Log.ISettings settings = _settingsFactory.CreateLog(_settings.Value);
-                    IMapper mapper = new Mapper(MapperConfiguration.Get());
+                    IMapper mapper = MapperConfiguration.CreateMapper();
                     List<Metric> metrics = (await _metricService.Search(settings, _settings.Value.LogDomainId.Value, maxTimestamp.Value, eventCode))
-                        .Select(m => mapper.Map<Metric>(m))
+                        .Select(mapper.Map<Metric>)
                         .ToList();
                     await AddUserData(metrics);
                     result = Ok(metrics);
