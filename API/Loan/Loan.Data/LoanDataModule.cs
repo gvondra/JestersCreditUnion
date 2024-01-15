@@ -20,6 +20,8 @@ namespace JestersCreditUnion.Loan.Data
                 .As<ILoanDataSaver>();
             builder.RegisterType<PaymentDataFactory>().As<IPaymentDataFactory>();
             builder.RegisterType<PaymentDataSaver>().As<IPaymentDataSaver>();
+            builder.RegisterType<RatingDataFactory>().As<IRatingDataFactory>();
+            builder.RegisterType<RatingDataSaver>().As<IRatingDataSaver>();
             builder.RegisterType<TransactionDataFactory>().As<ITransactionDataFactory>();
             builder.RegisterType<TransactionDataSaver>().As<ITransactionDataSaver>();
         }

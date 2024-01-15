@@ -1,0 +1,7 @@
+﻿CREATE TABLE [ln].[Rating]
+(
+	[RatingId] UNIQUEIDENTIFIER NOT NULL,
+	[Value] REAL NOT NULL,
+	[CreateTimestamp] DATETIME2(4) CONSTRAINT [DF_Rating_CreateTimestamp] DEFAULT (SYSUTCDATETIME()) NOT NULL,
+	CONSTRAINT [PK_Rating] PRIMARY KEY CLUSTERED ([RatingId])
+)
