@@ -65,5 +65,12 @@ namespace JestersCreditUnion.Loan.Framework.Enumerations
         PrincipalPayment = 2,
         InterestPayment = 3
     }
+
+    public enum LoanApplicationRatingComponent : short
+    {
+        NotSet = 0,
+        MinAge = 1,
+        MaxAge = 2
+    }
 }
 #pragma warning restore IDE0130 // Namespace does not match folder structure

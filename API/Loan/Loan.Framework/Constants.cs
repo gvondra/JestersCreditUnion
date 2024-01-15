@@ -21,5 +21,11 @@ namespace JestersCreditUnion.Loan.Framework.Constants
             ("loan-status", typeof(LoanStatus))
         };
     }
+
+    public static class RatingLogStatus
+    {
+        public const string Pass = "Pass";
+        public const string Fail = "Fail";
+    }
 }
 #pragma warning restore IDE0130 // Namespace does not match folder structure
