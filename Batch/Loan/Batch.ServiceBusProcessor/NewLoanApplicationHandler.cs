@@ -4,9 +4,10 @@ using JestersCreditUnion.Interface.Loan.Models;
 using JestersCreditUnion.Interface.Models;
 using JestersCreditUnion.Loan.Framework.Constants;
 using JestersCreditUnion.Loan.Framework.Enumerations;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using Polly.Retry;
 using Polly;
+using Polly.Retry;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,20 +18,26 @@ namespace JestersCreditUnion.Batch.ServiceBusProcessor
     public class NewLoanApplicationHandler : IMesssageHandler
     {
         private readonly ISettingsFactory _settingsFactory;
+        private readonly ILogger<NewLoanApplicationHandler> _logger;
         private readonly ILoanApplicationService _loanApplicationService;
+        private readonly ILoanApplicationRatingService _loanApplicationRatingService;
         private readonly IWorkTaskService _workTaskService;
         private readonly IWorkTaskTypeService _workTaskTypeService;
         private readonly IWorkTaskStatusService _workTaskStatusService;
 
         public NewLoanApplicationHandler(
             ISettingsFactory settingsFactory,
+            ILogger<NewLoanApplicationHandler> logger,
             ILoanApplicationService loanApplicationService,
+            ILoanApplicationRatingService loanApplicationRatingService,
             IWorkTaskService workTaskService,
             IWorkTaskTypeService workTaskTypeService,
             IWorkTaskStatusService workTaskStatusService)
         {
             _settingsFactory = settingsFactory;
+            _logger = logger;
             _loanApplicationService = loanApplicationService;
+            _loanApplicationRatingService = loanApplicationRatingService;
             _workTaskService = workTaskService;
             _workTaskTypeService = workTaskTypeService;
             _workTaskStatusService = workTaskStatusService;
@@ -43,6 +50,19 @@ namespace JestersCreditUnion.Batch.ServiceBusProcessor
             {
                 LoanApplication loanApplication = await _loanApplicationService.Get(_settingsFactory.CreateLoan(), loanApplicationId.Value);
                 await SetupWorkTask(loanApplication);
+                await RateApplication(loanApplication);
+            }
+        }
+
+        private async Task RateApplication(LoanApplication loanApplication)
+        {
+            try
+            {
+                await _loanApplicationRatingService.Create(_settingsFactory.CreateLoan(), loanApplication.LoanApplicationId.Value);
+            }
+            catch (System.Exception ex)
+            {
+                _logger.LogError(ex, "Unable to rate loan application");
             }
         }
 

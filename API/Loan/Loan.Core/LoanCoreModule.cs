@@ -20,6 +20,7 @@ namespace JestersCreditUnion.Loan.Core
             builder.RegisterType<LoanApplicationFactory>()
                 .As<ILoanApplicationFactory>()
                 .PropertiesAutowired();
+            builder.RegisterType<LoanApplicationRaterFactory>().As<ILoanApplicationRaterFactory>();
             builder.RegisterType<LoanApplicationSaver>().As<ILoanApplicationSaver>();
             builder.RegisterType<LoanDisburser>().As<ILoanDisburser>();
             builder.RegisterType<LoanFactory>()

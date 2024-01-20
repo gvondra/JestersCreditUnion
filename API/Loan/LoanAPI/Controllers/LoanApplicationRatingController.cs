@@ -95,7 +95,7 @@ namespace LoanAPI.Controllers
                     if (innerLoanApplication == null)
                         result = NotFound();
                 }
-                if (result != null && innerLoanApplication != null)
+                if (result == null && innerLoanApplication != null)
                 {
                     ILoanApplicationRater rater = await _loanApplicationRaterFactory.Create();
                     IRating innerRating = rater.Rate(innerLoanApplication);

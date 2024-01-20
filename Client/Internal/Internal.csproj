@@ -456,7 +456,7 @@
       <Version>1.0.0-alpha.81</Version>
     </PackageReference>
     <PackageReference Include="JestersCreditUnion.Interface.Loan">
-      <Version>1.0.0-alpha.13</Version>
+      <Version>1.0.0-alpha.14</Version>
     </PackageReference>
     <PackageReference Include="LiveCharts.Wpf">
       <Version>0.9.7</Version>
