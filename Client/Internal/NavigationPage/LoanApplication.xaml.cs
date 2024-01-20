@@ -68,9 +68,17 @@ namespace JCU.Internal.NavigationPage
                 this.DataContext = this.LoanApplicationVM;
                 this.LoanApplicationVM.BusyVisibility = Visibility.Collapsed;
                 this.LoanApplicationVM.CommandsVisibility = Visibility.Visible;
+
                 IdentificationCardLoader identificationCardLoader = new IdentificationCardLoader(this.LoanApplicationVM);
                 this.LoanApplicationVM.AddBehavior(identificationCardLoader);
                 identificationCardLoader.LoadBorrowerIdentificationCard();
+
+                using (ILifetimeScope scope = DependencyInjection.ContainerFactory.Container.BeginLifetimeScope())
+                {
+                    LoanApplicationLoader loanApplicationLoader = scope.Resolve<Func<LoanApplicationVM, LoanApplicationLoader>>()(this.LoanApplicationVM);
+                    this.LoanApplicationVM.AddBehavior(loanApplicationLoader);
+                    loanApplicationLoader.LoadRating();
+                }
             }
             catch (System.Exception ex)
             {
@@ -175,7 +183,7 @@ namespace JCU.Internal.NavigationPage
         private void InitializeDetailGrid()
         {
             DetailGrid.RowDefinitions.Clear();
-            foreach (int i in Enumerable.Range(0, 38))
+            foreach (int i in Enumerable.Range(0, 39))
             {
                 DetailGrid.RowDefinitions.Add(
                     new RowDefinition() { Height = GridLength.Auto });

@@ -74,6 +74,7 @@
     <Compile Include="Behaviors\LoanApplicationDenialLoader.cs" />
     <Compile Include="Behaviors\LoanApplicationDenialSave.cs" />
     <Compile Include="Behaviors\LoanApplicationDenialValidator.cs" />
+    <Compile Include="Behaviors\LoanApplicationLoader.cs" />
     <Compile Include="Behaviors\LoanApplicationSummaryLoader.cs" />
     <Compile Include="Behaviors\LoanApplicationUnderReview.cs" />
     <Compile Include="Behaviors\LoanApplicationValidator.cs" />
@@ -243,6 +244,7 @@
     <Compile Include="ViewModel\MainWindowVM.cs" />
     <Compile Include="ViewModel\MetricLogItemVM.cs" />
     <Compile Include="ViewModel\MetricLogVM.cs" />
+    <Compile Include="ViewModel\RatingVM.cs" />
     <Compile Include="ViewModel\ReceiveLoanPaymentVM.cs" />
     <Compile Include="ViewModel\RolesVM.cs" />
     <Compile Include="ViewModel\RoleVM.cs" />
@@ -453,10 +455,10 @@
       <Version>4.7.0.9</Version>
     </PackageReference>
     <PackageReference Include="JestersCreditUnion.Interface">
-      <Version>1.0.0-alpha.81</Version>
+      <Version>1.0.0-alpha.82</Version>
     </PackageReference>
     <PackageReference Include="JestersCreditUnion.Interface.Loan">
-      <Version>1.0.0-alpha.14</Version>
+      <Version>1.0.0-alpha.15</Version>
     </PackageReference>
     <PackageReference Include="LiveCharts.Wpf">
       <Version>0.9.7</Version>

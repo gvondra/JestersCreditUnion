@@ -56,7 +56,7 @@ namespace LoanAPI.Controllers
                     if (innerLoanApplication == null)
                         result = NotFound();
                 }
-                if (result != null && innerLoanApplication != null)
+                if (result == null && innerLoanApplication != null)
                 {
                     IRating innerRating = await innerLoanApplication.GetRating(settings);
                     IMapper mapper = MapperConfiguration.CreateMapper();
