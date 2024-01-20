@@ -21,10 +21,10 @@
 
 	<ItemGroup>
 		<PackageReference Include="Autofac" Version="7.1.*" />
-		<PackageReference Include="BrassLoon.DataClient" Version="3.4.*" />
+		<PackageReference Include="BrassLoon.DataClient" Version="3.5.*" />
 		<PackageReference Include="BrassLoon.Extensions.Logging" Version="1.0.0-prerelease.*" />
-		<PackageReference Include="BrassLoon.Interface.Account" Version="4.1.*" />
-		<PackageReference Include="BrassLoon.Interface.Authorization" Version="4.0.*" />
+		<PackageReference Include="BrassLoon.Interface.Account" Version="4.2.*" />
+		<PackageReference Include="BrassLoon.Interface.Authorization" Version="4.1.*" />
 		<PackageReference Include="BrassLoon.Interface.WorkTask" Version="3.1.1-prerelease.*" />
 		<PackageReference Include="JestersCreditUnion.Interface" Version="1.0.0-alpha.*" />
 		<PackageReference Include="JestersCreditUnion.Interface.Loan" Version="1.0.0-alpha.*" />
