@@ -1,5 +1,6 @@
-﻿using System;
+﻿using JestersCreditUnion.CommonCore;
 using System.Collections.Immutable;
+using System.Threading.Tasks;
 
 namespace JestersCreditUnion.Loan.Framework
 {
@@ -8,7 +9,8 @@ namespace JestersCreditUnion.Loan.Framework
         Guid RatingId { get; }
         double Value { get; set; }
         DateTime CreateTimestamp { get; }
-
         ImmutableList<IRatingLog> RatingLogs { get; }
+
+        Task SaveLoanApplication(ITransactionHandler transactionHandler, Guid loanApplicationId);
     }
 }

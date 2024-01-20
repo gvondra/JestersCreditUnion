@@ -329,5 +329,7 @@ namespace JestersCreditUnion.Loan.Core
             }
             return age;
         }
+
+        public Task<IRating> GetRating(ISettings settings) => _factory.RatingFactory.GetLoanApplication(settings, LoanApplicationId);
     }
 }

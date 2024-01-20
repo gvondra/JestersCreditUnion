@@ -17,5 +17,7 @@ namespace JestersCreditUnion.Loan.Core
         public string Description { get => _data.Description; set => _data.Description = value; }
 
         public DateTime CreateTimestamp => _data.CreateTimestamp;
+
+        internal RatingLogData Data => _data;
     }
 }

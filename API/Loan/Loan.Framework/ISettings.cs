@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace JestersCreditUnion.Loan.Framework
+﻿namespace JestersCreditUnion.Loan.Framework
 {
     public interface ISettings : JestersCreditUnion.CommonCore.ISettings
     {

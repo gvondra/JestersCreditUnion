@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace JestersCreditUnion.Loan.Framework
@@ -7,6 +6,7 @@ namespace JestersCreditUnion.Loan.Framework
     public interface ILoanApplicationFactory
     {
         IAddressFactory AddressFactory { get; }
+        IRatingFactory RatingFactory { get; }
 
         ILoanApplication Create(Guid userId);
         Task<ILoanApplication> Get(ISettings settings, Guid id);

@@ -192,3 +192,6 @@ dotnet_diagnostic.IDE0010.severity = none
 dotnet_diagnostic.IDE0029.severity = none
 dotnet_diagnostic.IDE0030.severity = none
 dotnet_diagnostic.IDE0270.severity = none
+
+# IDE0305: Simplify collection initialization
+dotnet_style_prefer_collection_expression = false

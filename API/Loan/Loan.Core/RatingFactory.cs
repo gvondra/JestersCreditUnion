@@ -1,12 +1,25 @@
-﻿using JestersCreditUnion.Loan.Data.Models;
+﻿using JestersCreditUnion.CommonCore;
+using JestersCreditUnion.Loan.Data;
+using JestersCreditUnion.Loan.Data.Models;
 using JestersCreditUnion.Loan.Framework;
+using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace JestersCreditUnion.Loan.Core
 {
     public class RatingFactory : IRatingFactory
     {
-        private static Rating Create(RatingData data) => new Rating(data);
+        private readonly IRatingDataFactory _dataFactory;
+        private readonly IRatingDataSaver _dataSaver;
+
+        public RatingFactory(IRatingDataFactory dataFactory, IRatingDataSaver dataSaver)
+        {
+            _dataFactory = dataFactory;
+            _dataSaver = dataSaver;
+        }
+
+        private Rating Create(RatingData data) => new Rating(data, _dataSaver);
 
         public IRating Create(double value, IEnumerable<IRatingLog> ratingLogs)
         {
@@ -29,6 +42,12 @@ namespace JestersCreditUnion.Loan.Core
                 Value = value,
                 Description = (description ?? string.Empty).Trim()
             };
+        }
+
+        public async Task<IRating> GetLoanApplication(Framework.ISettings settings, Guid loanApplicationId)
+        {
+            RatingData data = await _dataFactory.GetByLoanApplicationId(new DataSettings(settings), loanApplicationId);
+            return data != null ? Create(data) : null;
         }
     }
 }

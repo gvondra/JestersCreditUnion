@@ -36,6 +36,8 @@ namespace LoanAPI
             exp.CreateMap<LoanPayment, IPayment>();
             exp.CreateMap<IPayment, LoanPayment>()
                 .ForMember(p => p.Message, config => config.Ignore());
+            exp.CreateMap<IRatingLog, RatingLog>();
+            exp.CreateMap<IRating, Rating>();
             exp.CreateMap<ITransaction, Transaction>();
             exp.CreateMap<JestersCreditUnion.Loan.Framework.Reporting.WorkTaskCycleSummaryItem, WorkTaskCycleSummaryItem>();
         }
