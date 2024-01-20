@@ -70,7 +70,9 @@ namespace JestersCreditUnion.Loan.Framework.Enumerations
     {
         NotSet = 0,
         MinAge = 1,
-        MaxAge = 2
+        MaxAge = 2,
+        MinAmount = 3,
+        MaxAmount = 4
     }
 }
 #pragma warning restore IDE0130 // Namespace does not match folder structure

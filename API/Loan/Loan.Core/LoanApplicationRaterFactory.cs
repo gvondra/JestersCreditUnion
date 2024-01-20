@@ -89,6 +89,12 @@ namespace JestersCreditUnion.Loan.Core
                 case LoanApplicationRatingComponent.MaxAge:
                     result = CreateMaxAgeComponent(points, jsonReader);
                     break;
+                case LoanApplicationRatingComponent.MinAmount:
+                    result = CreateMinAmountComponent(points, jsonReader);
+                    break;
+                case LoanApplicationRatingComponent.MaxAmount:
+                    result = CreateMaxAmountComponent(points, jsonReader);
+                    break;
             }
             return result;
         }
@@ -116,6 +122,14 @@ namespace JestersCreditUnion.Loan.Core
                 {
                     component.Maximum = Convert.ToInt32(jsonReader.Value, CultureInfo.InvariantCulture);
                 }
+                else if (string.Equals(propertyName, "BorrowerAge", StringComparison.OrdinalIgnoreCase) && jsonReader.TokenType == JsonToken.Boolean)
+                {
+                    component.BorrowerAge = Convert.ToBoolean(jsonReader.Value, CultureInfo.InvariantCulture);
+                }
+                else if (string.Equals(propertyName, "CoBorrowerAge", StringComparison.OrdinalIgnoreCase) && jsonReader.TokenType == JsonToken.Boolean)
+                {
+                    component.CoBorrowerAge = Convert.ToBoolean(jsonReader.Value, CultureInfo.InvariantCulture);
+                }
             }
             return component;
         }
@@ -142,6 +156,68 @@ namespace JestersCreditUnion.Loan.Core
                 else if (string.Equals(propertyName, "Minimum", StringComparison.OrdinalIgnoreCase) && jsonReader.TokenType == JsonToken.Integer)
                 {
                     component.Minimum = Convert.ToInt32(jsonReader.Value, CultureInfo.InvariantCulture);
+                }
+                else if (string.Equals(propertyName, "BorrowerAge", StringComparison.OrdinalIgnoreCase) && jsonReader.TokenType == JsonToken.Boolean)
+                {
+                    component.BorrowerAge = Convert.ToBoolean(jsonReader.Value, CultureInfo.InvariantCulture);
+                }
+                else if (string.Equals(propertyName, "CoBorrowerAge", StringComparison.OrdinalIgnoreCase) && jsonReader.TokenType == JsonToken.Boolean)
+                {
+                    component.CoBorrowerAge = Convert.ToBoolean(jsonReader.Value, CultureInfo.InvariantCulture);
+                }
+            }
+            return component;
+        }
+
+        private RateLoanApplication.MaxAmount CreateMaxAmountComponent(int points, JsonTextReader jsonReader)
+        {
+            RateLoanApplication.MaxAmount component = new RateLoanApplication.MaxAmount(_ratingFactory, points);
+            bool exit = false;
+            string propertyName = string.Empty;
+            while (!exit && jsonReader.Read())
+            {
+                if (jsonReader.TokenType == JsonToken.EndObject)
+                {
+                    exit = true;
+                }
+                else if (jsonReader.TokenType == JsonToken.PropertyName)
+                {
+                    propertyName = jsonReader.Value.ToString();
+                }
+                else if (string.Equals(propertyName, "LogMessageTemplage", StringComparison.OrdinalIgnoreCase) && jsonReader.TokenType == JsonToken.String)
+                {
+                    component.LogMessageTemplage = jsonReader.Value.ToString();
+                }
+                else if (string.Equals(propertyName, "Maximum", StringComparison.OrdinalIgnoreCase) && (jsonReader.TokenType == JsonToken.Float || jsonReader.TokenType == JsonToken.Integer))
+                {
+                    component.Maximum = Convert.ToDecimal(jsonReader.Value, CultureInfo.InvariantCulture);
+                }
+            }
+            return component;
+        }
+
+        private RateLoanApplication.MinAmount CreateMinAmountComponent(int points, JsonTextReader jsonReader)
+        {
+            RateLoanApplication.MinAmount component = new RateLoanApplication.MinAmount(_ratingFactory, points);
+            bool exit = false;
+            string propertyName = string.Empty;
+            while (!exit && jsonReader.Read())
+            {
+                if (jsonReader.TokenType == JsonToken.EndObject)
+                {
+                    exit = true;
+                }
+                else if (jsonReader.TokenType == JsonToken.PropertyName)
+                {
+                    propertyName = jsonReader.Value.ToString();
+                }
+                else if (string.Equals(propertyName, "LogMessageTemplage", StringComparison.OrdinalIgnoreCase) && jsonReader.TokenType == JsonToken.String)
+                {
+                    component.LogMessageTemplage = jsonReader.Value.ToString();
+                }
+                else if (string.Equals(propertyName, "Minimum", StringComparison.OrdinalIgnoreCase) && (jsonReader.TokenType == JsonToken.Float || jsonReader.TokenType == JsonToken.Integer))
+                {
+                    component.Minimum = Convert.ToDecimal(jsonReader.Value, CultureInfo.InvariantCulture);
                 }
             }
             return component;
