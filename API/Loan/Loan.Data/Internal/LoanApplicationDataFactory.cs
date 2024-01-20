@@ -43,7 +43,7 @@ namespace JestersCreditUnion.Loan.Data.Internal
                         identificationCards = (await identificationCardFactory.LoadData(reader, () => new IdentificationCardData(), DataUtil.AssignDataStateManager)).ToList();
                     }
                 });
-            if (data.BorrowerIdentificationCardId.HasValue && identificationCards != null)
+            if (data != null && data.BorrowerIdentificationCardId.HasValue && identificationCards != null)
             {
                 data.BorrowerIdentificationCard = identificationCards.FirstOrDefault(c => c.IdentificationCardId.Equals(data.BorrowerIdentificationCardId.Value));
             }
