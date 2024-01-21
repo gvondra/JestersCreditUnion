@@ -33,7 +33,7 @@ namespace JestersCreditUnion.Testing.LoanGenerator
             LoanApplication loanApplication = new LoanApplication
             {
                 BorrowerName = _nameGenerator.GenerateName(),
-                BorrowerBirthDate = _dateGenerator.GenerateDate(dayRange: 91313),                
+                BorrowerBirthDate = _dateGenerator.GenerateDate(dayRange: 54787),                
                 BorrowerPhone = string.Format("608-555-{0:0000}", _random.Next(10000)),
                 BorrowerEmployerName = _nameGenerator.GenerateName(),
                 BorrowerEmploymentHireDate = _dateGenerator.GenerateDate(dayRange: 27394),
