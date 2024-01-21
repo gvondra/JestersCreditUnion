@@ -10,6 +10,8 @@ namespace JestersCreditUnion.Loan.Core
 {
     public class ServiceBusService
     {
+        private static readonly DefaultAzureCredential _defaultAzureCredential = CreateDefaultAzureCredential();
+
         private static readonly JsonSerializerSettings _serializerSettings = new JsonSerializerSettings
         {
             Formatting = Formatting.None,
@@ -45,7 +47,23 @@ namespace JestersCreditUnion.Loan.Core
             {
                 TransportType = ServiceBusTransportType.AmqpWebSockets
             };
-            return new ServiceBusClient(settings.ServiceBusNamespace, new DefaultAzureCredential(), options);
+            return new ServiceBusClient(settings.ServiceBusNamespace, _defaultAzureCredential, options);
+        }
+
+        private static DefaultAzureCredential CreateDefaultAzureCredential() => new DefaultAzureCredential(GetDefaultAzureCredentialOptions());
+
+        public static DefaultAzureCredentialOptions GetDefaultAzureCredentialOptions()
+        {
+            return new DefaultAzureCredentialOptions()
+            {
+                ExcludeAzureCliCredential = false,
+                ExcludeAzurePowerShellCredential = false,
+                ExcludeSharedTokenCacheCredential = true,
+                ExcludeEnvironmentCredential = false,
+                ExcludeManagedIdentityCredential = false,
+                ExcludeVisualStudioCodeCredential = false,
+                ExcludeVisualStudioCredential = false
+            };
         }
     }
 }
