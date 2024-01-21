@@ -45,19 +45,21 @@
             </TextBlock>            
         </HierarchicalDataTemplate>
     </UserControl.Resources>
-    <StackPanel Orientation="Vertical">
-        <StackPanel Orientation="Horizontal">
-            <Label>
-                <TextBlock TextDecorations="Underline" FontSize="14">Work Tasks</TextBlock>
-            </Label>
-            <fa:ImageAwesome Grid.Row="1" Icon="CircleOutlineNotch" Spin="True" Height="16" Width="16" Visibility="{Binding BusyVisibility}" Foreground="Navy" HorizontalAlignment="Left" />
+    <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto">
+        <StackPanel Orientation="Vertical">
+            <StackPanel Orientation="Horizontal">
+                <Label>
+                    <TextBlock TextDecorations="Underline" FontSize="14">Work Tasks</TextBlock>
+                </Label>
+                <fa:ImageAwesome Grid.Row="1" Icon="CircleOutlineNotch" Spin="True" Height="16" Width="16" Visibility="{Binding BusyVisibility}" Foreground="Navy" HorizontalAlignment="Left" />
+            </StackPanel>
+            <TreeView ItemsSource="{Binding WorkTaskTypes}">
+                <TreeView.Resources>
+                    <Style TargetType="TreeViewItem">
+                        <Setter Property="IsExpanded" Value="{Binding IsExpanded}"/>
+                    </Style>
+                </TreeView.Resources>
+            </TreeView>
         </StackPanel>
-        <TreeView ItemsSource="{Binding WorkTaskTypes}">
-            <TreeView.Resources>
-                <Style TargetType="TreeViewItem">
-                    <Setter Property="IsExpanded" Value="{Binding IsExpanded}"/>
-                </Style>
-            </TreeView.Resources>
-        </TreeView>
-    </StackPanel>
+    </ScrollViewer>
 </UserControl>
