@@ -1,5 +1,4 @@
-﻿using Azure.Identity;
-using Azure.Storage.Blobs;
+﻿using Azure.Storage.Blobs;
 using JestersCreditUnion.Loan.Framework;
 using System;
 using System.IO;
@@ -13,7 +12,7 @@ namespace JestersCreditUnion.Loan.Core
         {
             BlobContainerClient containerClient = new BlobContainerClient(
                 new Uri(settings.IdentitificationCardContainerName),
-                new DefaultAzureCredential());
+                AzureCredential.DefaultAzureCredential);
             BlobClient blobClient = containerClient.GetBlobClient(name);
             using (Stream blobStream = await blobClient.OpenWriteAsync(true))
             {
@@ -25,7 +24,7 @@ namespace JestersCreditUnion.Loan.Core
         {
             BlobContainerClient containerClient = new BlobContainerClient(
                 new Uri(settings.IdentitificationCardContainerName),
-                new DefaultAzureCredential());
+                AzureCredential.DefaultAzureCredential);
             BlobClient blobClient = containerClient.GetBlobClient(name);
             return await blobClient.OpenReadAsync();
         }
