@@ -47,8 +47,11 @@ namespace JestersCreditUnion.Loan.Framework
         void SetDenial(LoanApplicationDenialReason reason, DateTime date, Guid userId, string text);
         IIdentificationCardSaver CreateIdentificationCardSaver();
         IIdentificationCardReader CreateIdentificationCardReader();
+        bool HasCoBorrower();
         int GetBorrowerAge();
         int? GetCoBorrowerAge();
+        int? GetBorrowerEmploymentYears();
+        int? GetCoBorrowerEmploymentYears();
         Task<IRating> GetRating(ISettings settings);
     }
 }

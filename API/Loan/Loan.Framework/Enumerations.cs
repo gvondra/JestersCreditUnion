@@ -72,7 +72,9 @@ namespace JestersCreditUnion.Loan.Framework.Enumerations
         MinAge = 1,
         MaxAge = 2,
         MinAmount = 3,
-        MaxAmount = 4
+        MaxAmount = 4,
+        MinEmploymentYears = 5,
+        MaxEmploymentYears = 6
     }
 }
 #pragma warning restore IDE0130 // Namespace does not match folder structure

@@ -316,8 +316,12 @@ namespace JestersCreditUnion.Loan.Core
         public IIdentificationCardSaver CreateIdentificationCardSaver() => new IdentificationCardSaver(this);
         public IIdentificationCardReader CreateIdentificationCardReader() => new IdentificationCardReader(this);
 
+        public bool HasCoBorrower() => !string.IsNullOrEmpty(CoBorrowerName) || CoBorrowerBirthDate.HasValue || !string.IsNullOrEmpty(CoBorrowerPhone) || !string.IsNullOrEmpty(CoBorrowerEmailAddress);
+
         public int GetBorrowerAge() => GetAge(BorrowerBirthDate, ApplicationDate);
         public int? GetCoBorrowerAge() => CoBorrowerBirthDate.HasValue ? GetAge(CoBorrowerBirthDate.Value, ApplicationDate) : null;
+        public int? GetBorrowerEmploymentYears() => BorrowerEmploymentHireDate.HasValue ? GetAge(BorrowerEmploymentHireDate.Value, ApplicationDate) : null;
+        public int? GetCoBorrowerEmploymentYears() => CoBorrowerEmploymentHireDate.HasValue ? GetAge(CoBorrowerEmploymentHireDate.Value, ApplicationDate) : null;
 
         private static int GetAge(DateTime birthDate, DateTime asOfDAte)
         {
