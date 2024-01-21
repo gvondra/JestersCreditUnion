@@ -11,6 +11,8 @@ namespace JCU.Internal.ViewModel
             _innerRating = innerRating;
         }
 
+        public Rating InnerRating => _innerRating;
+
         public double? Value => _innerRating.Value;
     }
 }

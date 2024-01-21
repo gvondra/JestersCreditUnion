@@ -13,6 +13,7 @@ namespace JCU.Internal.DependencyInjection
             builder.RegisterType<SettingsFactory>().As<ISettingsFactory>().SingleInstance();
 
             builder.RegisterType<LoanApplicationLoader>();
+            builder.RegisterType<LoanApplicationRatingLogLoader>();
             builder.RegisterType<LoanApplicationSummaryLoader>();
             builder.RegisterType<WorkTaskCycleSummaryLoader>();
         }

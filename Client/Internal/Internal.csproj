@@ -75,6 +75,7 @@
     <Compile Include="Behaviors\LoanApplicationDenialSave.cs" />
     <Compile Include="Behaviors\LoanApplicationDenialValidator.cs" />
     <Compile Include="Behaviors\LoanApplicationLoader.cs" />
+    <Compile Include="Behaviors\LoanApplicationRatingLogLoader.cs" />
     <Compile Include="Behaviors\LoanApplicationSummaryLoader.cs" />
     <Compile Include="Behaviors\LoanApplicationUnderReview.cs" />
     <Compile Include="Behaviors\LoanApplicationValidator.cs" />
@@ -164,6 +165,9 @@
     <Compile Include="NavigationPage\LoanApplicationDenial.xaml.cs">
       <DependentUpon>LoanApplicationDenial.xaml</DependentUpon>
     </Compile>
+    <Compile Include="NavigationPage\LoanApplicationRatingLog.xaml.cs">
+      <DependentUpon>LoanApplicationRatingLog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="NavigationPage\LoanApplicationSummary.xaml.cs">
       <DependentUpon>LoanApplicationSummary.xaml</DependentUpon>
     </Compile>
@@ -235,6 +239,7 @@
     <Compile Include="ViewModel\LoanAmortizationVM.cs" />
     <Compile Include="ViewModel\LoanApplicationCommentVM.cs" />
     <Compile Include="ViewModel\LoanApplicationDenialVM.cs" />
+    <Compile Include="ViewModel\LoanApplicationRatingLogVM.cs" />
     <Compile Include="ViewModel\LoanApplicationSummaryVM.cs" />
     <Compile Include="ViewModel\LoanApplicationVM.cs" />
     <Compile Include="ViewModel\LoanSearchVM.cs" />
@@ -342,6 +347,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="NavigationPage\LoanApplicationDenial.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NavigationPage\LoanApplicationRatingLog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -189,5 +189,19 @@ namespace JCU.Internal.NavigationPage
                     new RowDefinition() { Height = GridLength.Auto });
             }
         }
+
+        private void ViewLoglink_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                NavigationService navigationService = NavigationService.GetNavigationService(this);
+                LoanApplicationRatingLog loanApplicationRatingLog = new LoanApplicationRatingLog(this.LoanApplicationVM);
+                navigationService.Navigate(loanApplicationRatingLog);
+            }
+            catch (System.Exception ex)
+            {
+                ErrorWindow.Open(ex, Window.GetWindow(this));
+            }
+        }
     }
 }

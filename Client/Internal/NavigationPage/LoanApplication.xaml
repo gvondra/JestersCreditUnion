@@ -48,7 +48,14 @@
                 <Label Grid.Column="0" Grid.Row="3">Purpose</Label>
                 <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding Purpose, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" MaxLength="128" Style="{StaticResource TextBoxWithError}" />
                 <Label Grid.Column="0" Grid.Row="4">Rating</Label>
-                <TextBox Grid.Column="1" Grid.Row="4" Text="{Binding Rating.Value, Mode=OneWay, StringFormat='0.000'}" IsReadOnly="True" />
+                <Border Grid.Column="1" Grid.Row="4" BorderBrush="Gray" BorderThickness="1">
+                    <WrapPanel Orientation="Horizontal">
+                        <TextBox Text="{Binding Rating.Value, Mode=OneWay, StringFormat='0.000'}" IsReadOnly="True" BorderBrush="{x:Null}" BorderThickness="0" />
+                        <TextBlock>
+                            <Hyperlink Click="ViewLoglink_Click">View Log</Hyperlink>
+                        </TextBlock>
+                    </WrapPanel>
+                </Border>
                 <Label Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="99" Style="{StaticResource SubHeader}">Primary Borrower</Label>
                 <Label Grid.Column="0" Grid.Row="6">Borrower Name</Label>
                 <TextBox Grid.Column="1" Grid.Row="6" Text="{Binding BorrowerName, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" MaxLength="1024" Style="{StaticResource TextBoxWithError}" />
