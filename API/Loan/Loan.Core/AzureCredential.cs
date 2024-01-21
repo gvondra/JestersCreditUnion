@@ -2,7 +2,7 @@
 
 namespace JestersCreditUnion.Loan.Core
 {
-    public sealed class AzureCredential
+    public static class AzureCredential
     {
         public static DefaultAzureCredential DefaultAzureCredential { get; } = CreateDefaultAzureCredential();
 
