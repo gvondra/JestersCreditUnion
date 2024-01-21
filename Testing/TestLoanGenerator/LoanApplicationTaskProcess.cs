@@ -51,10 +51,18 @@ namespace JestersCreditUnion.Testing.LoanGenerator
         private async Task CloseWorkTasks(LoanApplication loanApplication)
         {
             ApiSettings settings = await _settingsFactory.GetApiSettings();
-            List<WorkTask> workTasks = await _workTaskService.GetByContext(
-                settings,
-                1,
-                loanApplication.LoanApplicationId.Value.ToString("D"));
+            List<WorkTask> workTasks = new List<WorkTask>();
+            // the loan application work tasks are created async and there could be delay before they're created
+            // here we're going to wait and retry until we find at least one.
+            int attempts = 0;
+            while (attempts < 100 && workTasks.Count == 0)
+            {
+                await Task.Delay(TimeSpan.FromSeconds(10));
+                workTasks = await _workTaskService.GetByContext(
+                    settings,
+                    1,
+                    loanApplication.LoanApplicationId.Value.ToString("D"));
+            }
             List<Dictionary<string, object>> patchData = new List<Dictionary<string, object>>();
             foreach (WorkTask task in workTasks)
             {
