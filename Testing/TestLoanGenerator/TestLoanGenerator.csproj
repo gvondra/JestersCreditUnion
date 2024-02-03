@@ -39,8 +39,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="Autofac" Version="7.1.*" />
-	  <PackageReference Include="CsvHelper" Version="30.0.*" />
+	  <PackageReference Include="Autofac" Version="8.0.*" />
+	  <PackageReference Include="CsvHelper" Version="30.1.*" />
 	  <PackageReference Include="JestersCreditUnion.Interface" Version="1.0.0-alpha.*" />
 	  <PackageReference Include="JestersCreditUnion.Interface.Loan" Version="1.0.0-alpha.*" />
 	  <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.*" />
