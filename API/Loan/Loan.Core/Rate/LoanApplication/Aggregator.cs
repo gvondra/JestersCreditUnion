@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace JestersCreditUnion.Loan.Core.Rate.LoanApplication
 {
-    internal class Aggregator : IComponent
+    internal sealed class Aggregator : IComponent
     {
         private readonly List<IComponent> _components = new List<IComponent>();
 

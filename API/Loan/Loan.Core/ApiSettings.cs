@@ -4,7 +4,7 @@ using AuthorizatinAPI = BrassLoon.Interface.Authorization;
 
 namespace JestersCreditUnion.Loan.Core
 {
-    internal class ApiSettings : ISettings
+    internal sealed class ApiSettings : ISettings
     {
         private readonly Framework.ISettings _settings;
         private readonly AuthorizatinAPI.ITokenService _tokenService;

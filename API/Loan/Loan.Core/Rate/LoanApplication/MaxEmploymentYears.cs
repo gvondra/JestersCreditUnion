@@ -6,7 +6,7 @@ using System.Globalization;
 
 namespace JestersCreditUnion.Loan.Core.Rate.LoanApplication
 {
-    internal class MaxEmploymentYears : IComponent
+    internal sealed class MaxEmploymentYears : IComponent
     {
         private readonly IRatingFactory _ratingFactory;
 

@@ -83,6 +83,9 @@ dotnet_diagnostic.IDE0063.severity = suggestion
 dotnet_diagnostic.CA1051.severity = suggestion
 csharp_style_prefer_primary_constructors = false:suggestion
 
+# ASP0014: Suggest using top level route registrations
+dotnet_diagnostic.ASP0014.severity = none
+
 [*.{cs,vb}]
 
 dotnet_analyzer_diagnostic.severity = warning

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace JestersCreditUnion.Loan.Core
 {
-    internal class IdentificationCardReader : IIdentificationCardReader
+    internal sealed class IdentificationCardReader : IIdentificationCardReader
     {
         private readonly LoanApplication _loanApplication;
 

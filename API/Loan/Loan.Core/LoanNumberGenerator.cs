@@ -8,6 +8,7 @@ namespace JestersCreditUnion.Loan.Core
     {
         private static readonly SortedSet<string> _generated = new SortedSet<string>();
 
+#pragma warning disable CA1822 // Mark members as static
         public string Generate()
         {
             string number = string.Empty;
@@ -27,5 +28,6 @@ namespace JestersCreditUnion.Loan.Core
             }
             return number;
         }
+#pragma warning restore CA1822 // Mark members as static
     }
 }

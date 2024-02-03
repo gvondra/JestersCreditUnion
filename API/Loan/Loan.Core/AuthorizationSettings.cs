@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace JestersCreditUnion.Loan.Core
 {
-    internal class AuthorizationSettings : ISettings
+    internal sealed class AuthorizationSettings : ISettings
     {
         private readonly Framework.ISettings _settings;
 
