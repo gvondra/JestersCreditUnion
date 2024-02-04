@@ -15,6 +15,7 @@ namespace JCU.Internal.DependencyInjection
             builder.RegisterType<LoanApplicationLoader>();
             builder.RegisterType<LoanApplicationRatingLogLoader>();
             builder.RegisterType<LoanApplicationSummaryLoader>();
+            builder.RegisterType<OpenLoanSummaryLoader>();
             builder.RegisterType<WorkTaskCycleSummaryLoader>();
         }
     }

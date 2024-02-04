@@ -108,6 +108,13 @@ namespace JCU.Internal.NavigationPage
                 listItem = new ListItem(paragraph);
                 summaries.ListItems.Add(listItem);
 
+                hyperlink = new Hyperlink(new Run("Open Loan Summary"));
+                hyperlink.Click += OpenLoanSummaryHyperlink_Click;
+                paragraph = new Paragraph();
+                paragraph.Inlines.Add(hyperlink);
+                listItem = new ListItem(paragraph);
+                summaries.ListItems.Add(listItem);
+
                 hyperlink = new Hyperlink(new Run("Work Task Cycle Summary"));
                 hyperlink.Click += WorkTaskCycleSummaryHyperlink_Click;
                 paragraph = new Paragraph();
@@ -151,6 +158,19 @@ namespace JCU.Internal.NavigationPage
             {
                 NavigationService navigationService = NavigationService.GetNavigationService(this);
                 navigationService.Navigate(new Uri("NavigationPage/WorkTaskCycleSummary.xaml", UriKind.Relative));
+            }
+            catch (System.Exception ex)
+            {
+                ErrorWindow.Open(ex, Window.GetWindow(this));
+            }
+        }
+
+        private void OpenLoanSummaryHyperlink_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                NavigationService navigationService = NavigationService.GetNavigationService(this);
+                navigationService.Navigate(new Uri("NavigationPage/OpenLoanSummary.xaml", UriKind.Relative));
             }
             catch (System.Exception ex)
             {

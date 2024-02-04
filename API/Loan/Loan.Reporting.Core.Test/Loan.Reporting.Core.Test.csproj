@@ -10,11 +10,8 @@
 		<PackageLicenseExpression>GPL-3.0-only</PackageLicenseExpression>
 
 		<IsPackable>false</IsPackable>
+		<IsTestProject>true</IsTestProject>
 	</PropertyGroup>
-
-	<ItemGroup>
-		<Using Include="System" />
-	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.*" />
@@ -28,8 +25,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Loan.Core\Loan.Core.csproj" />
-		<ProjectReference Include="..\Loan.Framework\Loan.Framework.csproj" />
+	  <ProjectReference Include="..\Loan.Framework\Loan.Framework.csproj" />
+	  <ProjectReference Include="..\Loan.Reporting.Core\Loan.Reporting.Core.csproj" />
 	</ItemGroup>
 
 </Project>

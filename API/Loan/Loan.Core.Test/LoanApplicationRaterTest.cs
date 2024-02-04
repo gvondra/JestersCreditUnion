@@ -25,8 +25,8 @@ namespace Loan.Core.Test
 
             IRating rating = rater.Rate(loanApplication.Object);
             Assert.IsNotNull(rating);
-            Assert.AreEqual(0.668, rating.Value);
-            Assert.AreEqual(6, rating.RatingLogs.Count);
+            Assert.AreEqual(0.7, rating.Value);
+            Assert.AreEqual(10, rating.RatingLogs.Count);
         }
 
         [TestMethod]
@@ -44,8 +44,8 @@ namespace Loan.Core.Test
 
             IRating rating = rater.Rate(loanApplication.Object);
             Assert.IsNotNull(rating);
-            Assert.AreEqual(0.668, rating.Value);
-            Assert.AreEqual(6, rating.RatingLogs.Count);
+            Assert.AreEqual(0.7, rating.Value);
+            Assert.AreEqual(10, rating.RatingLogs.Count);
         }
 
         private static Mock<IRatingFactory> CreateRatingFactory()
