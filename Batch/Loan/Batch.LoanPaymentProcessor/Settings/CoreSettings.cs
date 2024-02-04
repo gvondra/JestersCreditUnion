@@ -39,6 +39,20 @@ namespace JestersCreditUnion.Batch.LoanPaymentProcessor
 
         public Guid? AddressDomainId => _settings.AddressDomainId;
 
+        public string ServiceBusNamespace => throw new NotImplementedException();
+
+        public string ServiceBusNewLoanAppQueue => throw new NotImplementedException();
+
+        public string BrassLoonAuthorizationApiBaseAddress => throw new NotImplementedException();
+
+        public Guid? ClientId => throw new NotImplementedException();
+
+        public string ClientSecret => throw new NotImplementedException();
+
+        public Guid? AuthorizationDomainId => throw new NotImplementedException();
+
+        public string ApiBaseAddress => throw new NotImplementedException();
+
         public Task<string> GetConnetionString() => Task.FromResult(_settings.ConnectionString);
 
         public Func<Task<string>> GetDatabaseAccessToken() => null;

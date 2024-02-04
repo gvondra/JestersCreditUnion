@@ -42,10 +42,10 @@ namespace API.Controllers
                 if (result == null)
                 {
                     AuthorizationAPI.ISettings settings = GetAuthorizationSettings();
-                    IMapper mapper = new Mapper(MapperConfiguration.Get());
+                    IMapper mapper = MapperConfiguration.CreateMapper();
                     result = Ok(
                         (await _roleService.GetByDomainId(settings, _settings.Value.AuthorizationDomainId.Value))
-                        .Select<AuthorizationAPI.Models.Role, Role>(r => mapper.Map<Role>(r))
+                        .Select<AuthorizationAPI.Models.Role, Role>(mapper.Map<Role>)
                         );
                 }
             }
@@ -95,7 +95,7 @@ namespace API.Controllers
                 if (result == null)
                 {
                     AuthorizationAPI.ISettings settings = GetAuthorizationSettings();
-                    IMapper mapper = new Mapper(MapperConfiguration.Get());
+                    IMapper mapper = MapperConfiguration.CreateMapper();
                     AuthorizationAPI.Models.Role innerRole = mapper.Map<AuthorizationAPI.Models.Role>(role);
                     innerRole = await _roleService.Create(settings, _settings.Value.AuthorizationDomainId.Value, innerRole);
                     result = Ok(
@@ -131,7 +131,7 @@ namespace API.Controllers
                 if (result == null)
                 {
                     AuthorizationAPI.ISettings settings = GetAuthorizationSettings();
-                    IMapper mapper = new Mapper(MapperConfiguration.Get());
+                    IMapper mapper = MapperConfiguration.CreateMapper();
                     AuthorizationAPI.Models.Role innerRole = mapper.Map<AuthorizationAPI.Models.Role>(role);
                     innerRole = await _roleService.Update(settings, _settings.Value.AuthorizationDomainId.Value, id.Value, innerRole);
                     result = Ok(

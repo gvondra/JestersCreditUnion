@@ -5,8 +5,6 @@ namespace API
 {
     public class Settings
     {
-        public string ConnectionString { get; set; }
-        public bool EnableDatabaseAccessToken { get; set; }
         public string BrassLoonAccountApiBaseAddress { get; set; }
         public string BrassLoonConfigApiBaseAddress { get; set; }
         public string BrassLoonLogApiBaseAddress { get; set; }
@@ -18,7 +16,7 @@ namespace API
         public Guid? ConfigDomainId { get; set; }
         public Guid? LogDomainId { get; set; }
         public Guid? WorkTaskDomainId { get; set; }
-        public string AuthorizationApiBaseAddress { get; set; }
+        public string BrassLoonAuthorizationApiBaseAddress { get; set; }
         public string WorkTaskConfigurationCode { get; set; }
         public string IdentitificationCardContainerName { get; set; }
         public string EncryptionKeyVault { get; set; }

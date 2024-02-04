@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AuthorizationAPI = BrassLoon.Interface.Authorization;
+using ConfigAPI = BrassLoon.Interface.Config;
 using WorkTaskAPI = BrassLoon.Interface.WorkTask;
 
 namespace API.Controllers
@@ -20,14 +21,18 @@ namespace API.Controllers
     public class WorkTaskTypeController : APIControllerBase
     {
         private readonly WorkTaskAPI.IWorkTaskTypeService _workTaskTypeService;
+        private readonly ConfigAPI.IItemService _itemService;
+
         public WorkTaskTypeController(IOptions<Settings> settings,
             ISettingsFactory settingsFactory,
             AuthorizationAPI.IUserService userService,
             ILogger<WorkTaskTypeController> logger,
-            WorkTaskAPI.IWorkTaskTypeService workTaskTypeService)
+            WorkTaskAPI.IWorkTaskTypeService workTaskTypeService,
+            ConfigAPI.IItemService itemService)
             : base(settings, settingsFactory, userService, logger)
         {
             _workTaskTypeService = workTaskTypeService;
+            _itemService = itemService;
         }
 
         [HttpGet()]
@@ -61,7 +66,7 @@ namespace API.Controllers
                     {
                         result = Ok(
                             (await _workTaskTypeService.GetAll(settings, _settings.Value.WorkTaskDomainId.Value))
-                            .Select(t => mapper.Map<WorkTaskType>(t))
+                            .Select(mapper.Map<WorkTaskType>)
                             );
                     }
                 }
@@ -143,7 +148,7 @@ namespace API.Controllers
                     IMapper mapper = MapperConfiguration.CreateMapper();
                     result = Ok(
                         (await _workTaskTypeService.GetByWorkGroupId(settings, _settings.Value.WorkTaskDomainId.Value, workGroupId.Value))
-                        .Select(t => mapper.Map<WorkTaskType>(t))
+                        .Select(mapper.Map<WorkTaskType>)
                         );
                 }
             }
@@ -255,6 +260,46 @@ namespace API.Controllers
             finally
             {
                 await WriteMetrics("update-worktask-type", start, result);
+            }
+            return result;
+        }
+
+        [HttpGet("/api/WorkTaskTypeCode")]
+        [Authorize(Constants.POLICY_WORKTASK_TYPE_READ)]
+        [ProducesResponseType(typeof(string), 200)]
+        public async Task<IActionResult> CodeLookup([FromQuery] string name)
+        {
+            DateTime start = DateTime.UtcNow;
+            IActionResult result = null;
+            try
+            {
+                if (string.IsNullOrEmpty(name))
+                {
+                    result = BadRequest("Missing name parameter value");
+                }
+                else
+                {
+                    ConfigurationSettings settings = GetConfigurationSettings();
+                    dynamic configData = await _itemService.GetDataByCode(settings, _settings.Value.ConfigDomainId.Value, _settings.Value.WorkTaskConfigurationCode);
+                    if (configData != null)
+                        result = Ok(configData[name] ?? string.Empty);
+                    else
+                        result = Ok(null);
+                }
+            }
+            catch (BrassLoon.RestClient.Exceptions.RequestError ex)
+            {
+                WriteException(ex);
+                result = StatusCode((int)ex.StatusCode);
+            }
+            catch (System.Exception ex)
+            {
+                WriteException(ex);
+                result = StatusCode(StatusCodes.Status500InternalServerError);
+            }
+            finally
+            {
+                await WriteMetrics("lookup-worktask-type-code", start, result);
             }
             return result;
         }

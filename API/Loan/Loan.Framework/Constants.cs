@@ -1,5 +1,4 @@
 ﻿using JestersCreditUnion.Loan.Framework.Enumerations;
-using System;
 using System.Collections.Generic;
 
 #pragma warning disable IDE0130 // Namespace does not match folder structure
@@ -20,6 +19,12 @@ namespace JestersCreditUnion.Loan.Framework.Constants
             ("loan-app-denial-reason", typeof(LoanApplicationDenialReason)),
             ("loan-status", typeof(LoanStatus))
         };
+    }
+
+    public static class RatingLogStatus
+    {
+        public const string Pass = "Pass";
+        public const string Fail = "Fail";
     }
 }
 #pragma warning restore IDE0130 // Namespace does not match folder structure

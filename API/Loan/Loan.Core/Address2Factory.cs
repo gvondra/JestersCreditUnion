@@ -26,13 +26,13 @@ namespace JestersCreditUnion.Loan.Core
             if (!string.IsNullOrEmpty(state))
             {
                 state = state.Trim().ToUpper(CultureInfo.InvariantCulture);
-                if (!Regex.IsMatch(state, @"^[A-Z]{2}$"))
+                if (!Regex.IsMatch(state, @"^[A-Z]{2}$", RegexOptions.None, TimeSpan.FromMilliseconds(200)))
                     throw new ApplicationException($"Invalid state value \"{state}\"");
             }
             if (!string.IsNullOrEmpty(postalCode))
             {
-                postalCode = Regex.Replace(postalCode.Trim(), @"^[^0-9]+$", string.Empty, RegexOptions.IgnoreCase);
-                if (!Regex.IsMatch(postalCode, @"^[0-9]{5}([0-9]{4})?$", RegexOptions.IgnoreCase))
+                postalCode = Regex.Replace(postalCode.Trim(), @"^[^0-9]+$", string.Empty, RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(200));
+                if (!Regex.IsMatch(postalCode, @"^[0-9]{5}([0-9]{4})?$", RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(200)))
                     throw new ApplicationException($"Invalid postal code \"{postalCode}\"");
             }
             return Create(new Models.Address

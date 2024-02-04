@@ -1,8 +1,9 @@
-﻿using AutoMapper;
+﻿using Autofac.Features.Indexed;
+using AutoMapper;
 using JestersCreditUnion.CommonAPI;
+using JestersCreditUnion.Interface.Loan.Models;
 using JestersCreditUnion.Loan.Framework;
 using JestersCreditUnion.Loan.Framework.Enumerations;
-using JestersCreditUnion.Interface.Loan.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +14,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AuthorizationAPI = BrassLoon.Interface.Authorization;
-using Autofac.Features.Indexed;
 
 namespace LoanAPI.Controllers
 {

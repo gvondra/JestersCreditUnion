@@ -20,7 +20,7 @@ namespace JestersCreditUnion.Loan.Core
         private readonly AddressInterface.IPhoneService _phoneService;
         private readonly AddressInterface.IEmailAddressService _emailService;
         private readonly SettingsFactory _settingsFactory;
-        private ILoanAgreement _agreement;
+        private LoanAgreement _agreement;
 
         public Loan(
             LoanData data,

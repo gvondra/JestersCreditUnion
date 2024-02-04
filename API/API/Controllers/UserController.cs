@@ -60,9 +60,9 @@ namespace API.Controllers
                 }
                 if (result == null && innerUsers != null)
                 {
-                    IMapper mapper = new Mapper(MapperConfiguration.Get());
+                    IMapper mapper = MapperConfiguration.CreateMapper();
                     result = Ok(
-                        innerUsers.Select<AuthorizationAPI.Models.User, User>(u => mapper.Map<User>(u))
+                        innerUsers.Select<AuthorizationAPI.Models.User, User>(mapper.Map<User>)
                         );
                 }
                 if (result == null)
@@ -107,7 +107,7 @@ namespace API.Controllers
                     }
                     else
                     {
-                        IMapper mapper = new Mapper(MapperConfiguration.Get());
+                        IMapper mapper = MapperConfiguration.CreateMapper();
                         result = Ok(
                         mapper.Map<User>(innerUser)
                         );
@@ -186,7 +186,7 @@ namespace API.Controllers
                 if (result == null)
                 {
                     AuthorizationAPI.ISettings settings = GetAuthorizationSettings();
-                    IMapper mapper = new Mapper(MapperConfiguration.Get());
+                    IMapper mapper = MapperConfiguration.CreateMapper();
                     AuthorizationAPI.Models.User innerUser = mapper.Map<AuthorizationAPI.Models.User>(user);
                     innerUser = await _userService.Update(settings, _settings.Value.AuthorizationDomainId.Value, id.Value, innerUser);
                     result = Ok(

@@ -74,6 +74,8 @@
     <Compile Include="Behaviors\LoanApplicationDenialLoader.cs" />
     <Compile Include="Behaviors\LoanApplicationDenialSave.cs" />
     <Compile Include="Behaviors\LoanApplicationDenialValidator.cs" />
+    <Compile Include="Behaviors\LoanApplicationLoader.cs" />
+    <Compile Include="Behaviors\LoanApplicationRatingLogLoader.cs" />
     <Compile Include="Behaviors\LoanApplicationSummaryLoader.cs" />
     <Compile Include="Behaviors\LoanApplicationUnderReview.cs" />
     <Compile Include="Behaviors\LoanApplicationValidator.cs" />
@@ -86,6 +88,7 @@
     <Compile Include="Behaviors\LookupsLoader.cs" />
     <Compile Include="Behaviors\LookupValueAdd.cs" />
     <Compile Include="Behaviors\MetricLogLoader.cs" />
+    <Compile Include="Behaviors\OpenLoanSummaryLoader.cs" />
     <Compile Include="Behaviors\ReceiveLoanPaymentSave.cs" />
     <Compile Include="Behaviors\ReceiveLoanPaymentValidator.cs" />
     <Compile Include="Behaviors\RoleSaver.cs" />
@@ -99,6 +102,7 @@
     <Compile Include="Behaviors\WorkGroupSaver.cs" />
     <Compile Include="Behaviors\WorkGroupsLoader.cs" />
     <Compile Include="Behaviors\WorkGroupValidator.cs" />
+    <Compile Include="Behaviors\WorkTaskCycleSummaryLoader.cs" />
     <Compile Include="Behaviors\WorkTaskRelease.cs" />
     <Compile Include="Behaviors\WorkTaskClaim.cs" />
     <Compile Include="Behaviors\WorkTaskConfigurationLoader.cs" />
@@ -162,6 +166,9 @@
     <Compile Include="NavigationPage\LoanApplicationDenial.xaml.cs">
       <DependentUpon>LoanApplicationDenial.xaml</DependentUpon>
     </Compile>
+    <Compile Include="NavigationPage\LoanApplicationRatingLog.xaml.cs">
+      <DependentUpon>LoanApplicationRatingLog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="NavigationPage\LoanApplicationSummary.xaml.cs">
       <DependentUpon>LoanApplicationSummary.xaml</DependentUpon>
     </Compile>
@@ -183,6 +190,9 @@
     <Compile Include="NavigationPage\Lookups.xaml.cs">
       <DependentUpon>Lookups.xaml</DependentUpon>
     </Compile>
+    <Compile Include="NavigationPage\OpenLoanSummary.xaml.cs">
+      <DependentUpon>OpenLoanSummary.xaml</DependentUpon>
+    </Compile>
     <Compile Include="NavigationPage\ReceiveLoanPayment.xaml.cs">
       <DependentUpon>ReceiveLoanPayment.xaml</DependentUpon>
     </Compile>
@@ -200,6 +210,9 @@
     </Compile>
     <Compile Include="NavigationPage\WorkTaskConfiguration.xaml.cs">
       <DependentUpon>WorkTaskConfiguration.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NavigationPage\WorkTaskCycleSummary.xaml.cs">
+      <DependentUpon>WorkTaskCycleSummary.xaml</DependentUpon>
     </Compile>
     <Compile Include="NavigationPage\WorkTaskFrame.xaml.cs">
       <DependentUpon>WorkTaskFrame.xaml</DependentUpon>
@@ -230,6 +243,7 @@
     <Compile Include="ViewModel\LoanAmortizationVM.cs" />
     <Compile Include="ViewModel\LoanApplicationCommentVM.cs" />
     <Compile Include="ViewModel\LoanApplicationDenialVM.cs" />
+    <Compile Include="ViewModel\LoanApplicationRatingLogVM.cs" />
     <Compile Include="ViewModel\LoanApplicationSummaryVM.cs" />
     <Compile Include="ViewModel\LoanApplicationVM.cs" />
     <Compile Include="ViewModel\LoanSearchVM.cs" />
@@ -239,6 +253,9 @@
     <Compile Include="ViewModel\MainWindowVM.cs" />
     <Compile Include="ViewModel\MetricLogItemVM.cs" />
     <Compile Include="ViewModel\MetricLogVM.cs" />
+    <Compile Include="ViewModel\OpenLoanSummaryItemVM.cs" />
+    <Compile Include="ViewModel\OpenLoanSummaryVM.cs" />
+    <Compile Include="ViewModel\RatingVM.cs" />
     <Compile Include="ViewModel\ReceiveLoanPaymentVM.cs" />
     <Compile Include="ViewModel\RolesVM.cs" />
     <Compile Include="ViewModel\RoleVM.cs" />
@@ -249,6 +266,8 @@
     <Compile Include="ViewModel\WorkGroupTaskTypeVM.cs" />
     <Compile Include="ViewModel\WorkGroupVM.cs" />
     <Compile Include="ViewModel\WorkTaskConfigurationVM.cs" />
+    <Compile Include="ViewModel\WorkTaskCycleSummaryItemVM.cs" />
+    <Compile Include="ViewModel\WorkTaskCycleSummaryVM.cs" />
     <Compile Include="ViewModel\WorkTasksHomeVM.cs" />
     <Compile Include="ViewModel\WorkTasksHome\WorkTaskStatusVM.cs" />
     <Compile Include="ViewModel\WorkTasksHome\WorkTaskTypeVM.cs" />
@@ -337,6 +356,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="NavigationPage\LoanApplicationRatingLog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="NavigationPage\LoanApplicationSummary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -365,6 +388,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="NavigationPage\OpenLoanSummary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="NavigationPage\ReceiveLoanPayment.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -386,6 +413,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="NavigationPage\WorkTaskConfiguration.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NavigationPage\WorkTaskCycleSummary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -443,10 +474,10 @@
       <Version>4.7.0.9</Version>
     </PackageReference>
     <PackageReference Include="JestersCreditUnion.Interface">
-      <Version>1.0.0-alpha.78</Version>
+      <Version>1.0.0-alpha.82</Version>
     </PackageReference>
     <PackageReference Include="JestersCreditUnion.Interface.Loan">
-      <Version>1.0.0-alpha.9</Version>
+      <Version>1.0.0-alpha.16</Version>
     </PackageReference>
     <PackageReference Include="LiveCharts.Wpf">
       <Version>0.9.7</Version>
@@ -467,7 +498,7 @@
       <Version>13.0.3</Version>
     </PackageReference>
     <PackageReference Include="Polly">
-      <Version>7.2.4</Version>
+      <Version>8.2.1</Version>
     </PackageReference>
     <PackageReference Include="System.ComponentModel.Annotations">
       <Version>5.0.0</Version>
@@ -476,7 +507,7 @@
       <Version>6.0.1</Version>
     </PackageReference>
     <PackageReference Include="System.IdentityModel.Tokens.Jwt">
-      <Version>6.33.0</Version>
+      <Version>6.35.0</Version>
     </PackageReference>
     <PackageReference Include="System.Memory">
       <Version>4.5.5</Version>

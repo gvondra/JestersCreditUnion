@@ -6,7 +6,6 @@ namespace JestersCreditUnion.Interface.Models
     public class WorkTask
     {
         public Guid? WorkTaskId { get; set; }
-        public Guid? DomainId { get; set; }
         public string Title { get; set; }
         public string Text { get; set; }
         public string AssignedToUserId { get; set; }

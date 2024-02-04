@@ -66,7 +66,7 @@ namespace JestersCreditUnion.Loan.Core
             public DateTime Date { get; set; }
         }
 
-        private class PaymentGroupKeyComperer : IEqualityComparer<PaymentGroupKey>
+        private sealed class PaymentGroupKeyComperer : IEqualityComparer<PaymentGroupKey>
         {
             public bool Equals(PaymentGroupKey x, PaymentGroupKey y)
             {

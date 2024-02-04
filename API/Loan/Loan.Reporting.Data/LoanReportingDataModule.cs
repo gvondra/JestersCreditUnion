@@ -11,6 +11,8 @@ namespace JestersCreditUnion.Loan.Reporting.Data
             builder.RegisterType<SqlClientProviderFactory>()
                 .As<IDbProviderFactory>();
             builder.RegisterType<LoanApplicationDataFactory>().As<ILoanApplicationDataFactory>();
+            builder.RegisterType<OpenLoanSummaryDataFactory>().As<IOpenLoanSummaryDataFactory>();
+            builder.RegisterType<WorkTaskCycleSummaryDataFactory>().As<IWorkTaskCycleSummaryDataFactory>();
         }
     }
 }

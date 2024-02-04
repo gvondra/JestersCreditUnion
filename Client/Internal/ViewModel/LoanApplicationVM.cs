@@ -20,10 +20,24 @@ namespace JCU.Internal.ViewModel
         private CreateLoanApplicationComment _createComment;
         private LoanApplicationUnderReview _underReview;
         private BitmapSource _borrowerIdentificationImage;
+        private RatingVM _rating;
 
         private LoanApplicationVM(LoanApplication loanApplication)
         {
             _loanApplication = loanApplication;
+        }
+
+        public RatingVM Rating
+        {
+            get => _rating;
+            set
+            {
+                if (_rating != value)
+                {
+                    _rating = value;
+                    NotifyPropertyChanged();
+                }
+            }
         }
 
         public Visibility BusyLoadingBorrowerCardVisibility

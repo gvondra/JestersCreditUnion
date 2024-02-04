@@ -1,0 +1,43 @@
+services:
+  member-web-app:
+    build: .\Client\Member
+    ports:
+    - "4200:80"
+  jcu-api:
+    image: jesterapi:latest
+    ports:
+    - "5005:8080"
+    environment:
+    - BrassLoonLogClientId=${BrassLoonClientId}
+    - BrassLoonLogClientSecret=${BrassLoonClientSecret}
+    - IdentitificationCardContainerName=${IdentitificationCardContainerName}
+    - EncryptionKeyVault=${EncryptionKeyVault}
+    - CorsOrigins__0=${CorsOrigins__0}
+    - JwkAddress=${JwkAddress}
+    - GoogleIdAudiences__0=${GoogleIdAudiences__0}
+    - GoogleIdAudiences__1=${GoogleIdAudiences__1}
+    - BrassLoonConfigApiBaseAddress=${BrassLoonConfigApiBaseAddress}
+    - BrassLoonLogApiBaseAddress=${BrassLoonLogApiBaseAddress}
+    - BrassLoonLogRpcBaseAddress=${BrassLoonLogRpcBaseAddress}
+    - BrassLoonAccountApiBaseAddress=${BrassLoonAccountApiBaseAddress}
+    - BrassLoonWorkTaskApiBaseAddress=${BrassLoonWorkTaskApiBaseAddress}
+    - BrassLoonAuthorizationApiBaseAddress=${BrassLoonAuthorizationApiBaseAddress}
+    - AuthorizationDomainId=${AuthorizationDomainId}
+    - ConfigDomainId=${ConfigDomainId}
+    - LogDomainId=${LogDomainId}
+    - WorkTaskDomainId=${WorkTaskDomainId}
+  btch-loan-service-bus-processor:
+    image: jesterbatchloanservicebusprocessor:latest
+    environment:
+    - BrassLoonClientId=${BrassLoonClientId}
+    - BrassLoonClientSecret=${BrassLoonClientSecret}
+    - ClientId=${ClientId}
+    - ClientSecret=${ClientSecret}
+    - ServiceBusNamespace=${ServiceBusNamespace}
+    - ServiceBusNewLoanAppQueue=${ServiceBusNewLoanAppQueue}
+    - RunHours=6
+    - AZURE_TENANT_ID=058633a6-92d2-4cdd-86cd-04cfc6afac43
+    - AZURE_CLIENT_ID=cdac7a76-be29-42d7-997a-e58e6fe17ca9
+    - AZURE_CLIENT_SECRET=JVA8Q~n.sFPneBXYtbloUE584CqW2rTnWfDwUaRg
+    - LoanApiBaseAddress=http://host.docker.internal:5006/api
+    - ApiBaseAddress=http://jcu-api:8080/api

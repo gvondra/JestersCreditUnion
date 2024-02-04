@@ -4,19 +4,12 @@ using JCU.Internal.Constants;
 using JCU.Internal.ViewModel;
 using JestersCreditUnion.Interface.Loan;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 using Models = JestersCreditUnion.Interface.Loan.Models;
 
 namespace JCU.Internal.NavigationPage
@@ -75,9 +68,17 @@ namespace JCU.Internal.NavigationPage
                 this.DataContext = this.LoanApplicationVM;
                 this.LoanApplicationVM.BusyVisibility = Visibility.Collapsed;
                 this.LoanApplicationVM.CommandsVisibility = Visibility.Visible;
+
                 IdentificationCardLoader identificationCardLoader = new IdentificationCardLoader(this.LoanApplicationVM);
                 this.LoanApplicationVM.AddBehavior(identificationCardLoader);
                 identificationCardLoader.LoadBorrowerIdentificationCard();
+
+                using (ILifetimeScope scope = DependencyInjection.ContainerFactory.Container.BeginLifetimeScope())
+                {
+                    LoanApplicationLoader loanApplicationLoader = scope.Resolve<Func<LoanApplicationVM, LoanApplicationLoader>>()(this.LoanApplicationVM);
+                    this.LoanApplicationVM.AddBehavior(loanApplicationLoader);
+                    loanApplicationLoader.LoadRating();
+                }
             }
             catch (System.Exception ex)
             {
@@ -182,10 +183,24 @@ namespace JCU.Internal.NavigationPage
         private void InitializeDetailGrid()
         {
             DetailGrid.RowDefinitions.Clear();
-            foreach (int i in Enumerable.Range(0, 38))
+            foreach (int i in Enumerable.Range(0, 39))
             {
                 DetailGrid.RowDefinitions.Add(
                     new RowDefinition() { Height = GridLength.Auto });
+            }
+        }
+
+        private void ViewLoglink_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                NavigationService navigationService = NavigationService.GetNavigationService(this);
+                LoanApplicationRatingLog loanApplicationRatingLog = new LoanApplicationRatingLog(this.LoanApplicationVM);
+                navigationService.Navigate(loanApplicationRatingLog);
+            }
+            catch (System.Exception ex)
+            {
+                ErrorWindow.Open(ex, Window.GetWindow(this));
             }
         }
     }

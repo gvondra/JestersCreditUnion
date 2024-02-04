@@ -14,12 +14,12 @@ namespace API
         }
 
         public AuthorizationSettings CreateAuthorization(Settings settings, string token)
-            => new AuthorizationSettings(settings.AuthorizationApiBaseAddress, token);
+            => new AuthorizationSettings(settings.BrassLoonAuthorizationApiBaseAddress, token);
 
         public AuthorizationSettings CreateAuthorization(Settings settings)
         {
             return new AuthorizationSettings(_tokenService,
-                settings.AuthorizationApiBaseAddress,
+                settings.BrassLoonAuthorizationApiBaseAddress,
                 settings.BrassLoonAccountApiBaseAddress,
                 settings.BrassLoonLogClientId,
                 settings.BrassLoonLogClientSecret);

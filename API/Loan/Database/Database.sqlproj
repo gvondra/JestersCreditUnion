@@ -159,6 +159,16 @@
     <Build Include="lnwrk\Stored Procedure\lnwrk.MergeLoanApplicationFact.sql" />
     <Build Include="lnrpt\Stored Procedure\lnrpt.GetLoanApplicationCount.sql" />
     <Build Include="lnrpt\Stored Procedure\lnrpt.GetLoanApplicationClose.sql" />
+    <Build Include="lnrpt\Stored Procedure\lnrpt.GetWorkTaskCycleSummary.sql" />
+    <Build Include="ln\Table\ln.Rating.sql" />
+    <Build Include="ln\Table\ln.RatingLog.sql" />
+    <Build Include="ln\Table\ln.LoanApplicationRating.sql" />
+    <Build Include="ln\Stored Procedure\ln.CreateRatingLog.sql" />
+    <Build Include="ln\Stored Procedure\ln.CreateLoanApplicationRating.sql" />
+    <Build Include="ln\Stored Procedure\ln.CreateRating.sql" />
+    <Build Include="ln\Stored Procedure\ln.DeleteRating_Orphan.sql" />
+    <Build Include="ln\Stored Procedure\ln.GetRating_by_LoanApplicationId.sql" />
+    <Build Include="lnrpt\Stored Procedure\lnrpt.GetOpenLoanSummary.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="LocalSqlSchemaCompare.scmp" />

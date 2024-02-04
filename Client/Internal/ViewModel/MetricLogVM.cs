@@ -1,6 +1,5 @@
 ﻿using JCU.Internal.Behaviors;
 using JestersCreditUnion.Interface;
-using System;
 using System.Collections.ObjectModel;
 using System.Windows;
 

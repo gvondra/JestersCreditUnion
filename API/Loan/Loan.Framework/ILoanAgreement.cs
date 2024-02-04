@@ -1,5 +1,4 @@
 ﻿using JestersCreditUnion.Loan.Framework.Enumerations;
-using System;
 using System.Threading.Tasks;
 
 namespace JestersCreditUnion.Loan.Framework

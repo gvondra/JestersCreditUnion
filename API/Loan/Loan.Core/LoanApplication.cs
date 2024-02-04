@@ -59,7 +59,7 @@ namespace JestersCreditUnion.Loan.Core
         public string BorrowerEmployerName { get => _data.BorrowerEmployerName; set => _data.BorrowerEmployerName = value; }
         public DateTime? BorrowerEmploymentHireDate { get => _data.BorrowerEmploymentHireDate; set => _data.BorrowerEmploymentHireDate = value; }
         public decimal? BorrowerIncome { get => _data.BorrowerIncome; set => _data.BorrowerIncome = value; }
-        private Guid? BorrowerIdentificationCardId { get => _data.BorrowerIdentificationCardId; set => _data.BorrowerIdentificationCardId = value; }
+        private Guid? BorrowerIdentificationCardId { set => _data.BorrowerIdentificationCardId = value; }
         public string CoBorrowerName { get => _data.CoBorrowerName; set => _data.CoBorrowerName = value; }
         public DateTime? CoBorrowerBirthDate { get => _data.CoBorrowerBirthDate; set => _data.CoBorrowerBirthDate = value; }
         private Guid? CoBorrowerAddressId { get => _data.CoBorrowerAddressId; set => _data.CoBorrowerAddressId = value; }
@@ -315,5 +315,25 @@ namespace JestersCreditUnion.Loan.Core
 
         public IIdentificationCardSaver CreateIdentificationCardSaver() => new IdentificationCardSaver(this);
         public IIdentificationCardReader CreateIdentificationCardReader() => new IdentificationCardReader(this);
+
+        public bool HasCoBorrower() => !string.IsNullOrEmpty(CoBorrowerName) || CoBorrowerBirthDate.HasValue || !string.IsNullOrEmpty(CoBorrowerPhone) || !string.IsNullOrEmpty(CoBorrowerEmailAddress);
+
+        public int GetBorrowerAge() => GetAge(BorrowerBirthDate, ApplicationDate);
+        public int? GetCoBorrowerAge() => CoBorrowerBirthDate.HasValue ? GetAge(CoBorrowerBirthDate.Value, ApplicationDate) : null;
+        public int? GetBorrowerEmploymentYears() => BorrowerEmploymentHireDate.HasValue ? GetAge(BorrowerEmploymentHireDate.Value, ApplicationDate) : null;
+        public int? GetCoBorrowerEmploymentYears() => CoBorrowerEmploymentHireDate.HasValue ? GetAge(CoBorrowerEmploymentHireDate.Value, ApplicationDate) : null;
+
+        private static int GetAge(DateTime birthDate, DateTime asOfDAte)
+        {
+            int age = asOfDAte.Year - birthDate.Year;
+            if (asOfDAte.Month < birthDate.Month
+                || (asOfDAte.Month == birthDate.Month && asOfDAte.Day < birthDate.Day))
+            {
+                age -= 1;
+            }
+            return age;
+        }
+
+        public Task<IRating> GetRating(ISettings settings) => _factory.RatingFactory.GetLoanApplication(settings, LoanApplicationId);
     }
 }

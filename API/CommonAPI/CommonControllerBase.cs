@@ -85,7 +85,7 @@ namespace JestersCreditUnion.CommonAPI
             if (header.HasValue && header.Value.Value.Count == 1)
             {
                 token = header.Value.Value[0];
-                Match match = Regex.Match(token, @"bearer\s+(\S+)", RegexOptions.IgnoreCase);
+                Match match = Regex.Match(token, @"bearer\s+(\S+)", RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(200));
                 if (match != null && match.Success && match.Groups != null && match.Groups.Count == 2)
                 {
                     token = match.Groups[1].Value;
@@ -129,7 +129,7 @@ namespace JestersCreditUnion.CommonAPI
             {
                 if (typeof(ObjectResult).IsAssignableFrom(actionResult.GetType()))
                 {
-                    status = ((ObjectResult)actionResult).StatusCode.ToString();
+                    status = ((ObjectResult)actionResult).StatusCode?.ToString(CultureInfo.InvariantCulture);
                 }
                 else if (typeof(StatusCodeResult).IsAssignableFrom(actionResult.GetType()))
                 {

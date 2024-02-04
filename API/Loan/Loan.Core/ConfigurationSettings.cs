@@ -6,6 +6,7 @@ using ConfigAPI = BrassLoon.Interface.Config;
 
 namespace JestersCreditUnion.Loan.Core
 {
+    // todo: i think all reference, within Loan.Core, to Interface.Configuration can be removed
     public class ConfigurationSettings : ConfigAPI.ISettings
     {
         private readonly ISettings _settings;

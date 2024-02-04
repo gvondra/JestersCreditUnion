@@ -26,4 +26,7 @@
 	  <ProjectReference Include="..\..\CommonCore\CommonCore.csproj" />
 	</ItemGroup>
 
+    <ItemGroup>
+        <Using Include="System" />
+    </ItemGroup>
 </Project>

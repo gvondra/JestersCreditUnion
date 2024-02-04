@@ -1,0 +1,90 @@
+﻿[
+  {
+    "ComponentType": 1,
+    "Points": 1,
+    "Parameters": {
+      "Minimum": 18,
+      "BorrowerAge": true,
+      "LogMessageTemplage": "[{0}] Borrower age ({1}) should not be less than {2}"
+    }
+  },
+  {
+    "ComponentType": 2,
+    "Points": 1,
+    "Parameters": {
+      "Maximum": 99,
+      "BorrowerAge": true,
+      "LogMessageTemplage": "[{0}] Borrower age ({1}) should not be greater than {2}"
+    }
+  },
+  {
+    "ComponentType": 1,
+    "Points": 1,
+    "Parameters": {
+      "Minimum": 18,
+      "CoBorrowerAge": true,
+      "LogMessageTemplage": "[{0}] CoBorrower age ({1}) should not be less than {2}"
+    }
+  },
+  {
+    "ComponentType": 2,
+    "Points": 1,
+    "Parameters": {
+      "Maximum": 99,
+      "CoBorrowerAge": true,
+      "LogMessageTemplage": "[{0}] CoBorrower age ({1}) should not be greater than {2}"
+    }
+  },
+  {
+    "ComponentType": 3,
+    "Points": 1,
+    "Parameters": {
+      "Minimum": 100,
+      "LogMessageTemplage": "[{0}] Requested amount ({1}) should not be less than {2}"
+    }
+  },
+  {
+    "ComponentType": 4,
+    "Points": 1,
+    "Parameters": {
+      "Maximum": 25000,
+      "LogMessageTemplage": "[{0}] Requested amount ({1}) should not be greater than {2}"
+    }
+  },
+  {
+    "ComponentType": 5,
+    "Points": 1,
+    "Parameters": {
+      "Minimum": 3,
+      "BorrowerEmployment": true,
+      "LogMessageTemplage": "[{0}] Years of employment ({1}) should not be less than {2}"
+    }
+  },
+  {
+    "ComponentType": 6,
+    "Points": 1,
+    "Parameters": {
+      "Maximum": 99,
+      "BorrowerEmployment": true,
+      "LogMessageTemplage": "[{0}] Years of employment ({1}) should not be greater than {2}"
+    }
+  },
+  {
+    "ComponentType": 5,
+    "Points": 1,
+    "Parameters": {
+      "Minimum": 3,
+      "CoBorrowerEmployment": true,
+      "LogMessageTemplage": "[{0}] Years of employment ({1}) should not be less than {2}"
+    }
+  },
+  {
+    "ComponentType": 6,
+    "Points": 1,
+    "Parameters": {
+      "Maximum": 99,
+      "CoBorrowerEmployment": true,
+      "LogMessageTemplage": "[{0}] Years of employment ({1}) should not be greater than {2}"
+    }
+  }
+]

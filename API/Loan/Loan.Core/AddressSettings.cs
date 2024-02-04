@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace JestersCreditUnion.Loan.Core
 {
-    internal class AddressSettings : BrassLoon.Interface.Address.ISettings
+    internal sealed class AddressSettings : BrassLoon.Interface.Address.ISettings
     {
         private readonly ITokenService _tokenService;
         private readonly Framework.ISettings _settings;

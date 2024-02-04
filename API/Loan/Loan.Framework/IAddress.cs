@@ -1,5 +1,4 @@
 ﻿using JestersCreditUnion.CommonCore;
-using System;
 using System.Threading.Tasks;
 
 namespace JestersCreditUnion.Loan.Framework

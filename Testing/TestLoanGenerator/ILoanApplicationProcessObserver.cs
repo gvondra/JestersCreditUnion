@@ -5,6 +5,9 @@ namespace JestersCreditUnion.Testing.LoanGenerator
 {
     public interface ILoanApplicationProcessObserver
     {
-        Task LoanApplicationCreated(ILoanApplicationProcess loanApplicationProcess, params LoanApplication[] loanApplications);
+        Task LoanApplicationCreated(params LoanApplication[] loanApplications);
+        Task NewLoanApplicationTaskCreated(params LoanApplication[] loanApplications);
+        Task LoanApplicationApproved(params LoanApplication[] loanApplications);
+        Task LoanApplicationDenied(params LoanApplication[] loanApplications);
     }
 }

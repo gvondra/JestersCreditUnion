@@ -20,6 +20,7 @@ namespace JestersCreditUnion.Loan.Core
         private readonly AddressInterface.IEmailAddressService _emailService;
         private readonly SettingsFactory _settingsFactory;
         private readonly IAddressFactory _addressFactory;
+        private readonly IRatingFactory _ratingFactory;
 
         public LoanApplicationFactory(
             ILoanApplicationDataFactory dataFactory,
@@ -29,7 +30,8 @@ namespace JestersCreditUnion.Loan.Core
             AddressInterface.IPhoneService phoneService,
             AddressInterface.IEmailAddressService emailService,
             SettingsFactory settingsFactory,
-            IIndex<string, IAddressFactory> addressFactoryIndex)
+            IIndex<string, IAddressFactory> addressFactoryIndex,
+            IRatingFactory ratingFactory)
         {
             _dataFactory = dataFactory;
             _dataSaver = dataSaver;
@@ -39,9 +41,13 @@ namespace JestersCreditUnion.Loan.Core
             _emailService = emailService;
             _settingsFactory = settingsFactory;
             _addressFactory = addressFactoryIndex["v2"];
+            _ratingFactory = ratingFactory;
+
         }
 
         public IAddressFactory AddressFactory => _addressFactory;
+
+        public IRatingFactory RatingFactory => _ratingFactory;
 
         private LoanApplication Create(LoanApplicationData data)
         {

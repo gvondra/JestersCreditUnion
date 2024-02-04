@@ -46,9 +46,9 @@ namespace API.Controllers
                 if (result == null)
                 {
                     Log.ISettings settings = _settingsFactory.CreateLog(_settings.Value);
-                    IMapper mapper = new Mapper(MapperConfiguration.Get());
+                    IMapper mapper = MapperConfiguration.CreateMapper();
                     IEnumerable<Models.Exception> exceptions = (await _exceptionService.Search(settings, _settings.Value.LogDomainId.Value, maxTimestamp.Value))
-                        .Select<Log.Models.Exception, Models.Exception>(e => mapper.Map<Models.Exception>(e));
+                        .Select<Log.Models.Exception, Models.Exception>(mapper.Map<Models.Exception>);
                     result = Ok(exceptions);
                 }
             }

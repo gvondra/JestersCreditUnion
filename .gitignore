@@ -365,9 +365,11 @@ FodyWeavers.xsd
 
 .vscode
 
+/.env
 /API/API/**/launchSettings.json
 /API/Loan/LoanAPI/**/launchSettings.json
 /Batch/Loan/Batch.LoanPaymentProcessor/**/launchSettings.json
 /Batch/Loan/Batch.ReportingLoader/**/launchSettings.json
+/Batch/Loan/Batch.ServiceBusProcessor/**/launchSettings.json
 /Testing/TestLoanGenerator/**/launchSettings.json
 !/Client/Internal/NavigationPage/Log

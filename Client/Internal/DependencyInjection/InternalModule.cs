@@ -12,7 +12,11 @@ namespace JCU.Internal.DependencyInjection
             builder.RegisterModule(new JestersCreditUnion.Interface.Loan.JestersCreditUnionLoanInterfaceModule());
             builder.RegisterType<SettingsFactory>().As<ISettingsFactory>().SingleInstance();
 
+            builder.RegisterType<LoanApplicationLoader>();
+            builder.RegisterType<LoanApplicationRatingLogLoader>();
             builder.RegisterType<LoanApplicationSummaryLoader>();
+            builder.RegisterType<OpenLoanSummaryLoader>();
+            builder.RegisterType<WorkTaskCycleSummaryLoader>();
         }
     }
 }

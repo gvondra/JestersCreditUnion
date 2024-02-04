@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace JestersCreditUnion.Testing.LoanGenerator
 {
-    public class LoanProcess : ILoanProcess, ILoanApplicationProcessObserver
+    public class LoanProcess : LoanApplicationProcessObserver, ILoanProcess
     {
         private readonly ILoanProcess _process;
         private readonly ProcessQueue<LoanApplication> _queue;
@@ -123,7 +123,7 @@ namespace JestersCreditUnion.Testing.LoanGenerator
             _queue.Enqueue(application);
         }
 
-        public Task LoanApplicationCreated(ILoanApplicationProcess loanApplicationProcess, params LoanApplication[] loanApplications)
+        public override Task LoanApplicationApproved(params LoanApplication[] loanApplications)
         {
             if (loanApplications != null)
             {
