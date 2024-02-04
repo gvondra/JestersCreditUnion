@@ -2,6 +2,7 @@
 using JestersCreditUnion.Interface.Loan.Models;
 using Serilog;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace JestersCreditUnion.Testing.LoanGenerator
@@ -15,6 +16,7 @@ namespace JestersCreditUnion.Testing.LoanGenerator
         private readonly ILoanApplicationService _loanApplicationService;
         private readonly ILoanApplicationRatingService _ratingService;
         private bool _disposedValue;
+        private int _count;
 
         public NewLoanApplicationTaskProcess(
             ISettingsFactory settingsFactory,
@@ -31,7 +33,7 @@ namespace JestersCreditUnion.Testing.LoanGenerator
 
         }
 
-        public int Count { get; private set; }
+        public int Count => _count;
 
         private void LoanApplicationDequeued(object sender, IEnumerable<LoanApplication> e)
         {
@@ -60,7 +62,7 @@ namespace JestersCreditUnion.Testing.LoanGenerator
                 await Aprove(application);
             else
                 await Deny(application);
-            Count += 1;
+            Interlocked.Increment(ref _count);
         }
 
         private async Task Aprove(LoanApplication application)
