@@ -8,5 +8,6 @@
         public int LoanApplicationCount { get; set; }
         public Guid? ClientId { get; set; }
         public string ClientSecret { get; set; }
+        public string NewLoanApplicationTaskCode { get; set; }
     }
 }

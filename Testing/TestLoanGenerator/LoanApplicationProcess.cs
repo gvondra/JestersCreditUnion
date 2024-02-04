@@ -41,7 +41,7 @@ namespace JestersCreditUnion.Testing.LoanGenerator
                 while (createQueue.Count >= 4)
                 {
                     createdApplication = await createQueue.Dequeue();
-                    await NotifyObservers(_observers, this, createdApplication);
+                    await NotifyObservers(_observers, createdApplication);
                 }
                 _logger.Information($"Creating loan application #{i:###,###,##0}. Borrower {loanApplication.BorrowerName}");
                 createQueue.Enqueue(Create(apiSettings, loanApplication));
@@ -49,7 +49,6 @@ namespace JestersCreditUnion.Testing.LoanGenerator
             }
             await NotifyObservers(
                 _observers,
-                this,
                 await Task.WhenAll(createQueue));
         }
 
@@ -61,12 +60,12 @@ namespace JestersCreditUnion.Testing.LoanGenerator
             return loanApplication;
         }
 
-        private static Task NotifyObservers(IEnumerable<ILoanApplicationProcessObserver> observers, ILoanApplicationProcess process, params LoanApplication[] loanApplications)
+        private static Task NotifyObservers(IEnumerable<ILoanApplicationProcessObserver> observers,params LoanApplication[] loanApplications)
         {
             List<Task> tasks = new List<Task>();
             foreach (ILoanApplicationProcessObserver observer in observers)
             {
-                tasks.Add(observer.LoanApplicationCreated(process, loanApplications));
+                tasks.Add(observer.LoanApplicationCreated(loanApplications));
             }
             return Task.WhenAll(tasks);
         }

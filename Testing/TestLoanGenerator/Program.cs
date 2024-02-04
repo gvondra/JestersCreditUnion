@@ -27,16 +27,30 @@ namespace JestersCreditUnion.Testing.LoanGenerator
         private static async Task StartLoanApplicationGeneration()
         {
             using ILifetimeScope scope = DependencyInjection.ContainerFactory.BeginLifetimeScope();
+            Settings settings = scope.Resolve<Settings>();
             using LoanProcess loanProcess = scope.Resolve<LoanProcess>();
-            using LoanApplicationTaskProcess loanApplicationTaskProcess = scope.Resolve<LoanApplicationTaskProcess>();
             using LoanTaskProcess loanTaskProcess = scope.Resolve<LoanTaskProcess>();
             using DisburseLoanProcess disburseLoanProcess = scope.Resolve<DisburseLoanProcess>();
             loanProcess.AddObserver(loanTaskProcess);
             loanProcess.AddObserver(disburseLoanProcess);
+
+            using ILoanApplicationTaskProcess loanApplicationTaskProcess = scope.Resolve<ILoanApplicationTaskProcess>();
+            using INewLoanApplicationTaskProcess newLoanApplicationTaskProcess = scope.Resolve<INewLoanApplicationTaskProcess>();
+            loanApplicationTaskProcess.AddObserver(newLoanApplicationTaskProcess);
+            newLoanApplicationTaskProcess.AddObserver(loanApplicationTaskProcess);
+            newLoanApplicationTaskProcess.AddObserver(loanProcess);
+
             ILoanApplicationProcess process = scope.Resolve<ILoanApplicationProcess>();
-            process.AddObserver(loanProcess);
             process.AddObserver(loanApplicationTaskProcess);
             await process.GenerateLoanApplications();
+
+            while (newLoanApplicationTaskProcess.Count < settings.LoanApplicationCount)
+            {
+                await Task.Delay(12000);
+            }
+
+            loanApplicationTaskProcess.WaitForProcessExit();
+            newLoanApplicationTaskProcess.WaitForProcessExit();
             loanProcess.WaitForProcessExit();
             disburseLoanProcess.WaitForProcessExit();
         }
