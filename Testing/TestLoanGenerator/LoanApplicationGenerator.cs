@@ -37,8 +37,8 @@ namespace JestersCreditUnion.Testing.LoanGenerator
                 BorrowerPhone = string.Format("608-555-{0:0000}", _random.Next(10000)),
                 BorrowerEmployerName = _nameGenerator.GenerateName(),
                 BorrowerEmploymentHireDate = _dateGenerator.GenerateDate(dayRange: 27394),
-                BorrowerIncome = (_random.Next(90000000) + 1) / 100.00M,
-                Amount = (_random.Next(90000000) + 1) / 100.00M,
+                BorrowerIncome = (_random.Next(20000000) + 1) / 100.00M,
+                Amount = (_random.Next(15000000) + 1) / 100.00M,
                 Purpose = "Automated test",
                 MortgagePayment = mortage,
                 RentPayment = rent
