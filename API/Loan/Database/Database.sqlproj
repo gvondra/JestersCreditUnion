@@ -169,6 +169,10 @@
     <Build Include="ln\Stored Procedure\ln.DeleteRating_Orphan.sql" />
     <Build Include="ln\Stored Procedure\ln.GetRating_by_LoanApplicationId.sql" />
     <Build Include="lnrpt\Stored Procedure\lnrpt.GetOpenLoanSummary.sql" />
+    <Build Include="ln\Table\ln.PaymentIntake.sql" />
+    <Build Include="ln\Stored Procedure\ln.GetPaymentIntake_by_Statuses.sql" />
+    <Build Include="ln\Stored Procedure\ln.CreatePaymentIntake.sql" />
+    <Build Include="ln\Stored Procedure\ln.UpdatePaymentIntake.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="LocalSqlSchemaCompare.scmp" />
