@@ -173,6 +173,7 @@
     <Build Include="ln\Stored Procedure\ln.GetPaymentIntake_by_Statuses.sql" />
     <Build Include="ln\Stored Procedure\ln.CreatePaymentIntake.sql" />
     <Build Include="ln\Stored Procedure\ln.UpdatePaymentIntake.sql" />
+    <Build Include="ln\Stored Procedure\ln.GetPaymentIntake.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="LocalSqlSchemaCompare.scmp" />

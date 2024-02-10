@@ -18,7 +18,7 @@ namespace JestersCreditUnion.Loan.Data
             builder.RegisterType<LoanDataSaver>()
                 .PropertiesAutowired()
                 .As<ILoanDataSaver>();
-            builder.RegisterType<PaymentDataFactory>().As<IPaymentIntakeDataFactory>();
+            builder.RegisterType<PaymentDataFactory>().As<IPaymentDataFactory>();
             builder.RegisterType<PaymentDataSaver>().As<IPaymentDataSaver>();
             builder.RegisterType<PaymentIntakeDataFactory>().As<IPaymentIntakeDataFactory>();
             builder.RegisterType<PaymentIntakeDataSaver>().As<IPaymentIntakeDataSaver>();

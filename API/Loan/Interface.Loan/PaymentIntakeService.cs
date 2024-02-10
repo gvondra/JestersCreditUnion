@@ -30,7 +30,8 @@ namespace JestersCreditUnion.Interface.Loan
             else if (!paymentIntake.Date.HasValue)
                 throw new ArgumentException($"Missing {nameof(paymentIntake.Date)} value");
             IRequest request = _service.CreateRequest(new Uri(settings.BaseAddress), HttpMethod.Post, paymentIntake)
-                .AddPath("PaymentIntake")
+                .AddPath("Loan/{loanId}/PaymentIntake")
+                .AddPathParameter("loanId", paymentIntake.LoanId.Value.ToString("D"))
                 .AddJwtAuthorizationToken(settings.GetToken)
                 ;
             return _restUtil.Send<Models.PaymentIntake>(_service, request);
@@ -54,12 +55,15 @@ namespace JestersCreditUnion.Interface.Loan
         {
             if (settings == null)
                 throw new ArgumentNullException(nameof(settings));
-            else if (paymentIntake == null || !paymentIntake.Amount.HasValue)
+            else if (paymentIntake == null || !paymentIntake.PaymentId.HasValue)
+                throw new ArgumentException($"Missing {nameof(paymentIntake.PaymentId)} value");
+            else if (!paymentIntake.Amount.HasValue)
                 throw new ArgumentException($"Missing {nameof(paymentIntake.Amount)} value");
             else if (!paymentIntake.Date.HasValue)
                 throw new ArgumentException($"Missing {nameof(paymentIntake.Date)} value");
             IRequest request = _service.CreateRequest(new Uri(settings.BaseAddress), HttpMethod.Put, paymentIntake)
-                .AddPath("PaymentIntake")
+                .AddPath("PaymentIntake/{id}")
+                .AddPathParameter("id", paymentIntake.PaymentIntakeId.Value.ToString("D"))
                 .AddJwtAuthorizationToken(settings.GetToken)
                 ;
             return _restUtil.Send<Models.PaymentIntake>(_service, request);

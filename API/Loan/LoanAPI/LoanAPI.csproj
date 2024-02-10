@@ -23,6 +23,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\..\CommonAPI\CommonAPI.csproj" />
+		<ProjectReference Include="..\Interface.Loan\Interface.Loan.csproj" />
 		<ProjectReference Include="..\Loan.Core\Loan.Core.csproj" />
 		<ProjectReference Include="..\Loan.Framework\Loan.Framework.csproj" />
 		<ProjectReference Include="..\Loan.Reporting.Core\Loan.Reporting.Core.csproj" />

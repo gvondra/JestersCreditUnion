@@ -35,6 +35,8 @@ namespace JestersCreditUnion.Loan.Core
                 .InstancePerLifetimeScope()
                 .As<ILoanPaymentProcessor>();
             builder.RegisterType<LookupFactory>().As<ILookupFactory>();
+            builder.RegisterType<PaymentIntakeFactory>().As<IPaymentIntakeFactory>();
+            builder.RegisterType<PaymentIntakeSaver>().As<IPaymentIntakeSaver>();
             builder.RegisterType<PaymentFactory>()
                 .PropertiesAutowired()
                 .As<IPaymentFactory>();

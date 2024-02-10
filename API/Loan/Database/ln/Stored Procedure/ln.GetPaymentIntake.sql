@@ -1,5 +1,5 @@
-﻿CREATE PROCEDURE [ln].[GetPaymentIntake_by_Statuses]
-	@statues VARCHAR(512)
+﻿CREATE PROCEDURE [ln].[GetPaymentIntake]
+	@id UNIQUEIDENTIFIER
 AS
 SELECT [pIn].[PaymentIntakeId],
 	[pIn].[LoanId],
@@ -13,6 +13,4 @@ SELECT [pIn].[PaymentIntakeId],
 	[pIn].[CreateUserId],
 	[pIn].[UpdateUserId]
 FROM [ln].[PaymentIntake] [pIn]
-INNER JOIN STRING_SPLIT(@statues, ',') [Ids] on [pIn].[Status] = CONVERT(SMALLINT, TRIM([Ids].[value]))
-ORDER BY [Date], [LoanId]
-;
+WHERE [pIn].[PaymentIntakeId] = @id;

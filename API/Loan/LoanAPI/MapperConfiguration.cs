@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using JestersCreditUnion.Interface.Loan.Models;
 using JestersCreditUnion.Loan.Framework;
+using JestersCreditUnion.Loan.Framework.Enumerations;
 using Reporting = JestersCreditUnion.Loan.Framework.Reporting;
 
 namespace LoanAPI
@@ -39,6 +40,9 @@ namespace LoanAPI
             exp.CreateMap<LoanPayment, IPayment>();
             exp.CreateMap<IPayment, LoanPayment>()
                 .ForMember(p => p.Message, config => config.Ignore());
+            exp.CreateMap<IPaymentIntake, PaymentIntake>();
+            exp.CreateMap<PaymentIntake, IPaymentIntake>()
+                .ForMember(pi => pi.Status, config => config.MapFrom((PaymentIntake pi) => (PaymentIntakeStatus)(pi.Status ?? 0)));
             exp.CreateMap<IRatingLog, RatingLog>();
             exp.CreateMap<IRating, Rating>();
             exp.CreateMap<ITransaction, Transaction>();
