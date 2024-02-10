@@ -91,6 +91,14 @@ namespace JCU.Internal.NavigationPage
                 hyperlink.Click += SearchHyperlink_Click;
                 paragraph.Inlines.Add(hyperlink);
             }
+            if (AccessToken.Get.UserHasEditLoanAccess())
+            {
+                paragraph = new Paragraph();
+                HomeVM.Document.Blocks.Add(paragraph);
+                hyperlink = new Hyperlink(new Run("Payment Intake"));
+                hyperlink.Click += PaymentIntakeHyperlink_Click;
+                paragraph.Inlines.Add(hyperlink);
+            }
             if (AccessToken.Get.UserHasReadLoanApplicationAccess())
             {
                 paragraph = new Paragraph(new Run("Reporting"));
@@ -171,6 +179,19 @@ namespace JCU.Internal.NavigationPage
             {
                 NavigationService navigationService = NavigationService.GetNavigationService(this);
                 navigationService.Navigate(new Uri("NavigationPage/OpenLoanSummary.xaml", UriKind.Relative));
+            }
+            catch (System.Exception ex)
+            {
+                ErrorWindow.Open(ex, Window.GetWindow(this));
+            }
+        }
+
+        private void PaymentIntakeHyperlink_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                NavigationService navigationService = NavigationService.GetNavigationService(this);
+                navigationService.Navigate(new Uri("NavigationPage/PaymentIntake.xaml", UriKind.Relative));
             }
             catch (System.Exception ex)
             {

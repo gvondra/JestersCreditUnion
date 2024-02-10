@@ -1,0 +1,25 @@
+﻿<Page x:Class="JCU.Internal.NavigationPage.PaymentIntake"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:JCU.Internal.NavigationPage"
+      xmlns:ctrl="clr-namespace:JCU.Internal.Control"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="JCU: Open Loan Summary" Style="{StaticResource DefaultPageStyle}">
+
+    <DockPanel>
+        <TextBlock DockPanel.Dock="Top" Style="{StaticResource PageTitle}">Payment Intake</TextBlock>
+        <ctrl:PaymentIntake DockPanel.Dock="Top" DataContext="{Binding NewItem}"></ctrl:PaymentIntake>
+        <DataGrid ItemsSource="{Binding Items}" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Loan Number" IsReadOnly="True" Binding="{Binding LoanNumber}" />
+                <DataGridTextColumn Header="Next Payment Due" IsReadOnly="True" Binding="{Binding NextPaymentDue, StringFormat='yyyy-MM-dd'}" />
+                <DataGridTextColumn Header="Date" Binding="{Binding Date, StringFormat='yyyy-MM-dd'}" />
+                <DataGridTextColumn Header="Transaction Number" Binding="{Binding TransactionNumber}" />
+                <DataGridTextColumn Header="Amount" Binding="{Binding Amount, StringFormat='###,###,##0.00'}" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
+</Page>
