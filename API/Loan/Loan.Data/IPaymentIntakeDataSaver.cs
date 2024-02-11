@@ -7,5 +7,6 @@ namespace JestersCreditUnion.Loan.Data
     {
         Task Create(ITransactionHandler transactionHandler, PaymentIntakeData data, string userId);
         Task Update(ITransactionHandler transactionHandler, PaymentIntakeData data, string userId);
+        Task Commit(ITransactionHandler transactionHandler, short intakeStatusFilter, short intakeStatus, short paymentStatus, string userId);
     }
 }

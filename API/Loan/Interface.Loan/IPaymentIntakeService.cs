@@ -9,5 +9,6 @@ namespace JestersCreditUnion.Interface.Loan
         Task<List<PaymentIntake>> GetByStatuses(ISettings settings, IEnumerable<short> statuses);
         Task<PaymentIntake> Create(ISettings settings, PaymentIntake paymentIntake);
         Task<PaymentIntake> Update(ISettings settings, PaymentIntake paymentIntake);
+        Task Commit(ISettings settings);
     }
 }

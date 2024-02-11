@@ -197,5 +197,34 @@ namespace LoanAPI.Controllers
             result.Loan = mapper.Map<Loan>(await paymentIntake.GetLaon(settings));
             return result;
         }
+
+        [HttpPost("Payment")]
+        [Authorize(Constants.POLICY_LOAN_EDIT)]
+        public async Task<IActionResult> Commit()
+        {
+            DateTime start = DateTime.UtcNow;
+            IActionResult result = null;
+            try
+            {
+                CoreSettings settings = GetCoreSettings();
+                await _paymentIntakeSaver.Commit(
+                    settings,
+                    PaymentIntakeStatus.New,
+                    PaymentIntakeStatus.Processed,
+                    PaymentStatus.Unprocessed,
+                    (await GetCurrentUserId()).Value.ToString("D"));
+                result = Ok();
+            }
+            catch (System.Exception ex)
+            {
+                WriteException(ex);
+                result = StatusCode(StatusCodes.Status500InternalServerError);
+            }
+            finally
+            {
+                await WriteMetrics("commit-payment-intake", start, result);
+            }
+            return result;
+        }
     }
 }

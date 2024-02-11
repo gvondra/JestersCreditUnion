@@ -11,6 +11,24 @@ namespace JestersCreditUnion.Loan.Data.Internal
         public PaymentIntakeDataSaver(IDbProviderFactory providerFactory) : base(providerFactory)
         { }
 
+        public async Task Commit(ITransactionHandler transactionHandler, short intakeStatusFilter, short intakeStatus, short paymentStatus, string userId)
+        {
+            await _providerFactory.EstablishTransaction(transactionHandler);
+            using (DbCommand command = transactionHandler.Connection.CreateCommand())
+            {
+                command.CommandText = "[ln].[CommitPaymentIntake]";
+                command.CommandType = CommandType.StoredProcedure;
+                command.Transaction = transactionHandler.Transaction.InnerTransaction;
+
+                DataUtil.AddParameter(_providerFactory, command.Parameters, "intakeStatusFilter", DbType.Int16, DataUtil.GetParameterValue(intakeStatusFilter));
+                DataUtil.AddParameter(_providerFactory, command.Parameters, "intakeStatus", DbType.Int16, DataUtil.GetParameterValue(intakeStatus));
+                DataUtil.AddParameter(_providerFactory, command.Parameters, "paymentStatus", DbType.Int16, DataUtil.GetParameterValue(paymentStatus));
+                DataUtil.AddParameter(_providerFactory, command.Parameters, "userId", DbType.AnsiString, DataUtil.GetParameterValue(userId));
+
+                await command.ExecuteNonQueryAsync();
+            }
+        }
+
         public async Task Create(ITransactionHandler transactionHandler, PaymentIntakeData data, string userId)
         {
             if (data.Manager.GetState(data) == DataState.New)

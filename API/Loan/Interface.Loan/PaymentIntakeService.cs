@@ -19,6 +19,16 @@ namespace JestersCreditUnion.Interface.Loan
             _service = service;
         }
 
+        public async Task Commit(ISettings settings)
+        {
+            IRequest request = _service.CreateRequest(new Uri(settings.BaseAddress), HttpMethod.Post)
+                .AddPath("PaymentIntake/Payment")
+                .AddJwtAuthorizationToken(settings.GetToken)
+                ;
+            IResponse response = await _service.Send(request);
+            _restUtil.CheckSuccess(response);
+        }
+
         public Task<PaymentIntake> Create(ISettings settings, PaymentIntake paymentIntake)
         {
             if (settings == null)

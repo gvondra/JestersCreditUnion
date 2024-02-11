@@ -51,11 +51,22 @@ namespace JestersCreditUnion.CommonAPI
             if (_userService != null && User.Identity.IsAuthenticated)
             {
                 string referenceId = GetCurrentUserReferenceId();
+                string emailAddress = null;
                 List<AuthorizationAPI.Models.User> users = await _currentUserCache.Execute(
                     (context) => _userService.Search(settings, domainId, referenceId: referenceId),
                     new Context(referenceId)
                     ) ?? new List<AuthorizationAPI.Models.User>();
                 user = users.FirstOrDefault();
+                if (user == null)
+                    emailAddress = GetCurrentUserEmailAddress();
+                if (!string.IsNullOrEmpty(emailAddress))
+                {
+                    users = await _currentUserCache.Execute(
+                    (context) => _userService.Search(settings, domainId, emailAddress: emailAddress),
+                    new Context(emailAddress)
+                    ) ?? new List<AuthorizationAPI.Models.User>();
+                    user = users.FirstOrDefault();
+                }
             }
             return user;
         }
