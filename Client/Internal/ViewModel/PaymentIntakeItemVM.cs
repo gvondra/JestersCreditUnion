@@ -10,6 +10,7 @@ namespace JCU.Internal.ViewModel
         private readonly PaymentIntake _paymentIntake;
         private ICommand _add;
         private ICommand _update;
+        private ICommand _toggleHold;
         private string _loanNumber;
         private string _loanNumberTip;
         private DateTime? _nextPaymentDue;
@@ -153,6 +154,19 @@ namespace JCU.Internal.ViewModel
                 if (_update != value)
                 {
                     _update = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+        public ICommand ToggleHold
+        {
+            get => _toggleHold;
+            set
+            {
+                if (_toggleHold != value)
+                {
+                    _toggleHold = value;
                     NotifyPropertyChanged();
                 }
             }

@@ -66,6 +66,7 @@ namespace JCU.Internal.Behaviors
                                 PaymentIntakeItemLoader loader = scope.Resolve<Func<ViewModel.PaymentIntakeItemVM, Behaviors.PaymentIntakeItemLoader>>()(paymentIntakeItemVM);
                                 paymentIntakeItemVM.AddBehavior(loader);
                                 paymentIntakeItemVM.Update = scope.Resolve<Behaviors.PaymentIntakeItemUpdater>();
+                                paymentIntakeItemVM.ToggleHold = scope.Resolve<Behaviors.PaymentIntakeItemHoldToggler>();
 
                                 paymentIntakeVM.Items.Add(paymentIntakeItemVM);
                             }

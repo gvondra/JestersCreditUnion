@@ -9,6 +9,14 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="JCU: Open Loan Summary" Style="{StaticResource DefaultPageStyle}">
 
+    <Page.Resources>
+        <ContextMenu x:Key="ctxMenu">
+            <MenuItem Header="Hold/Release" Command="{Binding ToggleHold}" CommandParameter="{Binding .}"/>
+        </ContextMenu>
+        <Style TargetType="DataGridRow">
+            <Setter Property="ContextMenu" Value="{StaticResource ctxMenu}" />
+        </Style>
+    </Page.Resources>
     <DockPanel>
         <TextBlock DockPanel.Dock="Top" Style="{StaticResource PageTitle}">Payment Intake</TextBlock>
         <ctrl:PaymentIntake DockPanel.Dock="Top" DataContext="{Binding NewItem}"></ctrl:PaymentIntake>
