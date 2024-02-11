@@ -50,7 +50,6 @@ namespace LoanAPI.Controllers
                 CoreSettings settings = GetCoreSettings();
                 if (loanPayments == null)
                     loanPayments = Array.Empty<LoanPayment>();
-                List<Task> tasks = new List<Task>();
                 for (int i = 0; i < loanPayments.Length; i += 1)
                 {
                     ILoan loan = null;
@@ -62,7 +61,6 @@ namespace LoanAPI.Controllers
                     }
                     ValidateLoanPayment(loan, loanPayments[i]);
                 }
-                await Task.WhenAll(tasks);
                 if (loanPayments.Any(p => !string.IsNullOrEmpty(p.Message)))
                 {
                     result = Ok(loanPayments);
@@ -73,7 +71,7 @@ namespace LoanAPI.Controllers
                     List<IPayment> innerPayments = loanPayments.Select<LoanPayment, IPayment>(p => MapPayment(mapper, loans[p.LoanNumber], p))
                         .ToList();
                     innerPayments = (await _paymentSaver.Save(settings, innerPayments)).ToList();
-                    loanPayments = innerPayments.Select<IPayment, LoanPayment>(p => mapper.Map<LoanPayment>(p))
+                    loanPayments = innerPayments.Select<IPayment, LoanPayment>(mapper.Map<LoanPayment>)
                         .ToArray();
                     for (int i = 0; i < loanPayments.Length; i += 1)
                     {
@@ -110,7 +108,7 @@ namespace LoanAPI.Controllers
             }
             else if (loan == null)
             {
-                message.Append("Loan not found");
+                message.AppendLine("Loan not found");
             }
             if (!loanPayment.Date.HasValue)
                 message.AppendLine("Missing payment date");
