@@ -2,6 +2,7 @@
 using JestersCreditUnion.Loan.Data;
 using JestersCreditUnion.Loan.Framework;
 using JestersCreditUnion.Loan.Framework.Enumerations;
+using System;
 using System.Threading.Tasks;
 
 namespace JestersCreditUnion.Loan.Core
@@ -15,8 +16,14 @@ namespace JestersCreditUnion.Loan.Core
             _dataSaver = dataSaver;
         }
 
-        public Task Commit(Framework.ISettings settings, PaymentIntakeStatus intakeStatusFilter, PaymentIntakeStatus intakeStatus, PaymentStatus paymentStatus, string userId)
-            => Saver.Save(new TransactionHandler(settings), (th) => _dataSaver.Commit(th, (short)intakeStatusFilter, (short)intakeStatus, (short)paymentStatus, userId));
+        public Task Commit(
+            Framework.ISettings settings,
+            PaymentIntakeStatus intakeStatusFilter,
+            DateTime maxTimestamp,
+            PaymentIntakeStatus intakeStatus,
+            PaymentStatus paymentStatus,
+            string userId)
+            => Saver.Save(new TransactionHandler(settings), (th) => _dataSaver.Commit(th, (short)intakeStatusFilter, maxTimestamp, (short)intakeStatus, (short)paymentStatus, userId));
 
         public Task Create(Framework.ISettings settings, IPaymentIntake paymentIntake, string userId)
         {

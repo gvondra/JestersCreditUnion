@@ -1,5 +1,6 @@
 ﻿CREATE PROCEDURE [ln].[CommitPaymentIntake]
 	@intakeStatusFilter SMALLINT,
+	@maxTimestamp DATETIME2(4),
 	@intakeStatus SMALLINT,
 	@paymentStatus SMALLINT,
 	@userId VARCHAR(64)
@@ -8,7 +9,8 @@ BEGIN
 DECLARE intakeCursor CURSOR
 FOR SELECT [PaymentIntakeId], [LoanId], [TransactionNumber], [Date], [Amount]
 FROM [ln].[PaymentIntake]
-WHERE [Status] = @intakeStatusFilter;
+WHERE [Status] = @intakeStatusFilter
+AND [UpdateTimestamp] < @maxTimestamp;
 
 DECLARE @timestamp DATETIME2(4) = SYSUTCDATETIME();
 DECLARE @paymentId UNIQUEIDENTIFIER;

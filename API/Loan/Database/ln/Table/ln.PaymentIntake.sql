@@ -23,3 +23,7 @@ CREATE NONCLUSTERED INDEX [IX_PaymentIntake_LoanId] ON [ln].[PaymentIntake] ([Lo
 GO
 
 CREATE NONCLUSTERED INDEX [IX_PaymentIntake_PaymentId] ON [ln].[PaymentIntake] ([PaymentId])
+
+GO
+
+CREATE NONCLUSTERED INDEX [IX_PaymentIntake_Status_UpdateTimestamp] ON [ln].[PaymentIntake] ([Status], [UpdateTimestamp] DESC)

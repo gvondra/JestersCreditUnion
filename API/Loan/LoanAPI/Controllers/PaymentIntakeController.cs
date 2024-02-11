@@ -207,9 +207,11 @@ namespace LoanAPI.Controllers
             try
             {
                 CoreSettings settings = GetCoreSettings();
+                DateTime maxTimestamp = DateTime.UtcNow.AddHours(-6);
                 await _paymentIntakeSaver.Commit(
                     settings,
                     PaymentIntakeStatus.New,
+                    maxTimestamp,
                     PaymentIntakeStatus.Processed,
                     PaymentStatus.Unprocessed,
                     (await GetCurrentUserId()).Value.ToString("D"));
