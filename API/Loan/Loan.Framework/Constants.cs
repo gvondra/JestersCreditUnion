@@ -17,7 +17,8 @@ namespace JestersCreditUnion.Loan.Framework.Constants
         {
             ("loan-application-status", typeof(LoanApplicationStatus)),
             ("loan-app-denial-reason", typeof(LoanApplicationDenialReason)),
-            ("loan-status", typeof(LoanStatus))
+            ("loan-status", typeof(LoanStatus)),
+            ("payment-intake-status", typeof(PaymentIntakeStatus))
         };
     }
 

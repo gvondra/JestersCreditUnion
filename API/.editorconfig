@@ -26,7 +26,7 @@ csharp_style_expression_bodied_local_functions = false:silent
 csharp_style_throw_expression = true:suggestion
 csharp_style_prefer_null_check_over_type_check = true:suggestion
 csharp_prefer_simple_default_expression = true:suggestion
-csharp_style_prefer_local_over_anonymous_function = true:suggestion
+csharp_style_prefer_local_over_anonymous_function = true:none
 csharp_style_prefer_index_operator = true:suggestion
 csharp_style_prefer_range_operator = true:suggestion
 csharp_style_implicit_object_creation_when_type_is_apparent = true:suggestion
@@ -85,6 +85,9 @@ csharp_style_prefer_primary_constructors = false:suggestion
 
 # ASP0014: Suggest using top level route registrations
 dotnet_diagnostic.ASP0014.severity = none
+
+# IDE0039: Use local function
+dotnet_diagnostic.IDE0039.severity = none
 
 [*.{cs,vb}]
 

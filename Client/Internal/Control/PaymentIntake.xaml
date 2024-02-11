@@ -24,12 +24,12 @@
         <Label Grid.Column="2" Grid.Row="0">Date</Label>
         <Label Grid.Column="3" Grid.Row="0">Transaction Number</Label>
         <Label Grid.Column="4" Grid.Row="0">Amount</Label>
-        <TextBox Grid.Column="0" Grid.Row="1" Text="{Binding LoanNumber, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" MaxLength="32" ToolTip="{Binding LoanNumberTip}" />
+        <TextBox Grid.Column="0" Grid.Row="1" x:Name="LoanNumberTextBox" Text="{Binding LoanNumber, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" MaxLength="32" ToolTip="{Binding LoanNumberTip}" />
         <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding NextPaymentDue, StringFormat='yyyy-MM-dd', Mode=OneWay}" Style="{StaticResource TextBoxReadOnly}" />
         <TextBox Grid.Column="2" Grid.Row="1" Text="{Binding Date, StringFormat='yyyy-MM-dd', ValidatesOnDataErrors=True, NotifyOnValidationError=True}" MaxLength="16" Style="{StaticResource TextBoxWithError}" />
-        <TextBox Grid.Column="3" Grid.Row="1" Text="{Binding TransactionNumber}" />
-        <TextBox Grid.Column="4" Grid.Row="1" Text="{Binding Amount}" TextAlignment="Right" />
-        <Button Grid.Column="5" Grid.Row="1" Command="{Binding Add}" CommandParameter="{Binding .}" IsEnabled="{Binding CanAdd}">
+        <TextBox Grid.Column="3" Grid.Row="1" Text="{Binding TransactionNumber}" MaxLength="256" />
+        <TextBox Grid.Column="4" Grid.Row="1" Text="{Binding Amount, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" MaxLength="64" TextAlignment="Right" Style="{StaticResource TextBoxWithError}" />
+        <Button Grid.Column="5" Grid.Row="1" Command="{Binding Add}" Click="Button_Click" CommandParameter="{Binding .}" IsEnabled="{Binding CanAdd}">
             Add
         </Button>
     </Grid>

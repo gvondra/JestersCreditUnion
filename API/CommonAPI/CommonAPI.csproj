@@ -34,7 +34,7 @@
 		<PackageReference Include="BrassLoon.Interface.Authorization" Version="4.2.*" />
 		<PackageReference Include="BrassLoon.Interface.Config" Version="4.1.*" />
 		<PackageReference Include="BrassLoon.Interface.Log" Version="4.1.*" />
-		<PackageReference Include="CsvHelper" Version="30.1.*" />
+		<PackageReference Include="CsvHelper" Version="31.0.*" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.*" />
 		<PackageReference Include="Polly" Version="8.3.*" />
 		<PackageReference Include="Polly.Caching.Memory" Version="3.0.*" />

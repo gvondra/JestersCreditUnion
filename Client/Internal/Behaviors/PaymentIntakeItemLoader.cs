@@ -2,9 +2,6 @@
 using JestersCreditUnion.Interface.Loan;
 using JestersCreditUnion.Interface.Loan.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace JCU.Internal.Behaviors
@@ -15,7 +12,10 @@ namespace JCU.Internal.Behaviors
         private readonly ILoanService _loanService;
         private readonly PaymentIntakeItemVM _paymentIntakeItemVM;
 
-        public PaymentIntakeItemLoader(ISettingsFactory settingsFactory, ILoanService loanService, PaymentIntakeItemVM paymentIntakeItemVM)
+        public PaymentIntakeItemLoader(
+            ISettingsFactory settingsFactory,
+            ILoanService loanService,
+            PaymentIntakeItemVM paymentIntakeItemVM)
         {
             _settingsFactory = settingsFactory;
             _loanService = loanService;
@@ -29,22 +29,36 @@ namespace JCU.Internal.Behaviors
                 _paymentIntakeItemVM[e.PropertyName] = null;
             switch (e.PropertyName)
             {
+                case nameof(PaymentIntakeItemVM.Amount):
                 case nameof(PaymentIntakeItemVM.Date):
                     ValidateDate();
+                    ValidateAmount();
                     break;
                 case nameof(PaymentIntakeItemVM.LoanNumber):
                     LoanNumberChanged();
                     break;
             }
+            if (_paymentIntakeItemVM.CanAdd != !_paymentIntakeItemVM.HasErrors && _paymentIntakeItemVM.LoanId.HasValue)
+                _paymentIntakeItemVM.CanAdd = !_paymentIntakeItemVM.HasErrors && _paymentIntakeItemVM.LoanId.HasValue;
         }
 
+        private void ValidateAmount()
+        {
+            if (!_paymentIntakeItemVM.Amount.HasValue)
+                _paymentIntakeItemVM[nameof(PaymentIntakeItemVM.Amount)] = "is required";
+            else if (_paymentIntakeItemVM.Amount.Value <= 0.0M)
+                _paymentIntakeItemVM[nameof(PaymentIntakeItemVM.Amount)] = "is invalid";
+            else
+                _paymentIntakeItemVM[nameof(PaymentIntakeItemVM.Amount)] = null;
+        }
         private void ValidateDate()
         {
             if (!_paymentIntakeItemVM.Date.HasValue)
                 _paymentIntakeItemVM[nameof(PaymentIntakeItemVM.Date)] = "is required";
             else if (DateTime.Today < _paymentIntakeItemVM.Date.Value || _paymentIntakeItemVM.Date.Value < DateTime.Today.AddYears(-100))
                 _paymentIntakeItemVM[nameof(PaymentIntakeItemVM.Date)] = "is invalid";
-            _paymentIntakeItemVM.CanAdd = !_paymentIntakeItemVM.HasErrors;
+            else
+                _paymentIntakeItemVM[nameof(PaymentIntakeItemVM.Date)] = null;
         }
 
         private void LoanNumberChanged()
@@ -68,14 +82,16 @@ namespace JCU.Internal.Behaviors
                     _paymentIntakeItemVM[nameof(PaymentIntakeItemVM.LoanNumber)] = null;
                     _paymentIntakeItemVM.LoanNumberTip = string.Empty;
                     _paymentIntakeItemVM.NextPaymentDue = loan.NextPaymentDue;
-                }
+                    _paymentIntakeItemVM.LoanId = loan.LoanId;
+                    }
                 else
                 {
+                    _paymentIntakeItemVM.LoanId = null;
                     _paymentIntakeItemVM.NextPaymentDue = null;
                     _paymentIntakeItemVM[nameof(PaymentIntakeItemVM.LoanNumber)] = "Loan Not Found";
                     _paymentIntakeItemVM.LoanNumberTip = "Loan Not Found";
                 }
-                _paymentIntakeItemVM.CanAdd = !_paymentIntakeItemVM.HasErrors;
+                _paymentIntakeItemVM.CanAdd = !_paymentIntakeItemVM.HasErrors && _paymentIntakeItemVM.LoanId.HasValue;
             }
             catch (Exception ex)
             {

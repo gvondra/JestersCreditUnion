@@ -9,6 +9,7 @@ namespace JCU.Internal.ViewModel
         private readonly PaymentIntakeVM _paymentIntakeVM;
         private readonly PaymentIntake _paymentIntake;
         private ICommand _add;
+        private ICommand _update;
         private string _loanNumber;
         private string _loanNumberTip;
         private DateTime? _nextPaymentDue;
@@ -22,7 +23,62 @@ namespace JCU.Internal.ViewModel
             _nextPaymentDue = paymentIntake.Loan?.NextPaymentDue;
         }
 
+        public PaymentIntake InnerPaymentIntake => _paymentIntake;
         public PaymentIntakeVM PaymentIntakeVM => _paymentIntakeVM;
+        public Guid? PaymentIntakeId => _paymentIntake.PaymentIntakeId;
+        public string CreateUserName => _paymentIntake.CreateUserName;
+        public DateTime? CreateTimestamp => _paymentIntake.CreateTimestamp.HasValue ? _paymentIntake.CreateTimestamp.Value.ToLocalTime() : default(DateTime?);
+        public string UpdateUserName
+        {
+            get => _paymentIntake.UpdateUserName;
+            set
+            {
+                if (_paymentIntake.UpdateUserName != value)
+                {
+                    _paymentIntake.UpdateUserName = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+        public DateTime? UpdateTimestamp
+        { 
+            get => _paymentIntake.UpdateTimestamp.HasValue? _paymentIntake.UpdateTimestamp.Value.ToLocalTime() : default(DateTime?);
+            set
+            {
+                if (_paymentIntake.UpdateTimestamp.HasValue != value.HasValue || (_paymentIntake.UpdateTimestamp.HasValue && _paymentIntake.UpdateTimestamp.Value != value.Value))
+                {
+                    _paymentIntake.UpdateTimestamp = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+        public string StatusDescription
+        {
+            get => _paymentIntake.StatusDescription;
+            set
+            {
+                if (_paymentIntake.StatusDescription != value)
+                {
+                    _paymentIntake.StatusDescription = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+        public Guid? LoanId
+        {
+            get => _paymentIntake.LoanId;
+            set
+            {
+                if (_paymentIntake.LoanId.HasValue != value.HasValue || (_paymentIntake.LoanId.HasValue && _paymentIntake.LoanId.Value != value.Value))
+                {
+                    _paymentIntake.LoanId = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
 
         public DateTime? NextPaymentDue
         {
@@ -84,6 +140,19 @@ namespace JCU.Internal.ViewModel
                 if (_add != value)
                 {
                     _add = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+        public ICommand Update
+        {
+            get => _update;
+            set
+            {
+                if (_update != value)
+                {
+                    _update = value;
                     NotifyPropertyChanged();
                 }
             }

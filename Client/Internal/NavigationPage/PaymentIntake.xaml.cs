@@ -54,9 +54,20 @@ namespace JCU.Internal.NavigationPage
                         Date = DateTime.Today,
                         Add = scope.Resolve<Behaviors.PaymentIntakeAdd>()
                     };
-                    Behaviors.PaymentIntakeItemLoader loader = scope.Resolve<Func<ViewModel.PaymentIntakeItemVM, Behaviors.PaymentIntakeItemLoader>>()(PaymentIntakeVM.NewItem);
-                    PaymentIntakeVM.NewItem.AddBehavior(loader);
+                    Behaviors.PaymentIntakeItemLoader itemLoader = scope.Resolve<Func<ViewModel.PaymentIntakeItemVM, Behaviors.PaymentIntakeItemLoader>>()(PaymentIntakeVM.NewItem);
+                    PaymentIntakeVM.NewItem.AddBehavior(itemLoader);
+                    PaymentIntakeVM.Load = scope.Resolve<Behaviors.PaymentIntakeLoader>();
+                    PaymentIntakeVM.Load.Execute(PaymentIntakeVM);
+
                 }
+            }
+        }
+
+        private void DataGrid_RowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
+        {
+            if (e.Row.DataContext is PaymentIntakeItemVM paymentIntakeItemVM)
+            {
+                paymentIntakeItemVM.Update?.Execute(paymentIntakeItemVM);
             }
         }
     }

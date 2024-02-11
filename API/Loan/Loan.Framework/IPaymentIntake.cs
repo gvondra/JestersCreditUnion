@@ -18,5 +18,6 @@ namespace JestersCreditUnion.Loan.Framework
         Task Create(ITransactionHandler transactionHandler, string userId);
         Task Update(ITransactionHandler transactionHandler, string userId);
         Task<ILoan> GetLaon(ISettings settings);
+        Task<string> GetStatusDescription(ISettings settings);
     }
 }

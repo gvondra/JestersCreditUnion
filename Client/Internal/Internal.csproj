@@ -91,6 +91,8 @@
     <Compile Include="Behaviors\OpenLoanSummaryLoader.cs" />
     <Compile Include="Behaviors\PaymentIntakeAdd.cs" />
     <Compile Include="Behaviors\PaymentIntakeItemLoader.cs" />
+    <Compile Include="Behaviors\PaymentIntakeLoader.cs" />
+    <Compile Include="Behaviors\PaymentIntakeItemUpdater.cs" />
     <Compile Include="Behaviors\ReceiveLoanPaymentSave.cs" />
     <Compile Include="Behaviors\ReceiveLoanPaymentValidator.cs" />
     <Compile Include="Behaviors\RoleSaver.cs" />
@@ -492,10 +494,10 @@
       <Version>4.7.0.9</Version>
     </PackageReference>
     <PackageReference Include="JestersCreditUnion.Interface">
-      <Version>1.0.0-alpha.82</Version>
+      <Version>1.0.0-alpha.83</Version>
     </PackageReference>
     <PackageReference Include="JestersCreditUnion.Interface.Loan">
-      <Version>1.0.0-alpha.18</Version>
+      <Version>1.0.0-alpha.22</Version>
     </PackageReference>
     <PackageReference Include="LiveCharts.Wpf">
       <Version>0.9.7</Version>

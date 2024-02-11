@@ -2,6 +2,7 @@
 using JestersCreditUnion.Loan.Data;
 using JestersCreditUnion.Loan.Data.Models;
 using JestersCreditUnion.Loan.Framework;
+using JestersCreditUnion.Loan.Framework.Enumerations;
 using System;
 using System.Threading.Tasks;
 
@@ -12,18 +13,20 @@ namespace JestersCreditUnion.Loan.Core
         private readonly PaymentIntakeData _data;
         private readonly IPaymentIntakeDataSaver _dataSaver;
         private readonly IPaymentIntakeFactory _factory;
+        private readonly ILookupFactory _lookupFactory;
         private ILoan _loan;
 
-        public PaymentIntake(PaymentIntakeData data, IPaymentIntakeDataSaver dataSaver, IPaymentIntakeFactory paymentIntakeFactory, ILoan loan)
+        public PaymentIntake(PaymentIntakeData data, IPaymentIntakeDataSaver dataSaver, IPaymentIntakeFactory paymentIntakeFactory, ILookupFactory lookupFactory, ILoan loan)
         {
             _data = data;
             _dataSaver = dataSaver;
             _factory = paymentIntakeFactory;
+            _lookupFactory = lookupFactory;
             _loan = loan;
         }
 
-        public PaymentIntake(PaymentIntakeData data, IPaymentIntakeDataSaver dataSaver, IPaymentIntakeFactory paymentIntakeFactory)
-            : this(data, dataSaver, paymentIntakeFactory, null)
+        public PaymentIntake(PaymentIntakeData data, IPaymentIntakeDataSaver dataSaver, IPaymentIntakeFactory paymentIntakeFactory, ILookupFactory lookupFactory)
+            : this(data, dataSaver, paymentIntakeFactory, lookupFactory, null)
         { }
 
         public Guid PaymentIntakeId => _data.PaymentIntakeId;
@@ -59,6 +62,17 @@ namespace JestersCreditUnion.Loan.Core
                 _loan = await _factory.LoanFactory.Get(settings, LoanId);
             }
             return _loan;
+        }
+
+        public async Task<string> GetStatusDescription(Framework.ISettings settings)
+        {
+            string result = null;
+            ILookup lookup = await _lookupFactory.GetLookup(settings, typeof(PaymentIntakeStatus));
+            if (lookup != null)
+            {
+                result = lookup.GetDataValue(Status);
+            }
+            return result;
         }
     }
 }

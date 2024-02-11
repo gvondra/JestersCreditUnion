@@ -15,18 +15,24 @@ namespace JestersCreditUnion.Loan.Core
         private readonly IPaymentIntakeDataFactory _dataFactory;
         private readonly IPaymentIntakeDataSaver _dataSaver;
         private readonly ILoanFactory _loanFactory;
+        private readonly ILookupFactory _lookupsFactory;
 
-        public PaymentIntakeFactory(IPaymentIntakeDataFactory dataFactory, IPaymentIntakeDataSaver dataSaver, ILoanFactory loanFactory)
+        public PaymentIntakeFactory(
+            IPaymentIntakeDataFactory dataFactory,
+            IPaymentIntakeDataSaver dataSaver,
+            ILoanFactory loanFactory,
+            ILookupFactory lookupsFactory)
         {
             _dataFactory = dataFactory;
             _dataSaver = dataSaver;
             _loanFactory = loanFactory;
+            _lookupsFactory = lookupsFactory;
         }
 
         public ILoanFactory LoanFactory => _loanFactory;
 
-        private PaymentIntake Create(PaymentIntakeData data, ILoan loan) => new PaymentIntake(data, _dataSaver, this, loan);
-        private PaymentIntake Create(PaymentIntakeData data) => new PaymentIntake(data, _dataSaver, this);
+        private PaymentIntake Create(PaymentIntakeData data, ILoan loan) => new PaymentIntake(data, _dataSaver, this, _lookupsFactory, loan);
+        private PaymentIntake Create(PaymentIntakeData data) => new PaymentIntake(data, _dataSaver, this, _lookupsFactory);
 
         public IPaymentIntake Create(ILoan loan) => Create(new PaymentIntakeData(), loan);
 

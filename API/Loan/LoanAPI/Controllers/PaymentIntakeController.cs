@@ -23,12 +23,13 @@ namespace LoanAPI.Controllers
         private readonly IPaymentIntakeFactory _paymentIntakeFactory;
         private readonly IPaymentIntakeSaver _paymentIntakeSaver;
         private readonly ILoanFactory _loanFactory;
+        private readonly AuthorizationAPI.IUserService _userService;
 
         public PaymentIntakeController(
             IOptions<Settings> settings,
             ISettingsFactory settingsFactory,
             AuthorizationAPI.IUserService userService,
-            ILogger logger,
+            ILogger<PaymentIntakeController> logger,
             IPaymentIntakeFactory paymentIntakeFactory,
             IPaymentIntakeSaver paymentIntakeSaver,
             ILoanFactory loanFactory)
@@ -37,6 +38,7 @@ namespace LoanAPI.Controllers
             _paymentIntakeFactory = paymentIntakeFactory;
             _paymentIntakeSaver = paymentIntakeSaver;
             _loanFactory = loanFactory;
+            _userService = userService;
         }
 
         [HttpGet]
@@ -168,12 +170,30 @@ namespace LoanAPI.Controllers
         }
 
         [NonAction]
-        private static async Task<PaymentIntake> Map(
+        private async Task<PaymentIntake> Map(
             CoreSettings settings,
             IMapper mapper,
             IPaymentIntake paymentIntake)
         {
             PaymentIntake result = mapper.Map<PaymentIntake>(paymentIntake);
+            Func<string, Task> setCreateUserName = async (string userId) =>
+            {
+                if (!string.IsNullOrEmpty(userId))
+                    result.CreateUserName = (await _userService.Get(GetAuthorizationSettings(), _settings.Value.AuthorizationDomainId.Value, Guid.Parse(userId)))?.Name ?? string.Empty;
+            };
+            Func<string, Task> setUpdateUserName = async (string userId) =>
+            {
+                if (!string.IsNullOrEmpty(userId))
+                    result.UpdateUserName = (await _userService.Get(GetAuthorizationSettings(), _settings.Value.AuthorizationDomainId.Value, Guid.Parse(userId)))?.Name ?? string.Empty;
+            };
+            Func<Task> setStatusDescription = async () =>
+            {
+                result.StatusDescription = await paymentIntake.GetStatusDescription(settings);
+            };
+            await Task.WhenAll(
+                setCreateUserName(paymentIntake.CreateUserId),
+                setUpdateUserName(paymentIntake.UpdateUserId),
+                setStatusDescription());
             result.Loan = mapper.Map<Loan>(await paymentIntake.GetLaon(settings));
             return result;
         }

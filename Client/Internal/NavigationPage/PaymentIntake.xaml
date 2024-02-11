@@ -12,13 +12,18 @@
     <DockPanel>
         <TextBlock DockPanel.Dock="Top" Style="{StaticResource PageTitle}">Payment Intake</TextBlock>
         <ctrl:PaymentIntake DockPanel.Dock="Top" DataContext="{Binding NewItem}"></ctrl:PaymentIntake>
-        <DataGrid ItemsSource="{Binding Items}" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False">
+        <DataGrid ItemsSource="{Binding Items}" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" RowEditEnding="DataGrid_RowEditEnding">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Loan Number" IsReadOnly="True" Binding="{Binding LoanNumber}" />
-                <DataGridTextColumn Header="Next Payment Due" IsReadOnly="True" Binding="{Binding NextPaymentDue, StringFormat='yyyy-MM-dd'}" />
+                <DataGridTextColumn Header="Loan Number" IsReadOnly="True" Binding="{Binding LoanNumber, Mode=OneWay}" />
+                <DataGridTextColumn Header="Next Payment Due" IsReadOnly="True" Binding="{Binding NextPaymentDue, StringFormat='yyyy-MM-dd', Mode=OneWay}" />
                 <DataGridTextColumn Header="Date" Binding="{Binding Date, StringFormat='yyyy-MM-dd'}" />
                 <DataGridTextColumn Header="Transaction Number" Binding="{Binding TransactionNumber}" />
                 <DataGridTextColumn Header="Amount" Binding="{Binding Amount, StringFormat='###,###,##0.00'}" />
+                <DataGridTextColumn Header="Status" IsReadOnly="True" Binding="{Binding StatusDescription, Mode=OneWay}" />
+                <DataGridTextColumn Header="Created By" IsReadOnly="True" Binding="{Binding CreateUserName, Mode=OneWay}" />
+                <DataGridTextColumn Header="Created On" IsReadOnly="True" Binding="{Binding CreateTimestamp, StringFormat='MMM d, h:mm tt', Mode=OneWay}" />
+                <DataGridTextColumn Header="Updated By" IsReadOnly="True" Binding="{Binding UpdateUserName, Mode=OneWay}" />
+                <DataGridTextColumn Header="Updated On" IsReadOnly="True" Binding="{Binding UpdateTimestamp, StringFormat='MMM d, h:mm tt', Mode=OneWay}" />
             </DataGrid.Columns>
         </DataGrid>
     </DockPanel>

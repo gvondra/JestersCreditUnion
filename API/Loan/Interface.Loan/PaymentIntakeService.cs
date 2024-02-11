@@ -55,8 +55,8 @@ namespace JestersCreditUnion.Interface.Loan
         {
             if (settings == null)
                 throw new ArgumentNullException(nameof(settings));
-            else if (paymentIntake == null || !paymentIntake.PaymentId.HasValue)
-                throw new ArgumentException($"Missing {nameof(paymentIntake.PaymentId)} value");
+            else if (paymentIntake == null || !paymentIntake.PaymentIntakeId.HasValue)
+                throw new ArgumentException($"Missing {nameof(paymentIntake.PaymentIntakeId)} value");
             else if (!paymentIntake.Amount.HasValue)
                 throw new ArgumentException($"Missing {nameof(paymentIntake.Amount)} value");
             else if (!paymentIntake.Date.HasValue)
