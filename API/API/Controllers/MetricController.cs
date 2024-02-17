@@ -86,10 +86,10 @@ namespace API.Controllers
                         {
                             user = await _userService.Get(settings, _settings.Value.AuthorizationDomainId.Value, id);
                             if (user != null)
-                                userCache.Add(id, user);
+                                userCache.TryAdd(id, user);
                         }
-                        if (userCache.ContainsKey(id))
-                            metric.RequestorName = userCache[id].Name ?? string.Empty;
+                        if (userCache.TryGetValue(id, out user))
+                            metric.RequestorName = user.Name ?? string.Empty;
                     }
                 }
             }

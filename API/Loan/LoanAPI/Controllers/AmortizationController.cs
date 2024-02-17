@@ -58,7 +58,7 @@ namespace LoanAPI.Controllers
                     IMapper mapper = MapperConfiguration.CreateMapper();
                     result = Ok(
                         (await _amortizationBuilder.Build(GetCoreSettings(), loan))
-                        .Select<IAmortizationItem, AmortizationItem>(am => mapper.Map<AmortizationItem>(am)));
+                        .Select<IAmortizationItem, AmortizationItem>(mapper.Map<AmortizationItem>));
                 }
             }
             catch (System.Exception ex)

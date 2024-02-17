@@ -54,7 +54,7 @@ namespace API.Controllers
                         innerWorkGroups = await _workGroupService.GetAll(settings, _settings.Value.WorkTaskDomainId.Value);
                     }
                     result = Ok(
-                        innerWorkGroups.Select<WorkTaskAPI.Models.WorkGroup, WorkGroup>(t => mapper.Map<WorkGroup>(t))
+                        innerWorkGroups.Select<WorkTaskAPI.Models.WorkGroup, WorkGroup>(mapper.Map<WorkGroup>)
                         );
                 }
             }

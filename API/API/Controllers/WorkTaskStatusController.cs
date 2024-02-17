@@ -47,7 +47,7 @@ namespace API.Controllers
                     IMapper mapper = MapperConfiguration.CreateMapper();
                     result = Ok(
                         (await _workTaskStatusService.GetAll(settings, _settings.Value.WorkTaskDomainId.Value, workTaskTypeId.Value))
-                        .Select(t => mapper.Map<WorkTaskStatus>(t))
+                        .Select(mapper.Map<WorkTaskStatus>)
                         );
                 }
             }

@@ -113,7 +113,7 @@ namespace JestersCreditUnion.Loan.Data.Internal
                 using (DbDataReader reader = await command.ExecuteReaderAsync())
                 {
                     GenericDataFactory<PaymentData> dataFactory = new GenericDataFactory<PaymentData>();
-                    return (await dataFactory.LoadData(reader, () => new  PaymentData(), DataUtil.AssignDataStateManager))
+                    return (await dataFactory.LoadData(reader, () => new PaymentData(), DataUtil.AssignDataStateManager))
                         .FirstOrDefault();
                 }
             }

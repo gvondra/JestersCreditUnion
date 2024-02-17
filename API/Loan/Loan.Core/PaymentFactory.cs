@@ -44,8 +44,7 @@ namespace JestersCreditUnion.Loan.Core
             string transactionNumber,
             DateTime date)
         {
-            if (loan == null)
-                throw new ArgumentNullException(nameof(loan));
+            ArgumentNullException.ThrowIfNull(loan);
             if (string.IsNullOrEmpty(transactionNumber))
                 throw new ArgumentNullException(nameof(transactionNumber));
             Payment payment = Create(
