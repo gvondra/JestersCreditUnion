@@ -80,6 +80,7 @@
     <Compile Include="Behaviors\LoanApplicationUnderReview.cs" />
     <Compile Include="Behaviors\LoanApplicationValidator.cs" />
     <Compile Include="Behaviors\LoanDisburse.cs" />
+    <Compile Include="Behaviors\LoanPastDueLoader.cs" />
     <Compile Include="Behaviors\LoanSearch.cs" />
     <Compile Include="Behaviors\LoanSearchValidator.cs" />
     <Compile Include="Behaviors\LookupDelete.cs" />
@@ -180,6 +181,9 @@
     <Compile Include="NavigationPage\LoanApplicationSummary.xaml.cs">
       <DependentUpon>LoanApplicationSummary.xaml</DependentUpon>
     </Compile>
+    <Compile Include="NavigationPage\LoanPastDue.xaml.cs">
+      <DependentUpon>LoanPastDue.xaml</DependentUpon>
+    </Compile>
     <Compile Include="NavigationPage\LoanSearch.xaml.cs">
       <DependentUpon>LoanSearch.xaml</DependentUpon>
     </Compile>
@@ -257,6 +261,7 @@
     <Compile Include="ViewModel\LoanApplicationRatingLogVM.cs" />
     <Compile Include="ViewModel\LoanApplicationSummaryVM.cs" />
     <Compile Include="ViewModel\LoanApplicationVM.cs" />
+    <Compile Include="ViewModel\LoanPastDueVM.cs" />
     <Compile Include="ViewModel\LoanSearchVM.cs" />
     <Compile Include="ViewModel\LoanVM.cs" />
     <Compile Include="ViewModel\LookupsVM.cs" />
@@ -381,6 +386,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="NavigationPage\LoanPastDue.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="NavigationPage\LoanSearch.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -498,7 +507,7 @@
       <Version>1.0.0-alpha.83</Version>
     </PackageReference>
     <PackageReference Include="JestersCreditUnion.Interface.Loan">
-      <Version>1.0.0-alpha.22</Version>
+      <Version>1.0.0-alpha.24</Version>
     </PackageReference>
     <PackageReference Include="LiveCharts.Wpf">
       <Version>0.9.7</Version>

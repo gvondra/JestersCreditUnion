@@ -29,7 +29,6 @@ namespace JestersCreditUnion.Loan.Reporting.Data.Internal
                 commandType: CommandType.StoredProcedure,
                 readAction: async reader =>
                 {
-                    await reader.NextResultAsync();
                     GenericDataFactory<LoanStatusData> statusFactory = new GenericDataFactory<LoanStatusData>();
                     statuses = (await statusFactory.LoadData(reader, () => new LoanStatusData()))
                         .ToList();
