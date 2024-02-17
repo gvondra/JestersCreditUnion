@@ -3,6 +3,7 @@
 	[Timestamp] DATETIME2(4) NOT NULL,
 	[Date] DATE NOT NULL,
     [Balance] DECIMAL(11,2) NULL,
+	[DaysPastDue] SMALLINT NULL,
 	[LoanStatus] SMALLINT NOT NULL,
 	[Number] VARCHAR(16) NOT NULL,
 	[InitialDisbursementDate] DATE NULL,
