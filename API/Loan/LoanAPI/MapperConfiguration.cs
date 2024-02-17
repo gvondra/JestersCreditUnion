@@ -34,6 +34,7 @@ namespace LoanAPI
             exp.CreateMap<LoanApplicationDenial, ILoanApplicationDenial>();
             exp.CreateMap<Reporting.LoanApplicationSummaryItem, LoanApplicationSummaryItem>();
             exp.CreateMap<LoanPaymentAmountRequest, LoanPaymentAmountResponse>();
+            exp.CreateMap<Reporting.LoanPastDue, LoanPastDue>();
             exp.CreateMap<Reporting.ILoanSummary, OpenLoanSummary>();
             exp.CreateMap<Reporting.IOpenLoanSummary, OpenLoanSummaryItem>();
             exp.CreateMap<ILookup, Lookup>();

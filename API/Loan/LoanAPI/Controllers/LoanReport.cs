@@ -1,53 +1,49 @@
 ﻿using AutoMapper;
 using BrassLoon.Interface.Authorization;
-using JestersCreditUnion.CommonAPI;
-using JestersCreditUnion.Interface.Loan.Models;
 using JestersCreditUnion.Loan.Framework.Reporting;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System;
+using JestersCreditUnion.CommonAPI;
+using System.Linq;
+using Models = JestersCreditUnion.Interface.Loan.Models;
 
 namespace LoanAPI.Controllers
 {
-    [Route("api/Reporting/[controller]")]
+    [Route("api/Reporting/Loan")]
     [ApiController]
-    public class LoanSummaryController : LoanApiControllerBase
+    public class LoanReport : LoanApiControllerBase
     {
-        private readonly ILoanSummaryFactory _factory;
-        private readonly ILoanSummaryBuilder _builder;
+        private readonly ILoanBalanceFactory _loanBalanceFactory;
 
-        public LoanSummaryController(
+        public LoanReport(
             IOptions<Settings> settings,
             ISettingsFactory settingsFactory,
             IUserService userService,
-            ILogger<LoanSummaryController> logger,
-            ILoanSummaryFactory factory,
-            ILoanSummaryBuilder builder)
+            ILogger<LoanReport> logger,
+            ILoanBalanceFactory loanBalanceFactory)
             : base(settings, settingsFactory, userService, logger)
         {
-            _factory = factory;
-            _builder = builder;
+            _loanBalanceFactory = loanBalanceFactory;
         }
 
         [Authorize(Constants.POLICY_LOAN_READ)]
-        [HttpGet("Open")]
-        public async Task<IActionResult> GetOpenLoanSummary()
+        [HttpGet("PastDue")]
+        public async Task<IActionResult> GetPastDue([FromQuery] short minDays = 60)
         {
             DateTime start = DateTime.UtcNow;
             IActionResult result = null;
             try
             {
                 CoreSettings settings = GetCoreSettings();
-                IEnumerable<IOpenLoanSummary> innerItems = await _factory.Get(settings);
-                ILoanSummary loanSummary = _builder.BuildOpenLoanSummary(innerItems);
+                IEnumerable<LoanPastDue> innerItems = await _loanBalanceFactory.GetLoansPastDue(settings, minDays);
                 IMapper mapper = MapperConfiguration.CreateMapper();
-                OpenLoanSummary openLoanSummary = mapper.Map<OpenLoanSummary>(loanSummary);
-                result = Ok(openLoanSummary);
+                result = Ok(innerItems.Select<LoanPastDue, Models.LoanPastDue>(l => mapper.Map<Models.LoanPastDue>(l)).ToList());
             }
             catch (System.Exception ex)
             {
@@ -56,7 +52,7 @@ namespace LoanAPI.Controllers
             }
             finally
             {
-                await WriteMetrics("get-open-ln-summary", start, result);
+                await WriteMetrics("get-rpt-ln-past-due", start, result);
             }
             return result;
         }

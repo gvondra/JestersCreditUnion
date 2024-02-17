@@ -11,6 +11,7 @@ namespace JestersCreditUnion.Loan.Reporting.Core
             builder.RegisterModule(new JestersCreditUnion.Loan.Reporting.Data.LoanReportingDataModule());
 
             builder.RegisterType<LoanApplicationFactory>().As<ILoanApplicationFactory>();
+            builder.RegisterType<LoanBalanceFactory>().As<ILoanBalanceFactory>();
             builder.RegisterType<LoanSummaryFactory>().As<ILoanSummaryFactory>();
             builder.RegisterType<LoanSummaryBuilder>().As<ILoanSummaryBuilder>();
             builder.RegisterType<WorkTaskCycleSummaryFactory>().As<IWorkTaskCycleSummaryFactory>();

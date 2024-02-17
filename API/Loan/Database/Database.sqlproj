@@ -175,6 +175,7 @@
     <Build Include="ln\Stored Procedure\ln.UpdatePaymentIntake.sql" />
     <Build Include="ln\Stored Procedure\ln.GetPaymentIntake.sql" />
     <Build Include="ln\Stored Procedure\ln.CommitPaymentIntake.sql" />
+    <Build Include="lnrpt\Stored Procedure\lnrpt.GetLoanBalances.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="LocalSqlSchemaCompare.scmp" />
