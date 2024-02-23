@@ -87,6 +87,7 @@ namespace JestersCreditUnion.CommonAPI
                     AddPolicy(o, Constants.POLICY_LOAN_CREATE, Constants.AUTH_SCHEMA_JCU, idIssuer, new string[] { Constants.POLICY_LOAN_APPLICATION_EDIT, Constants.POLICY_LOAN_READ });
                     AddPolicy(o, Constants.POLICY_LOAN_EDIT, Constants.AUTH_SCHEMA_JCU, idIssuer, new string[] { Constants.POLICY_LOAN_APPLICATION_EDIT, Constants.POLICY_LOAN_READ });
                     AddPolicy(o, Constants.POLICY_LOAN_READ, Constants.AUTH_SCHEMA_JCU, idIssuer, new string[] { Constants.POLICY_LOAN_APPLICATION_READ });
+                    AddPolicy(o, Constants.POLICY_INTEREST_RATE_CONFIGURE, Constants.AUTH_SCHEMA_JCU, idIssuer);
                 }
             });
             return services;
