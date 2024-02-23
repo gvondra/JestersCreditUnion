@@ -1,15 +1,15 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Threading.Tasks;
+using AutoMapper;
 using JestersCreditUnion.CommonAPI;
+using JestersCreditUnion.Interface.Loan.Models;
 using JestersCreditUnion.Loan.Framework;
 using JestersCreditUnion.Loan.Framework.Enumerations;
-using JestersCreditUnion.Interface.Loan.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System;
-using System.Threading.Tasks;
 using AuthorizationAPI = BrassLoon.Interface.Authorization;
 
 namespace LoanAPI.Controllers
@@ -20,7 +20,8 @@ namespace LoanAPI.Controllers
     {
         private readonly ILoanPaymentAmountCalculator _loanPaymentAmountCalculator;
 
-        public LoanPaymentAmountController(IOptions<Settings> settings,
+        public LoanPaymentAmountController(
+            IOptions<Settings> settings,
             ISettingsFactory settingsFactory,
             AuthorizationAPI.IUserService userService,
             ILogger<LoanPaymentAmountController> logger,

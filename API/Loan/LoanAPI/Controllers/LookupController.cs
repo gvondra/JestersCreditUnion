@@ -1,18 +1,18 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Threading.Tasks;
+using AutoMapper;
 using JestersCreditUnion.CommonAPI;
+using JestersCreditUnion.Interface.Loan.Models;
 using JestersCreditUnion.Loan.Framework;
 using JestersCreditUnion.Loan.Framework.Constants;
-using JestersCreditUnion.Interface.Loan.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
 using AuthorizationAPI = BrassLoon.Interface.Authorization;
 using ConfigAPI = BrassLoon.Interface.Config;
 
@@ -26,7 +26,8 @@ namespace LoanAPI.Controllers
         private readonly ConfigAPI.IItemService _itemService;
         private readonly ILookupFactory _lookupFactory;
 
-        public LookupController(IOptions<Settings> settings,
+        public LookupController(
+            IOptions<Settings> settings,
             ISettingsFactory settingsFactory,
             AuthorizationAPI.IUserService userService,
             ILogger<LookupController> logger,
@@ -39,6 +40,29 @@ namespace LoanAPI.Controllers
             _itemService = itemService;
             _lookupFactory = lookupFactory;
         }
+
+#pragma warning disable S2259 // Null pointers should not be dereferenced
+        [NonAction]
+        private static List<string> GetIndex(ConfigAPI.Models.Item item)
+        {
+            List<string> codes = new List<string>();
+            if (item?.Data != null)
+            {
+                foreach (string code in item.Data)
+                {
+                    codes.Add(code);
+                }
+            }
+            foreach (string code in EnumerationDesriptionLookup.Map.Select(m => m.Item1))
+            {
+                if (!codes.Exists(c => string.Equals(c, code, StringComparison.OrdinalIgnoreCase)))
+                {
+                    codes.Add(code);
+                }
+            }
+            return codes;
+        }
+#pragma warning restore S2259 // Null pointers should not be dereferenced
 
         [NonAction]
         private async Task<ConfigAPI.Models.Item> GetIndexItem(ConfigAPI.ISettings settings)
@@ -56,27 +80,6 @@ namespace LoanAPI.Controllers
             }
         }
 
-        [NonAction]
-        private static List<string> GetIndex(ConfigAPI.Models.Item item)
-        {
-            List<string> codes = new List<string>();
-            if (item?.Data != null)
-            {
-                foreach (string code in item.Data)
-                {
-                    codes.Add(code);
-                }
-            }
-            foreach (string code in EnumerationDesriptionLookup.Map.Select(m => m.Item1))
-            {
-                if (!codes.Any(c => string.Equals(c, code, StringComparison.OrdinalIgnoreCase)))
-                {
-                    codes.Add(code);
-                }
-            }
-            return codes;
-        }
-
         [HttpGet("/api/LookupIndex")]
         [Authorize(Constants.POLICY_LOOKUP_EDIT)]
         [ProducesResponseType(typeof(string[]), 200)]
@@ -86,13 +89,10 @@ namespace LoanAPI.Controllers
             IActionResult result = null;
             try
             {
-                if (result == null)
-                {
-                    ConfigurationSettings settings = GetConfigurationSettings();
-                    List<string> codes = GetIndex(await GetIndexItem(settings));
-                    codes.Sort();
-                    result = Ok(codes);
-                }
+                ConfigurationSettings settings = GetConfigurationSettings();
+                List<string> codes = GetIndex(await GetIndexItem(settings));
+                codes.Sort();
+                result = Ok(codes);
             }
             catch (BrassLoon.RestClient.Exceptions.RequestError ex)
             {
@@ -120,16 +120,18 @@ namespace LoanAPI.Controllers
             IActionResult result = null;
             try
             {
-                if (result == null && string.IsNullOrEmpty(code))
+                if (string.IsNullOrEmpty(code))
+                {
                     result = BadRequest("Missing code parameter value");
-                if (result == null)
+                }
+                else
                 {
                     CoreSettings coreSettings = GetCoreSettings();
                     ConfigurationSettings settings = GetConfigurationSettings();
                     Task<ConfigAPI.Models.Item> lookupIndexTask = GetIndexItem(settings);
                     ILookup lookup = await _lookupFactory.GetLookup(coreSettings, code);
                     List<string> lookupIndex = GetIndex(await lookupIndexTask);
-                    if (lookup == null || !lookupIndex.Any(k => string.Equals(k, lookup.Code, StringComparison.OrdinalIgnoreCase)))
+                    if (lookup == null || !lookupIndex.Exists(k => string.Equals(k, lookup.Code, StringComparison.OrdinalIgnoreCase)))
                     {
                         result = NotFound();
                     }
@@ -166,9 +168,11 @@ namespace LoanAPI.Controllers
             IActionResult result = null;
             try
             {
-                if (result == null && string.IsNullOrEmpty(code))
+                if (string.IsNullOrEmpty(code))
+                {
                     result = BadRequest("Missing code parameter value");
-                if (result == null)
+                }
+                else
                 {
                     ConfigurationSettings settings = GetConfigurationSettings();
                     Task updateIndex = UpdateIndex(settings, code);
@@ -199,7 +203,7 @@ namespace LoanAPI.Controllers
         private async Task UpdateIndex(ConfigAPI.ISettings settings, string code)
         {
             List<string> lookupIndex = GetIndex(await GetIndexItem(settings));
-            if (!lookupIndex.Any(i => string.Equals(i, code, StringComparison.OrdinalIgnoreCase)))
+            if (!lookupIndex.Exists(i => string.Equals(i, code, StringComparison.OrdinalIgnoreCase)))
             {
                 lookupIndex.Add(code);
                 await _itemService.Save(settings, _settings.Value.ConfigDomainId.Value, _settings.Value.LookupIndexConfigurationCode, lookupIndex);
@@ -210,7 +214,7 @@ namespace LoanAPI.Controllers
         private async Task DeleteFromIndex(ConfigAPI.ISettings settings, string code)
         {
             List<string> lookupIndex = GetIndex(await GetIndexItem(settings));
-            code = lookupIndex.FirstOrDefault(i => string.Equals(i, code, StringComparison.OrdinalIgnoreCase));
+            code = lookupIndex.Find(i => string.Equals(i, code, StringComparison.OrdinalIgnoreCase));
             if (code != null)
             {
                 lookupIndex.Remove(code);
@@ -226,9 +230,11 @@ namespace LoanAPI.Controllers
             IActionResult result = null;
             try
             {
-                if (result == null && string.IsNullOrEmpty(code))
+                if (string.IsNullOrEmpty(code))
+                {
                     result = BadRequest("Missing code parameter value");
-                if (result == null)
+                }
+                else
                 {
                     ConfigurationSettings settings = GetConfigurationSettings();
                     await _lookupService.Delete(settings, _settings.Value.ConfigDomainId.Value, code);

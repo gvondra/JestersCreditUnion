@@ -12,6 +12,8 @@ namespace JestersCreditUnion.CommonAPI
 {
     public static class ServiceCollectionExtensions
     {
+#pragma warning disable S2589 // Boolean expressions should not be gratuitous
+#pragma warning disable SA1201 // Elements should appear in the correct order
         public static IServiceCollection AddCors(this IServiceCollection services, IConfiguration configuration)
         {
             IConfigurationSection section = configuration.GetSection("CorsOrigins");
@@ -31,6 +33,7 @@ namespace JestersCreditUnion.CommonAPI
             }
             return services;
         }
+#pragma warning restore S2589 // Boolean expressions should not be gratuitous
 
         public static IServiceCollection AddAuthorization(this IServiceCollection services, IConfiguration configuration)
         {
@@ -49,7 +52,8 @@ namespace JestersCreditUnion.CommonAPI
                 Console.WriteLine($"GoogleIdIssuer={googleIdIssuer}");
                 if (!string.IsNullOrEmpty(googleIdIssuer))
                 {
-                    o.AddPolicy(Constants.POLICY_TOKEN_CREATE,
+                    o.AddPolicy(
+                        Constants.POLICY_TOKEN_CREATE,
                         configure =>
                         {
                             configure.AddRequirements(new AuthorizationRequirement(Constants.POLICY_TOKEN_CREATE, googleIdIssuer))
@@ -60,7 +64,8 @@ namespace JestersCreditUnion.CommonAPI
                 Console.WriteLine($"IdIssuer={idIssuer}");
                 if (!string.IsNullOrEmpty(idIssuer))
                 {
-                    o.AddPolicy(Constants.POLICY_BL_AUTH,
+                    o.AddPolicy(
+                        Constants.POLICY_BL_AUTH,
                         configure =>
                         {
                             configure.AddRequirements(new AuthorizationRequirement(Constants.POLICY_BL_AUTH, idIssuer))
@@ -110,21 +115,21 @@ namespace JestersCreditUnion.CommonAPI
             {
                 additinalPolicies = additinalPolicies.Concat(new List<string> { policyName });
             }
-            authorizationOptions.AddPolicy(policyName,
-                    configure =>
-                    {
-                        configure.AddRequirements(new AuthorizationRequirement(policyName, issuer, additinalPolicies.ToArray()))
-                        .AddAuthenticationSchemes(schema)
-                        .Build();
-                    });
+            authorizationOptions.AddPolicy(
+                policyName,
+                configure =>
+                {
+                    configure.AddRequirements(new AuthorizationRequirement(policyName, issuer, additinalPolicies.ToArray()))
+                    .AddAuthenticationSchemes(schema)
+                    .Build();
+                });
         }
 
         public static AuthenticationBuilder AddAuthentication(this AuthenticationBuilder builder, IConfiguration configuration)
         {
             HttpDocumentRetriever documentRetriever = new HttpDocumentRetriever() { RequireHttps = false };
             JsonWebKeySet keySet = JsonWebKeySet.Create(
-                documentRetriever.GetDocumentAsync(configuration["JwkAddress"], new System.Threading.CancellationToken()).Result
-                );
+                documentRetriever.GetDocumentAsync(configuration["JwkAddress"], System.Threading.CancellationToken.None).Result);
             builder.AddJwtBearer(Constants.AUTH_SCHEMA_JCU, o =>
             {
                 o.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
@@ -157,8 +162,7 @@ namespace JestersCreditUnion.CommonAPI
                 .ToList();
             HttpDocumentRetriever documentRetriever = new HttpDocumentRetriever() { RequireHttps = false };
             JsonWebKeySet keySet = JsonWebKeySet.Create(
-                documentRetriever.GetDocumentAsync(configuration["GoogleJwksUrl"], new System.Threading.CancellationToken()).Result
-                );
+                documentRetriever.GetDocumentAsync(configuration["GoogleJwksUrl"], System.Threading.CancellationToken.None).Result);
             builder.AddJwtBearer(Constants.AUTH_SCHEME_GOOGLE, o =>
             {
                 o.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
@@ -184,3 +188,4 @@ namespace JestersCreditUnion.CommonAPI
         }
     }
 }
+#pragma warning restore SA1201 // Elements should appear in the correct order

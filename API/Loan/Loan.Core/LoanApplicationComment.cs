@@ -31,7 +31,7 @@ namespace JestersCreditUnion.Loan.Core
 
         public Guid LoanApplicationCommentId => _data.LoanApplicationCommentId;
 
-        private Guid LoanApplicationId { get => _data.LoanApplicationId; set => _data.LoanApplicationId = value; }
+        private Guid LoanApplicationId { set => _data.LoanApplicationId = value; }
 
         public Guid UserId => _data.UserId;
 

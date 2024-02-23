@@ -22,7 +22,8 @@ namespace JestersCreditUnion.Loan.Core
         private readonly SettingsFactory _settingsFactory;
         private readonly IAddressFactory _addressFactory;
 
-        public LoanFactory(ILoanDataFactory dataFactory,
+        public LoanFactory(
+            ILoanDataFactory dataFactory,
             ILoanDataSaver dataSaver,
             LoanNumberGenerator numberGenerator,
             IPaymentDataFactory paymentDataFactory,
@@ -43,7 +44,6 @@ namespace JestersCreditUnion.Loan.Core
             _emailService = emailService;
             _settingsFactory = settingsFactory;
             _addressFactory = addressFactoryIndex["v2"];
-
         }
 
         public IAddressFactory AddressFactory => _addressFactory;

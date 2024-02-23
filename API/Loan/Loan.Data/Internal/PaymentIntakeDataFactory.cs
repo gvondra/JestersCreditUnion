@@ -8,7 +8,8 @@ namespace JestersCreditUnion.Loan.Data.Internal
 {
     public class PaymentIntakeDataFactory : DataFactoryBase<PaymentIntakeData>, IPaymentIntakeDataFactory
     {
-        public PaymentIntakeDataFactory(IDbProviderFactory providerFactory) : base(providerFactory)
+        public PaymentIntakeDataFactory(IDbProviderFactory providerFactory)
+            : base(providerFactory)
         { }
 
         public async Task<PaymentIntakeData> Get(ISqlSettings settings, Guid id)

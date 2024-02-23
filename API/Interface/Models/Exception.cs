@@ -3,6 +3,7 @@
 namespace JestersCreditUnion.Interface.Models
 {
 #pragma warning disable CA1711 // Identifiers should not have incorrect suffix
+#pragma warning disable S2166 // Classes named like "Exception" should extend "Exception" or a subclass
     public class Exception
     {
         public long? ExceptionId { get; set; }
@@ -18,3 +19,4 @@ namespace JestersCreditUnion.Interface.Models
     }
 }
 #pragma warning restore CA1711 // Identifiers should not have incorrect suffix
+#pragma warning restore S2166 // Classes named like "Exception" should extend "Exception" or a subclass

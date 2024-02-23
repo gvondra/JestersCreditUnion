@@ -84,11 +84,12 @@ namespace JestersCreditUnion.Interface
                 throw new ArgumentNullException(nameof(name));
             AsyncPolicy retry = Policy.Handle<System.Exception>()
                 .WaitAndRetryAsync(new TimeSpan[] { TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(1.5) });
-            return _codeLookupCache.ExecuteAsync(context =>
-            {
-                return retry.ExecuteAsync(() => InnerLookupCode(settings, name));
-            },
-            new Context(name));
+            return _codeLookupCache.ExecuteAsync(
+                context =>
+                {
+                    return retry.ExecuteAsync(() => InnerLookupCode(settings, name));
+                },
+                new Context(name));
         }
 
         private Task<string> InnerLookupCode(ISettings settings, string name)

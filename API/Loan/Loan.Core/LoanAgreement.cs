@@ -80,12 +80,10 @@ namespace JestersCreditUnion.Loan.Core
             if (_loan == null)
                 throw new ApplicationException("Cannot create loan agreement. No parent loan was set");
             LoanId = _loan.LoanId;
-            await Task.WhenAll(new Task[]
-            {
+            await Task.WhenAll(
                 SaveAddresses(transactionHandler, settings),
                 SaveEmailAddresses(settings),
-                SavePhones(settings)
-            });
+                SavePhones(settings));
             await _dataSaver.Create(transactionHandler, _data);
         }
 
@@ -121,12 +119,10 @@ namespace JestersCreditUnion.Loan.Core
 
         public async Task Update(CommonCore.ITransactionHandler transactionHandler, ISettings settings)
         {
-            await Task.WhenAll(new Task[]
-            {
+            await Task.WhenAll(
                 SaveAddresses(transactionHandler, settings),
                 SaveEmailAddresses(settings),
-                SavePhones(settings)
-            });
+                SavePhones(settings));
             await _dataSaver.Update(transactionHandler, _data);
         }
 

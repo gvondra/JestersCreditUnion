@@ -23,7 +23,8 @@ namespace API.Controllers
         private readonly WorkTaskAPI.IWorkTaskTypeService _workTaskTypeService;
         private readonly ConfigAPI.IItemService _itemService;
 
-        public WorkTaskTypeController(IOptions<Settings> settings,
+        public WorkTaskTypeController(
+            IOptions<Settings> settings,
             ISettingsFactory settingsFactory,
             AuthorizationAPI.IUserService userService,
             ILogger<WorkTaskTypeController> logger,
@@ -35,7 +36,7 @@ namespace API.Controllers
             _itemService = itemService;
         }
 
-        [HttpGet()]
+        [HttpGet]
         [Authorize(Constants.POLICY_WORKTASK_TYPE_READ)]
         [ProducesResponseType(typeof(List<WorkTaskType>), 200)]
         public async Task<IActionResult> GetAll([FromQuery] string code)
@@ -44,31 +45,26 @@ namespace API.Controllers
             IActionResult result = null;
             try
             {
-                if (result == null)
+                WorkTaskSettings settings = GetWorkTaskSettings();
+                IMapper mapper = MapperConfiguration.CreateMapper();
+                if (!string.IsNullOrEmpty(code))
                 {
-                    WorkTaskSettings settings = GetWorkTaskSettings();
-                    IMapper mapper = MapperConfiguration.CreateMapper();
-                    if (!string.IsNullOrEmpty(code))
+                    WorkTaskAPI.Models.WorkTaskType innerWorkTaskType = await _workTaskTypeService.GetByCode(settings, _settings.Value.WorkTaskDomainId.Value, code);
+                    if (innerWorkTaskType == null)
                     {
-                        WorkTaskAPI.Models.WorkTaskType innerWorkTaskType = await _workTaskTypeService.GetByCode(settings, _settings.Value.WorkTaskDomainId.Value, code);
-                        if (innerWorkTaskType == null)
-                        {
-                            result = Ok(null);
-                        }
-                        else
-                        {
-                            result = Ok(
-                                mapper.Map<WorkTaskType>(innerWorkTaskType)
-                                );
-                        }
+                        result = Ok(null);
                     }
                     else
                     {
                         result = Ok(
-                            (await _workTaskTypeService.GetAll(settings, _settings.Value.WorkTaskDomainId.Value))
-                            .Select(mapper.Map<WorkTaskType>)
-                            );
+                            mapper.Map<WorkTaskType>(innerWorkTaskType));
                     }
+                }
+                else
+                {
+                    result = Ok(
+                        (await _workTaskTypeService.GetAll(settings, _settings.Value.WorkTaskDomainId.Value))
+                        .Select(mapper.Map<WorkTaskType>));
                 }
             }
             catch (BrassLoon.RestClient.Exceptions.RequestError ex)
@@ -97,9 +93,11 @@ namespace API.Controllers
             IActionResult result = null;
             try
             {
-                if (result == null && (!id.HasValue || id.Value.Equals(Guid.Empty)))
+                if (!id.HasValue || id.Value.Equals(Guid.Empty))
+                {
                     result = BadRequest("Missing id parameter value");
-                if (result == null)
+                }
+                else
                 {
                     WorkTaskSettings settings = GetWorkTaskSettings();
                     WorkTaskAPI.Models.WorkTaskType innerWorkTaskType = await _workTaskTypeService.Get(settings, _settings.Value.WorkTaskDomainId.Value, id.Value);
@@ -109,8 +107,7 @@ namespace API.Controllers
                     {
                         IMapper mapper = MapperConfiguration.CreateMapper();
                         result = Ok(
-                            mapper.Map<WorkTaskType>(innerWorkTaskType)
-                            );
+                            mapper.Map<WorkTaskType>(innerWorkTaskType));
                     }
                 }
             }
@@ -140,16 +137,17 @@ namespace API.Controllers
             IActionResult result = null;
             try
             {
-                if (result == null && (!workGroupId.HasValue || workGroupId.Value.Equals(Guid.Empty)))
+                if (!workGroupId.HasValue || workGroupId.Value.Equals(Guid.Empty))
+                {
                     result = BadRequest("Missing work group id parameter value");
-                if (result == null)
+                }
+                else
                 {
                     WorkTaskSettings settings = GetWorkTaskSettings();
                     IMapper mapper = MapperConfiguration.CreateMapper();
                     result = Ok(
                         (await _workTaskTypeService.GetByWorkGroupId(settings, _settings.Value.WorkTaskDomainId.Value, workGroupId.Value))
-                        .Select(mapper.Map<WorkTaskType>)
-                        );
+                        .Select(mapper.Map<WorkTaskType>));
                 }
             }
             catch (BrassLoon.RestClient.Exceptions.RequestError ex)
@@ -173,14 +171,14 @@ namespace API.Controllers
         private IActionResult ValidateRequest(WorkTaskType workTaskType)
         {
             IActionResult result = null;
-            if (result == null && workTaskType == null)
+            if (workTaskType == null)
                 result = BadRequest("Missing work task type body");
-            if (result == null && string.IsNullOrEmpty(workTaskType?.Title))
+            else if (string.IsNullOrEmpty(workTaskType.Title))
                 result = BadRequest("Missing work task type title value");
             return result;
         }
 
-        [HttpPost()]
+        [HttpPost]
         [Authorize(Constants.POLICY_WORKTASK_TYPE_EDIT)]
         [ProducesResponseType(typeof(WorkTaskType), 200)]
         public async Task<IActionResult> Create([FromBody] WorkTaskType workTaskType)
@@ -189,8 +187,7 @@ namespace API.Controllers
             IActionResult result = null;
             try
             {
-                if (result == null)
-                    result = ValidateRequest(workTaskType);
+                result = ValidateRequest(workTaskType);
                 if (result == null && string.IsNullOrEmpty(workTaskType.Code))
                     result = BadRequest("Missing work task type code value");
                 if (result == null)
@@ -201,8 +198,7 @@ namespace API.Controllers
                     innerWorkTaskType.DomainId = _settings.Value.WorkTaskDomainId.Value;
                     innerWorkTaskType = await _workTaskTypeService.Create(settings, innerWorkTaskType);
                     result = Ok(
-                        mapper.Map<WorkTaskType>(innerWorkTaskType)
-                        );
+                        mapper.Map<WorkTaskType>(innerWorkTaskType));
                 }
             }
             catch (BrassLoon.RestClient.Exceptions.RequestError ex)
@@ -231,7 +227,7 @@ namespace API.Controllers
             IActionResult result = null;
             try
             {
-                if (result == null && (!id.HasValue || id.Value.Equals(Guid.Empty)))
+                if (!id.HasValue || id.Value.Equals(Guid.Empty))
                     result = BadRequest("Missing id parameter value");
                 if (result == null)
                     result = ValidateRequest(workTaskType);
@@ -243,8 +239,7 @@ namespace API.Controllers
                     innerWorkTaskType.DomainId = _settings.Value.WorkTaskDomainId.Value;
                     innerWorkTaskType = await _workTaskTypeService.Update(settings, innerWorkTaskType);
                     result = Ok(
-                        mapper.Map<WorkTaskType>(innerWorkTaskType)
-                        );
+                        mapper.Map<WorkTaskType>(innerWorkTaskType));
                 }
             }
             catch (BrassLoon.RestClient.Exceptions.RequestError ex)

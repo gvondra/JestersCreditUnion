@@ -20,7 +20,8 @@ namespace API.Controllers
     {
         private readonly AuthorizationAPI.IRoleService _roleService;
 
-        public RoleController(IOptions<Settings> settings,
+        public RoleController(
+            IOptions<Settings> settings,
             ISettingsFactory settingsFactory,
             AuthorizationAPI.IUserService userService,
             ILogger<RoleController> logger,
@@ -30,7 +31,7 @@ namespace API.Controllers
             _roleService = roleService;
         }
 
-        [HttpGet()]
+        [HttpGet]
         [Authorize(Constants.POLICY_ROLE_EDIT)]
         [ProducesResponseType(typeof(List<Role>), 200)]
         public async Task<IActionResult> Search()
@@ -39,15 +40,11 @@ namespace API.Controllers
             IActionResult result = null;
             try
             {
-                if (result == null)
-                {
-                    AuthorizationAPI.ISettings settings = GetAuthorizationSettings();
-                    IMapper mapper = MapperConfiguration.CreateMapper();
-                    result = Ok(
-                        (await _roleService.GetByDomainId(settings, _settings.Value.AuthorizationDomainId.Value))
-                        .Select<AuthorizationAPI.Models.Role, Role>(mapper.Map<Role>)
-                        );
-                }
+                AuthorizationAPI.ISettings settings = GetAuthorizationSettings();
+                IMapper mapper = MapperConfiguration.CreateMapper();
+                result = Ok(
+                    (await _roleService.GetByDomainId(settings, _settings.Value.AuthorizationDomainId.Value))
+                    .Select<AuthorizationAPI.Models.Role, Role>(mapper.Map<Role>));
             }
             catch (System.Exception ex)
             {
@@ -74,14 +71,14 @@ namespace API.Controllers
         private IActionResult Validate(Role role)
         {
             IActionResult result = null;
-            if (result == null && role == null)
+            if (role == null)
                 result = BadRequest("Missing role data body");
-            if (result == null && string.IsNullOrEmpty(role.Name))
+            else if (string.IsNullOrEmpty(role.Name))
                 result = BadRequest("Missing role name value");
             return result;
         }
 
-        [HttpPost()]
+        [HttpPost]
         [Authorize(Constants.POLICY_ROLE_EDIT)]
         [ProducesResponseType(typeof(Role), 200)]
         public async Task<IActionResult> Create([FromBody] Role role)
@@ -90,8 +87,7 @@ namespace API.Controllers
             IActionResult result = null;
             try
             {
-                if (result == null)
-                    result = ValidateCreate(role);
+                result = ValidateCreate(role);
                 if (result == null)
                 {
                     AuthorizationAPI.ISettings settings = GetAuthorizationSettings();
@@ -99,8 +95,7 @@ namespace API.Controllers
                     AuthorizationAPI.Models.Role innerRole = mapper.Map<AuthorizationAPI.Models.Role>(role);
                     innerRole = await _roleService.Create(settings, _settings.Value.AuthorizationDomainId.Value, innerRole);
                     result = Ok(
-                        mapper.Map<Role>(innerRole)
-                        );
+                        mapper.Map<Role>(innerRole));
                 }
             }
             catch (System.Exception ex)
@@ -124,19 +119,18 @@ namespace API.Controllers
             IActionResult result = null;
             try
             {
-                if (result == null && (!id.HasValue || id.Value.Equals(Guid.Empty)))
+                if (!id.HasValue || id.Value.Equals(Guid.Empty))
                     result = BadRequest("Missing or invalid role id parameter value");
-                if (result == null)
+                else
                     result = Validate(role);
-                if (result == null)
+                if (result == null && id.HasValue)
                 {
                     AuthorizationAPI.ISettings settings = GetAuthorizationSettings();
                     IMapper mapper = MapperConfiguration.CreateMapper();
                     AuthorizationAPI.Models.Role innerRole = mapper.Map<AuthorizationAPI.Models.Role>(role);
                     innerRole = await _roleService.Update(settings, _settings.Value.AuthorizationDomainId.Value, id.Value, innerRole);
                     result = Ok(
-                        mapper.Map<Role>(innerRole)
-                        );
+                        mapper.Map<Role>(innerRole));
                 }
             }
             catch (System.Exception ex)
@@ -150,6 +144,5 @@ namespace API.Controllers
             }
             return result;
         }
-
     }
 }

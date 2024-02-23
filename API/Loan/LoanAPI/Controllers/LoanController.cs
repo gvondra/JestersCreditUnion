@@ -1,16 +1,16 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using AutoMapper;
 using JestersCreditUnion.CommonAPI;
-using JestersCreditUnion.Loan.Framework;
 using JestersCreditUnion.Interface.Loan.Models;
+using JestersCreditUnion.Loan.Framework;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using AuthorizationAPI = BrassLoon.Interface.Authorization;
 
 namespace LoanAPI.Controllers
@@ -25,7 +25,8 @@ namespace LoanAPI.Controllers
         private readonly ILoanSaver _loanSaver;
         private readonly IAddressFactory _addressFactory;
 
-        public LoanController(IOptions<Settings> settings,
+        public LoanController(
+            IOptions<Settings> settings,
             ISettingsFactory settingsFactory,
             AuthorizationAPI.IUserService userService,
             ILogger<LoanController> logger,
@@ -41,6 +42,20 @@ namespace LoanAPI.Controllers
             _loanFactory = loanFactory;
             _loanSaver = loanSaver;
             _addressFactory = addressFactory;
+        }
+
+        [NonAction]
+        private static async Task<Loan> Map(IMapper mapper, CoreSettings settings, ILoan innerLoan)
+        {
+            IAddress borrowerAddress = await innerLoan.Agreement.GetBorrowerAddress(settings);
+            IAddress coborrowerAddress = await innerLoan.Agreement.GetCoBorrowerAddress(settings);
+
+            Loan loan = mapper.Map<Loan>(innerLoan);
+            loan.Agreement.BorrowerAddress = borrowerAddress != null ? mapper.Map<Address>(borrowerAddress) : null;
+            loan.Agreement.CoBorrowerAddress = coborrowerAddress != null ? mapper.Map<Address>(coborrowerAddress) : null;
+            loan.StatusDescription = await innerLoan.GetStatusDescription(settings);
+
+            return loan;
         }
 
         [Authorize(Constants.POLICY_LOAN_READ)]
@@ -148,7 +163,7 @@ namespace LoanAPI.Controllers
 
         [Authorize(Constants.POLICY_LOAN_CREATE)]
         [ProducesResponseType(typeof(Loan), 200)]
-        [HttpPost()]
+        [HttpPost]
         public async Task<IActionResult> Create([FromBody] Loan loan)
         {
             DateTime start = DateTime.UtcNow;
@@ -201,15 +216,15 @@ namespace LoanAPI.Controllers
             {
                 ILoan innerLoan = null;
                 CoreSettings settings = GetCoreSettings();
-                if (result == null && (!id.HasValue || id.Value.Equals(Guid.Empty)))
+                if (!id.HasValue || id.Value.Equals(Guid.Empty))
                 {
                     result = BadRequest("Missing id parameter value");
                 }
-                if (result == null)
+                else
                 {
                     result = ValidateLoan(loan) ?? ValidateLoanAgreement(loan.Agreement);
                 }
-                if (result == null)
+                if (result == null && id.HasValue)
                 {
                     innerLoan = await _loanFactory.Get(settings, id.Value);
                     if (innerLoan == null)
@@ -298,20 +313,6 @@ namespace LoanAPI.Controllers
             return result;
         }
 
-        [NonAction]
-        private static async Task<Loan> Map(IMapper mapper, CoreSettings settings, ILoan innerLoan)
-        {
-            IAddress borrowerAddress = await innerLoan.Agreement.GetBorrowerAddress(settings);
-            IAddress coborrowerAddress = await innerLoan.Agreement.GetCoBorrowerAddress(settings);
-
-            Loan loan = mapper.Map<Loan>(innerLoan);
-            loan.Agreement.BorrowerAddress = borrowerAddress != null ? mapper.Map<Address>(borrowerAddress) : null;
-            loan.Agreement.CoBorrowerAddress = coborrowerAddress != null ? mapper.Map<Address>(coborrowerAddress) : null;
-            loan.StatusDescription = await innerLoan.GetStatusDescription(settings);
-
-            return loan;
-        }
-
         [Authorize(Constants.POLICY_LOAN_EDIT)]
         [ProducesResponseType(typeof(Loan), 200)]
         [HttpPost("{id}/InitiateDisbursement")]
@@ -333,7 +334,7 @@ namespace LoanAPI.Controllers
                     if (innerLoan == null)
                         result = NotFound();
                 }
-                if (result == null)
+                if (result == null && innerLoan != null)
                 {
                     if (innerLoan.Agreement.Status == JestersCreditUnion.Loan.Framework.Enumerations.LoanAgrementStatus.PendingSignoff)
                         innerLoan.Agreement.Status = JestersCreditUnion.Loan.Framework.Enumerations.LoanAgrementStatus.Agreed;

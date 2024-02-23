@@ -34,15 +34,11 @@ namespace JestersCreditUnion.CommonAPI
         protected string GetCurrentUserReferenceId()
             => User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
 
-        protected string GetCurrentUserEmailAddress()
-            => User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
-
         protected bool UserHasRole(string role)
         {
             return (User.Identity?.IsAuthenticated ?? false)
                 && User.Claims.Any(
-                c => string.Equals(ClaimTypes.Role, c.Type, StringComparison.OrdinalIgnoreCase) && string.Equals(role, c.Value, StringComparison.OrdinalIgnoreCase)
-                );
+                c => string.Equals(ClaimTypes.Role, c.Type, StringComparison.OrdinalIgnoreCase) && string.Equals(role, c.Value, StringComparison.OrdinalIgnoreCase));
         }
 
         protected async Task<AuthorizationAPI.Models.User> GetCurrentUser(AuthorizationAPI.ISettings settings, Guid domainId)
@@ -54,8 +50,7 @@ namespace JestersCreditUnion.CommonAPI
                 string emailAddress = null;
                 List<AuthorizationAPI.Models.User> users = await _currentUserCache.Execute(
                     (context) => _userService.Search(settings, domainId, referenceId: referenceId),
-                    new Context(referenceId)
-                    ) ?? new List<AuthorizationAPI.Models.User>();
+                    new Context(referenceId)) ?? new List<AuthorizationAPI.Models.User>();
                 user = users.FirstOrDefault();
                 if (user == null)
                     emailAddress = GetCurrentUserEmailAddress();
@@ -63,8 +58,7 @@ namespace JestersCreditUnion.CommonAPI
                 {
                     users = await _currentUserCache.Execute(
                     (context) => _userService.Search(settings, domainId, emailAddress: emailAddress),
-                    new Context(emailAddress)
-                    ) ?? new List<AuthorizationAPI.Models.User>();
+                    new Context(emailAddress)) ?? new List<AuthorizationAPI.Models.User>();
                     user = users.FirstOrDefault();
                 }
             }
@@ -80,6 +74,9 @@ namespace JestersCreditUnion.CommonAPI
             return id;
         }
 
+        protected string GetCurrentUserEmailAddress()
+            => User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
+
         protected virtual async Task<string> GetCurrentUserEmailAddress(AuthorizationAPI.ISettings settings, Guid domainId)
         {
             string emailAddress = null;
@@ -89,6 +86,7 @@ namespace JestersCreditUnion.CommonAPI
             return emailAddress;
         }
 
+#pragma warning disable S2589 // Boolean expressions should not be gratuitous
         protected string GetUserToken()
         {
             string token = null;
@@ -104,6 +102,7 @@ namespace JestersCreditUnion.CommonAPI
             }
             return token;
         }
+#pragma warning restore S2589 // Boolean expressions should not be gratuitous
 
         protected async Task WriteMetrics(
             AuthorizationAPI.ISettings authSettings,
@@ -115,12 +114,12 @@ namespace JestersCreditUnion.CommonAPI
         {
             try
             {
-                WriteMetrics(eventCode,
+                WriteMetrics(
+                    eventCode,
                     magnitude: magnitude,
                     userId: await GetCurrentUserId(authSettings, authorizationDomainId),
                     actionResult: actionResult,
-                    data: data
-                    );
+                    data: data);
             }
             catch (Exception ex)
             {
@@ -138,13 +137,13 @@ namespace JestersCreditUnion.CommonAPI
             string status = string.Empty;
             if (actionResult != null)
             {
-                if (typeof(ObjectResult).IsAssignableFrom(actionResult.GetType()))
+                if (actionResult is ObjectResult objectResult)
                 {
-                    status = ((ObjectResult)actionResult).StatusCode?.ToString(CultureInfo.InvariantCulture);
+                    status = objectResult.StatusCode?.ToString(CultureInfo.InvariantCulture);
                 }
-                else if (typeof(StatusCodeResult).IsAssignableFrom(actionResult.GetType()))
+                else if (actionResult is StatusCodeResult statusCodeResult)
                 {
-                    status = ((StatusCodeResult)actionResult).StatusCode.ToString(CultureInfo.InvariantCulture.NumberFormat);
+                    status = statusCodeResult.StatusCode.ToString(CultureInfo.InvariantCulture.NumberFormat);
                 }
             }
             try

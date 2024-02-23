@@ -42,7 +42,7 @@ namespace LoanAPI.Controllers
             {
                 if (!minCreateDate.HasValue)
                 {
-                    minCreateDate = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1)
+                    minCreateDate = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1, 0, 0, 0, DateTimeKind.Unspecified)
                         .AddMonths(-6);
                 }
                 CoreSettings settings = GetCoreSettings();

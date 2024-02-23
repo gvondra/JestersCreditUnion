@@ -46,6 +46,5 @@ namespace JestersCreditUnion.Loan.Core
             LoanId = _loan.LoanId;
             return _dataSaver.Create(transactionHandler, _data, paymentId, termNumber);
         }
-
     }
 }

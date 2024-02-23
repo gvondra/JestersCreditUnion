@@ -1,16 +1,16 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using AutoMapper;
 using BrassLoon.Interface.Authorization;
+using JestersCreditUnion.CommonAPI;
 using JestersCreditUnion.Loan.Framework.Reporting;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System;
-using JestersCreditUnion.CommonAPI;
-using System.Linq;
 using Models = JestersCreditUnion.Interface.Loan.Models;
 
 namespace LoanAPI.Controllers

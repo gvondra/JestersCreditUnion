@@ -44,7 +44,7 @@ namespace LoanAPI.Controllers
 
         [Authorize(Constants.POLICY_BL_AUTH)]
         [ProducesResponseType(typeof(LoanApplication[]), 200)]
-        [HttpGet()]
+        [HttpGet]
         public async Task<IActionResult> Search([FromQuery] bool byRequestor = false, [FromQuery] Guid? userId = null)
         {
             DateTime start = DateTime.UtcNow;
@@ -61,11 +61,11 @@ namespace LoanAPI.Controllers
                 }
                 IEnumerable<ILoanApplication> innerLoanApplications = new List<ILoanApplication>();
                 CoreSettings settings = GetCoreSettings();
-                if (result == null && userId.HasValue)
+                if (userId.HasValue)
                 {
                     innerLoanApplications = await _loanApplicationFactory.GetByUserId(settings, userId.Value);
                 }
-                else if (result == null)
+                else
                 {
                     result = BadRequest("No filter parameter specified");
                 }
@@ -104,9 +104,11 @@ namespace LoanAPI.Controllers
             {
                 CoreSettings settings = GetCoreSettings();
                 ILoanApplication innerLoanApplication = null;
-                if (result == null && (!id.HasValue || id.Value.Equals(Guid.Empty)))
+                if (!id.HasValue || id.Value.Equals(Guid.Empty))
+                {
                     result = BadRequest("Missing id parameter value");
-                if (result == null)
+                }
+                else
                 {
                     innerLoanApplication = await _loanApplicationFactory.Get(settings, id.Value);
                     if (innerLoanApplication == null || !await CanAccessLoanApplication(innerLoanApplication))
@@ -229,7 +231,7 @@ namespace LoanAPI.Controllers
         }
 
         [Authorize(Constants.POLICY_BL_AUTH)]
-        [HttpPost()]
+        [HttpPost]
         public async Task<IActionResult> Create([FromBody] LoanApplication loanApplication)
         {
             DateTime start = DateTime.UtcNow;
@@ -283,11 +285,15 @@ namespace LoanAPI.Controllers
             {
                 ILoanApplication innerLoanApplication = null;
                 CoreSettings settings = GetCoreSettings();
-                if (result == null && string.IsNullOrEmpty(comment?.Text))
+                if (string.IsNullOrEmpty(comment?.Text))
+                {
                     result = Ok();
-                if (result == null && (!id.HasValue || id.Value.Equals(Guid.Empty)))
+                }
+                else if (!id.HasValue || id.Value.Equals(Guid.Empty))
+                {
                     result = BadRequest("Missing id paramter value");
-                if (result == null)
+                }
+                else
                 {
                     innerLoanApplication = await _loanApplicationFactory.Get(settings, id.Value);
                     if (!await CanAccessLoanApplication(innerLoanApplication))
@@ -329,11 +335,15 @@ namespace LoanAPI.Controllers
             {
                 CoreSettings settings = GetCoreSettings();
                 ILoanApplication innerLoanApplication = null;
-                if (result == null && (!id.HasValue || id.Value.Equals(Guid.Empty)))
+                if (!id.HasValue || id.Value.Equals(Guid.Empty))
+                {
                     result = BadRequest("Missing id parameter value");
-                if (result == null && loanApplication == null)
+                }
+                else if (loanApplication == null)
+                {
                     result = BadRequest("Missing loan application details");
-                if (result == null)
+                }
+                else
                 {
                     innerLoanApplication = await _loanApplicationFactory.Get(settings, id.Value);
                     if (innerLoanApplication == null || !await CanAccessLoanApplication(innerLoanApplication))
@@ -370,13 +380,19 @@ namespace LoanAPI.Controllers
             {
                 CoreSettings settings = GetCoreSettings();
                 ILoanApplication innerLoanApplication = null;
-                if (result == null && (!id.HasValue || id.Value.Equals(Guid.Empty)))
+                if (!id.HasValue || id.Value.Equals(Guid.Empty))
+                {
                     result = BadRequest("Missing id parameter value");
-                if (result == null && denial == null)
+                }
+                else if (denial == null)
+                {
                     result = BadRequest("Missing loan application denail details");
-                if (result == null && string.IsNullOrEmpty(denial.Text))
+                }
+                else if (string.IsNullOrEmpty(denial.Text))
+                {
                     result = BadRequest("Missing denial text");
-                if (result == null)
+                }
+                else
                 {
                     innerLoanApplication = await _loanApplicationFactory.Get(settings, id.Value);
                     if (innerLoanApplication == null)

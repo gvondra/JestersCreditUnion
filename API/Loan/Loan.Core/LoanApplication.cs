@@ -26,7 +26,8 @@ namespace JestersCreditUnion.Loan.Core
         private ILoanApplicationDenial _loanApplicationDenial;
         private IdentificationCard _borrowerIdentificationCard;
 
-        public LoanApplication(LoanApplicationData data,
+        public LoanApplication(
+            LoanApplicationData data,
             ILoanApplicationDataSaver dataSaver,
             ILoanApplicationFactory factory,
             ILookupFactory lookupFactory,
@@ -110,12 +111,10 @@ namespace JestersCreditUnion.Loan.Core
 
         public async Task Create(CommonCore.ITransactionHandler transactionHandler, ISettings settings)
         {
-            await Task.WhenAll(new Task[]
-            {
+            await Task.WhenAll(
                 SaveAddresses(transactionHandler, settings),
                 SavePhones(settings),
-                SaveEmailAddresses(settings)
-            });
+                SaveEmailAddresses(settings));
             await _dataSaver.Create(transactionHandler, _data);
         }
 
@@ -183,12 +182,10 @@ namespace JestersCreditUnion.Loan.Core
                     await _borrowerIdentificationCard.Update(transactionHandler);
                 BorrowerIdentificationCardId = _borrowerIdentificationCard.IdentificationCardId;
             }
-            await Task.WhenAll(new Task[]
-            {
+            await Task.WhenAll(
                 SaveAddresses(transactionHandler, settings),
                 SavePhones(settings),
-                SaveEmailAddresses(settings)
-            });
+                SaveEmailAddresses(settings));
             await _dataSaver.Update(transactionHandler, _data);
         }
 

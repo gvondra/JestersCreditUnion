@@ -21,7 +21,8 @@ namespace API.Controllers
     {
         private readonly Log.IExceptionService _exceptionService;
 
-        public ExceptionController(IOptions<Settings> settings,
+        public ExceptionController(
+            IOptions<Settings> settings,
             ISettingsFactory settingsFactory,
             AuthorizationAPI.IUserService userService,
             ILogger<ExceptionController> logger,
@@ -31,7 +32,7 @@ namespace API.Controllers
             _exceptionService = exceptionService;
         }
 
-        [HttpGet()]
+        [HttpGet]
         [Authorize(Constants.POLICY_LOG_READ)]
         public async Task<IActionResult> Search([FromQuery] DateTime? maxTimestamp)
         {
@@ -39,11 +40,15 @@ namespace API.Controllers
             IActionResult result = null;
             try
             {
-                if (result == null && !maxTimestamp.HasValue)
+                if (!maxTimestamp.HasValue)
+                {
                     result = BadRequest("Missing maxTimestamp parameter value");
-                if (result == null && !_settings.Value.LogDomainId.HasValue)
+                }
+                else if (!_settings.Value.LogDomainId.HasValue)
+                {
                     result = StatusCode(StatusCodes.Status500InternalServerError, "Missing log domain id configuration value");
-                if (result == null)
+                }
+                else
                 {
                     Log.ISettings settings = _settingsFactory.CreateLog(_settings.Value);
                     IMapper mapper = MapperConfiguration.CreateMapper();

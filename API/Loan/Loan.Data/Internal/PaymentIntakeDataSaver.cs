@@ -8,7 +8,8 @@ namespace JestersCreditUnion.Loan.Data.Internal
 {
     public class PaymentIntakeDataSaver : DataSaverBase, IPaymentIntakeDataSaver
     {
-        public PaymentIntakeDataSaver(IDbProviderFactory providerFactory) : base(providerFactory)
+        public PaymentIntakeDataSaver(IDbProviderFactory providerFactory)
+            : base(providerFactory)
         { }
 
         public async Task Commit(ITransactionHandler transactionHandler, short intakeStatusFilter, DateTime maxTimestamp, short intakeStatus, short paymentStatus, string userId)

@@ -8,12 +8,7 @@ namespace LoanAPI
 {
     public static class MapperConfiguration
     {
-        private static readonly AutoMapper.MapperConfiguration _mapperConfiguration;
-
-        static MapperConfiguration()
-        {
-            _mapperConfiguration = new AutoMapper.MapperConfiguration(Initialize);
-        }
+        private static readonly AutoMapper.MapperConfiguration _mapperConfiguration = new AutoMapper.MapperConfiguration(Initialize);
 
         private static void Initialize(IMapperConfigurationExpression exp)
         {

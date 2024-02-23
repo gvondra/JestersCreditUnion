@@ -18,29 +18,24 @@ namespace JestersCreditUnion.Loan.Core
             _paymentSaver = paymentSaver;
         }
 
-        public async Task Process(ISettings settings, ILoan loan)
+        private static decimal Rate(ILoan loan)
+            => loan.Agreement.InterestRate / (decimal)loan.Agreement.PaymentFrequency;
+
+        private static decimal PaymentAmount(IPayment payment)
         {
-            PaymentTerm paymentTerm = new PaymentTerm
-            {
-                TermNumber = 1,
-                Loan = loan,
-                Payments = (await loan.GetPayments(settings)).ToArray(),
-                StartDate = loan.InitialDisbursementDate.Value,
-                EndDate = loan.FirstPaymentDue.Value,
-                Principal = loan.Agreement.OriginalAmount
-            };
-            ProcessTerm(settings, paymentTerm);
-            await UpdatePayments(settings, paymentTerm.Payments.Where(p => p.Status == PaymentStatus.Unprocessed));
-            await _loanSaver.Update(settings, loan);
+            decimal amount = payment.Amount;
+            amount -= payment.Transactions.Sum(t => t.Amount);
+            return amount;
         }
 
-        private async Task UpdatePayments(ISettings settings, IEnumerable<IPayment> payments)
+        private static decimal InterestDue(PaymentTerm paymentTerm)
         {
-            foreach (IPayment payment in payments)
-            {
-                payment.Status = PaymentStatus.Processed;
-            }
-            await _paymentSaver.Update(settings, payments);
+            decimal interestDue = Math.Round(paymentTerm.Principal * Rate(paymentTerm.Loan), 2, MidpointRounding.ToEven);
+            interestDue -= paymentTerm.Payments
+                .SelectMany(p => p.Transactions)
+                .Where(t => t.Type == TransactionType.InterestPayment && t.TermNumber == paymentTerm.TermNumber)
+                .Sum(t => t.Amount);
+            return interestDue;
         }
 
         private static void ProcessTerm(ISettings settings, PaymentTerm paymentTerm)
@@ -103,24 +98,29 @@ namespace JestersCreditUnion.Loan.Core
             }
         }
 
-        private static decimal Rate(ILoan loan)
-            => loan.Agreement.InterestRate / (decimal)loan.Agreement.PaymentFrequency;
-
-        private static decimal PaymentAmount(IPayment payment)
+        public async Task Process(ISettings settings, ILoan loan)
         {
-            decimal amount = payment.Amount;
-            amount -= payment.Transactions.Sum(t => t.Amount);
-            return amount;
+            PaymentTerm paymentTerm = new PaymentTerm
+            {
+                TermNumber = 1,
+                Loan = loan,
+                Payments = (await loan.GetPayments(settings)).ToArray(),
+                StartDate = loan.InitialDisbursementDate.Value,
+                EndDate = loan.FirstPaymentDue.Value,
+                Principal = loan.Agreement.OriginalAmount
+            };
+            ProcessTerm(settings, paymentTerm);
+            await UpdatePayments(settings, paymentTerm.Payments.Where(p => p.Status == PaymentStatus.Unprocessed));
+            await _loanSaver.Update(settings, loan);
         }
 
-        private static decimal InterestDue(PaymentTerm paymentTerm)
+        private async Task UpdatePayments(ISettings settings, IEnumerable<IPayment> payments)
         {
-            decimal interestDue = Math.Round(paymentTerm.Principal * Rate(paymentTerm.Loan), 2, MidpointRounding.ToEven);
-            interestDue -= paymentTerm.Payments
-                .SelectMany(p => p.Transactions)
-                .Where(t => t.Type == TransactionType.InterestPayment && t.TermNumber == paymentTerm.TermNumber)
-                .Sum(t => t.Amount);
-            return interestDue;
+            foreach (IPayment payment in payments)
+            {
+                payment.Status = PaymentStatus.Processed;
+            }
+            await _paymentSaver.Update(settings, payments);
         }
 
         private struct PaymentTerm

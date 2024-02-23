@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace JestersCreditUnion.CommonAPI
 {
-    public class AuthorizationHandler : AuthorizationHandler<AuthorizationRequirement>, IAuthorizationHandler
+    public class AuthorizationHandler : AuthorizationHandler<AuthorizationRequirement>
     {
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, AuthorizationRequirement requirement)
         {
@@ -23,9 +23,8 @@ namespace JestersCreditUnion.CommonAPI
         {
             if (roles != null && roles.Length > 0)
             {
-                return roles.Any(role => user.Claims.Any(
-                    c => string.Equals(ClaimTypes.Role, c.Type, StringComparison.OrdinalIgnoreCase) && string.Equals(role, c.Value, StringComparison.OrdinalIgnoreCase)
-                    ));
+                return Array.Exists(roles, role => user.Claims.Any(
+                    c => string.Equals(ClaimTypes.Role, c.Type, StringComparison.OrdinalIgnoreCase) && string.Equals(role, c.Value, StringComparison.OrdinalIgnoreCase)));
             }
             return true;
         }

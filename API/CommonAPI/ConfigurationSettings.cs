@@ -13,7 +13,8 @@ namespace JestersCreditUnion.CommonAPI
         private readonly string _clientSecret;
         private readonly AccountAPI.ITokenService _tokenService;
 
-        public ConfigurationSettings(AccountAPI.ITokenService tokenService,
+        public ConfigurationSettings(
+            AccountAPI.ITokenService tokenService,
             string baseAddress,
             string brassLoonAccountBaseAddress,
             Guid? clientId,

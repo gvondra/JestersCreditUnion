@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace JestersCreditUnion.Loan.Core
 {
-    public class ServiceBusService
+    public static class ServiceBusService
     {
         private static readonly JsonSerializerSettings _serializerSettings = new JsonSerializerSettings
         {

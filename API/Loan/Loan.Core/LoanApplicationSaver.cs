@@ -5,7 +5,6 @@ using Polly;
 using Polly.Retry;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using WorkTaskAPI = BrassLoon.Interface.WorkTask;
 
@@ -19,7 +18,8 @@ namespace JestersCreditUnion.Loan.Core
         private readonly WorkTaskAPI.IWorkTaskStatusService _workTaskStatusService;
         private readonly WorkTaskTypeCodeLookup _workTaskTypeCodeLookup;
 
-        public LoanApplicationSaver(SettingsFactory settingsFactory,
+        public LoanApplicationSaver(
+            SettingsFactory settingsFactory,
             WorkTaskAPI.IWorkTaskService workTaskService,
             WorkTaskAPI.IWorkTaskTypeService workTaskTypeService,
             WorkTaskAPI.IWorkTaskStatusService workTaskStatusService,
@@ -60,7 +60,7 @@ namespace JestersCreditUnion.Loan.Core
                 if (workTaskType?.WorkTaskTypeId.HasValue ?? false)
                 {
                     workTaskStatus = (await _workTaskStatusService.GetAll(workTaskSettings, settings.WorkTaskDomainId.Value, workTaskType.WorkTaskTypeId.Value))
-                        .FirstOrDefault(s => s.IsDefaultStatus ?? false);
+                        .Find(s => s.IsDefaultStatus ?? false);
                 }
 
                 await CommonCore.Saver.Save(new CommonCore.TransactionHandler(settings), async th =>
@@ -72,8 +72,7 @@ namespace JestersCreditUnion.Loan.Core
                         AsyncRetryPolicy retry = Policy.Handle<Exception>()
                             .WaitAndRetryAsync(new TimeSpan[] { TimeSpan.FromSeconds(0.5), TimeSpan.FromSeconds(0.667) });
                         await retry.ExecuteAsync(
-                            () => CreateSendDenialCorrespondenceWorkTask(settings, workTaskType, workTaskStatus, loanApplication.LoanApplicationId)
-                            );
+                            () => CreateSendDenialCorrespondenceWorkTask(settings, workTaskType, workTaskStatus, loanApplication.LoanApplicationId));
                     }
                 });
             }
@@ -100,7 +99,7 @@ namespace JestersCreditUnion.Loan.Core
                 {
                     new WorkTaskContext
                     {
-                        DomainId= settings.WorkTaskDomainId,
+                        DomainId = settings.WorkTaskDomainId,
                         ReferenceType = (short)WorkTaskContextReferenceType.LoanApplicationId,
                         ReferenceValue = loanApplicationId.ToString("D")
                     }

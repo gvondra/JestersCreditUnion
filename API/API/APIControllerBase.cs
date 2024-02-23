@@ -9,20 +9,24 @@ using AuthorizationAPI = BrassLoon.Interface.Authorization;
 
 namespace API
 {
+#pragma warning disable S101 // Types should be named in PascalCase
     public abstract class APIControllerBase : CommonControllerBase
+#pragma warning restore S101 // Types should be named in PascalCase
     {
+#pragma warning disable SA1401 // Fields should be private
         protected readonly ISettingsFactory _settingsFactory;
         protected readonly IOptions<Settings> _settings;
+#pragma warning restore SA1401 // Fields should be private
         private AuthorizationSettings _authorizationSettings;
         private ConfigurationSettings _configSettings;
         private WorkTaskSettings _workTaskSettings;
 
-        public APIControllerBase(
+        protected APIControllerBase(
             IOptions<Settings> settings,
             ISettingsFactory settingsFactory,
             AuthorizationAPI.IUserService userService,
-            ILogger logger
-            ) : base(userService, logger)
+            ILogger logger)
+            : base(userService, logger)
         {
             _settingsFactory = settingsFactory;
             _settings = settings;
@@ -30,14 +34,13 @@ namespace API
 
         protected async Task WriteMetrics(string eventCode, double? magnitude, IActionResult actionResult = null, Dictionary<string, string> data = null)
         {
-            await base.WriteMetrics(
+            await WriteMetrics(
                 _settingsFactory.CreateAuthorization(_settings.Value),
                 _settings.Value.AuthorizationDomainId.Value,
                 eventCode,
                 magnitude: magnitude,
                 actionResult: actionResult,
-                data: data
-                );
+                data: data);
         }
 
         protected Task WriteMetrics(string eventCode, DateTime? startTime, IActionResult actionResult = null, Dictionary<string, string> data = null)

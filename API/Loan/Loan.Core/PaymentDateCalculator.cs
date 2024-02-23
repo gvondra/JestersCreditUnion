@@ -39,19 +39,19 @@ namespace JestersCreditUnion.Loan.Core
 
         private static DateTime NextAnnualPaymentDate(DateTime dueAfter)
         {
-            DateTime paymentDate = new DateTime(dueAfter.Year, dueAfter.Month, 1);
+            DateTime paymentDate = new DateTime(dueAfter.Year, dueAfter.Month, 1, 0, 0, 0, DateTimeKind.Unspecified);
             return paymentDate.AddYears(1);
         }
 
         private static DateTime NextSemiAnnualPaymentDate(DateTime dueAfter)
         {
-            DateTime paymentDate = new DateTime(dueAfter.Year, dueAfter.Month, 1);
+            DateTime paymentDate = new DateTime(dueAfter.Year, dueAfter.Month, 1, 0, 0, 0, DateTimeKind.Unspecified);
             return paymentDate.AddMonths(6);
         }
 
         private static DateTime NextMonthlyPaymentDate(DateTime dueAfter)
         {
-            DateTime paymentDate = new DateTime(dueAfter.Year, dueAfter.Month, 1);
+            DateTime paymentDate = new DateTime(dueAfter.Year, dueAfter.Month, 1, 0, 0, 0, DateTimeKind.Unspecified);
             return paymentDate.AddMonths(1);
         }
 
@@ -60,11 +60,11 @@ namespace JestersCreditUnion.Loan.Core
             DateTime paymentDate;
             if (dueAfter.Day < 15)
             {
-                paymentDate = new DateTime(dueAfter.Year, dueAfter.Month, 15);
+                paymentDate = new DateTime(dueAfter.Year, dueAfter.Month, 15, 0, 0, 0, DateTimeKind.Unspecified);
             }
             else
             {
-                paymentDate = new DateTime(dueAfter.Year, dueAfter.Month, 1);
+                paymentDate = new DateTime(dueAfter.Year, dueAfter.Month, 1, 0, 0, 0, DateTimeKind.Unspecified);
                 paymentDate = paymentDate.AddMonths(1);
             }
             return paymentDate;

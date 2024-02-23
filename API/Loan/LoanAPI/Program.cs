@@ -15,7 +15,7 @@ using System;
 
 namespace LoanAPI
 {
-    public class Program
+    public static class Program
     {
         public static void Main(string[] args)
         {
@@ -46,8 +46,8 @@ namespace LoanAPI
 
             builder.Services.AddControllers(options =>
             {
-                //options.InputFormatters.Add(new CsvTextInputFormatter());
-                //options.OutputFormatters.Add(new CsvTextOutputFormatter());
+                // options.InputFormatters.Add(new CsvTextInputFormatter());
+                // options.OutputFormatters.Add(new CsvTextOutputFormatter());
             })
                 .AddNewtonsoftJson(o =>
                 {
@@ -76,18 +76,19 @@ namespace LoanAPI
                     Name = "Authorization",
                     Type = SecuritySchemeType.ApiKey
                 });
-                o.AddSecurityRequirement(new OpenApiSecurityRequirement {
+                o.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
-                    new OpenApiSecurityScheme
                     {
-                    Reference = new OpenApiReference
-                    {
-                        Type = ReferenceType.SecurityScheme,
-                        Id = "Bearer"
+                        new OpenApiSecurityScheme
+                        {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                        }
+                        },
+                        Array.Empty<string>()
                     }
-                    },
-                    Array.Empty<string>()
-                }
                 });
             });
             builder.Services.AddAuthentication(o =>
@@ -98,7 +99,6 @@ namespace LoanAPI
             .AddAuthentication(builder.Configuration);
             builder.Services.AddSingleton<IAuthorizationHandler, AuthorizationHandler>();
             builder.Services.AddAuthorization(builder.Configuration);
-
 
             WebApplication app = builder.Build();
 

@@ -1,18 +1,18 @@
-﻿using JestersCreditUnion.Loan.Framework;
-using System.Security.Cryptography;
-using System.IO;
-using System.Threading.Tasks;
-using System;
+﻿using System;
 using System.Globalization;
+using System.IO;
+using System.Security.Cryptography;
+using System.Threading.Tasks;
+using JestersCreditUnion.Loan.Framework;
 
 namespace JestersCreditUnion.Loan.Core
 {
     public class IdentificationCardSaver : IIdentificationCardSaver
     {
-        private readonly LoanApplication _loanApplication;
         private static readonly object _masterKeyLock = new { };
         private static string _masterKeyName = string.Empty;
         private static DateTime _masterKeyExpiration = DateTime.MinValue;
+        private readonly LoanApplication _loanApplication;
 
         internal IdentificationCardSaver(LoanApplication loanApplication)
         {

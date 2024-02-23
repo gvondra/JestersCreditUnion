@@ -25,7 +25,7 @@ namespace Loan.Core.Test
             payment.Object.Status = PaymentStatus.Unprocessed;
             payment.Object.Amount = 10.0M;
             payment.SetupGet(p => p.Transactions).Returns(paymentTransactions);
-            payment.SetupGet(p => p.Date).Returns(new DateTime(2022, 08, 05));
+            payment.SetupGet(p => p.Date).Returns(new DateTime(2022, 08, 05, 0, 0, 0, DateTimeKind.Unspecified));
             payment.SetupGet(p => p.TransactionNumber).Returns("xn");
             payment.Setup(p => p.CreatePaymentTransaction(It.IsNotNull<ILoan>(), It.IsAny<DateTime>(), It.IsAny<TransactionType>(), It.IsAny<decimal>()))
                 .Returns((ILoan l, DateTime d, TransactionType t, decimal amt) =>
@@ -47,7 +47,7 @@ namespace Loan.Core.Test
 
             Mock<ILoan> loan = new Mock<ILoan>();
             loan.SetupAllProperties();
-            loan.Object.InitialDisbursementDate = new DateTime(2022, 06, 20);
+            loan.Object.InitialDisbursementDate = new DateTime(2022, 06, 20, 0, 0, 0, DateTimeKind.Unspecified);
             loan.Object.FirstPaymentDue = PaymentDateCalculator.FirstPaymentDate(loan.Object.InitialDisbursementDate.Value, agreement.Object.PaymentFrequency);
             loan.Object.NextPaymentDue = loan.Object.FirstPaymentDue;
             loan.SetupGet(l => l.Agreement).Returns(agreement.Object);
@@ -55,11 +55,11 @@ namespace Loan.Core.Test
 
             LoanPaymentProcessor loanPaymentProcessor = new LoanPaymentProcessor(loanSaver.Object, paymentSaver.Object);
             await loanPaymentProcessor.Process(settings.Object, loan.Object);
-            Assert.AreEqual(2, paymentTransactions.Where(t => t.Type == TransactionType.InterestPayment).Count());
-            Assert.AreEqual(1, paymentTransactions.Where(t => t.Type == TransactionType.PrincipalPayment).Count());
-            Assert.AreEqual(1, paymentTransactions.Where(t => t.TermNumber == 1).Count());
-            Assert.AreEqual(2, paymentTransactions.Where(t => t.TermNumber == 2).Count());
-            Assert.AreEqual(new DateTime(2022, 10, 1), loan.Object.NextPaymentDue.Value);
+            Assert.AreEqual(2, paymentTransactions.Count(t => t.Type == TransactionType.InterestPayment));
+            Assert.AreEqual(1, paymentTransactions.Count(t => t.Type == TransactionType.PrincipalPayment));
+            Assert.AreEqual(1, paymentTransactions.Count(t => t.TermNumber == 1));
+            Assert.AreEqual(2, paymentTransactions.Count(t => t.TermNumber == 2));
+            Assert.AreEqual(new DateTime(2022, 10, 1, 0, 0, 0, DateTimeKind.Unspecified), loan.Object.NextPaymentDue.Value);
             loanSaver.Verify(s => s.Update(settings.Object, loan.Object), Times.Once);
             paymentSaver.Verify(s => s.Update(settings.Object, It.IsNotNull<IEnumerable<IPayment>>()), Times.Once);
         }

@@ -21,7 +21,8 @@ namespace API.Controllers
     {
         private readonly WorkTaskAPI.IWorkGroupService _workGroupService;
 
-        public WorkGroupController(IOptions<Settings> settings,
+        public WorkGroupController(
+            IOptions<Settings> settings,
             ISettingsFactory settingsFactory,
             AuthorizationAPI.IUserService userService,
             ILogger<WorkGroupController> logger,
@@ -31,7 +32,7 @@ namespace API.Controllers
             _workGroupService = workGroupService;
         }
 
-        [HttpGet()]
+        [HttpGet]
         [Authorize(Constants.POLICY_WORKTASK_TYPE_READ)]
         [ProducesResponseType(typeof(List<WorkGroup>), 200)]
         public async Task<IActionResult> GetAll([FromQuery] string userId = null)
@@ -40,23 +41,19 @@ namespace API.Controllers
             IActionResult result = null;
             try
             {
-                if (result == null)
+                WorkTaskSettings settings = GetWorkTaskSettings();
+                IMapper mapper = MapperConfiguration.CreateMapper();
+                List<WorkTaskAPI.Models.WorkGroup> innerWorkGroups;
+                if (!string.IsNullOrEmpty(userId))
                 {
-                    WorkTaskSettings settings = GetWorkTaskSettings();
-                    IMapper mapper = MapperConfiguration.CreateMapper();
-                    List<WorkTaskAPI.Models.WorkGroup> innerWorkGroups;
-                    if (!string.IsNullOrEmpty(userId))
-                    {
-                        innerWorkGroups = await _workGroupService.GetByMemberUserId(settings, _settings.Value.WorkTaskDomainId.Value, userId);
-                    }
-                    else
-                    {
-                        innerWorkGroups = await _workGroupService.GetAll(settings, _settings.Value.WorkTaskDomainId.Value);
-                    }
-                    result = Ok(
-                        innerWorkGroups.Select<WorkTaskAPI.Models.WorkGroup, WorkGroup>(mapper.Map<WorkGroup>)
-                        );
+                    innerWorkGroups = await _workGroupService.GetByMemberUserId(settings, _settings.Value.WorkTaskDomainId.Value, userId);
                 }
+                else
+                {
+                    innerWorkGroups = await _workGroupService.GetAll(settings, _settings.Value.WorkTaskDomainId.Value);
+                }
+                result = Ok(
+                    innerWorkGroups.Select<WorkTaskAPI.Models.WorkGroup, WorkGroup>(mapper.Map<WorkGroup>));
             }
             catch (System.Exception ex)
             {
@@ -79,16 +76,17 @@ namespace API.Controllers
             IActionResult result = null;
             try
             {
-                if (result == null && (!id.HasValue || id.Value.Equals(Guid.Empty)))
+                if (!id.HasValue || id.Value.Equals(Guid.Empty))
+                {
                     result = BadRequest("Missing id parameter value");
-                if (result == null)
+                }
+                else
                 {
                     WorkTaskSettings settings = GetWorkTaskSettings();
                     IMapper mapper = MapperConfiguration.CreateMapper();
                     WorkTaskAPI.Models.WorkGroup innerWorkGroup = await _workGroupService.Get(settings, _settings.Value.WorkTaskDomainId.Value, id.Value);
                     result = Ok(
-                        mapper.Map<WorkGroup>(innerWorkGroup)
-                        );
+                        mapper.Map<WorkGroup>(innerWorkGroup));
                 }
             }
             catch (BrassLoon.RestClient.Exceptions.RequestError ex)
@@ -112,14 +110,14 @@ namespace API.Controllers
         private IActionResult ValidateRequest(WorkGroup workGroup)
         {
             IActionResult result = null;
-            if (result == null && workGroup == null)
+            if (workGroup == null)
                 result = BadRequest("Missing work group body");
-            if (result == null && string.IsNullOrEmpty(workGroup?.Title))
+            else if (string.IsNullOrEmpty(workGroup.Title))
                 result = BadRequest("Missing work group title value");
             return result;
         }
 
-        [HttpPost()]
+        [HttpPost]
         [Authorize(Constants.POLICY_WORKTASK_TYPE_EDIT)]
         [ProducesResponseType(typeof(WorkGroup), 200)]
         public async Task<IActionResult> Create([FromBody] WorkGroup workGroup)
@@ -128,8 +126,7 @@ namespace API.Controllers
             IActionResult result = null;
             try
             {
-                if (result == null)
-                    result = ValidateRequest(workGroup);
+                result = ValidateRequest(workGroup);
                 if (result == null)
                 {
                     WorkTaskSettings settings = GetWorkTaskSettings();
@@ -168,9 +165,9 @@ namespace API.Controllers
             IActionResult result = null;
             try
             {
-                if (result == null && (!id.HasValue || id.Value.Equals(Guid.Empty)))
+                if (!id.HasValue || id.Value.Equals(Guid.Empty))
                     result = BadRequest("Missing id parameter value");
-                if (result == null)
+                else
                     result = ValidateRequest(workGroup);
                 if (result == null)
                 {
@@ -209,11 +206,15 @@ namespace API.Controllers
             IActionResult result = null;
             try
             {
-                if (result == null && (!id.HasValue || id.Value.Equals(Guid.Empty)))
+                if (!id.HasValue || id.Value.Equals(Guid.Empty))
+                {
                     result = BadRequest("Missing id parameter value");
-                if (result == null && (!workTaskTypeId.HasValue || workTaskTypeId.Value.Equals(Guid.Empty)))
+                }
+                else if (!workTaskTypeId.HasValue || workTaskTypeId.Value.Equals(Guid.Empty))
+                {
                     result = BadRequest("Missing work task type id parameter value");
-                if (result == null)
+                }
+                else
                 {
                     WorkTaskSettings settings = GetWorkTaskSettings();
                     await _workGroupService.AddWorkTaskTypeLink(settings, _settings.Value.WorkTaskDomainId.Value, id.Value, workTaskTypeId.Value);
@@ -240,11 +241,15 @@ namespace API.Controllers
             IActionResult result = null;
             try
             {
-                if (result == null && (!id.HasValue || id.Value.Equals(Guid.Empty)))
+                if (!id.HasValue || id.Value.Equals(Guid.Empty))
+                {
                     result = BadRequest("Missing id parameter value");
-                if (result == null && (!workTaskTypeId.HasValue || workTaskTypeId.Value.Equals(Guid.Empty)))
+                }
+                else if (!workTaskTypeId.HasValue || workTaskTypeId.Value.Equals(Guid.Empty))
+                {
                     result = BadRequest("Missing work task type id parameter value");
-                if (result == null)
+                }
+                else
                 {
                     WorkTaskSettings settings = GetWorkTaskSettings();
                     await _workGroupService.DeleteWorkTaskTypeLink(settings, _settings.Value.WorkTaskDomainId.Value, id.Value, workTaskTypeId.Value);

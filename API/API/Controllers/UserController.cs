@@ -21,7 +21,8 @@ namespace API.Controllers
     {
         private readonly AuthorizationAPI.IUserService _userService;
 
-        public UserController(IOptions<Settings> settings,
+        public UserController(
+            IOptions<Settings> settings,
             ISettingsFactory settingsFactory,
             AuthorizationAPI.IUserService userService,
             ILogger<UserController> logger)
@@ -30,7 +31,7 @@ namespace API.Controllers
             _userService = userService;
         }
 
-        [HttpGet()]
+        [HttpGet]
         [Authorize(Constants.POLICY_BL_AUTH)]
         [ProducesResponseType(typeof(List<User>), 200)]
         public async Task<IActionResult> Search([FromQuery] string emailAddress)
@@ -62,8 +63,7 @@ namespace API.Controllers
                 {
                     IMapper mapper = MapperConfiguration.CreateMapper();
                     result = Ok(
-                        innerUsers.Select<AuthorizationAPI.Models.User, User>(mapper.Map<User>)
-                        );
+                        innerUsers.Select<AuthorizationAPI.Models.User, User>(mapper.Map<User>));
                 }
                 if (result == null)
                 {
@@ -77,7 +77,10 @@ namespace API.Controllers
             }
             finally
             {
-                await WriteMetrics("search-users", start, result,
+                await WriteMetrics(
+                    "search-users",
+                    start,
+                    result,
                     new Dictionary<string, string>
                     {
                         { nameof(emailAddress), emailAddress ?? string.Empty }
@@ -95,9 +98,11 @@ namespace API.Controllers
             IActionResult result = null;
             try
             {
-                if (result == null && (!id.HasValue || id.Value.Equals(Guid.Empty)))
+                if (!id.HasValue || id.Value.Equals(Guid.Empty))
+                {
                     result = BadRequest("Missing or invalid id parameter value");
-                if (result == null)
+                }
+                else
                 {
                     AuthorizationAPI.ISettings settings = GetAuthorizationSettings();
                     AuthorizationAPI.Models.User innerUser = await _userService.Get(settings, _settings.Value.AuthorizationDomainId.Value, id.Value);
@@ -109,8 +114,7 @@ namespace API.Controllers
                     {
                         IMapper mapper = MapperConfiguration.CreateMapper();
                         result = Ok(
-                        mapper.Map<User>(innerUser)
-                        );
+                        mapper.Map<User>(innerUser));
                     }
                 }
             }
@@ -135,9 +139,11 @@ namespace API.Controllers
             IActionResult result = null;
             try
             {
-                if (result == null && (!id.HasValue || id.Value.Equals(Guid.Empty)))
+                if (!id.HasValue || id.Value.Equals(Guid.Empty))
+                {
                     result = BadRequest("Missing or invalid id parameter value");
-                if (result == null)
+                }
+                else
                 {
                     AuthorizationAPI.ISettings settings = GetAuthorizationSettings();
                     AuthorizationAPI.Models.User innerUser = await _userService.Get(settings, _settings.Value.AuthorizationDomainId.Value, id.Value);
@@ -179,19 +185,22 @@ namespace API.Controllers
             IActionResult result = null;
             try
             {
-                if (result == null && (!id.HasValue || id.Value.Equals(Guid.Empty)))
+                if (!id.HasValue || id.Value.Equals(Guid.Empty))
+                {
                     result = BadRequest("Missing or invalid id parameter value");
-                if (result == null && string.IsNullOrEmpty(user?.Name))
+                }
+                else if (string.IsNullOrEmpty(user?.Name))
+                {
                     result = BadRequest("Missing user name value");
-                if (result == null)
+                }
+                else
                 {
                     AuthorizationAPI.ISettings settings = GetAuthorizationSettings();
                     IMapper mapper = MapperConfiguration.CreateMapper();
                     AuthorizationAPI.Models.User innerUser = mapper.Map<AuthorizationAPI.Models.User>(user);
                     innerUser = await _userService.Update(settings, _settings.Value.AuthorizationDomainId.Value, id.Value, innerUser);
                     result = Ok(
-                        mapper.Map<User>(innerUser)
-                        );
+                        mapper.Map<User>(innerUser));
                 }
             }
             catch (System.Exception ex)

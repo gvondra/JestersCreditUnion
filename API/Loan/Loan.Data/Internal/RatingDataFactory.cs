@@ -14,7 +14,6 @@ namespace JestersCreditUnion.Loan.Data.Internal
 
         public async Task<RatingData> GetByLoanApplicationId(ISqlSettings settings, Guid loanApplicationId)
         {
-
             IDataParameter[] parameters =
             [
                 DataUtil.CreateParameter(_providerFactory, "loanApplicationId", DbType.Guid, DataUtil.GetParameterValue(loanApplicationId))

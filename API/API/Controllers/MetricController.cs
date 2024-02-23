@@ -22,7 +22,8 @@ namespace API.Controllers
         private readonly Log.IMetricService _metricService;
         private readonly AuthorizationAPI.IUserService _userService;
 
-        public MetricController(IOptions<Settings> settings,
+        public MetricController(
+            IOptions<Settings> settings,
             ISettingsFactory settingsFactory,
             AuthorizationAPI.IUserService userService,
             ILogger<MetricController> logger,
@@ -33,7 +34,7 @@ namespace API.Controllers
             _userService = userService;
         }
 
-        [HttpGet()]
+        [HttpGet]
         [Authorize(Constants.POLICY_LOG_READ)]
         public async Task<IActionResult> Search([FromQuery] DateTime? maxTimestamp, [FromQuery] string eventCode)
         {
@@ -41,13 +42,19 @@ namespace API.Controllers
             IActionResult result = null;
             try
             {
-                if (result == null && !maxTimestamp.HasValue)
+                if (!maxTimestamp.HasValue)
+                {
                     result = BadRequest("Missing maxTimestamp parameter value");
-                if (result == null && string.IsNullOrEmpty(eventCode))
+                }
+                else if (string.IsNullOrEmpty(eventCode))
+                {
                     result = BadRequest("Missing event code parameter value");
-                if (result == null && !_settings.Value.LogDomainId.HasValue)
+                }
+                else if (!_settings.Value.LogDomainId.HasValue)
+                {
                     result = StatusCode(StatusCodes.Status500InternalServerError, "Missing log domain id configuration value");
-                if (result == null)
+                }
+                else
                 {
                     Log.ISettings settings = _settingsFactory.CreateLog(_settings.Value);
                     IMapper mapper = MapperConfiguration.CreateMapper();
@@ -103,14 +110,15 @@ namespace API.Controllers
             IActionResult result = null;
             try
             {
-                if (result == null && !_settings.Value.LogDomainId.HasValue)
+                if (!_settings.Value.LogDomainId.HasValue)
+                {
                     result = StatusCode(StatusCodes.Status500InternalServerError, "Missing log domain id configuration value");
-                if (result == null)
+                }
+                else
                 {
                     Log.ISettings settings = _settingsFactory.CreateLog(_settings.Value);
                     result = Ok(
-                        await _metricService.GetEventCodes(settings, _settings.Value.LogDomainId.Value)
-                        );
+                        await _metricService.GetEventCodes(settings, _settings.Value.LogDomainId.Value));
                 }
             }
             catch (System.Exception ex)
