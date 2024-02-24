@@ -17,15 +17,15 @@ namespace LoanAPI.Controllers
 {
     [Route("api/Reporting/Loan")]
     [ApiController]
-    public class LoanReport : LoanApiControllerBase
+    public class LoanReportController : LoanApiControllerBase
     {
         private readonly ILoanBalanceFactory _loanBalanceFactory;
 
-        public LoanReport(
+        public LoanReportController(
             IOptions<Settings> settings,
             ISettingsFactory settingsFactory,
             IUserService userService,
-            ILogger<LoanReport> logger,
+            ILogger<LoanReportController> logger,
             ILoanBalanceFactory loanBalanceFactory)
             : base(settings, settingsFactory, userService, logger)
         {

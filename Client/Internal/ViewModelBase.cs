@@ -46,5 +46,15 @@ namespace JCU.Internal
         }
 
         public void AddBehavior(object behavior) => _behaviors.Add(behavior);
+
+        protected void SetValue<T>(Nullable<T> newValue, ref Nullable<T> value, [CallerMemberName] string propertyName = "")
+            where T : struct, IEquatable<T>
+        {
+            if (value.HasValue != newValue.HasValue || (value.HasValue && !value.Value.Equals(newValue.Value)))
+            {
+                value = newValue;
+                NotifyPropertyChanged(propertyName);
+            }
+        }
     }
 }

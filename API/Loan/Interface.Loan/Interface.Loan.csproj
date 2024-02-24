@@ -11,8 +11,8 @@
 		<Product>Jesters Credit Union</Product>
 		<PackageLicenseExpression>GPL-3.0-only</PackageLicenseExpression>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<Version>1.0.0-alpha.24</Version>
-		<AssemblyVersion>1.0.0.24</AssemblyVersion>
+		<Version>1.0.0-alpha.25</Version>
+		<AssemblyVersion>1.0.0.25</AssemblyVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

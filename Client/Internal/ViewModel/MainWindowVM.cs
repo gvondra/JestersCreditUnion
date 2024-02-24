@@ -9,6 +9,20 @@ namespace JCU.Internal.ViewModel
         private Visibility _showLogs = Visibility.Collapsed;
         private Visibility _showWorkTaskTypeEdit = Visibility.Collapsed;
         private Visibility _showLookups = Visibility.Collapsed;
+        private Visibility _showInterestRateConfiguration = Visibility.Collapsed;
+
+        public Visibility ShowInterestRateConfiguration
+        {
+            get => _showInterestRateConfiguration;
+            set
+            {
+                if (_showInterestRateConfiguration != value)
+                {
+                    _showInterestRateConfiguration = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
 
         public Visibility ShowLookups
         {

@@ -44,7 +44,7 @@ namespace JestersCreditUnion.CommonAPI
         protected async Task<AuthorizationAPI.Models.User> GetCurrentUser(AuthorizationAPI.ISettings settings, Guid domainId)
         {
             AuthorizationAPI.Models.User user = null;
-            if (_userService != null && User.Identity.IsAuthenticated)
+            if (_userService != null && User != null && User.Identity.IsAuthenticated)
             {
                 string referenceId = GetCurrentUserReferenceId();
                 string emailAddress = null;

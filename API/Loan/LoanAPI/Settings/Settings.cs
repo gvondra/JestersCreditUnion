@@ -23,6 +23,7 @@ namespace LoanAPI
         public Guid? ClientId { get; set; }
         public string ClientSecret { get; set; }
         public string WorkTaskConfigurationCode { get; set; }
+        public string InterestRateConfigurationCode { get; set; }
         public string IdentitificationCardContainerName { get; set; }
         public string EncryptionKeyVault { get; set; }
         public string LookupIndexConfigurationCode { get; set; }
