@@ -14,6 +14,8 @@ namespace JCU.Internal.ViewModel
         private BeginLoanAgreementSave _save;
         private BeginLoanAgreementDisburse _disburse;
         private NavigationService _navigationService;
+        private decimal _minimumInterestRate = 0.0M;
+        private decimal? _maximumInterestRate;
 
         private BeginLoanAgreementVM(LoanVM loanVM)
         {
@@ -21,6 +23,32 @@ namespace JCU.Internal.ViewModel
         }
 
         public LoanVM Loan => _loan;
+
+        public decimal MinimumInterestRate
+        {
+            get => _minimumInterestRate;
+            set
+            {
+                if (_minimumInterestRate != value)
+                {
+                    _minimumInterestRate = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+        public decimal? MaximumInterestRate
+        {
+            get => _maximumInterestRate;
+            set
+            {
+                if (_maximumInterestRate != value)
+                {
+                    _maximumInterestRate = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
 
         public NavigationService NavigationService
         {

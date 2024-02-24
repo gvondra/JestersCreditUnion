@@ -27,8 +27,6 @@ namespace JCU.Internal.Behaviors
 
         private void Agreement_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (_beginLoanAgreementVM.Loan.Agreement[e.PropertyName] != null)
-                _beginLoanAgreementVM.Loan.Agreement[e.PropertyName] = null;
             switch (e.PropertyName)
             {
                 case nameof(LoanAgreementVM.InterestPercentage):
@@ -103,6 +101,8 @@ namespace JCU.Internal.Behaviors
                 InterestRateConfiguration interestRateConfiguration = await initialize;
                 if (state != null && state is BeginLoanAgreementVM beginLoanAgreementVM)
                 {
+                    beginLoanAgreementVM.MinimumInterestRate = (interestRateConfiguration.MinimumRate ?? 0.0M) * 100.0M;
+                    beginLoanAgreementVM.MaximumInterestRate = interestRateConfiguration.MaximumRate.HasValue ? interestRateConfiguration.MaximumRate.Value * 100.0M : default(decimal?);
                     if (beginLoanAgreementVM.Loan.Agreement.InterestPercentage == 0.0M && interestRateConfiguration.TotalRate.HasValue)
                     {
                         beginLoanAgreementVM.Loan.Agreement.InterestPercentage = interestRateConfiguration.TotalRate.Value * 100.0M;
