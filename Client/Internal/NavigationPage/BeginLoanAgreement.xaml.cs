@@ -28,6 +28,8 @@ namespace JCU.Internal.NavigationPage
             this.Loaded += BeginLoanAgreement_Loaded;
         }
 
+        public BeginLoanAgreementVM BeginLoanAgreementVM { get; }
+
         private void BeginLoanAgreement_Loaded(object sender, RoutedEventArgs e)
         {
             DependencyObject parent = ParentFinder.Find(typeof(WorkTaskFrame), this);
@@ -36,8 +38,6 @@ namespace JCU.Internal.NavigationPage
                 BeginLoanAgreementVM.NavigationService = NavigationService.GetNavigationService(parent);
             }
         }
-
-        public BeginLoanAgreementVM BeginLoanAgreementVM { get; }
 
         private void InitializeDetailGrid()
         {

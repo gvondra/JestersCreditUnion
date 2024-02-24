@@ -4,15 +4,23 @@ using JestersCreditUnion.Interface.Loan;
 using JestersCreditUnion.Interface.Loan.Models;
 using System;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace JCU.Internal.Behaviors
 {
     public class BeginLoanAgreementLoader
     {
         private readonly BeginLoanAgreementVM _beginLoanAgreementVM;
+        private readonly ISettingsFactory _settingsFactory;
+        private readonly IInterestRateConfigurationService _interestRateConfigurationService;
 
-        public BeginLoanAgreementLoader(BeginLoanAgreementVM beginLoanAgreementVM)
+        public BeginLoanAgreementLoader(
+            ISettingsFactory settingsFactory,
+            IInterestRateConfigurationService interestRateConfigurationService,
+            BeginLoanAgreementVM beginLoanAgreementVM)
         {
+            _settingsFactory = settingsFactory;
+            _interestRateConfigurationService = interestRateConfigurationService;
             _beginLoanAgreementVM = beginLoanAgreementVM;
             beginLoanAgreementVM.Loan.Agreement.PropertyChanged += Agreement_PropertyChanged;
         }
@@ -78,6 +86,39 @@ namespace JCU.Internal.Behaviors
             catch (System.Exception ex)
             {
                 ErrorWindow.Open(ex);
+            }
+        }
+
+        public void InitializeInterestRate()
+        {
+            _beginLoanAgreementVM.BusyVisibility = Visibility.Visible;
+            Task.Run(() => _interestRateConfigurationService.Get(_settingsFactory.CreateLoanApi()).Result)
+                .ContinueWith(InitializeInterestRateCallback, _beginLoanAgreementVM, TaskScheduler.FromCurrentSynchronizationContext());
+        }
+
+        private async Task InitializeInterestRateCallback(Task<InterestRateConfiguration> initialize, object state)
+        {
+            try
+            {
+                InterestRateConfiguration interestRateConfiguration = await initialize;
+                if (state != null && state is BeginLoanAgreementVM beginLoanAgreementVM)
+                {
+                    if (beginLoanAgreementVM.Loan.Agreement.InterestPercentage == 0.0M && interestRateConfiguration.TotalRate.HasValue)
+                    {
+                        beginLoanAgreementVM.Loan.Agreement.InterestPercentage = interestRateConfiguration.TotalRate.Value * 100.0M;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorWindow.Open(ex);
+            }
+            finally
+            {
+                if (state != null && state is BeginLoanAgreementVM beginLoanAgreementVM)
+                {
+                    beginLoanAgreementVM.BusyVisibility = Visibility.Collapsed;
+                }
             }
         }
     }

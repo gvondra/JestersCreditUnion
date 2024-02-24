@@ -1,4 +1,5 @@
 ﻿using JCU.Internal.Behaviors;
+using JestersCreditUnion.Interface.Loan;
 using JestersCreditUnion.Interface.Loan.Models;
 using System;
 using System.Windows;
@@ -73,7 +74,10 @@ namespace JCU.Internal.ViewModel
             }
         }
 
-        public static BeginLoanAgreementVM Create(LoanApplication loanApplication)
+        public static BeginLoanAgreementVM Create(
+            ISettingsFactory settingsFactory,
+            IInterestRateConfigurationService interestRateConfigurationService, 
+            LoanApplication loanApplication)
         {
             Loan loan = new Loan()
             {
@@ -121,16 +125,19 @@ namespace JCU.Internal.ViewModel
                     State = loanApplication.CoBorrowerAddress.State
                 };
             }
-            return Create(loan);
+            return Create(settingsFactory, interestRateConfigurationService, loan);
         }
 
-        public static BeginLoanAgreementVM Create(Loan loan)
+        public static BeginLoanAgreementVM Create(
+            ISettingsFactory settingsFactory,
+            IInterestRateConfigurationService interestRateConfigurationService,
+            Loan loan)
         {   
             BeginLoanAgreementVM vm = new BeginLoanAgreementVM(LoanVM.Create(loan));
             vm.Disburse = new BeginLoanAgreementDisburse();
             vm.Save = new BeginLoanAgreementSave();
             vm.AddBehavior(new BeginLoanAgreementValidator(vm));
-            vm.AddBehavior(new BeginLoanAgreementLoader(vm));
+            vm.AddBehavior(new BeginLoanAgreementLoader(settingsFactory, interestRateConfigurationService, vm)).InitializeInterestRate();
             return vm;
         }
     }
