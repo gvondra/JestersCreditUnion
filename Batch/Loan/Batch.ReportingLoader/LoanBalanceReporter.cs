@@ -113,6 +113,11 @@ namespace JestersCreditUnion.Batch.ReportingLoader
             ordinal = reader.GetOrdinal("NextPaymentDue");
             row["NextPaymentDue"] = await reader.IsDBNullAsync(ordinal) ? DBNull.Value : await reader.GetFieldValueAsync<DateTime>(ordinal);
 
+            if (row["NextPaymentDue"] != DBNull.Value && (short)row["LoanStatus"] == 1) // open loans
+            {
+                row["DaysPastDue"] = (short)Math.Max(((DateTime)row["Date"]).Subtract((DateTime)row["NextPaymentDue"]).Days, 0);
+            }
+
             if (loanAgreementLookup.ContainsKey(loanId))
             {
                 LoanAgreement loanAgreement = FindLoanAgreement(loanAgreementLookup[loanId], updateTimestamp);
@@ -150,6 +155,7 @@ namespace JestersCreditUnion.Batch.ReportingLoader
             table.Columns.Add("Timestamp", typeof(DateTime));
             table.Columns.Add("Date", typeof(DateTime));
             table.Columns.Add("Balance", typeof(decimal));
+            table.Columns.Add("DaysPastDue", typeof(short));
             table.Columns.Add("LoanStatus", typeof(short));
             table.Columns.Add("Number", typeof(string));
             table.Columns.Add("InitialDisbursementDate", typeof(DateTime));

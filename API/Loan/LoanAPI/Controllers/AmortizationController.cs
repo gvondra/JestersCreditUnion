@@ -1,15 +1,15 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
+using AutoMapper;
 using JestersCreditUnion.CommonAPI;
-using JestersCreditUnion.Loan.Framework;
 using JestersCreditUnion.Interface.Loan.Models;
+using JestersCreditUnion.Loan.Framework;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 using AuthorizationAPI = BrassLoon.Interface.Authorization;
 
 namespace LoanAPI.Controllers
@@ -21,7 +21,8 @@ namespace LoanAPI.Controllers
         private readonly IAmortizationBuilder _amortizationBuilder;
         private readonly ILoanFactory _loanFactory;
 
-        public AmortizationController(IOptions<Settings> settings,
+        public AmortizationController(
+            IOptions<Settings> settings,
             ISettingsFactory settingsFactory,
             AuthorizationAPI.IUserService userService,
             ILogger<AmortizationController> logger,
@@ -58,7 +59,7 @@ namespace LoanAPI.Controllers
                     IMapper mapper = MapperConfiguration.CreateMapper();
                     result = Ok(
                         (await _amortizationBuilder.Build(GetCoreSettings(), loan))
-                        .Select<IAmortizationItem, AmortizationItem>(am => mapper.Map<AmortizationItem>(am)));
+                        .Select<IAmortizationItem, AmortizationItem>(mapper.Map<AmortizationItem>));
                 }
             }
             catch (System.Exception ex)

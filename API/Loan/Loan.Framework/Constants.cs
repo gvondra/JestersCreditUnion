@@ -1,7 +1,9 @@
 ﻿using JestersCreditUnion.Loan.Framework.Enumerations;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 
 #pragma warning disable IDE0130 // Namespace does not match folder structure
+#pragma warning disable SA1649 // File name should match first type name
 namespace JestersCreditUnion.Loan.Framework.Constants
 {
     public static class WorkTaskConfigurationFields
@@ -13,12 +15,13 @@ namespace JestersCreditUnion.Loan.Framework.Constants
 
     public static class EnumerationDesriptionLookup
     {
-        public static readonly List<(string, Type)> Map = new List<(string, Type)>
+        public static readonly ImmutableList<(string, Type)> Map = ImmutableList.CreateRange(new List<(string, Type)>
         {
             ("loan-application-status", typeof(LoanApplicationStatus)),
             ("loan-app-denial-reason", typeof(LoanApplicationDenialReason)),
-            ("loan-status", typeof(LoanStatus))
-        };
+            ("loan-status", typeof(LoanStatus)),
+            ("payment-intake-status", typeof(PaymentIntakeStatus))
+        });
     }
 
     public static class RatingLogStatus
@@ -28,3 +31,4 @@ namespace JestersCreditUnion.Loan.Framework.Constants
     }
 }
 #pragma warning restore IDE0130 // Namespace does not match folder structure
+#pragma warning restore SA1649 // File name should match first type name

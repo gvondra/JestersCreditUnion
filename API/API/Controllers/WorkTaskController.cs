@@ -21,7 +21,8 @@ namespace API.Controllers
     {
         private readonly WorkTaskAPI.IWorkTaskService _workTaskService;
 
-        public WorkTaskController(IOptions<Settings> settings,
+        public WorkTaskController(
+            IOptions<Settings> settings,
             ISettingsFactory settingsFactory,
             AuthorizationAPI.IUserService userService,
             ILogger<WorkTaskController> logger,
@@ -47,8 +48,7 @@ namespace API.Controllers
                     result = Ok(
                         (await _workTaskService.GetByContext(settings, _settings.Value.WorkTaskDomainId.Value, referenceType.Value, referenceValue, includeClosed))
                         .Select(mapper.Map<WorkTask>)
-                        .ToList()
-                        );
+                        .ToList());
                 }
                 else
                 {
@@ -81,17 +81,18 @@ namespace API.Controllers
             IActionResult result = null;
             try
             {
-                if (result == null && (!workGroupId.HasValue || workGroupId.Value.Equals(Guid.Empty)))
+                if (!workGroupId.HasValue || workGroupId.Value.Equals(Guid.Empty))
+                {
                     result = BadRequest("Missing id parameter value");
-                if (result == null)
+                }
+                else
                 {
                     WorkTaskSettings settings = GetWorkTaskSettings();
                     IMapper mapper = MapperConfiguration.CreateMapper();
                     result = Ok(
                         (await _workTaskService.GetByWorkGroupId(settings, _settings.Value.WorkTaskDomainId.Value, workGroupId.Value, includeClosed))
                         .Select(mapper.Map<WorkTask>)
-                        .ToList()
-                        );
+                        .ToList());
                 }
             }
             catch (BrassLoon.RestClient.Exceptions.RequestError ex)
@@ -120,9 +121,11 @@ namespace API.Controllers
             IActionResult result = null;
             try
             {
-                if (result == null && (!id.HasValue || id.Value.Equals(Guid.Empty)))
+                if (!id.HasValue || id.Value.Equals(Guid.Empty))
+                {
                     result = BadRequest("Missing id parameter value");
-                if (result == null)
+                }
+                else
                 {
                     WorkTaskSettings settings = GetWorkTaskSettings();
                     WorkTaskAPI.Models.ClaimWorkTaskResponse response = await _workTaskService.Claim(settings, _settings.Value.WorkTaskDomainId.Value, id.Value, assignToUserId ?? string.Empty, assignedDate);
@@ -147,7 +150,7 @@ namespace API.Controllers
             return result;
         }
 
-        [HttpPost()]
+        [HttpPost]
         [Authorize(Constants.POLICY_WORKTASK_EDIT)]
         [ProducesResponseType(typeof(WorkTask), 200)]
         public async Task<IActionResult> Create([FromBody] WorkTask workTask)
@@ -196,9 +199,11 @@ namespace API.Controllers
             IActionResult result = null;
             try
             {
-                if (result == null && (!id.HasValue || id.Value.Equals(Guid.Empty)))
+                if (!id.HasValue || id.Value.Equals(Guid.Empty))
+                {
                     result = BadRequest("Missing id parameter value");
-                if (result == null)
+                }
+                else
                 {
                     WorkTaskSettings settings = GetWorkTaskSettings();
                     IMapper mapper = MapperConfiguration.CreateMapper();
@@ -240,8 +245,7 @@ namespace API.Controllers
                 result = Ok(
                     (await _workTaskService.Patch(settings, _settings.Value.WorkTaskDomainId.Value, patchData))
                     .Select(mapper.Map<WorkTask>)
-                    .ToList()
-                    );
+                    .ToList());
             }
             catch (BrassLoon.RestClient.Exceptions.RequestError ex)
             {

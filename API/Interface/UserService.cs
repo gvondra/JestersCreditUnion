@@ -45,16 +45,17 @@ namespace JestersCreditUnion.Interface
 
         public Task<string> GetName(ISettings settings, Guid userId)
         {
-            return _userNameCache.Execute(context =>
-            {
-                IRequest request = _service.CreateRequest(new Uri(settings.BaseAddress), HttpMethod.Get)
-                .AddPath("User/{id}/Name")
-                .AddPathParameter("id", userId.ToString("D"))
-                .AddJwtAuthorizationToken(settings.GetToken)
-                ;
-                return _restUtil.Send<string>(_service, request);
-            },
-            new Context(userId.ToString("N")));
+            return _userNameCache.Execute(
+                context =>
+                {
+                    IRequest request = _service.CreateRequest(new Uri(settings.BaseAddress), HttpMethod.Get)
+                    .AddPath("User/{id}/Name")
+                    .AddPathParameter("id", userId.ToString("D"))
+                    .AddJwtAuthorizationToken(settings.GetToken)
+                    ;
+                    return _restUtil.Send<string>(_service, request);
+                },
+                new Context(userId.ToString("N")));
         }
 
         public Task<List<User>> Search(ISettings settings, string emailAddress)

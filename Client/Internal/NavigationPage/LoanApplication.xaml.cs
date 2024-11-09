@@ -161,19 +161,28 @@ namespace JCU.Internal.NavigationPage
         {
             try
             {
-                Models.Loan loan = await getLoan;
+                using (ILifetimeScope scope = DependencyInjection.ContainerFactory.Container.BeginLifetimeScope())
+                {
+                    Models.Loan loan = await getLoan;
 
-                BeginLoanAgreement beginLoanAgreement;
-                if (loan is null)
-                {
-                    beginLoanAgreement = new BeginLoanAgreement(BeginLoanAgreementVM.Create(this.LoanApplicationVM.InnerLoanApplication));
-                }                
-                else
-                {
-                    beginLoanAgreement = new BeginLoanAgreement(BeginLoanAgreementVM.Create(loan));
+                    BeginLoanAgreement beginLoanAgreement;
+                    if (loan is null)
+                    {
+                        beginLoanAgreement = new BeginLoanAgreement(BeginLoanAgreementVM.Create(
+                            scope.Resolve<ISettingsFactory>(),
+                            scope.Resolve<IInterestRateConfigurationService>(),
+                            this.LoanApplicationVM.InnerLoanApplication));
+                    }
+                    else
+                    {
+                        beginLoanAgreement = new BeginLoanAgreement(BeginLoanAgreementVM.Create(
+                            scope.Resolve<ISettingsFactory>(),
+                            scope.Resolve<IInterestRateConfigurationService>(),
+                            loan));
+                    }
+                    NavigationService navigationService = NavigationService.GetNavigationService(this);
+                    navigationService.Navigate(beginLoanAgreement);
                 }
-                NavigationService navigationService = NavigationService.GetNavigationService(this);
-                navigationService.Navigate(beginLoanAgreement);
             }
             catch (System.Exception ex)
             {

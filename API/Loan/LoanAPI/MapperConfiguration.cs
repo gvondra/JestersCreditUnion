@@ -1,18 +1,14 @@
 ﻿using AutoMapper;
 using JestersCreditUnion.Interface.Loan.Models;
 using JestersCreditUnion.Loan.Framework;
+using JestersCreditUnion.Loan.Framework.Enumerations;
 using Reporting = JestersCreditUnion.Loan.Framework.Reporting;
 
 namespace LoanAPI
 {
     public static class MapperConfiguration
     {
-        private static readonly AutoMapper.MapperConfiguration _mapperConfiguration;
-
-        static MapperConfiguration()
-        {
-            _mapperConfiguration = new AutoMapper.MapperConfiguration(Initialize);
-        }
+        private static readonly AutoMapper.MapperConfiguration _mapperConfiguration = new AutoMapper.MapperConfiguration(Initialize);
 
         private static void Initialize(IMapperConfigurationExpression exp)
         {
@@ -33,12 +29,16 @@ namespace LoanAPI
             exp.CreateMap<LoanApplicationDenial, ILoanApplicationDenial>();
             exp.CreateMap<Reporting.LoanApplicationSummaryItem, LoanApplicationSummaryItem>();
             exp.CreateMap<LoanPaymentAmountRequest, LoanPaymentAmountResponse>();
+            exp.CreateMap<Reporting.LoanPastDue, LoanPastDue>();
             exp.CreateMap<Reporting.ILoanSummary, OpenLoanSummary>();
             exp.CreateMap<Reporting.IOpenLoanSummary, OpenLoanSummaryItem>();
             exp.CreateMap<ILookup, Lookup>();
             exp.CreateMap<LoanPayment, IPayment>();
             exp.CreateMap<IPayment, LoanPayment>()
                 .ForMember(p => p.Message, config => config.Ignore());
+            exp.CreateMap<IPaymentIntake, PaymentIntake>();
+            exp.CreateMap<PaymentIntake, IPaymentIntake>()
+                .ForMember(pi => pi.Status, config => config.MapFrom((PaymentIntake pi) => (PaymentIntakeStatus)(pi.Status ?? 0)));
             exp.CreateMap<IRatingLog, RatingLog>();
             exp.CreateMap<IRating, Rating>();
             exp.CreateMap<ITransaction, Transaction>();

@@ -42,7 +42,6 @@ namespace JestersCreditUnion.Loan.Core
             _settingsFactory = settingsFactory;
             _addressFactory = addressFactoryIndex["v2"];
             _ratingFactory = ratingFactory;
-
         }
 
         public IAddressFactory AddressFactory => _addressFactory;

@@ -18,7 +18,8 @@ namespace API
 
         public AuthorizationSettings CreateAuthorization(Settings settings)
         {
-            return new AuthorizationSettings(_tokenService,
+            return new AuthorizationSettings(
+                _tokenService,
                 settings.BrassLoonAuthorizationApiBaseAddress,
                 settings.BrassLoonAccountApiBaseAddress,
                 settings.BrassLoonLogClientId,
@@ -27,7 +28,8 @@ namespace API
 
         public ConfigurationSettings CreateConfiguration(Settings settings)
         {
-            return new ConfigurationSettings(_tokenService,
+            return new ConfigurationSettings(
+                _tokenService,
                 settings.BrassLoonConfigApiBaseAddress,
                 settings.BrassLoonAccountApiBaseAddress,
                 settings.BrassLoonLogClientId,
@@ -36,7 +38,8 @@ namespace API
 
         public LogSettings CreateLog(Settings settings)
         {
-            return new LogSettings(_tokenService,
+            return new LogSettings(
+                _tokenService,
                 settings.BrassLoonLogApiBaseAddress,
                 settings.BrassLoonAccountApiBaseAddress,
                 settings.BrassLoonLogClientId,
@@ -45,12 +48,12 @@ namespace API
 
         public WorkTaskSettings CreateWorkTask(Settings settings)
         {
-            return new WorkTaskSettings(_tokenService,
+            return new WorkTaskSettings(
+                _tokenService,
                 settings.BrassLoonWorkTaskApiBaseAddress,
                 settings.BrassLoonAccountApiBaseAddress,
                 settings.BrassLoonLogClientId,
-                settings.BrassLoonLogClientSecret
-                );
+                settings.BrassLoonLogClientSecret);
         }
     }
 }

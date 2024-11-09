@@ -67,7 +67,7 @@ namespace JestersCreditUnion.Testing.LoanGenerator
 
         private async Task Aprove(LoanApplication application)
         {
-            _logger.Information($"Approving {application.Amount:$###,###,##0.00} for {application.BorrowerName} born {application.CoBorrowerBirthDate:yyyy-MM-dd}");
+            _logger.Information($"Approving {application.Amount:$###,###,##0.00} for {application.BorrowerName} born {application.BorrowerBirthDate:yyyy-MM-dd}");
             LoanApiSettings settings = await _settingsFactory.GetLoanApiSettings();
             application.Status = 3;
             application = await _loanApplicationService.Update(settings, application);
@@ -76,7 +76,7 @@ namespace JestersCreditUnion.Testing.LoanGenerator
 
         private async Task Deny(LoanApplication application)
         {
-            _logger.Information($"Denying {application.Amount:$###,###,##0.00} for {application.BorrowerName} born {application.CoBorrowerBirthDate:yyyy-MM-dd}");
+            _logger.Information($"Denying {application.Amount:$###,###,##0.00} for {application.BorrowerName} born {application.BorrowerBirthDate:yyyy-MM-dd}");
             LoanApiSettings settings = await _settingsFactory.GetLoanApiSettings();
             LoanApplicationDenial denial = new LoanApplicationDenial
             {

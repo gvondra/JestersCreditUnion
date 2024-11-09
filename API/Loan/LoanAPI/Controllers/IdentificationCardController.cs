@@ -18,7 +18,8 @@ namespace LoanAPI.Controllers
     {
         private readonly ILoanApplicationFactory _loanApplicationFactory;
 
-        public IdentificationCardController(IOptions<Settings> settings,
+        public IdentificationCardController(
+            IOptions<Settings> settings,
             ISettingsFactory settingsFactory,
             AuthorizationAPI.IUserService userService,
             ILogger<IdentificationCardController> logger,
@@ -90,7 +91,7 @@ namespace LoanAPI.Controllers
                         result = BadRequest("No file received");
                     }
                 }
-                if (result == null)
+                if (result == null && id.HasValue)
                 {
                     loanApplication = await _loanApplicationFactory.Get(settings, id.Value);
                     if (loanApplication == null)

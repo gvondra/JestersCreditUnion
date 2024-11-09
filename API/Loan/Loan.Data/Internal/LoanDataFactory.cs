@@ -1,10 +1,10 @@
-﻿using JestersCreditUnion.Loan.Data.Models;
-using System.Data.Common;
+﻿using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Globalization;
-using System.Collections.Generic;
+using JestersCreditUnion.Loan.Data.Models;
 
 namespace JestersCreditUnion.Loan.Data.Internal
 {

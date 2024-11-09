@@ -2,7 +2,7 @@
 AS
 BEGIN
 MERGE INTO [lnrpt].[LoanBalance] as [tgt]
-USING (SELECT [Date], [Balance], [LoanStatus],
+USING (SELECT [Date], [Balance], [DaysPastDue], [LoanStatus],
 
 	(SELECT MIN([LoanId]) FROM [lnrpt].[Loan] [ln]
 	WHERE [ln].[Number] = [bal].[Number]
@@ -20,15 +20,16 @@ USING (SELECT [Date], [Balance], [LoanStatus],
 	FROM [lnwrk].[LoanBalance] [bal]
 	WHERE [bal].[Balance] IS NOT NULL
 	AND [bal].[Timestamp] = (SELECT MAX([Timestamp]) FROM [lnwrk].[LoanBalance]
-		WHERE [Number] = [bal].[Number] and [Date] = [bal].[Date])) as [src] ([Date], [Balance], [LoanStatus], [LoanId], [LoanAgreementId])
+		WHERE [Number] = [bal].[Number] and [Date] = [bal].[Date])) as [src] ([Date], [Balance], [DaysPastDue], [LoanStatus], [LoanId], [LoanAgreementId])
 ON [tgt].[Date] = [src].[Date]
 	and (([tgt].[Balance] is NULL and [src].[Balance] is NULL) or [tgt].[Balance] = [src].[Balance])
+	and (([tgt].[DaysPastDue] is NULL and [src].[DaysPastDue] is NULL) or [tgt].[DaysPastDue] = [src].[DaysPastDue])
 	and [tgt].[LoanId] = [src].[LoanId]
 	and [tgt].[LoanAgreementId] = [src].[LoanAgreementId]
 	and [tgt].[LoanStatus] = [src].[LoanStatus]
 WHEN NOT MATCHED THEN
-	INSERT ([Date], [Balance], [LoanId], [LoanAgreementId], [LoanStatus])
-	VALUES ([src].[Date], [src].[Balance], [src].[LoanId], [LoanAgreementId], [src].[LoanStatus])
+	INSERT ([Date], [Balance], [DaysPastDue], [LoanId], [LoanAgreementId], [LoanStatus])
+	VALUES ([src].[Date], [src].[Balance], [src].[DaysPastDue], [src].[LoanId], [LoanAgreementId], [src].[LoanStatus])
 WHEN NOT MATCHED BY SOURCE THEN DELETE
 ;
 END

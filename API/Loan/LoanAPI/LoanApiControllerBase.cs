@@ -1,24 +1,26 @@
-﻿using BrassLoon.Interface.Authorization;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using BrassLoon.Interface.Authorization;
 using JestersCreditUnion.CommonAPI;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System;
 using AuthorizationAPI = BrassLoon.Interface.Authorization;
 
 namespace LoanAPI
 {
-    public class LoanApiControllerBase : CommonControllerBase
+    public abstract class LoanApiControllerBase : CommonControllerBase
     {
+#pragma warning disable SA1401 // Fields should be private
         protected readonly IOptions<Settings> _settings;
         protected readonly ISettingsFactory _settingsFactory;
+#pragma warning restore SA1401 // Fields should be private
         private CoreSettings _coreSettings;
         private AuthorizationSettings _authorizationSettings;
         private ConfigurationSettings _configurationSettings;
 
-        public LoanApiControllerBase(
+        protected LoanApiControllerBase(
             IOptions<Settings> settings,
             ISettingsFactory settingsFactory,
             IUserService userService,
@@ -31,14 +33,13 @@ namespace LoanAPI
 
         protected async Task WriteMetrics(string eventCode, double? magnitude, IActionResult actionResult = null, Dictionary<string, string> data = null)
         {
-            await base.WriteMetrics(
+            await WriteMetrics(
                 _settingsFactory.CreateAuthorization(),
                 _settings.Value.AuthorizationDomainId.Value,
                 eventCode,
                 magnitude: magnitude,
                 actionResult: actionResult,
-                data: data
-                );
+                data: data);
         }
 
         protected Task WriteMetrics(string eventCode, DateTime? startTime, IActionResult actionResult = null, Dictionary<string, string> data = null)

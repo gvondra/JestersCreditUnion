@@ -76,5 +76,12 @@ namespace JestersCreditUnion.Loan.Framework.Enumerations
         MinEmploymentYears = 5,
         MaxEmploymentYears = 6
     }
+
+    public enum PaymentIntakeStatus : short
+    {
+        New = 0,
+        Hold = 1,
+        Processed = 2
+    }
 }
 #pragma warning restore IDE0130 // Namespace does not match folder structure

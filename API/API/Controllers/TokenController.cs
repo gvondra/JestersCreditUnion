@@ -17,7 +17,8 @@ namespace API.Controllers
     {
         private readonly AuthorizationAPI.ITokenService _tokenService;
 
-        public TokenController(IOptions<Settings> settings,
+        public TokenController(
+            IOptions<Settings> settings,
             ISettingsFactory settingsFactory,
             AuthorizationAPI.IUserService userService,
             ILogger<TokenController> logger,
@@ -27,7 +28,7 @@ namespace API.Controllers
             _tokenService = tokenService;
         }
 
-        [HttpPost()]
+        [HttpPost]
         [Authorize(Constants.POLICY_TOKEN_CREATE)]
         public async Task<IActionResult> Create()
         {
@@ -35,12 +36,10 @@ namespace API.Controllers
             IActionResult result = null;
             try
             {
-                if (result == null)
-                {
-                    AuthorizationAPI.ISettings settings = _settingsFactory.CreateAuthorization(_settings.Value, GetUserToken());
-                    result = Content(await _tokenService.Create(settings, _settings.Value.AuthorizationDomainId.Value),
-                        "text/plain");
-                }
+                AuthorizationAPI.ISettings settings = _settingsFactory.CreateAuthorization(_settings.Value, GetUserToken());
+                result = Content(
+                    await _tokenService.Create(settings, _settings.Value.AuthorizationDomainId.Value),
+                    "text/plain");
             }
             catch (System.Exception ex)
             {
@@ -61,14 +60,15 @@ namespace API.Controllers
             IActionResult result = null;
             try
             {
-                if ((clientCredential?.ClientId.HasValue ?? false) == false)
+                if (!(clientCredential?.ClientId.HasValue ?? false))
                 {
                     result = BadRequest("Missing client id value");
                 }
                 else
                 {
                     AuthorizationAPI.ISettings settings = _settingsFactory.CreateAuthorization(_settings.Value, GetUserToken());
-                    result = Content(await _tokenService.CreateClientCredential(
+                    result = Content(
+                        await _tokenService.CreateClientCredential(
                         settings,
                         _settings.Value.AuthorizationDomainId.Value,
                         new AuthorizationAPI.Models.ClientCredential

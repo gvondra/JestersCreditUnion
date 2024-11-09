@@ -21,7 +21,8 @@ namespace API.Controllers
     {
         private readonly WorkTaskAPI.IWorkTaskStatusService _workTaskStatusService;
 
-        public WorkTaskStatusController(IOptions<Settings> settings,
+        public WorkTaskStatusController(
+            IOptions<Settings> settings,
             ISettingsFactory settingsFactory,
             AuthorizationAPI.IUserService userService,
             ILogger<WorkTaskStatusController> logger,
@@ -31,7 +32,7 @@ namespace API.Controllers
             _workTaskStatusService = workTaskStatusService;
         }
 
-        [HttpGet()]
+        [HttpGet]
         [Authorize(Constants.POLICY_WORKTASK_TYPE_READ)]
         [ProducesResponseType(typeof(List<WorkTaskStatus>), 200)]
         public async Task<IActionResult> GetAll([FromRoute] Guid? workTaskTypeId)
@@ -39,16 +40,17 @@ namespace API.Controllers
             IActionResult result = null;
             try
             {
-                if (result == null && (!workTaskTypeId.HasValue || workTaskTypeId.Value.Equals(Guid.Empty)))
+                if (!workTaskTypeId.HasValue || workTaskTypeId.Value.Equals(Guid.Empty))
+                {
                     result = BadRequest("Missing work task type id parameter value");
-                if (result == null)
+                }
+                else
                 {
                     WorkTaskSettings settings = GetWorkTaskSettings();
                     IMapper mapper = MapperConfiguration.CreateMapper();
                     result = Ok(
                         (await _workTaskStatusService.GetAll(settings, _settings.Value.WorkTaskDomainId.Value, workTaskTypeId.Value))
-                        .Select(t => mapper.Map<WorkTaskStatus>(t))
-                        );
+                        .Select(mapper.Map<WorkTaskStatus>));
                 }
             }
             catch (BrassLoon.RestClient.Exceptions.RequestError ex)
@@ -69,14 +71,18 @@ namespace API.Controllers
         [ProducesResponseType(typeof(WorkTaskStatus), 200)]
         public async Task<IActionResult> Get([FromRoute] Guid? workTaskTypeId, [FromRoute] Guid? id)
         {
-            IActionResult result = null;
+            IActionResult result;
             try
             {
-                if (result == null && (!id.HasValue || id.Value.Equals(Guid.Empty)))
+                if (!id.HasValue || id.Value.Equals(Guid.Empty))
+                {
                     result = BadRequest("Missing id parameter value");
-                if (result == null && (!workTaskTypeId.HasValue || workTaskTypeId.Value.Equals(Guid.Empty)))
+                }
+                else if (!workTaskTypeId.HasValue || workTaskTypeId.Value.Equals(Guid.Empty))
+                {
                     result = BadRequest("Missing work task type id parameter value");
-                if (result == null)
+                }
+                else
                 {
                     WorkTaskSettings settings = GetWorkTaskSettings();
                     WorkTaskAPI.Models.WorkTaskStatus innerWorkTaskStatus = await _workTaskStatusService.Get(settings, _settings.Value.WorkTaskDomainId.Value, workTaskTypeId.Value, id.Value);
@@ -88,8 +94,7 @@ namespace API.Controllers
                     {
                         IMapper mapper = MapperConfiguration.CreateMapper();
                         result = Ok(
-                            mapper.Map<WorkTaskStatus>(innerWorkTaskStatus)
-                            );
+                            mapper.Map<WorkTaskStatus>(innerWorkTaskStatus));
                     }
                 }
             }
@@ -110,30 +115,30 @@ namespace API.Controllers
         private IActionResult ValidateRequest(WorkTaskStatus workTaskStatus)
         {
             IActionResult result = null;
-            if (result == null && workTaskStatus == null)
+            if (workTaskStatus == null)
                 result = BadRequest("Missing work task status body");
-            if (result == null && string.IsNullOrEmpty(workTaskStatus?.Name))
+            else if (string.IsNullOrEmpty(workTaskStatus.Name))
                 result = BadRequest("Missing work task status name value");
-            if (result == null && !workTaskStatus.IsClosedStatus.HasValue)
+            else if (!workTaskStatus.IsClosedStatus.HasValue)
                 result = BadRequest("Missing work task status is closed value");
             return result;
         }
 
-        [HttpPost()]
+        [HttpPost]
         [Authorize(Constants.POLICY_WORKTASK_TYPE_EDIT)]
         [ProducesResponseType(typeof(WorkTaskStatus), 200)]
         public async Task<IActionResult> Create([FromRoute] Guid? workTaskTypeId, [FromBody] WorkTaskStatus workTaskStatus)
         {
-            IActionResult result = null;
+            IActionResult result;
             try
             {
-                if (result == null && (!workTaskTypeId.HasValue || workTaskTypeId.Value.Equals(Guid.Empty)))
+                if (!workTaskTypeId.HasValue || workTaskTypeId.Value.Equals(Guid.Empty))
                     result = BadRequest("Missing work task type id parameter value");
-                if (result == null)
+                else
                     result = ValidateRequest(workTaskStatus);
                 if (result == null && string.IsNullOrEmpty(workTaskStatus?.Code))
                     result = BadRequest("Missing work task status code value");
-                if (result == null)
+                if (result == null && workTaskTypeId.HasValue)
                 {
                     WorkTaskSettings settings = GetWorkTaskSettings();
                     IMapper mapper = MapperConfiguration.CreateMapper();
@@ -142,8 +147,7 @@ namespace API.Controllers
                     innerWorkTaskStatus.WorkTaskTypeId = workTaskTypeId.Value;
                     innerWorkTaskStatus = await _workTaskStatusService.Create(settings, innerWorkTaskStatus);
                     result = Ok(
-                        mapper.Map<WorkTaskStatus>(innerWorkTaskStatus)
-                        );
+                        mapper.Map<WorkTaskStatus>(innerWorkTaskStatus));
                 }
             }
             catch (BrassLoon.RestClient.Exceptions.RequestError ex)
@@ -164,16 +168,16 @@ namespace API.Controllers
         [ProducesResponseType(typeof(WorkTaskStatus), 200)]
         public async Task<IActionResult> Update([FromRoute] Guid? workTaskTypeId, [FromRoute] Guid? id, [FromBody] WorkTaskStatus workTaskStatus)
         {
-            IActionResult result = null;
+            IActionResult result;
             try
             {
-                if (result == null && (!id.HasValue || id.Value.Equals(Guid.Empty)))
+                if (!id.HasValue || id.Value.Equals(Guid.Empty))
                     result = BadRequest("Missing id parameter value");
-                if (result == null && (!workTaskTypeId.HasValue || workTaskTypeId.Value.Equals(Guid.Empty)))
+                else if (!workTaskTypeId.HasValue || workTaskTypeId.Value.Equals(Guid.Empty))
                     result = BadRequest("Missing work task type id parameter value");
-                if (result == null)
+                else
                     result = ValidateRequest(workTaskStatus);
-                if (result == null)
+                if (result == null && id.HasValue && workTaskTypeId.HasValue)
                 {
                     WorkTaskSettings settings = GetWorkTaskSettings();
                     IMapper mapper = MapperConfiguration.CreateMapper();
@@ -183,8 +187,7 @@ namespace API.Controllers
                     innerWorkTaskStatus.WorkTaskStatusId = id.Value;
                     innerWorkTaskStatus = await _workTaskStatusService.Update(settings, innerWorkTaskStatus);
                     result = Ok(
-                        mapper.Map<WorkTaskStatus>(innerWorkTaskStatus)
-                        );
+                        mapper.Map<WorkTaskStatus>(innerWorkTaskStatus));
                 }
             }
             catch (BrassLoon.RestClient.Exceptions.RequestError ex)
@@ -204,14 +207,18 @@ namespace API.Controllers
         [Authorize(Constants.POLICY_BL_AUTH)]
         public async Task<IActionResult> Delete([FromRoute] Guid? workTaskTypeId, [FromRoute] Guid? id)
         {
-            IActionResult result = null;
+            IActionResult result;
             try
             {
-                if (result == null && (!id.HasValue || id.Value.Equals(Guid.Empty)))
+                if (!id.HasValue || id.Value.Equals(Guid.Empty))
+                {
                     result = BadRequest("Missing id parameter value");
-                if (result == null && (!workTaskTypeId.HasValue || workTaskTypeId.Value.Equals(Guid.Empty)))
+                }
+                else if (!workTaskTypeId.HasValue || workTaskTypeId.Value.Equals(Guid.Empty))
+                {
                     result = BadRequest("Missing work task type id parameter value");
-                if (result == null)
+                }
+                else
                 {
                     WorkTaskSettings settings = GetWorkTaskSettings();
                     await _workTaskStatusService.Delete(settings, _settings.Value.WorkTaskDomainId.Value, workTaskTypeId.Value, id.Value);

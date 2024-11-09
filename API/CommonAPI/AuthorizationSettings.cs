@@ -19,7 +19,8 @@ namespace JestersCreditUnion.CommonAPI
             _token = token;
         }
 
-        public AuthorizationSettings(ITokenService tokenService,
+        public AuthorizationSettings(
+            ITokenService tokenService,
             string baseAddress,
             string brassLoonAccountBaseAddress,
             Guid? clientId,

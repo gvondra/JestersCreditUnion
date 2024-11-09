@@ -1,6 +1,5 @@
 ﻿using JestersCreditUnion.Loan.Core;
 using JestersCreditUnion.Loan.Framework.Enumerations;
-using System;
 using System.Globalization;
 
 namespace Loan.Core.Test

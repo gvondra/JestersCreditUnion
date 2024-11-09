@@ -63,7 +63,8 @@ namespace JestersCreditUnion.Loan.Data.Internal
                     GenericDataFactory<PaymentTransactionData> transactionDataFactory = new GenericDataFactory<PaymentTransactionData>();
                     transactions = (await transactionDataFactory.LoadData(reader, () => new PaymentTransactionData(), DataUtil.AssignDataStateManager)).ToList();
                 });
-            return payments.GroupJoin(transactions,
+            return payments.GroupJoin(
+                transactions,
                 pmt => pmt.PaymentId,
                 trn => trn.PaymentId,
                 (pmt, trns) =>

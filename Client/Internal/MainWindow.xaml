@@ -22,6 +22,7 @@
                     <MenuItem Header="Find User" Visibility="{Binding ShowUserRole}" Command="NavigationCommands.GoToPage" CommandParameter="NavigationPage/User.xaml"/>
                     <MenuItem Header="Roles" Visibility="{Binding ShowUserRole}" Command="NavigationCommands.GoToPage" CommandParameter="NavigationPage/Roles.xaml"/>
                 </MenuItem>
+                <MenuItem Header="_Interest Rate Configuration" Visibility="{Binding ShowInterestRateConfiguration}" Command="NavigationCommands.GoToPage" CommandParameter="NavigationPage/InterestRateConfiguration.xaml" />
                 <MenuItem Header="Look_ups" Visibility="{Binding ShowLookups}" Command="NavigationCommands.GoToPage" CommandParameter="NavigationPage/Lookups.xaml"/>
                 <MenuItem Header="_Work Task Setup" Visibility="{Binding ShowWorkTaskTypeEdit}">
                     <MenuItem Header="_Types" Visibility="{Binding ShowWorkTaskTypeEdit}" Command="NavigationCommands.GoToPage" CommandParameter="NavigationPage/WorkTaskTypes.xaml"/>

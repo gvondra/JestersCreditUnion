@@ -13,7 +13,8 @@ namespace JestersCreditUnion.Loan.Core
         private readonly ILoanApplicationDataSaver _dataSaver;
         private readonly ILookupFactory _lookupFactory;
 
-        public LoanApplicationDenial(LoanApplicationDenialData data,
+        public LoanApplicationDenial(
+            LoanApplicationDenialData data,
             ILoanApplicationDataSaver dataSaver,
             ILookupFactory lookupFactory)
         {

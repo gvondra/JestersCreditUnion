@@ -45,6 +45,20 @@ namespace JCU.Internal
             return behaviors.Where(b => b.GetType().Equals(typeof(T))).Select<object, T>(b => (T)b).FirstOrDefault();
         }
 
-        public void AddBehavior(object behavior) => _behaviors.Add(behavior);
+        public T AddBehavior<T>(T behavior)
+        {
+            _behaviors.Add(behavior);
+            return behavior;
+        }
+
+        protected void SetValue<T>(Nullable<T> newValue, ref Nullable<T> value, [CallerMemberName] string propertyName = "")
+            where T : struct, IEquatable<T>
+        {
+            if (value.HasValue != newValue.HasValue || (value.HasValue && !value.Value.Equals(newValue.Value)))
+            {
+                value = newValue;
+                NotifyPropertyChanged(propertyName);
+            }
+        }
     }
 }

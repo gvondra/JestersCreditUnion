@@ -1,7 +1,6 @@
-﻿using BrassLoon.Interface.Config.Models;
-using JestersCreditUnion.CommonAPI;
-using JestersCreditUnion.Loan.Framework.Constants;
+﻿using JestersCreditUnion.CommonAPI;
 using JestersCreditUnion.Interface.Loan.Models;
+using JestersCreditUnion.Loan.Framework.Constants;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,7 +18,8 @@ namespace LoanAPI.Controllers
     public class WorkTaskConfigurationController : LoanApiControllerBase
     {
         private readonly ConfigAPI.IItemService _itemService;
-        public WorkTaskConfigurationController(IOptions<Settings> settings,
+        public WorkTaskConfigurationController(
+            IOptions<Settings> settings,
             ISettingsFactory settingsFactory,
             AuthorizationAPI.IUserService userService,
             ILogger<WorkTaskConfigurationController> logger,
@@ -29,7 +29,7 @@ namespace LoanAPI.Controllers
             _itemService = itemService;
         }
 
-        [HttpGet()]
+        [HttpGet]
         [Authorize(Constants.POLICY_WORKTASK_TYPE_READ)]
         [ProducesResponseType(typeof(WorkTaskConfiguration), 200)]
         public async Task<IActionResult> Get()
@@ -38,19 +38,16 @@ namespace LoanAPI.Controllers
             IActionResult result = null;
             try
             {
-                if (result == null)
+                ConfigurationSettings settings = GetConfigurationSettings();
+                dynamic data = await _itemService.GetDataByCode(settings, _settings.Value.ConfigDomainId.Value, _settings.Value.WorkTaskConfigurationCode);
+                WorkTaskConfiguration workTaskConfiguration = new WorkTaskConfiguration();
+                if (data != null)
                 {
-                    ConfigurationSettings settings = GetConfigurationSettings();
-                    dynamic data = await _itemService.GetDataByCode(settings, _settings.Value.ConfigDomainId.Value, _settings.Value.WorkTaskConfigurationCode);
-                    WorkTaskConfiguration workTaskConfiguration = new WorkTaskConfiguration();
-                    if (data != null)
-                    {
-                        workTaskConfiguration.NewLoanApplicationTaskTypeCode = data[WorkTaskConfigurationFields.NewLoanApplicationTaskTypeCode] ?? string.Empty;
-                        workTaskConfiguration.SendDenialCorrespondenceTaskTypeCode = data[WorkTaskConfigurationFields.SendDenialCorrespondenceTaskTypeCode] ?? string.Empty;
-                        workTaskConfiguration.DiburseFundsTaskTypeCode = data[WorkTaskConfigurationFields.DiburseFundsTaskTypeCode] ?? string.Empty;
-                    }
-                    result = Ok(workTaskConfiguration);
+                    workTaskConfiguration.NewLoanApplicationTaskTypeCode = data[WorkTaskConfigurationFields.NewLoanApplicationTaskTypeCode] ?? string.Empty;
+                    workTaskConfiguration.SendDenialCorrespondenceTaskTypeCode = data[WorkTaskConfigurationFields.SendDenialCorrespondenceTaskTypeCode] ?? string.Empty;
+                    workTaskConfiguration.DiburseFundsTaskTypeCode = data[WorkTaskConfigurationFields.DiburseFundsTaskTypeCode] ?? string.Empty;
                 }
+                result = Ok(workTaskConfiguration);
             }
             catch (BrassLoon.RestClient.Exceptions.RequestError ex)
             {
@@ -69,7 +66,7 @@ namespace LoanAPI.Controllers
             return result;
         }
 
-        [HttpPut()]
+        [HttpPut]
         [Authorize(Constants.POLICY_WORKTASK_TYPE_READ)]
         [ProducesResponseType(typeof(WorkTaskConfiguration), 200)]
         public async Task<IActionResult> Save([FromBody] WorkTaskConfiguration workTaskConfiguration)
@@ -78,12 +75,9 @@ namespace LoanAPI.Controllers
             IActionResult result = null;
             try
             {
-                if (result == null)
-                {
-                    ConfigurationSettings settings = GetConfigurationSettings();
-                    Item item = await _itemService.Save(settings, _settings.Value.ConfigDomainId.Value, _settings.Value.WorkTaskConfigurationCode, workTaskConfiguration);
-                    result = Ok(workTaskConfiguration);
-                }
+                ConfigurationSettings settings = GetConfigurationSettings();
+                _ = await _itemService.Save(settings, _settings.Value.ConfigDomainId.Value, _settings.Value.WorkTaskConfigurationCode, workTaskConfiguration);
+                result = Ok(workTaskConfiguration);
             }
             catch (BrassLoon.RestClient.Exceptions.RequestError ex)
             {

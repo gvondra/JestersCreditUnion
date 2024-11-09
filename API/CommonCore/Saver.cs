@@ -33,7 +33,6 @@ namespace JestersCreditUnion.CommonCore
                     transactionHandler.Connection.Dispose();
                     transactionHandler.Connection = null;
                 }
-
             }
         }
     }

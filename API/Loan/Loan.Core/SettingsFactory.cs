@@ -13,7 +13,6 @@ namespace JestersCreditUnion.Loan.Core
         {
             _accountTokenService = tokenService;
             _authorizationTokenService = authorizationTokenService;
-
         }
 
         internal ConfigurationSettings CreateConfiguration(ISettings settings)

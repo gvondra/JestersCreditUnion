@@ -14,7 +14,8 @@ namespace API
         private readonly string _clientSecret;
         private readonly ITokenService _tokenService;
 
-        public WorkTaskSettings(ITokenService tokenService,
+        public WorkTaskSettings(
+            ITokenService tokenService,
             string baseAddress,
             string brassLoonAccountBaseAddress,
             Guid? clientId,

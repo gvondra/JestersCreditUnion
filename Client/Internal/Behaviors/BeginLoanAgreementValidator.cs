@@ -27,7 +27,7 @@ namespace JCU.Internal.Behaviors
                     RequiredNullableField(e.PropertyName, _beginLoanAgreementVM.Loan.Agreement.BorrowerBirthDate, _beginLoanAgreementVM.Loan.Agreement);
                     break;
                 case nameof(LoanAgreementVM.InterestPercentage):
-                    ValidateRangeExclusive(e.PropertyName, _beginLoanAgreementVM.Loan.Agreement.InterestPercentage, _beginLoanAgreementVM.Loan.Agreement, 0.0M, 100.0M);
+                    ValidateInterestRate(_beginLoanAgreementVM.Loan.Agreement, _beginLoanAgreementVM.MinimumInterestRate, _beginLoanAgreementVM.MaximumInterestRate);
                     break;
                 case nameof(LoanAgreementVM.OriginalAmount):
                     RequiredNullableField(e.PropertyName, _beginLoanAgreementVM.Loan.Agreement.OriginalAmount, _beginLoanAgreementVM.Loan.Agreement);
@@ -106,6 +106,19 @@ namespace JCU.Internal.Behaviors
                         viewModel[propertyName] = $"Must be greater than {maxValue}";
                     }
                 }
+            }
+        }
+
+        private void ValidateInterestRate(LoanAgreementVM loanAgreementVM, decimal minValue, decimal? maxValue)
+        {
+            if (maxValue.HasValue)
+            {
+                if (loanAgreementVM.InterestPercentage < minValue || loanAgreementVM.InterestPercentage > maxValue.Value)
+                    loanAgreementVM[nameof(LoanAgreementVM.InterestPercentage)] = $"Must be between {minValue} and {maxValue}";
+            }
+            else if (loanAgreementVM.InterestPercentage < minValue)
+            {
+                loanAgreementVM[nameof(LoanAgreementVM.InterestPercentage)] = $"Must be be no less than {minValue}";
             }
         }
     }

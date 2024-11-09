@@ -15,6 +15,5 @@ namespace LoanAPI
             builder.RegisterModule(new JestersCreditUnion.Loan.Reporting.Core.LoanReportingCoreModule());
             builder.RegisterType<SettingsFactory>().As<ISettingsFactory>().InstancePerLifetimeScope();
         }
-
     }
 }

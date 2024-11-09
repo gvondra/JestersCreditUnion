@@ -16,6 +16,15 @@ namespace JCU.Internal.DependencyInjection
             builder.RegisterType<LoanApplicationRatingLogLoader>();
             builder.RegisterType<LoanApplicationSummaryLoader>();
             builder.RegisterType<OpenLoanSummaryLoader>();
+            builder.RegisterType<Behaviors.InterestRateConfigurationLoader>();
+            builder.RegisterType<Behaviors.InterestRateConfigurationSaver>();
+            builder.RegisterType<Behaviors.InterestRateConfigurationValidator>();
+            builder.RegisterType<Behaviors.LoanPastDueLoader>();
+            builder.RegisterType<Behaviors.PaymentIntakeAdd>();
+            builder.RegisterType<Behaviors.PaymentIntakeItemHoldToggler>();
+            builder.RegisterType<Behaviors.PaymentIntakeItemLoader>();
+            builder.RegisterType<Behaviors.PaymentIntakeItemUpdater>();
+            builder.RegisterType<Behaviors.PaymentIntakeLoader>();
             builder.RegisterType<WorkTaskCycleSummaryLoader>();
         }
     }

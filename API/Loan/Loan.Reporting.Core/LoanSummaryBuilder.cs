@@ -22,7 +22,7 @@ namespace JestersCreditUnion.Loan.Reporting.Core
             return balances.Length switch
             {
                 0 => 0.0,
-                //1 => (double)balances[0],
+                // 1 => (double)balances[0],
                 _ => CalculateMedian(balances)
             };
         }

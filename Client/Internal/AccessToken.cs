@@ -50,6 +50,8 @@ namespace JCU.Internal
 
         public string GetGoogleIdToken() => GoogleToken?["id_token"];
 
+        public bool UserHasInterestRateConfigureAccess() => UserHasRoleAccess("INTERESTRATE:CONFIGURE");
+
         public bool UserHasTaskTypeReadAccess() => UserHasRoleAccess("WORKTASKTYPE:READ");
 
         public bool UserHasTaskTypeEditAccess() => UserHasRoleAccess("WORKTASKTYPE:EDIT");

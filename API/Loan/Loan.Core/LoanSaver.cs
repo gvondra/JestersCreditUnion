@@ -5,7 +5,6 @@ using Polly;
 using Polly.Retry;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using WorkTaskAPI = BrassLoon.Interface.WorkTask;
 
@@ -49,7 +48,7 @@ namespace JestersCreditUnion.Loan.Core
             if (workTaskType?.WorkTaskTypeId.HasValue ?? false)
             {
                 workTaskStatus = (await _workTaskStatusService.GetAll(workTaskSettings, settings.WorkTaskDomainId.Value, workTaskType.WorkTaskTypeId.Value))
-                    .FirstOrDefault(s => s.IsDefaultStatus ?? false);
+                    .Find(s => s.IsDefaultStatus ?? false);
             }
             else
             {
@@ -65,15 +64,13 @@ namespace JestersCreditUnion.Loan.Core
                     AsyncRetryPolicy retry = Policy.Handle<Exception>()
                         .WaitAndRetryAsync(new TimeSpan[] { TimeSpan.FromSeconds(0.5), TimeSpan.FromSeconds(0.667) });
                     await retry.ExecuteAsync(
-                        () => CreateDisburseFundsWorkTask(settings, workTaskType, workTaskStatus, loan.LoanId)
-                        );
+                        () => CreateDisburseFundsWorkTask(settings, workTaskType, workTaskStatus, loan.LoanId));
                 }
             });
         }
 
         public Task Update(ISettings settings, ILoan loan)
             => CommonCore.Saver.Save(new CommonCore.TransactionHandler(settings), (th) => loan.Update(th, settings));
-
 
         private async Task CreateDisburseFundsWorkTask(
             ISettings settings,
@@ -95,7 +92,7 @@ namespace JestersCreditUnion.Loan.Core
                 {
                     new WorkTaskContext
                     {
-                        DomainId= settings.WorkTaskDomainId,
+                        DomainId = settings.WorkTaskDomainId,
                         ReferenceType = (short)WorkTaskContextReferenceType.LoanId,
                         ReferenceValue = loanId.ToString("D")
                     }
@@ -109,8 +106,7 @@ namespace JestersCreditUnion.Loan.Core
         {
             WorkTaskSettings workTaskSettings = _settingsFactory.CreateWorkTask(settings);
             List<WorkTask> workTasks = await _workTaskService.GetByContext(workTaskSettings, settings.WorkTaskDomainId.Value, (short)WorkTaskContextReferenceType.LoanId, loanId.ToString("D"));
-            return workTasks.Any(wt => !(wt.WorkTaskStatus.IsClosedStatus ?? false));
+            return workTasks.Exists(wt => !(wt.WorkTaskStatus.IsClosedStatus ?? false));
         }
-
     }
 }

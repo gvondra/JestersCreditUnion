@@ -70,6 +70,9 @@
     <Compile Include="Behaviors\FindUserLoader.cs" />
     <Compile Include="Behaviors\FindUserSaver.cs" />
     <Compile Include="Behaviors\IdentificationCardLoader.cs" />
+    <Compile Include="Behaviors\InterestRateConfigurationSaver.cs" />
+    <Compile Include="Behaviors\InterestRateConfigurationLoader.cs" />
+    <Compile Include="Behaviors\InterestRateConfigurationValidator.cs" />
     <Compile Include="Behaviors\LoanAmortizationLoader.cs" />
     <Compile Include="Behaviors\LoanApplicationDenialLoader.cs" />
     <Compile Include="Behaviors\LoanApplicationDenialSave.cs" />
@@ -80,6 +83,7 @@
     <Compile Include="Behaviors\LoanApplicationUnderReview.cs" />
     <Compile Include="Behaviors\LoanApplicationValidator.cs" />
     <Compile Include="Behaviors\LoanDisburse.cs" />
+    <Compile Include="Behaviors\LoanPastDueLoader.cs" />
     <Compile Include="Behaviors\LoanSearch.cs" />
     <Compile Include="Behaviors\LoanSearchValidator.cs" />
     <Compile Include="Behaviors\LookupDelete.cs" />
@@ -89,6 +93,11 @@
     <Compile Include="Behaviors\LookupValueAdd.cs" />
     <Compile Include="Behaviors\MetricLogLoader.cs" />
     <Compile Include="Behaviors\OpenLoanSummaryLoader.cs" />
+    <Compile Include="Behaviors\PaymentIntakeAdd.cs" />
+    <Compile Include="Behaviors\PaymentIntakeItemHoldToggler.cs" />
+    <Compile Include="Behaviors\PaymentIntakeItemLoader.cs" />
+    <Compile Include="Behaviors\PaymentIntakeLoader.cs" />
+    <Compile Include="Behaviors\PaymentIntakeItemUpdater.cs" />
     <Compile Include="Behaviors\ReceiveLoanPaymentSave.cs" />
     <Compile Include="Behaviors\ReceiveLoanPaymentValidator.cs" />
     <Compile Include="Behaviors\RoleSaver.cs" />
@@ -125,6 +134,9 @@
     <Compile Include="Control\LookupEdit.xaml.cs">
       <DependentUpon>LookupEdit.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Control\PaymentIntake.xaml.cs">
+      <DependentUpon>PaymentIntake.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Control\WorkGroupDetail.xaml.cs">
       <DependentUpon>WorkGroupDetail.xaml</DependentUpon>
     </Compile>
@@ -140,6 +152,7 @@
     <Compile Include="Control\WorkTaskStatus.xaml.cs">
       <DependentUpon>WorkTaskStatus.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converter\DecimalToStringConverter.cs" />
     <Compile Include="DependencyInjection\ContainerFactory.cs" />
     <Compile Include="DependencyInjection\InternalModule.cs" />
     <Compile Include="ErrorWindow.xaml.cs">
@@ -153,6 +166,9 @@
     </Compile>
     <Compile Include="NavigationPage\Home.xaml.cs">
       <DependentUpon>Home.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NavigationPage\InterestRateConfiguration.xaml.cs">
+      <DependentUpon>InterestRateConfiguration.xaml</DependentUpon>
     </Compile>
     <Compile Include="NavigationPage\Loan.xaml.cs">
       <DependentUpon>Loan.xaml</DependentUpon>
@@ -171,6 +187,9 @@
     </Compile>
     <Compile Include="NavigationPage\LoanApplicationSummary.xaml.cs">
       <DependentUpon>LoanApplicationSummary.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NavigationPage\LoanPastDue.xaml.cs">
+      <DependentUpon>LoanPastDue.xaml</DependentUpon>
     </Compile>
     <Compile Include="NavigationPage\LoanSearch.xaml.cs">
       <DependentUpon>LoanSearch.xaml</DependentUpon>
@@ -192,6 +211,9 @@
     </Compile>
     <Compile Include="NavigationPage\OpenLoanSummary.xaml.cs">
       <DependentUpon>OpenLoanSummary.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NavigationPage\PaymentIntake.xaml.cs">
+      <DependentUpon>PaymentIntake.xaml</DependentUpon>
     </Compile>
     <Compile Include="NavigationPage\ReceiveLoanPayment.xaml.cs">
       <DependentUpon>ReceiveLoanPayment.xaml</DependentUpon>
@@ -239,6 +261,7 @@
     <Compile Include="ViewModel\FindUserRoleVM.cs" />
     <Compile Include="ViewModel\FindUserVM.cs" />
     <Compile Include="ViewModel\HomeVM.cs" />
+    <Compile Include="ViewModel\InterestRateConfigurationVM.cs" />
     <Compile Include="ViewModel\LoanAgreementVM.cs" />
     <Compile Include="ViewModel\LoanAmortizationVM.cs" />
     <Compile Include="ViewModel\LoanApplicationCommentVM.cs" />
@@ -246,6 +269,7 @@
     <Compile Include="ViewModel\LoanApplicationRatingLogVM.cs" />
     <Compile Include="ViewModel\LoanApplicationSummaryVM.cs" />
     <Compile Include="ViewModel\LoanApplicationVM.cs" />
+    <Compile Include="ViewModel\LoanPastDueVM.cs" />
     <Compile Include="ViewModel\LoanSearchVM.cs" />
     <Compile Include="ViewModel\LoanVM.cs" />
     <Compile Include="ViewModel\LookupsVM.cs" />
@@ -255,6 +279,8 @@
     <Compile Include="ViewModel\MetricLogVM.cs" />
     <Compile Include="ViewModel\OpenLoanSummaryItemVM.cs" />
     <Compile Include="ViewModel\OpenLoanSummaryVM.cs" />
+    <Compile Include="ViewModel\PaymentIntakeItemVM.cs" />
+    <Compile Include="ViewModel\PaymentIntakeVM.cs" />
     <Compile Include="ViewModel\RatingVM.cs" />
     <Compile Include="ViewModel\ReceiveLoanPaymentVM.cs" />
     <Compile Include="ViewModel\RolesVM.cs" />
@@ -289,6 +315,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Control\LookupEdit.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Control\PaymentIntake.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -340,6 +370,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="NavigationPage\InterestRateConfiguration.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="NavigationPage\Loan.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -361,6 +395,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="NavigationPage\LoanApplicationSummary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NavigationPage\LoanPastDue.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -389,6 +427,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="NavigationPage\OpenLoanSummary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NavigationPage\PaymentIntake.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -474,10 +516,10 @@
       <Version>4.7.0.9</Version>
     </PackageReference>
     <PackageReference Include="JestersCreditUnion.Interface">
-      <Version>1.0.0-alpha.82</Version>
+      <Version>1.0.0-alpha.83</Version>
     </PackageReference>
     <PackageReference Include="JestersCreditUnion.Interface.Loan">
-      <Version>1.0.0-alpha.16</Version>
+      <Version>1.0.0-alpha.25</Version>
     </PackageReference>
     <PackageReference Include="LiveCharts.Wpf">
       <Version>0.9.7</Version>
@@ -498,7 +540,7 @@
       <Version>13.0.3</Version>
     </PackageReference>
     <PackageReference Include="Polly">
-      <Version>8.2.1</Version>
+      <Version>8.3.0</Version>
     </PackageReference>
     <PackageReference Include="System.ComponentModel.Annotations">
       <Version>5.0.0</Version>

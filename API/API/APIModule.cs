@@ -1,6 +1,7 @@
 ﻿using Autofac;
 namespace API
 {
+#pragma warning disable S101 // Types should be named in PascalCase
     public class APIModule : Module
     {
         protected override void Load(ContainerBuilder builder)
@@ -14,4 +15,5 @@ namespace API
             builder.RegisterType<SettingsFactory>().As<ISettingsFactory>().InstancePerLifetimeScope();
         }
     }
+#pragma warning restore S101 // Types should be named in PascalCase
 }

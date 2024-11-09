@@ -10,8 +10,10 @@ namespace JestersCreditUnion.Loan.Data.Internal
     public class LoanApplicationDataFactory : DataFactoryBase<LoanApplicationData>, ILoanApplicationDataFactory
     {
         public LoanApplicationDataFactory(IDbProviderFactory providerFactory)
-            : base(providerFactory) { }
+            : base(providerFactory)
+        { }
 
+#pragma warning disable S2583 // Conditionally executed code should be reachable
         public async Task<LoanApplicationData> Get(ISqlSettings settings, Guid id)
         {
             IDataParameter[] parameters =
@@ -45,10 +47,11 @@ namespace JestersCreditUnion.Loan.Data.Internal
                 });
             if (data != null && data.BorrowerIdentificationCardId.HasValue && identificationCards != null)
             {
-                data.BorrowerIdentificationCard = identificationCards.FirstOrDefault(c => c.IdentificationCardId.Equals(data.BorrowerIdentificationCardId.Value));
+                data.BorrowerIdentificationCard = identificationCards.Find(c => c.IdentificationCardId.Equals(data.BorrowerIdentificationCardId.Value));
             }
             return data;
         }
+#pragma warning restore S2583 // Conditionally executed code should be reachable
 
         public async Task<IEnumerable<LoanApplicationData>> GetByUserId(ISqlSettings settings, Guid userId)
         {

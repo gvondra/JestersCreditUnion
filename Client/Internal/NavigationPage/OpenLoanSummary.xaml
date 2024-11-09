@@ -30,7 +30,7 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="Number" Binding="{Binding NextPaymentDue, StringFormat='yyyy-MM-dd'}" />
+                <DataGridTextColumn Header="Next Payment Due" Binding="{Binding NextPaymentDue, StringFormat='yyyy-MM-dd'}" />
             </DataGrid.Columns>
         </DataGrid>
         <Grid>
