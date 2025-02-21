@@ -35,7 +35,7 @@ namespace API
 #endif
                 Settings settings = new Settings();
                 builder.Configuration.Bind(settings);
-                if (settings.LogDomainId.HasValue && !string.IsNullOrEmpty(settings.BrassLoonLogApiBaseAddress) && settings.BrassLoonLogClientId.HasValue)
+                if (settings.LogDomainId.HasValue && !string.IsNullOrEmpty(settings.BrassLoonLogRpcBaseAddress) && settings.BrassLoonLogClientId.HasValue)
                 {
                     b.AddBrassLoonLogger(c =>
                     {
