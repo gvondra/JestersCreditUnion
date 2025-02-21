@@ -8,8 +8,8 @@ services:
     ports:
     - "5005:8080"
     environment:
-    - BrassLoonLogClientId=${BrassLoonClientId}
-    - BrassLoonLogClientSecret=${BrassLoonClientSecret}
+    - BrassLoonLogClientId=${BrassLoonApiClientId}
+    - BrassLoonLogClientSecret=${BrassLoonApiClientSecret}
     - IdentitificationCardContainerName=${IdentitificationCardContainerName}
     - EncryptionKeyVault=${EncryptionKeyVault}
     - CorsOrigins__0=${CorsOrigins__0}
@@ -22,6 +22,7 @@ services:
     - BrassLoonAccountApiBaseAddress=${BrassLoonAccountApiBaseAddress}
     - BrassLoonWorkTaskApiBaseAddress=${BrassLoonWorkTaskApiBaseAddress}
     - BrassLoonAuthorizationApiBaseAddress=${BrassLoonAuthorizationApiBaseAddress}
+    - BrassLoonDomainId=${BrassLoonDomainId}
     - AuthorizationDomainId=${AuthorizationDomainId}
     - ConfigDomainId=${ConfigDomainId}
     - LogDomainId=${LogDomainId}
@@ -29,8 +30,8 @@ services:
   btch-loan-service-bus-processor:
     image: jesterbatchloanservicebusprocessor:latest
     environment:
-    - BrassLoonClientId=${BrassLoonClientId}
-    - BrassLoonClientSecret=${BrassLoonClientSecret}
+    - BrassLoonClientId=${BrassLoonBatchClientId}
+    - BrassLoonClientSecret=${BrassLoonBatchClientSecret}
     - ClientId=${ClientId}
     - ClientSecret=${ClientSecret}
     - ServiceBusNamespace=${ServiceBusNamespace}

@@ -16,13 +16,18 @@ namespace JestersCreditUnion.Batch.ServiceBusProcessor
             ILifetimeScope scope = DependencyInjection.ContainerFactory.BeginLifetimeScope();
             try
             {
+                ILogger logger = scope.Resolve<Func<string, ILogger>>()("ServiceBusProcessor");
+                logger.LogInformation("Start Service Bus Processor");
                 List<IServiceBusReader> readers = await Start(settings);
-                await Task.Delay(TimeSpan.FromHours(settings.RunHours ?? 0.25));
+                double hours = settings.RunHours ?? 0.25;
+                logger.LogInformation("Run time {0:###,##0.00#} hours", hours);
+                await Task.Delay(TimeSpan.FromHours(hours));
                 await Stop(readers);
+                logger.LogInformation("Finish Service Bus Processor");
             }
             catch (Exception ex)
             {
-                ILogger logger = scope.Resolve<Func<string, ILogger>>()("Program");
+                ILogger logger = scope.Resolve<Func<string, ILogger>>()("ServiceBusProcessor");
                 logger.LogError(ex, ex.Message);
             }
         }
