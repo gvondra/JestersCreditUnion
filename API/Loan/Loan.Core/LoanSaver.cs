@@ -47,8 +47,7 @@ namespace JestersCreditUnion.Loan.Core
             }
             if (workTaskType?.WorkTaskTypeId.HasValue ?? false)
             {
-                workTaskStatus = (await _workTaskStatusService.GetAll(workTaskSettings, settings.WorkTaskDomainId.Value, workTaskType.WorkTaskTypeId.Value))
-                    .Find(s => s.IsDefaultStatus ?? false);
+                workTaskStatus = workTaskType.Statuses.Find(s => s.IsDefaultStatus ?? false);
             }
             else
             {

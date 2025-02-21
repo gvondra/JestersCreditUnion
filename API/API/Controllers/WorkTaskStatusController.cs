@@ -19,6 +19,7 @@ namespace API.Controllers
     [ApiController]
     public class WorkTaskStatusController : APIControllerBase
     {
+        private readonly WorkTaskAPI.IWorkTaskTypeService _workTaskTypeService;
         private readonly WorkTaskAPI.IWorkTaskStatusService _workTaskStatusService;
 
         public WorkTaskStatusController(
@@ -26,9 +27,11 @@ namespace API.Controllers
             ISettingsFactory settingsFactory,
             AuthorizationAPI.IUserService userService,
             ILogger<WorkTaskStatusController> logger,
+            WorkTaskAPI.IWorkTaskTypeService workTaskTypeService,
             WorkTaskAPI.IWorkTaskStatusService workTaskStatusService)
             : base(settings, settingsFactory, userService, logger)
         {
+            _workTaskTypeService = workTaskTypeService;
             _workTaskStatusService = workTaskStatusService;
         }
 
@@ -48,9 +51,8 @@ namespace API.Controllers
                 {
                     WorkTaskSettings settings = GetWorkTaskSettings();
                     IMapper mapper = MapperConfiguration.CreateMapper();
-                    result = Ok(
-                        (await _workTaskStatusService.GetAll(settings, _settings.Value.WorkTaskDomainId.Value, workTaskTypeId.Value))
-                        .Select(mapper.Map<WorkTaskStatus>));
+                    WorkTaskAPI.Models.WorkTaskType innerWorkTaskType = await _workTaskTypeService.Get(settings, _settings.Value.WorkTaskDomainId.Value, workTaskTypeId.Value);
+                    result = Ok(innerWorkTaskType.Statuses.Select(mapper.Map<WorkTaskStatus>));
                 }
             }
             catch (BrassLoon.RestClient.Exceptions.RequestError ex)
@@ -85,7 +87,8 @@ namespace API.Controllers
                 else
                 {
                     WorkTaskSettings settings = GetWorkTaskSettings();
-                    WorkTaskAPI.Models.WorkTaskStatus innerWorkTaskStatus = await _workTaskStatusService.Get(settings, _settings.Value.WorkTaskDomainId.Value, workTaskTypeId.Value, id.Value);
+                    WorkTaskAPI.Models.WorkTaskType innerWorkTaskType = await _workTaskTypeService.Get(settings, _settings.Value.WorkTaskDomainId.Value, workTaskTypeId.Value);
+                    WorkTaskAPI.Models.WorkTaskStatus innerWorkTaskStatus = innerWorkTaskType.Statuses.Find(sts => sts.WorkTaskStatusId.Value == id.Value);
                     if (innerWorkTaskStatus == null)
                     {
                         result = NotFound();

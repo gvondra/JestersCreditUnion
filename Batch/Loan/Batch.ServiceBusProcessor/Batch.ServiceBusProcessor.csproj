@@ -28,7 +28,7 @@
         <PackageReference Include="Autofac" Version="8.2.*" />
         <PackageReference Include="Azure.Identity" Version="1.13.*" />
         <PackageReference Include="Azure.Messaging.ServiceBus" Version="7.18.*" />
-        <PackageReference Include="BrassLoon.Extensions.Logging" Version="1.0.*" />
+        <PackageReference Include="BrassLoon.Extensions.Logging" Version="2.0.0-prerelease.*" />
         <PackageReference Include="BrassLoon.Interface.Authorization" Version="4.2.*" />
         <PackageReference Include="JestersCreditUnion.Interface" Version="1.0.0-alpha.*" />
         <PackageReference Include="JestersCreditUnion.Interface.Loan" Version="1.0.0-alpha.*" />
