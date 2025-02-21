@@ -6,7 +6,7 @@ namespace JestersCreditUnion.Interface.Models
 #pragma warning disable S2166 // Classes named like "Exception" should extend "Exception" or a subclass
     public class Exception
     {
-        public long? ExceptionId { get; set; }
+        public Guid? ExceptionId { get; set; }
         public string Message { get; set; }
         public string TypeName { get; set; }
         public string Source { get; set; }

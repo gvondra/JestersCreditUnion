@@ -517,7 +517,7 @@
       <Version>4.7.0.9</Version>
     </PackageReference>
     <PackageReference Include="JestersCreditUnion.Interface">
-      <Version>1.0.0-alpha.83</Version>
+      <Version>1.0.0-alpha.84</Version>
     </PackageReference>
     <PackageReference Include="JestersCreditUnion.Interface.Loan">
       <Version>1.0.0-alpha.25</Version>

@@ -4,7 +4,7 @@ namespace JestersCreditUnion.Interface.Models
 {
     public class Metric
     {
-        public long? MetricId { get; set; }
+        public Guid? MetricId { get; set; }
         public string EventCode { get; set; }
         public double? Magnitude { get; set; }
         public dynamic Data { get; set; }
