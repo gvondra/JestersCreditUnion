@@ -20,8 +20,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Autofac" Version="8.1.*" />
-		<PackageReference Include="BrassLoon.DataClient" Version="3.7.*" />
+		<PackageReference Include="Autofac" Version="8.2.*" />
+		<PackageReference Include="BrassLoon.DataClient" Version="3.8.*" />
 		<PackageReference Include="BrassLoon.Extensions.Logging" Version="1.0.*" />
 		<PackageReference Include="BrassLoon.Interface.Account" Version="4.3.*" />
 		<PackageReference Include="BrassLoon.Interface.Authorization" Version="4.2.*" />
