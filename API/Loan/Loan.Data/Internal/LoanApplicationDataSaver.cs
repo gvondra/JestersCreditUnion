@@ -18,26 +18,26 @@ namespace JestersCreditUnion.Loan.Data.Internal
                 await _providerFactory.EstablishTransaction(transactionHandler, data);
                 using (DbCommand command = transactionHandler.Connection.CreateCommand())
                 {
-                    command.CommandText = "[ln].[CreateLoanApplicationComment]";
+                    command.CommandText = "CreateLoanApplicationComment";
                     command.CommandType = CommandType.StoredProcedure;
                     command.Transaction = transactionHandler.Transaction.InnerTransaction;
 
-                    IDataParameter id = DataUtil.CreateParameter(_providerFactory, "id", DbType.Guid);
+                    IDataParameter id = DataUtil.CreateParameter(_providerFactory, "id", DbType.Binary);
                     id.Direction = ParameterDirection.Output;
                     command.Parameters.Add(id);
 
-                    IDataParameter timestamp = DataUtil.CreateParameter(_providerFactory, "timestamp", DbType.DateTime2);
+                    IDataParameter timestamp = DataUtil.CreateParameter(_providerFactory, "timestamp", DbType.DateTime);
                     timestamp.Direction = ParameterDirection.Output;
                     command.Parameters.Add(timestamp);
 
-                    DataUtil.AddParameter(_providerFactory, command.Parameters, "loanApplicationId", DbType.Guid, DataUtil.GetParameterValue(data.LoanApplicationId));
-                    DataUtil.AddParameter(_providerFactory, command.Parameters, "userId", DbType.Guid, DataUtil.GetParameterValue(data.UserId));
+                    DataUtil.AddParameter(_providerFactory, command.Parameters, "loanApplicationId", DbType.Binary, DataUtil.GetParameterValueBinary(data.LoanApplicationId));
+                    DataUtil.AddParameter(_providerFactory, command.Parameters, "userId", DbType.Binary, DataUtil.GetParameterValueBinary(data.UserId));
                     DataUtil.AddParameter(_providerFactory, command.Parameters, "isInternal", DbType.Boolean, DataUtil.GetParameterValue(data.IsInternal));
                     DataUtil.AddParameter(_providerFactory, command.Parameters, "text", DbType.String, DataUtil.GetParameterValue(data.Text));
 
                     await command.ExecuteNonQueryAsync();
-                    data.LoanApplicationId = (Guid)id.Value;
-                    data.CreateTimestamp = (DateTime)timestamp.Value;
+                    data.LoanApplicationId = new Guid((byte[])id.Value);
+                    data.CreateTimestamp = DateTime.SpecifyKind((DateTime)timestamp.Value, DateTimeKind.Utc);
                 }
             }
         }
@@ -47,26 +47,26 @@ namespace JestersCreditUnion.Loan.Data.Internal
             await _providerFactory.EstablishTransaction(transactionHandler, denial);
             using (DbCommand command = transactionHandler.Connection.CreateCommand())
             {
-                command.CommandText = "[ln].[SetLoanApplicationDenial]";
+                command.CommandText = "SetLoanApplicationDenial";
                 command.CommandType = CommandType.StoredProcedure;
                 command.Transaction = transactionHandler.Transaction.InnerTransaction;
 
-                IDataParameter timestamp = DataUtil.CreateParameter(_providerFactory, "timestamp", DbType.DateTime2);
+                IDataParameter timestamp = DataUtil.CreateParameter(_providerFactory, "timestamp", DbType.DateTime);
                 timestamp.Direction = ParameterDirection.Output;
                 command.Parameters.Add(timestamp);
 
-                DataUtil.AddParameter(_providerFactory, command.Parameters, "id", DbType.Guid, DataUtil.GetParameterValue(id));
+                DataUtil.AddParameter(_providerFactory, command.Parameters, "id", DbType.Binary, DataUtil.GetParameterValueBinary(id));
                 DataUtil.AddParameter(_providerFactory, command.Parameters, "status", DbType.Int16, DataUtil.GetParameterValue(loanApplicationStatus));
                 DataUtil.AddParameter(_providerFactory, command.Parameters, "closedDate", DbType.Date, DataUtil.GetParameterValue(closedDate));
-                DataUtil.AddParameter(_providerFactory, command.Parameters, "userId", DbType.Guid, DataUtil.GetParameterValue(denial.UserId));
+                DataUtil.AddParameter(_providerFactory, command.Parameters, "userId", DbType.Binary, DataUtil.GetParameterValueBinary(denial.UserId));
                 DataUtil.AddParameter(_providerFactory, command.Parameters, "reason", DbType.Int16, DataUtil.GetParameterValue(denial.Reason));
                 DataUtil.AddParameter(_providerFactory, command.Parameters, "date", DbType.Date, DataUtil.GetParameterValue(denial.Date));
                 DataUtil.AddParameter(_providerFactory, command.Parameters, "text", DbType.String, DataUtil.GetParameterValue(denial.Text));
 
                 await command.ExecuteNonQueryAsync();
                 denial.LoanApplicationId = id;
-                denial.CreateTimestamp = (DateTime)timestamp.Value;
-                denial.UpdateTimestamp = (DateTime)timestamp.Value;
+                denial.CreateTimestamp = DateTime.SpecifyKind((DateTime)timestamp.Value, DateTimeKind.Utc);
+                denial.UpdateTimestamp = DateTime.SpecifyKind((DateTime)timestamp.Value, DateTimeKind.Utc);
             }
         }
 
@@ -77,25 +77,25 @@ namespace JestersCreditUnion.Loan.Data.Internal
                 await _providerFactory.EstablishTransaction(transactionHandler, data);
                 using (DbCommand command = transactionHandler.Connection.CreateCommand())
                 {
-                    command.CommandText = "[ln].[CreateLoanApplication]";
+                    command.CommandText = "CreateLoanApplication";
                     command.CommandType = CommandType.StoredProcedure;
                     command.Transaction = transactionHandler.Transaction.InnerTransaction;
 
-                    IDataParameter id = DataUtil.CreateParameter(_providerFactory, "id", DbType.Guid);
+                    IDataParameter id = DataUtil.CreateParameter(_providerFactory, "id", DbType.Binary);
                     id.Direction = ParameterDirection.Output;
                     command.Parameters.Add(id);
 
-                    IDataParameter timestamp = DataUtil.CreateParameter(_providerFactory, "timestamp", DbType.DateTime2);
+                    IDataParameter timestamp = DataUtil.CreateParameter(_providerFactory, "timestamp", DbType.DateTime);
                     timestamp.Direction = ParameterDirection.Output;
                     command.Parameters.Add(timestamp);
 
-                    DataUtil.AddParameter(_providerFactory, command.Parameters, "userID", DbType.Guid, DataUtil.GetParameterValue(data.UserId));
+                    DataUtil.AddParameter(_providerFactory, command.Parameters, "userID", DbType.Binary, DataUtil.GetParameterValueBinary(data.UserId));
                     AddCommonParameters(command.Parameters, data);
 
                     await command.ExecuteNonQueryAsync();
-                    data.LoanApplicationId = (Guid)id.Value;
-                    data.CreateTimestamp = (DateTime)timestamp.Value;
-                    data.UpdateTimestamp = (DateTime)timestamp.Value;
+                    data.LoanApplicationId = new Guid((byte[])id.Value);
+                    data.CreateTimestamp = DateTime.SpecifyKind((DateTime)timestamp.Value, DateTimeKind.Utc);
+                    data.UpdateTimestamp = DateTime.SpecifyKind((DateTime)timestamp.Value, DateTimeKind.Utc);
                 }
             }
         }
@@ -107,19 +107,19 @@ namespace JestersCreditUnion.Loan.Data.Internal
                 await _providerFactory.EstablishTransaction(transactionHandler, data);
                 using (DbCommand command = transactionHandler.Connection.CreateCommand())
                 {
-                    command.CommandText = "[ln].[UpdateLoanApplication]";
+                    command.CommandText = "UpdateLoanApplication";
                     command.CommandType = CommandType.StoredProcedure;
                     command.Transaction = transactionHandler.Transaction.InnerTransaction;
 
-                    IDataParameter timestamp = DataUtil.CreateParameter(_providerFactory, "timestamp", DbType.DateTime2);
+                    IDataParameter timestamp = DataUtil.CreateParameter(_providerFactory, "timestamp", DbType.DateTime);
                     timestamp.Direction = ParameterDirection.Output;
                     command.Parameters.Add(timestamp);
 
-                    DataUtil.AddParameter(_providerFactory, command.Parameters, "id", DbType.Guid, DataUtil.GetParameterValue(data.LoanApplicationId));
+                    DataUtil.AddParameter(_providerFactory, command.Parameters, "id", DbType.Binary, DataUtil.GetParameterValueBinary(data.LoanApplicationId));
                     AddCommonParameters(command.Parameters, data);
 
                     await command.ExecuteNonQueryAsync();
-                    data.UpdateTimestamp = (DateTime)timestamp.Value;
+                    data.UpdateTimestamp = DateTime.SpecifyKind((DateTime)timestamp.Value, DateTimeKind.Utc);
                 }
             }
         }
@@ -130,18 +130,18 @@ namespace JestersCreditUnion.Loan.Data.Internal
             DataUtil.AddParameter(_providerFactory, commandParameters, "applicationDate", DbType.Date, DataUtil.GetParameterValue(data.ApplicationDate));
             DataUtil.AddParameter(_providerFactory, commandParameters, "borrowerName", DbType.String, DataUtil.GetParameterValue(data.BorrowerName));
             DataUtil.AddParameter(_providerFactory, commandParameters, "borrowerBirthDate", DbType.Date, DataUtil.GetParameterValue(data.BorrowerBirthDate));
-            DataUtil.AddParameter(_providerFactory, commandParameters, "borrowerAddressId", DbType.Guid, DataUtil.GetParameterValue(data.BorrowerAddressId));
-            DataUtil.AddParameter(_providerFactory, commandParameters, "borrowerEmailAddressId", DbType.Guid, DataUtil.GetParameterValue(data.BorrowerEmailAddressId));
-            DataUtil.AddParameter(_providerFactory, commandParameters, "borrowerPhoneId", DbType.Guid, DataUtil.GetParameterValue(data.BorrowerPhoneId));
+            DataUtil.AddParameter(_providerFactory, commandParameters, "borrowerAddressId", DbType.Binary, DataUtil.GetParameterValueBinary(data.BorrowerAddressId));
+            DataUtil.AddParameter(_providerFactory, commandParameters, "borrowerEmailAddressId", DbType.Binary, DataUtil.GetParameterValueBinary(data.BorrowerEmailAddressId));
+            DataUtil.AddParameter(_providerFactory, commandParameters, "borrowerPhoneId", DbType.Binary, DataUtil.GetParameterValueBinary(data.BorrowerPhoneId));
             DataUtil.AddParameter(_providerFactory, commandParameters, "borrowerEmployerName", DbType.String, DataUtil.GetParameterValue(data.BorrowerEmployerName));
             DataUtil.AddParameter(_providerFactory, commandParameters, "borrowerEmploymentHireDate", DbType.Date, DataUtil.GetParameterValue(data.BorrowerEmploymentHireDate));
             DataUtil.AddParameter(_providerFactory, commandParameters, "borrowerIncome", DbType.Decimal, DataUtil.GetParameterValue(data.BorrowerIncome));
-            DataUtil.AddParameter(_providerFactory, commandParameters, "borrowerIdentificationCardId", DbType.Guid, DataUtil.GetParameterValue(data.BorrowerIdentificationCardId));
+            DataUtil.AddParameter(_providerFactory, commandParameters, "borrowerIdentificationCardId", DbType.Binary, DataUtil.GetParameterValueBinary(data.BorrowerIdentificationCardId));
             DataUtil.AddParameter(_providerFactory, commandParameters, "coBorrowerName", DbType.String, DataUtil.GetParameterValue(data.CoBorrowerName));
             DataUtil.AddParameter(_providerFactory, commandParameters, "coBorrowerBirthDate", DbType.Date, DataUtil.GetParameterValue(data.CoBorrowerBirthDate));
-            DataUtil.AddParameter(_providerFactory, commandParameters, "coBorrowerAddressId", DbType.Guid, DataUtil.GetParameterValue(data.CoBorrowerAddressId));
-            DataUtil.AddParameter(_providerFactory, commandParameters, "coBorrowerEmailAddressId", DbType.Guid, DataUtil.GetParameterValue(data.CoBorrowerEmailAddressId));
-            DataUtil.AddParameter(_providerFactory, commandParameters, "coBorrowerPhoneId", DbType.Guid, DataUtil.GetParameterValue(data.CoBorrowerPhoneId));
+            DataUtil.AddParameter(_providerFactory, commandParameters, "coBorrowerAddressId", DbType.Binary, DataUtil.GetParameterValueBinary(data.CoBorrowerAddressId));
+            DataUtil.AddParameter(_providerFactory, commandParameters, "coBorrowerEmailAddressId", DbType.Binary, DataUtil.GetParameterValueBinary(data.CoBorrowerEmailAddressId));
+            DataUtil.AddParameter(_providerFactory, commandParameters, "coBorrowerPhoneId", DbType.Binary, DataUtil.GetParameterValueBinary(data.CoBorrowerPhoneId));
             DataUtil.AddParameter(_providerFactory, commandParameters, "coBorrowerEmployerName", DbType.String, DataUtil.GetParameterValue(data.CoBorrowerEmployerName));
             DataUtil.AddParameter(_providerFactory, commandParameters, "coBorrowerEmploymentHireDate", DbType.Date, DataUtil.GetParameterValue(data.CoBorrowerEmploymentHireDate));
             DataUtil.AddParameter(_providerFactory, commandParameters, "coBorrowerIncome", DbType.Decimal, DataUtil.GetParameterValue(data.CoBorrowerIncome));

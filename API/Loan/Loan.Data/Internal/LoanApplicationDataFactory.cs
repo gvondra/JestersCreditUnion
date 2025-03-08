@@ -31,7 +31,7 @@ namespace JestersCreditUnion.Loan.Data.Internal
         {
             IDataParameter[] parameters =
             [
-                DataUtil.CreateParameter(ProviderFactory, "id", DbType.Guid, DataUtil.GetParameterValue(id))
+                DataUtil.CreateParameter(ProviderFactory, "id", DbType.Binary, DataUtil.GetParameterValueBinary(id))
             ];
             DataReaderProcess dataReaderProcess = new DataReaderProcess();
             IEnumerable<LoanApplicationData> result = await dataReaderProcess.Read(
@@ -48,7 +48,7 @@ namespace JestersCreditUnion.Loan.Data.Internal
         {
             IDataParameter[] parameters = new IDataParameter[]
             {
-                DataUtil.CreateParameter(ProviderFactory, "userId", DbType.Guid, DataUtil.GetParameterValue(userId))
+                DataUtil.CreateParameter(ProviderFactory, "userId", DbType.Binary, DataUtil.GetParameterValueBinary(userId))
             };
             DataReaderProcess dataReaderProcess = new DataReaderProcess();
             IEnumerable<LoanApplicationData> result = await dataReaderProcess.Read(
