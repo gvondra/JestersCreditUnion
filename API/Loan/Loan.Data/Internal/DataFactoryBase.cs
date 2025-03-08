@@ -3,16 +3,18 @@
     public abstract class DataFactoryBase<T>
         where T : new()
     {
-#pragma warning disable SA1401 // Fields should be private
-        protected readonly IDbProviderFactory _providerFactory;
-        protected readonly GenericDataFactory<T> _genericDataFactory = new GenericDataFactory<T>();
-#pragma warning restore SA1401 // Fields should be private
+        private readonly IDbProviderFactory _providerFactory;
+        private readonly IGenericDataFactory<T> _dataFactory;
 
-        protected DataFactoryBase(IDbProviderFactory providerFactory)
+        protected DataFactoryBase(IDbProviderFactory providerFactory, IGenericDataFactory<T> dataFactory)
         {
             _providerFactory = providerFactory;
+            _dataFactory = dataFactory;
         }
 
-        protected T Create() => new T();
+        protected IDbProviderFactory ProviderFactory => _providerFactory;
+        protected IGenericDataFactory<T> DataFactory => _dataFactory;
+
+        protected static T Create() => new T();
     }
 }

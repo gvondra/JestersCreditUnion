@@ -5,7 +5,7 @@ namespace JestersCreditUnion.Loan.Data
 {
     public interface IIdentificationCardDataSaver
     {
-        Task Create(ISqlTransactionHandler transactionHandler, IdentificationCardData data);
-        Task Update(ISqlTransactionHandler transactionHandler, IdentificationCardData data);
+        Task Create(ITransactionHandler transactionHandler, IdentificationCardData data);
+        Task Update(ITransactionHandler transactionHandler, IdentificationCardData data);
     }
 }

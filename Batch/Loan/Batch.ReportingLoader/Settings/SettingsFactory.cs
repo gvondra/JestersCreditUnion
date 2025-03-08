@@ -19,11 +19,11 @@ namespace JestersCreditUnion.Batch.ReportingLoader
         public AuthorizationSettings CreateAuthorizationSettings()
             => new AuthorizationSettings(_settings, _accountTokenService);
 
-        public DataSettings CreateDestinationData() => new DataSettings(_settings.DestinationConnectionString, _settings.UseDefaultAzureToken);
+        public DataSettings CreateDestinationData() => new DataSettings(_settings.DestinationConnectionString);
 
         public LoanApiSettings CreateLoanApiSettings() => new LoanApiSettings(_settings, _tokenService);
 
-        public DataSettings CreateSourceData() => new DataSettings(_settings.SourceConnectionString, _settings.UseDefaultAzureToken);
+        public DataSettings CreateSourceData() => new DataSettings(_settings.SourceConnectionString);
         
         public WorkTaskSettings CreateWorkTaskSettings() => new WorkTaskSettings(_settings, _accountTokenService);
     }

@@ -29,8 +29,6 @@ namespace JestersCreditUnion.Batch.LoanPaymentProcessor
 
         public string WorkTaskConfigurationCode => _settings.WorkTaskConfigurationCode;
 
-        public bool UseDefaultAzureSqlToken => _settings.UseDefaultAzureSqlToken;
-
         public string IdentitificationCardContainerName => throw new NotImplementedException();
 
         public string EncryptionKeyVault => throw new NotImplementedException();
@@ -54,7 +52,5 @@ namespace JestersCreditUnion.Batch.LoanPaymentProcessor
         public string ApiBaseAddress => throw new NotImplementedException();
 
         public Task<string> GetConnetionString() => Task.FromResult(_settings.ConnectionString);
-
-        public Func<Task<string>> GetDatabaseAccessToken() => null;
     }
 }

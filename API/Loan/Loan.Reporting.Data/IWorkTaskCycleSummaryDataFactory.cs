@@ -6,6 +6,6 @@ namespace JestersCreditUnion.Loan.Reporting.Data
 {
     public interface IWorkTaskCycleSummaryDataFactory
     {
-        Task<IEnumerable<WorkTaskCycleSummaryData>> GetSummary(ISqlSettings settings, DateTime minCreateDate);
+        Task<IEnumerable<WorkTaskCycleSummaryData>> GetSummary(ISettings settings, DateTime minCreateDate);
     }
 }

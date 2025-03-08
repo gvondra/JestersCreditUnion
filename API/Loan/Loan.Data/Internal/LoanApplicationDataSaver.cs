@@ -11,7 +11,7 @@ namespace JestersCreditUnion.Loan.Data.Internal
         public LoanApplicationDataSaver(IDbProviderFactory providerFactory)
             : base(providerFactory) { }
 
-        public async Task AppendComment(ISqlTransactionHandler transactionHandler, LoanApplicationCommentData data)
+        public async Task AppendComment(ITransactionHandler transactionHandler, LoanApplicationCommentData data)
         {
             if (data.Manager.GetState(data) == DataState.New)
             {
@@ -42,7 +42,7 @@ namespace JestersCreditUnion.Loan.Data.Internal
             }
         }
 
-        public async Task SetDenial(ISqlTransactionHandler transactionHandler, Guid id, short loanApplicationStatus, DateTime? closedDate, LoanApplicationDenialData denial)
+        public async Task SetDenial(ITransactionHandler transactionHandler, Guid id, short loanApplicationStatus, DateTime? closedDate, LoanApplicationDenialData denial)
         {
             await _providerFactory.EstablishTransaction(transactionHandler, denial);
             using (DbCommand command = transactionHandler.Connection.CreateCommand())
@@ -70,7 +70,7 @@ namespace JestersCreditUnion.Loan.Data.Internal
             }
         }
 
-        public async Task Create(ISqlTransactionHandler transactionHandler, LoanApplicationData data)
+        public async Task Create(ITransactionHandler transactionHandler, LoanApplicationData data)
         {
             if (data.Manager.GetState(data) == DataState.New)
             {
@@ -100,7 +100,7 @@ namespace JestersCreditUnion.Loan.Data.Internal
             }
         }
 
-        public async Task Update(ISqlTransactionHandler transactionHandler, LoanApplicationData data)
+        public async Task Update(ITransactionHandler transactionHandler, LoanApplicationData data)
         {
             if (data.Manager.GetState(data) == DataState.Updated)
             {

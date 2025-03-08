@@ -6,6 +6,6 @@ namespace JestersCreditUnion.Loan.Reporting.Data
 {
     public interface ILoanBalanceDataFactory
     {
-        Task<IEnumerable<LoanBalanceData>> GetAll(ISqlSettings settings);
+        Task<IEnumerable<LoanBalanceData>> GetAll(ISettings settings);
     }
 }

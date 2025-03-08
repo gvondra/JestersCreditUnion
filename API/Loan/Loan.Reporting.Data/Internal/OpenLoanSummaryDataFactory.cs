@@ -13,7 +13,7 @@ namespace JestersCreditUnion.Loan.Reporting.Data.Internal
             _providerFactory = dbProviderFactory;
         }
 
-        public Task<IEnumerable<OpenLoanSummaryData>> Get(ISqlSettings settings)
+        public Task<IEnumerable<OpenLoanSummaryData>> Get(ISettings settings)
         {
             return GetGenericDataFactory<OpenLoanSummaryData>().GetData(
                 settings,

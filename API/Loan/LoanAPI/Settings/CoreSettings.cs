@@ -42,8 +42,6 @@ namespace LoanAPI
 
         public string EncryptionKeyVault => _settings.EncryptionKeyVault;
 
-        public bool UseDefaultAzureSqlToken => _settings.EnableDatabaseAccessToken;
-
         public string BrassLoonAddressApiBaseAddress => _settings.BrassLoonAddressApiBaseAddress;
 
         public Guid? AddressDomainId => _settings.AddressDomainId;
@@ -55,7 +53,6 @@ namespace LoanAPI
         public string ApiBaseAddress => _settings.ApiBaseAddress;
 
         public Task<string> GetConnetionString() => Task.FromResult(_settings.ConnectionString);
-        public Func<Task<string>> GetDatabaseAccessToken() => null;
     }
 }
 #pragma warning restore IDE0130 // Namespace does not match folder structure

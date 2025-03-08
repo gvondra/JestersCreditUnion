@@ -8,7 +8,7 @@ namespace JestersCreditUnion.Loan.Reporting.Data
         protected override void Load(ContainerBuilder builder)
         {
             base.Load(builder);
-            builder.RegisterType<SqlClientProviderFactory>()
+            builder.RegisterType<MySqlProviderFactory>()
                 .As<IDbProviderFactory>();
             builder.RegisterType<LoanApplicationDataFactory>().As<ILoanApplicationDataFactory>();
             builder.RegisterType<LoanBalanceDataFactory>().As<ILoanBalanceDataFactory>();

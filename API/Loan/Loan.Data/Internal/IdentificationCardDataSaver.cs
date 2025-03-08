@@ -11,7 +11,7 @@ namespace JestersCreditUnion.Loan.Data.Internal
         public IdentificationCardDataSaver(IDbProviderFactory providerFactory)
             : base(providerFactory) { }
 
-        public async Task Create(ISqlTransactionHandler transactionHandler, IdentificationCardData data)
+        public async Task Create(ITransactionHandler transactionHandler, IdentificationCardData data)
         {
             if (data.Manager.GetState(data) == DataState.New)
             {
@@ -35,7 +35,7 @@ namespace JestersCreditUnion.Loan.Data.Internal
             }
         }
 
-        public async Task Update(ISqlTransactionHandler transactionHandler, IdentificationCardData data)
+        public async Task Update(ITransactionHandler transactionHandler, IdentificationCardData data)
         {
             if (data.Manager.GetState(data) == DataState.Updated)
             {

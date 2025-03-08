@@ -6,7 +6,7 @@ namespace JestersCreditUnion.Loan.Data
 {
     public interface IPaymentDataFactory
     {
-        Task<PaymentData> GetByDateLoanNumberTransactionNumber(ISqlSettings settings, DateTime date, Guid loanId, string transactionNumber);
-        Task<IEnumerable<PaymentData>> GetByLoanId(ISqlSettings settings, Guid loanId);
+        Task<PaymentData> GetByDateLoanNumberTransactionNumber(ISettings settings, DateTime date, Guid loanId, string transactionNumber);
+        Task<IEnumerable<PaymentData>> GetByLoanId(ISettings settings, Guid loanId);
     }
 }

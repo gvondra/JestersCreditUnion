@@ -10,20 +10,20 @@ namespace JestersCreditUnion.Loan.Data.Internal
 {
     public class LoanDataFactory : DataFactoryBase<LoanData>, ILoanDataFactory
     {
-        public LoanDataFactory(IDbProviderFactory providerFactory)
-            : base(providerFactory) { }
+        public LoanDataFactory(IDbProviderFactory providerFactory, IGenericDataFactory<LoanData> dataFactory)
+            : base(providerFactory, dataFactory) { }
 
-        public async Task<LoanData> Get(ISqlSettings settings, Guid id)
+        public async Task<LoanData> Get(ISettings settings, Guid id)
         {
             IDataParameter[] parameters = new IDataParameter[]
             {
-                DataUtil.CreateParameter(_providerFactory, "id", DbType.Guid, DataUtil.GetParameterValue(id))
+                DataUtil.CreateParameter(ProviderFactory, "id", DbType.Guid, DataUtil.GetParameterValue(id))
             };
             DataReaderProcess dataReaderProcess = new DataReaderProcess();
             LoanData data = null;
             await dataReaderProcess.Read(
                 settings,
-                _providerFactory,
+                ProviderFactory,
                 "[ln].[GetLoan]",
                 commandType: CommandType.StoredProcedure,
                 parameters: parameters,
@@ -31,17 +31,17 @@ namespace JestersCreditUnion.Loan.Data.Internal
             return data;
         }
 
-        public async Task<LoanData> GetByLoanApplicationId(ISqlSettings settings, Guid loanApplicationId)
+        public async Task<LoanData> GetByLoanApplicationId(ISettings settings, Guid loanApplicationId)
         {
             IDataParameter[] parameters = new IDataParameter[]
             {
-                DataUtil.CreateParameter(_providerFactory, "loanApplicationId", DbType.Guid, DataUtil.GetParameterValue(loanApplicationId))
+                DataUtil.CreateParameter(ProviderFactory, "loanApplicationId", DbType.Guid, DataUtil.GetParameterValue(loanApplicationId))
             };
             DataReaderProcess dataReaderProcess = new DataReaderProcess();
             LoanData data = null;
             await dataReaderProcess.Read(
                 settings,
-                _providerFactory,
+                ProviderFactory,
                 "[ln].[GetLoan_by_LoanApplicationId]",
                 commandType: CommandType.StoredProcedure,
                 parameters: parameters,
@@ -49,7 +49,7 @@ namespace JestersCreditUnion.Loan.Data.Internal
             return data;
         }
 
-        public async Task<IEnumerable<LoanData>> GetByNameBirthDate(ISqlSettings settings, string name, DateTime birthDate)
+        public async Task<IEnumerable<LoanData>> GetByNameBirthDate(ISettings settings, string name, DateTime birthDate)
         {
             if (string.IsNullOrEmpty(name))
                 throw new ArgumentNullException(nameof(name));
@@ -59,14 +59,14 @@ namespace JestersCreditUnion.Loan.Data.Internal
                 name.Replace(@"\", @"\\").Replace(@"_", @"\_").Replace(@"%", @"\%"));
             IDataParameter[] parameters = new IDataParameter[]
             {
-                DataUtil.CreateParameter(_providerFactory, "name", DbType.String, DataUtil.GetParameterValue(name)),
-                DataUtil.CreateParameter(_providerFactory, "birthDate", DbType.Date, DataUtil.GetParameterValue(birthDate))
+                DataUtil.CreateParameter(ProviderFactory, "name", DbType.String, DataUtil.GetParameterValue(name)),
+                DataUtil.CreateParameter(ProviderFactory, "birthDate", DbType.Date, DataUtil.GetParameterValue(birthDate))
             };
             DataReaderProcess dataReaderProcess = new DataReaderProcess();
             List<LoanData> data = null;
             await dataReaderProcess.Read(
                 settings,
-                _providerFactory,
+                ProviderFactory,
                 "[ln].[GetLoan_by_BorrowerNameBirthDate]",
                 commandType: CommandType.StoredProcedure,
                 parameters: parameters,
@@ -74,17 +74,17 @@ namespace JestersCreditUnion.Loan.Data.Internal
             return data;
         }
 
-        public async Task<LoanData> GetByNumber(ISqlSettings settings, string number)
+        public async Task<LoanData> GetByNumber(ISettings settings, string number)
         {
             IDataParameter[] parameters = new IDataParameter[]
             {
-                DataUtil.CreateParameter(_providerFactory, "number", DbType.AnsiString, DataUtil.GetParameterValue(number))
+                DataUtil.CreateParameter(ProviderFactory, "number", DbType.AnsiString, DataUtil.GetParameterValue(number))
             };
             DataReaderProcess dataReaderProcess = new DataReaderProcess();
             LoanData data = null;
             await dataReaderProcess.Read(
                 settings,
-                _providerFactory,
+                ProviderFactory,
                 "[ln].[GetLoan_by_Number]",
                 commandType: CommandType.StoredProcedure,
                 parameters: parameters,
@@ -92,13 +92,13 @@ namespace JestersCreditUnion.Loan.Data.Internal
             return data;
         }
 
-        public async Task<IEnumerable<LoanData>> GetWithUnprocessedPayments(ISqlSettings settings)
+        public async Task<IEnumerable<LoanData>> GetWithUnprocessedPayments(ISettings settings)
         {
             DataReaderProcess dataReaderProcess = new DataReaderProcess();
             List<LoanData> data = null;
             await dataReaderProcess.Read(
                 settings,
-                _providerFactory,
+                ProviderFactory,
                 "[ln].[GetLoan_with_UnprocessedPayments]",
                 commandType: CommandType.StoredProcedure,
                 parameters: Array.Empty<IDataParameter>(),
@@ -108,7 +108,7 @@ namespace JestersCreditUnion.Loan.Data.Internal
 
         private async Task<List<LoanData>> Load(DbDataReader reader)
         {
-            List<LoanData> loans = (await _genericDataFactory.LoadData(reader, Create, DataUtil.AssignDataStateManager))
+            List<LoanData> loans = (await DataFactory.LoadData(reader, Create, DataUtil.AssignDataStateManager))
                 .ToList();
             GenericDataFactory<LoanAgreementData> agreementFactory = new GenericDataFactory<LoanAgreementData>();
             await reader.NextResultAsync();

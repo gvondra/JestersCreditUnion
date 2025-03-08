@@ -6,10 +6,10 @@ namespace JestersCreditUnion.Loan.Data
 {
     public interface ILoanDataFactory
     {
-        Task<LoanData> Get(ISqlSettings settings, Guid id);
-        Task<IEnumerable<LoanData>> GetByNameBirthDate(ISqlSettings settings, string name, DateTime birthDate);
-        Task<IEnumerable<LoanData>> GetWithUnprocessedPayments(ISqlSettings settings);
-        Task<LoanData> GetByNumber(ISqlSettings settings, string number);
-        Task<LoanData> GetByLoanApplicationId(ISqlSettings settings, Guid loanApplicationId);
+        Task<LoanData> Get(ISettings settings, Guid id);
+        Task<IEnumerable<LoanData>> GetByNameBirthDate(ISettings settings, string name, DateTime birthDate);
+        Task<IEnumerable<LoanData>> GetWithUnprocessedPayments(ISettings settings);
+        Task<LoanData> GetByNumber(ISettings settings, string number);
+        Task<LoanData> GetByLoanApplicationId(ISettings settings, Guid loanApplicationId);
     }
 }

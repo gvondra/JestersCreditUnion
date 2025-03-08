@@ -6,6 +6,6 @@ namespace JestersCreditUnion.Loan.Data
 {
     public interface ITransactionDataFactory
     {
-        Task<IEnumerable<TransactionData>> GetByLoanId(ISqlSettings settings, Guid loanId);
+        Task<IEnumerable<TransactionData>> GetByLoanId(ISettings settings, Guid loanId);
     }
 }

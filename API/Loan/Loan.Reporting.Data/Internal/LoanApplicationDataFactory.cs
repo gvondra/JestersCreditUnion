@@ -14,7 +14,7 @@ namespace JestersCreditUnion.Loan.Reporting.Data.Internal
             _providerFactory = dbProviderFactory;
         }
 
-        public Task<IEnumerable<LoanApplicationCloseData>> GetClosed(ISqlSettings settings, DateTime minApplicationDate)
+        public Task<IEnumerable<LoanApplicationCloseData>> GetClosed(ISettings settings, DateTime minApplicationDate)
         {
             IDataParameter[] parameters =
             [
@@ -28,7 +28,7 @@ namespace JestersCreditUnion.Loan.Reporting.Data.Internal
                 parameters);
         }
 
-        public Task<IEnumerable<LoanApplicationCountData>> GetCounts(ISqlSettings settings, DateTime minApplicationDate)
+        public Task<IEnumerable<LoanApplicationCountData>> GetCounts(ISettings settings, DateTime minApplicationDate)
         {
             IDataParameter[] parameters =
             [

@@ -15,7 +15,7 @@ namespace JestersCreditUnion.Loan.Reporting.Data.Internal
             _providerFactory = dbProviderFactory;
         }
 
-        public Task<IEnumerable<WorkTaskCycleSummaryData>> GetSummary(ISqlSettings settings, DateTime minCreateDate)
+        public Task<IEnumerable<WorkTaskCycleSummaryData>> GetSummary(ISettings settings, DateTime minCreateDate)
         {
             IDataParameter[] parameters =
             [

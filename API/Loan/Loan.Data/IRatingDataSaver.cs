@@ -5,6 +5,6 @@ namespace JestersCreditUnion.Loan.Data
 {
     public interface IRatingDataSaver
     {
-        Task SaveLoanApplicationRating(ISqlTransactionHandler transactionHandler, Guid loanApplicationId, RatingData data);
+        Task SaveLoanApplicationRating(ITransactionHandler transactionHandler, Guid loanApplicationId, RatingData data);
     }
 }

@@ -6,7 +6,7 @@ namespace JestersCreditUnion.Loan.Data
 {
     public interface IPaymentIntakeDataFactory
     {
-        Task<PaymentIntakeData> Get(ISqlSettings settings, Guid id);
-        Task<IEnumerable<PaymentIntakeData>> GetByStatuses(ISqlSettings settings, IEnumerable<short> statuses);
+        Task<PaymentIntakeData> Get(ISettings settings, Guid id);
+        Task<IEnumerable<PaymentIntakeData>> GetByStatuses(ISettings settings, IEnumerable<short> statuses);
     }
 }

@@ -12,7 +12,7 @@ namespace JestersCreditUnion.Loan.Data.Internal
             : base(providerFactory)
         { }
 
-        public async Task SaveLoanApplicationRating(ISqlTransactionHandler transactionHandler, Guid loanApplicationId, RatingData data)
+        public async Task SaveLoanApplicationRating(ITransactionHandler transactionHandler, Guid loanApplicationId, RatingData data)
         {
             if (data.Manager.GetState(data) == DataState.New)
             {
@@ -30,7 +30,7 @@ namespace JestersCreditUnion.Loan.Data.Internal
             }
         }
 
-        private async Task InnerSaveLoanApplicationRating(ISqlTransactionHandler transactionHandler, Guid loanApplicationId, RatingData data)
+        private async Task InnerSaveLoanApplicationRating(ITransactionHandler transactionHandler, Guid loanApplicationId, RatingData data)
         {
             using (DbCommand command = transactionHandler.Connection.CreateCommand())
             {
@@ -55,7 +55,7 @@ namespace JestersCreditUnion.Loan.Data.Internal
             }
         }
 
-        private async Task CreateRatingLog(ISqlTransactionHandler transactionHandler, RatingLogData data)
+        private async Task CreateRatingLog(ITransactionHandler transactionHandler, RatingLogData data)
         {
             using (DbCommand command = transactionHandler.Connection.CreateCommand())
             {

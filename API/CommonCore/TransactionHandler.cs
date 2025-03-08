@@ -1,5 +1,4 @@
-﻿using System;
-using System.Data.Common;
+﻿using System.Data.Common;
 using System.Threading.Tasks;
 
 namespace JestersCreditUnion.CommonCore
@@ -15,10 +14,6 @@ namespace JestersCreditUnion.CommonCore
 
         public DbConnection Connection { get; set; }
         public BrassLoon.DataClient.IDbTransaction Transaction { get; set; }
-
-        public Func<Task<string>> GetAccessToken => _settings.GetDatabaseAccessToken();
-
-        public bool UseDefaultAzureToken => _settings.UseDefaultAzureSqlToken;
 
         public Task<string> GetConnectionString() => _settings.GetConnetionString();
     }

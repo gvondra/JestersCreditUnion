@@ -6,7 +6,7 @@ namespace JestersCreditUnion.Loan.Data
     public interface ILoanDataSaver
     {
         ILoanAgreementDataSaver LoanAgrementDataSaver { get; }
-        Task Create(ISqlTransactionHandler transactionHandler, LoanData data);
-        Task Update(ISqlTransactionHandler transactionHandler, LoanData data);
+        Task Create(ITransactionHandler transactionHandler, LoanData data);
+        Task Update(ITransactionHandler transactionHandler, LoanData data);
     }
 }

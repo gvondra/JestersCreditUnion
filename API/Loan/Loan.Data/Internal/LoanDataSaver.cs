@@ -13,7 +13,7 @@ namespace JestersCreditUnion.Loan.Data.Internal
 
         public ILoanAgreementDataSaver LoanAgrementDataSaver { get; set; }
 
-        public async Task Create(ISqlTransactionHandler transactionHandler, LoanData data)
+        public async Task Create(ITransactionHandler transactionHandler, LoanData data)
         {
             if (data.Manager.GetState(data) == DataState.New)
             {
@@ -40,7 +40,7 @@ namespace JestersCreditUnion.Loan.Data.Internal
             }
         }
 
-        public async Task Update(ISqlTransactionHandler transactionHandler, LoanData data)
+        public async Task Update(ITransactionHandler transactionHandler, LoanData data)
         {
             if (data.Manager.GetState(data) == DataState.Updated)
             {

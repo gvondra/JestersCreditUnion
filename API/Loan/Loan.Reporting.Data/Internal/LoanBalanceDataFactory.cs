@@ -15,7 +15,7 @@ namespace JestersCreditUnion.Loan.Reporting.Data.Internal
             this.providerFactory = providerFactory;
         }
 
-        public async Task<IEnumerable<LoanBalanceData>> GetAll(ISqlSettings settings)
+        public async Task<IEnumerable<LoanBalanceData>> GetAll(ISettings settings)
         {
             List<LoanBalanceData> result = new List<LoanBalanceData>();
             List<LoanStatusData> statuses = new List<LoanStatusData>();

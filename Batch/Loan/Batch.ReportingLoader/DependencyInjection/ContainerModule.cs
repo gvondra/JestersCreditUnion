@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using BrassLoon.DataClient;
+using BrassLoon.DataClient.MySql;
 
 namespace JestersCreditUnion.Batch.ReportingLoader.DependencyInjection
 {
@@ -15,7 +16,7 @@ namespace JestersCreditUnion.Batch.ReportingLoader.DependencyInjection
             builder.RegisterModule(new JestersCreditUnion.Interface.Loan.JestersCreditUnionLoanInterfaceModule());
 
             builder.RegisterType<DataPurger>().As<IDataPurger>();
-            builder.RegisterType<SqlClientProviderFactory>()
+            builder.RegisterType<MySqlProviderFactory>()
                 .As<IDbProviderFactory>();
             builder.RegisterType<SettingsFactory>()
                 .SingleInstance()

@@ -1,9 +1,8 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace JestersCreditUnion.CommonCore
 {
-    public class DataSettings : BrassLoon.DataClient.ISqlSettings
+    public class DataSettings : BrassLoon.DataClient.ISettings
     {
         private readonly ISettings _settings;
 
@@ -11,10 +10,6 @@ namespace JestersCreditUnion.CommonCore
         {
             _settings = settings;
         }
-
-        public Func<Task<string>> GetAccessToken => _settings.GetDatabaseAccessToken();
-
-        public bool UseDefaultAzureToken => _settings.UseDefaultAzureSqlToken;
 
         public Task<string> GetConnectionString() => _settings.GetConnetionString();
     }

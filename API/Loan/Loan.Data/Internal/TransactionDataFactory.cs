@@ -7,19 +7,19 @@ namespace JestersCreditUnion.Loan.Data.Internal
 {
     public class TransactionDataFactory : DataFactoryBase<TransactionData>, ITransactionDataFactory
     {
-        public TransactionDataFactory(IDbProviderFactory providerFactory)
-            : base(providerFactory)
+        public TransactionDataFactory(IDbProviderFactory providerFactory, IGenericDataFactory<TransactionData> dataFactory)
+            : base(providerFactory, dataFactory)
         { }
 
-        public Task<IEnumerable<TransactionData>> GetByLoanId(ISqlSettings settings, Guid loanId)
+        public Task<IEnumerable<TransactionData>> GetByLoanId(ISettings settings, Guid loanId)
         {
             IDataParameter[] parameters = new IDataParameter[]
             {
-                DataUtil.CreateParameter(_providerFactory, "loanId", DbType.Guid, DataUtil.GetParameterValue(loanId))
+                DataUtil.CreateParameter(ProviderFactory, "loanId", DbType.Guid, DataUtil.GetParameterValue(loanId))
             };
-            return _genericDataFactory.GetData(
+            return DataFactory.GetData(
                 settings,
-                _providerFactory,
+                ProviderFactory,
                 "[ln].[GetTransaction_by_LoanId]",
                 Create,
                 DataUtil.AssignDataStateManager,

@@ -8,18 +8,18 @@ namespace JestersCreditUnion.Loan.Data.Internal
 {
     public class PaymentIntakeDataFactory : DataFactoryBase<PaymentIntakeData>, IPaymentIntakeDataFactory
     {
-        public PaymentIntakeDataFactory(IDbProviderFactory providerFactory)
-            : base(providerFactory)
+        public PaymentIntakeDataFactory(IDbProviderFactory providerFactory, IGenericDataFactory<PaymentIntakeData> dataFactory)
+            : base(providerFactory, dataFactory)
         { }
 
-        public async Task<PaymentIntakeData> Get(ISqlSettings settings, Guid id)
+        public async Task<PaymentIntakeData> Get(ISettings settings, Guid id)
         {
             IDataParameter[] parameters = [
-                DataUtil.CreateParameter(_providerFactory, "id", DbType.Guid, id)
+                DataUtil.CreateParameter(ProviderFactory, "id", DbType.Guid, id)
             ];
-            return (await _genericDataFactory.GetData(
+            return (await DataFactory.GetData(
                 settings,
-                _providerFactory,
+                ProviderFactory,
                 "[ln].[GetPaymentIntake]",
                 Create,
                 DataUtil.AssignDataStateManager,
@@ -27,14 +27,14 @@ namespace JestersCreditUnion.Loan.Data.Internal
                 .FirstOrDefault();
         }
 
-        public Task<IEnumerable<PaymentIntakeData>> GetByStatuses(ISqlSettings settings, IEnumerable<short> statuses)
+        public Task<IEnumerable<PaymentIntakeData>> GetByStatuses(ISettings settings, IEnumerable<short> statuses)
         {
             IDataParameter[] parameters = [
-                DataUtil.CreateParameter(_providerFactory, "statues", DbType.AnsiString, string.Join(",", statuses))
+                DataUtil.CreateParameter(ProviderFactory, "statues", DbType.AnsiString, string.Join(",", statuses))
             ];
-            return _genericDataFactory.GetData(
+            return DataFactory.GetData(
                 settings,
-                _providerFactory,
+                ProviderFactory,
                 "[ln].[GetPaymentIntake_by_Statuses]",
                 Create,
                 DataUtil.AssignDataStateManager,

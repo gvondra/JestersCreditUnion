@@ -12,7 +12,7 @@ namespace JestersCreditUnion.Loan.Data.Internal
             : base(providerFactory)
         { }
 
-        public async Task Create(ISqlTransactionHandler transactionHandler, TransactionData data, Guid? paymentId = null, short? termNumber = null)
+        public async Task Create(ITransactionHandler transactionHandler, TransactionData data, Guid? paymentId = null, short? termNumber = null)
         {
             if (data.Manager.GetState(data) == DataState.New)
             {
