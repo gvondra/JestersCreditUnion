@@ -4,7 +4,7 @@ CREATE TABLE `LoanApplicationComment` (
   `UserId` binary(16) NOT NULL,
   `IsInternal` tinyint(1) NOT NULL DEFAULT (1),
   `Text` varchar(8000) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-  `CreateTimestamp` timestamp NOT NULL DEFAULT (now()),
+  `CreateTimestamp` timestamp NOT NULL DEFAULT (utc_timestamp()),
   PRIMARY KEY (`LoanApplicationCommentId`),
   KEY `LoanApplicationId` (`LoanApplicationId`),
   CONSTRAINT `FK_LoanApplicationComment_To_LoanApplication` FOREIGN KEY (`LoanApplicationId`) REFERENCES `LoanApplication` (`LoanApplicationId`)

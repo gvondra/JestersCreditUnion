@@ -11,16 +11,16 @@ CREATE PROCEDURE `SetLoanApplicationDenial`(
 OUT `timestamp` TIMESTAMP
 )
 BEGIN
-CALL `UpdateLoanApplicationDenial` (@id, @userId, @reason, @date, @text, @timestamp);
+CALL `UpdateLoanApplicationDenial` (`id`, `userId`, `reason`, `date`, `text`, `timestamp`);
 
 IF ROW_COUNT() = 0 THEN
-    CALL `CreateLoanApplicationDenial` (@id, @userId, @reason, @date, @text, @timestamp);
+    CALL `CreateLoanApplicationDenial` (`id`, `userId`, `reason`, `date`, `text`, `timestamp`);
 END IF;
 
 UPDATE `LoanApplication`
-SET `Status` = @status,
-`ClosedDate` = @closedDate,
-`UpdateTimestamp` = @timestamp
-WHERE `LoanApplicationId` = @id;
+SET `Status` = `status`,
+`ClosedDate` = `closedDate`,
+`UpdateTimestamp` = `timestamp`
+WHERE `LoanApplicationId` = `id`;
 END$$
 DELIMITER ;

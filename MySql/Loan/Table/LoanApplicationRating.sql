@@ -1,8 +1,8 @@
 CREATE TABLE `LoanApplicationRating` (
   `LoanApplicationId` binary(16) NOT NULL,
   `RatingId` binary(16) NOT NULL,
-  `CreateTimestamp` timestamp NOT NULL DEFAULT (now()),
-  `UpdateTimestamp` timestamp NOT NULL DEFAULT (now()),
+  `CreateTimestamp` timestamp NOT NULL DEFAULT (utc_timestamp()),
+  `UpdateTimestamp` timestamp NOT NULL DEFAULT (utc_timestamp()),
   PRIMARY KEY (`LoanApplicationId`),
   KEY `RatingId` (`RatingId`),
   CONSTRAINT `FK_LoanApplicationRating_To_LoanApplication` FOREIGN KEY (`LoanApplicationId`) REFERENCES `LoanApplication` (`LoanApplicationId`),

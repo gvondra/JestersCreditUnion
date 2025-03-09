@@ -7,11 +7,11 @@ CREATE PROCEDURE `UpdatePayment`(
 OUT `timestamp` TIMESTAMP
 )
 BEGIN
-	SET @timestamp = UTC_TIMESTAMP(4);
+	SET `timestamp` = UTC_TIMESTAMP(4);
 	UPDATE `Payment`
-	SET `Amount` = @amount,
-	    `Status` = @status,
-	    `UpdateTimestamp` = @timestamp
-	WHERE `PaymentId` = @id;
+	SET `Amount` = `amount`,
+	    `Status` = `status`,
+	    `UpdateTimestamp` = `timestamp`
+	WHERE `PaymentId` = `id`;
 END$$
 DELIMITER ;

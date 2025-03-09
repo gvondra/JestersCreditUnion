@@ -1,6 +1,6 @@
 CREATE TABLE `LoanApplication` (
   `LoanApplicationId` binary(16) NOT NULL,
-  `UserId` binary(16) NOT NULL,
+  `UserId` binary(16) DEFAULT NULL,
   `Status` smallint NOT NULL,
   `ApplicationDate` date NOT NULL,
   `BorrowerName` varchar(1024) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
@@ -25,8 +25,8 @@ CREATE TABLE `LoanApplication` (
   `MortgagePayment` decimal(7,2) DEFAULT NULL,
   `RentPayment` decimal(7,2) DEFAULT NULL,
   `ClosedDate` date DEFAULT NULL,
-  `CreateTimestamp` timestamp NOT NULL DEFAULT (now()),
-  `UpdateTimestamp` timestamp NOT NULL DEFAULT (now()),
+  `CreateTimestamp` timestamp NOT NULL DEFAULT (utc_timestamp()),
+  `UpdateTimestamp` timestamp NOT NULL DEFAULT (utc_timestamp()),
   PRIMARY KEY (`LoanApplicationId`),
   KEY `UserId` (`UserId`),
   KEY `BorrowerIdentificationCardId` (`BorrowerIdentificationCardId`),

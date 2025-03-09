@@ -24,28 +24,28 @@ CREATE PROCEDURE `UpdateLoanAgreementHistory`(
 OUT `timestamp` TIMESTAMP
 )
 BEGIN
-	SET @timestamp = UTC_TIMESTAMP(4);
+	SET `timestamp` = UTC_TIMESTAMP(4);
 	UPDATE `LoanAgreement` 
 	SET 
-	`Status` = @status, 
-	`CreateDate` = @createDate, 
-	`AgreementDate` = @agreementDate,
-	`BorrowerName` = @borrowerName, 
-	`BorrowerBirthDate` = @borrowerBirthDate, 
-	`BorrowerAddressId` = @borrowerAddressId, 
-	`BorrowerEmailAddressId` = @borrowerEmailAddressId, 
-	`BorrowerPhoneId` = @borrowerPhoneId,
-	`CoBorrowerName` = @coBorrowerName, 
-	`CoBorrowerBirthDate` = @coBorrowerBirthDate, 
-	`CoBorrowerAddressId` = @coBorrowerAddressId, 
-	`CoBorrowerEmailAddressId` = @coBorrowerEmailAddressId, 
-	`CoBorrowerPhoneId` = @coBorrowerPhoneId,
-	`OriginalAmount` = @originalAmount, 
-	`OriginalTerm` = @originalTerm, 
-	`InterestRate` = @interestRate, 
-	`PaymentAmount` = @paymentAmount, 
-	`PaymentFrequency` = @paymentFrequency,
-	`UpdateTimestamp` = @timestamp
-	WHERE `CreateTimestamp` = @createTimestamp
-	AND `LoanId` = @loanId;
+	`Status` = `status`, 
+	`CreateDate` = `createDate`, 
+	`AgreementDate` = `agreementDate`,
+	`BorrowerName` = `borrowerName`, 
+	`BorrowerBirthDate` = `borrowerBirthDate`, 
+	`BorrowerAddressId` = `borrowerAddressId`, 
+	`BorrowerEmailAddressId` = `borrowerEmailAddressId`, 
+	`BorrowerPhoneId` = `borrowerPhoneId`,
+	`CoBorrowerName` = `coBorrowerName`, 
+	`CoBorrowerBirthDate` = `coBorrowerBirthDate`, 
+	`CoBorrowerAddressId` = `coBorrowerAddressId`, 
+	`CoBorrowerEmailAddressId` = `coBorrowerEmailAddressId`, 
+	`CoBorrowerPhoneId` = `coBorrowerPhoneId`,
+	`OriginalAmount` = `originalAmount`, 
+	`OriginalTerm` = `originalTerm`, 
+	`InterestRate` = `interestRate`, 
+	`PaymentAmount` = `paymentAmount`, 
+	`PaymentFrequency` = `paymentFrequency`,
+	`UpdateTimestamp` = `timestamp`
+	WHERE `CreateTimestamp` = `createTimestamp`
+	AND `LoanId` = `loanId`;
 END

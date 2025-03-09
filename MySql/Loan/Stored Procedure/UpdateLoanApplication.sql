@@ -29,33 +29,33 @@ CREATE PROCEDURE `UpdateLoanApplication`(
 OUT `timestamp` TIMESTAMP
 )
 BEGIN
-SET @timestamp = UTC_TIMESTAMP(4);
+SET `timestamp` = UTC_TIMESTAMP(4);
 UPDATE `LoanApplication`
-SET `Status` = @status, 
-`ApplicationDate` = @applicationDate, 
-`BorrowerName` = @borrowerName, 
-`BorrowerBirthDate` = @borrowerBirthDate, 
-`BorrowerAddressId` = @borrowerAddressId, 
-`BorrowerEmailAddressId` = @borrowerEmailAddressId, 
-`BorrowerPhoneId` = @borrowerPhoneId, 
-`BorrowerEmployerName` = @borrowerEmployerName, 
-`BorrowerEmploymentHireDate` = @borrowerEmploymentHireDate, 
-`BorrowerIncome` = @borrowerIncome,
-`BorrowerIdentificationCardId` = @borrowerIdentificationCardId,
-`CoBorrowerName` = @coBorrowerName, 
-`CoBorrowerBirthDate` = @coBorrowerBirthDate, 
-`CoBorrowerAddressId` = @coBorrowerAddressId, 
-`CoBorrowerEmailAddressId` = @coBorrowerEmailAddressId, 
-`CoBorrowerPhoneId` = @coBorrowerPhoneId, 
-`CoBorrowerEmployerName` = @coBorrowerEmployerName, 
-`CoBorrowerEmploymentHireDate` = @coBorrowerEmploymentHireDate, 
-`CoBorrowerIncome` = @coBorrowerIncome,
-`Amount` = @amount, 
-`Purpose` = @purpose, 
-`MortgagePayment` = @mortgagePayment,
-`RentPayment` = @rentPayment,
-`ClosedDate` = @closedDate,
-`UpdateTimestamp` = @timestamp
-WHERE `LoanApplicationId` = @id;
+SET `Status` = `status`, 
+`ApplicationDate` = `applicationDate`, 
+`BorrowerName` = `borrowerName`, 
+`BorrowerBirthDate` = `borrowerBirthDate`, 
+`BorrowerAddressId` = `borrowerAddressId`, 
+`BorrowerEmailAddressId` = `borrowerEmailAddressId`, 
+`BorrowerPhoneId` = `borrowerPhoneId`, 
+`BorrowerEmployerName` = `borrowerEmployerName`, 
+`BorrowerEmploymentHireDate` = `borrowerEmploymentHireDate`, 
+`BorrowerIncome` = `borrowerIncome`,
+`BorrowerIdentificationCardId` = `borrowerIdentificationCardId`,
+`CoBorrowerName` = `coBorrowerName`, 
+`CoBorrowerBirthDate` = `coBorrowerBirthDate`, 
+`CoBorrowerAddressId` = `coBorrowerAddressId`, 
+`CoBorrowerEmailAddressId` = `coBorrowerEmailAddressId`, 
+`CoBorrowerPhoneId` = `coBorrowerPhoneId`, 
+`CoBorrowerEmployerName` = `coBorrowerEmployerName`, 
+`CoBorrowerEmploymentHireDate` = `coBorrowerEmploymentHireDate`, 
+`CoBorrowerIncome` = `coBorrowerIncome`,
+`Amount` = `amount`, 
+`Purpose` = `purpose`, 
+`MortgagePayment` = `mortgagePayment`,
+`RentPayment` = `rentPayment`,
+`ClosedDate` = `closedDate`,
+`UpdateTimestamp` = `timestamp`
+WHERE `LoanApplicationId` = `id`;
 END$$
 DELIMITER ;

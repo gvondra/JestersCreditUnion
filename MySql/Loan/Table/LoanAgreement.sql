@@ -18,8 +18,8 @@ CREATE TABLE `LoanAgreement` (
   `InterestRate` decimal(5,4) NOT NULL,
   `PaymentAmount` decimal(7,2) NOT NULL,
   `PaymentFrequency` smallint NOT NULL,
-  `CreateTimestamp` timestamp NOT NULL DEFAULT (now()),
-  `UpdateTimestamp` timestamp NOT NULL DEFAULT (now()),
+  `CreateTimestamp` timestamp NOT NULL DEFAULT (utc_timestamp()),
+  `UpdateTimestamp` timestamp NOT NULL DEFAULT (utc_timestamp()),
   PRIMARY KEY (`LoanId`),
   KEY `BorrowerBirthDate` (`BorrowerBirthDate` DESC,`BorrowerName`(128)),
   KEY `CoBorrowerBirthDate` (`CoBorrowerBirthDate` DESC,`CoBorrowerName`(128))

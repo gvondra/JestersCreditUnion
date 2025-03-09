@@ -25,39 +25,39 @@ OUT `timestamp` TIMESTAMP
 BEGIN
 	DECLARE `historyId` CHAR(16);
 	DECLARE `historyTimestamp` TIMESTAMP;
-	SET @timestamp = UTC_TIMESTAMP(4);
+	SET `timestamp` = UTC_TIMESTAMP(4);
 	UPDATE `LoanAgreement` 
 	SET 
-	`Status` = @status, 
-	`CreateDate` = @createDate, 
-	`AgreementDate` = @agreementDate,
-	`BorrowerName` = @borrowerName, 
-	`BorrowerBirthDate` = @borrowerBirthDate, 
-	`BorrowerAddressId` = @borrowerAddressId, 
-	`BorrowerEmailAddressId` = @borrowerEmailAddressId, 
-	`BorrowerPhoneId` = @borrowerPhoneId,
-	`CoBorrowerName` = @coBorrowerName, 
-	`CoBorrowerBirthDate` = @coBorrowerBirthDate, 
-	`CoBorrowerAddressId` = @coBorrowerAddressId, 
-	`CoBorrowerEmailAddressId` = @coBorrowerEmailAddressId, 
-	`CoBorrowerPhoneId` = @coBorrowerPhoneId,
-	`OriginalAmount` = @originalAmount, 
-	`OriginalTerm` = @originalTerm, 
-	`InterestRate` = @interestRate, 
-	`PaymentAmount` = @paymentAmount, 
-	`PaymentFrequency` = @paymentFrequency,
-	`UpdateTimestamp` = @timestamp
-	WHERE `LoanId` = @id;
+	`Status` = `status`, 
+	`CreateDate` = `createDate`, 
+	`AgreementDate` = `agreementDate`,
+	`BorrowerName` = `borrowerName`, 
+	`BorrowerBirthDate` = `borrowerBirthDate`, 
+	`BorrowerAddressId` = `borrowerAddressId`, 
+	`BorrowerEmailAddressId` = `borrowerEmailAddressId`, 
+	`BorrowerPhoneId` = `borrowerPhoneId`,
+	`CoBorrowerName` = `coBorrowerName`, 
+	`CoBorrowerBirthDate` = `coBorrowerBirthDate`, 
+	`CoBorrowerAddressId` = `coBorrowerAddressId`, 
+	`CoBorrowerEmailAddressId` = `coBorrowerEmailAddressId`, 
+	`CoBorrowerPhoneId` = `coBorrowerPhoneId`,
+	`OriginalAmount` = `originalAmount`, 
+	`OriginalTerm` = `originalTerm`, 
+	`InterestRate` = `interestRate`, 
+	`PaymentAmount` = `paymentAmount`, 
+	`PaymentFrequency` = `paymentFrequency`,
+	`UpdateTimestamp` = `timestamp`
+	WHERE `LoanId` = `id`;
 
-	CALL `UpdateLoanAgreementHistory`(@timestamp, @id, @status, @createDate, @agreementDate,
-		@borrowerName, @borrowerBirthDate, @borrowerAddressId, @borrowerEmailAddressId, @borrowerPhoneId,
-		@coBorrowerName, @coBorrowerBirthDate, @coBorrowerAddressId, @coBorrowerEmailAddressId, @coBorrowerPhoneId, 
-		@originalAmount, @originalTerm, @interestRate, @paymentAmount, @paymentFrequency, @historyTimestamp);
+	CALL `UpdateLoanAgreementHistory`(`timestamp`, `id`, `status`, `createDate`, `agreementDate`,
+		`borrowerName`, `borrowerBirthDate`, `borrowerAddressId`, `borrowerEmailAddressId`, `borrowerPhoneId`,
+		`coBorrowerName`, `coBorrowerBirthDate`, `coBorrowerAddressId`, `coBorrowerEmailAddressId`, `coBorrowerPhoneId`, 
+		`originalAmount`, `originalTerm`, `interestRate`, `paymentAmount`, `paymentFrequency`, `historyTimestamp`);
 	IF ROW_COUNT() = 0 THEN
-		CALL `CreateLoanAgreementHistory`(@historyId, @id, @status, @createDate, @agreementDate,
-			@borrowerName, @borrowerBirthDate, @borrowerAddressId, @borrowerEmailAddressId, @borrowerPhoneId,
-			@coBorrowerName, @coBorrowerBirthDate, @coBorrowerAddressId, @coBorrowerEmailAddressId, @coBorrowerPhoneId, 
-			@originalAmount, @originalTerm, @interestRate, @paymentAmount, @paymentFrequency, @historyTimestamp);
+		CALL `CreateLoanAgreementHistory`(`historyId`, `id`, `status`, `createDate`, `agreementDate`,
+			`borrowerName`, `borrowerBirthDate`, `borrowerAddressId`, `borrowerEmailAddressId`, `borrowerPhoneId`,
+			`coBorrowerName`, `coBorrowerBirthDate`, `coBorrowerAddressId`, `coBorrowerEmailAddressId`, `coBorrowerPhoneId`, 
+			`originalAmount`, `originalTerm`, `interestRate`, `paymentAmount`, `paymentFrequency`, `historyTimestamp`);
 	END IF;
 END$$
 DELIMITER ;

@@ -9,8 +9,8 @@ CREATE PROCEDURE `CreateLoanApplicationDenial`(
 OUT `timestamp` TIMESTAMP
 )
 BEGIN
-SET @timestamp = UTC_TIMESTAMP(4);
+SET `timestamp` = UTC_TIMESTAMP(4);
 INSERT INTO `LoanApplicationDenial` (`LoanApplicationId`, `UserId`, `Reason`, `Date`, `Text`, `CreateTimestamp`, `UpdateTimestamp`)
-VALUES(@id, @userId, @reason, @date, @text, @timestamp, @timestamp);
+VALUES(`id`, `userId`, `reason`, `date`, `text`, `timestamp`, `timestamp`);
 END$$
 DELIMITER ;

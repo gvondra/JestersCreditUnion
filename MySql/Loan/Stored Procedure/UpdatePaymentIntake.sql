@@ -11,15 +11,15 @@ CREATE PROCEDURE `UpdatePaymentIntake`(
 OUT `timestamp` TIMESTAMP
 )
 BEGIN
-	SET @timestamp = UTC_TIMESTAMP(4);
+	SET `timestamp` = UTC_TIMESTAMP(4);
 	UPDATE `PaymentIntake`
-	SET `PaymentId` = @paymentId,
-	`TransactionNumber` = @transactionNumber,
-	`Date` = @date,
-	`Amount` = @amount,
-	`Status` = @status,
-	`UpdateTimestamp` = @timestamp,
-	`UpdateUserId` = @userId
-	WHERE `PaymentIntakeId` = @id;
+	SET `PaymentId` = `paymentId`,
+	`TransactionNumber` = `transactionNumber`,
+	`Date` = `date`,
+	`Amount` = `amount`,
+	`Status` = `status`,
+	`UpdateTimestamp` = `timestamp`,
+	`UpdateUserId` = `userId`
+	WHERE `PaymentIntakeId` = `id`;
 END$$
 DELIMITER ;

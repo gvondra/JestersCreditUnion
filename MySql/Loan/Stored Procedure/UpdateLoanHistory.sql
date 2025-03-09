@@ -11,15 +11,15 @@ CREATE PROCEDURE `UpdateLoanHistory`(
 OUT `timestamp` TIMESTAMP
 )
 BEGIN
-	SET @timestamp = UTC_TIMESTAMP(4);
+	SET `timestamp` = UTC_TIMESTAMP(4);
 	UPDATE `LoanHistory` 
-	SET `InitialDisbursementDate` = @initialDisbursementDate, 
-	`FirstPaymentDue` = @firstPaymentDue,
-	`NextPaymentDue` = @nextPaymentDue,
-	`Status` = @status,
-	`Balance` = @balance,
-	`UpdateTimestamp` = @timestamp
-	WHERE `CreateTimestamp` = @createTimestamp
-	AND `LoanId` = @loanId;
+	SET `InitialDisbursementDate` = `initialDisbursementDate`, 
+	`FirstPaymentDue` = `firstPaymentDue`,
+	`NextPaymentDue` = `nextPaymentDue`,
+	`Status` = `status`,
+	`Balance` = `balance`,
+	`UpdateTimestamp` = `timestamp`
+	WHERE `CreateTimestamp` = `createTimestamp`
+	AND `LoanId` = `loanId`;
 END$$
 DELIMITER ;

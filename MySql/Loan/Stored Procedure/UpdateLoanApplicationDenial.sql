@@ -9,13 +9,13 @@ CREATE PROCEDURE `UpdateLoanApplicationDenial`(
 OUT `timestamp` TIMESTAMP
 )
 BEGIN
-SET @timestamp = UTC_TIMESTAMP(4);
+SET `timestamp` = UTC_TIMESTAMP(4);
 UPDATE `LoanApplicationDenial`
-SET `UserId` = @userId,
-    `Reason` = @reason,
-    `Date` = @date,
-    `Text` = @text,
-    `UpdateTimestamp` = @timestamp
-WHERE `LoanApplicationId` = @id;
+SET `UserId` = `userId`,
+    `Reason` = `reason`,
+    `Date` = `date`,
+    `Text` = `text`,
+    `UpdateTimestamp` = `timestamp`
+WHERE `LoanApplicationId` = `id`;
 END$$
 DELIMITER ;
