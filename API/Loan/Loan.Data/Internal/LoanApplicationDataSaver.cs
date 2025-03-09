@@ -36,7 +36,7 @@ namespace JestersCreditUnion.Loan.Data.Internal
                     DataUtil.AddParameter(_providerFactory, command.Parameters, "text", DbType.String, DataUtil.GetParameterValue(data.Text));
 
                     await command.ExecuteNonQueryAsync();
-                    data.LoanApplicationId = new Guid((byte[])id.Value);
+                    data.LoanApplicationCommentId = new Guid((byte[])id.Value);
                     data.CreateTimestamp = DateTime.SpecifyKind((DateTime)timestamp.Value, DateTimeKind.Utc);
                 }
             }

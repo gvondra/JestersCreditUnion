@@ -34,24 +34,24 @@ namespace JestersCreditUnion.Loan.Data.Internal
         {
             using (DbCommand command = transactionHandler.Connection.CreateCommand())
             {
-                command.CommandText = "[ln].[CreateLoanApplicationRating]";
+                command.CommandText = "CreateLoanApplicationRating";
                 command.CommandType = CommandType.StoredProcedure;
                 command.Transaction = transactionHandler.Transaction.InnerTransaction;
 
-                IDataParameter id = DataUtil.CreateParameter(_providerFactory, "id", DbType.Guid);
+                IDataParameter id = DataUtil.CreateParameter(_providerFactory, "id", DbType.Binary);
                 id.Direction = ParameterDirection.Output;
                 command.Parameters.Add(id);
 
-                IDataParameter timestamp = DataUtil.CreateParameter(_providerFactory, "timestamp", DbType.DateTime2);
+                IDataParameter timestamp = DataUtil.CreateParameter(_providerFactory, "timestamp", DbType.DateTime);
                 timestamp.Direction = ParameterDirection.Output;
                 command.Parameters.Add(timestamp);
 
-                DataUtil.AddParameter(_providerFactory, command.Parameters, "loanApplicationId", DbType.Guid, DataUtil.GetParameterValue(loanApplicationId));
+                DataUtil.AddParameter(_providerFactory, command.Parameters, "loanApplicationId", DbType.Binary, DataUtil.GetParameterValueBinary(loanApplicationId));
                 DataUtil.AddParameter(_providerFactory, command.Parameters, "value", DbType.Double, DataUtil.GetParameterValue(data.Value));
 
                 await command.ExecuteNonQueryAsync();
-                data.RatingId = (Guid)id.Value;
-                data.CreateTimestamp = (DateTime)timestamp.Value;
+                data.RatingId = new Guid((byte[])id.Value);
+                data.CreateTimestamp = DateTime.SpecifyKind((DateTime)timestamp.Value, DateTimeKind.Utc);
             }
         }
 
@@ -59,25 +59,25 @@ namespace JestersCreditUnion.Loan.Data.Internal
         {
             using (DbCommand command = transactionHandler.Connection.CreateCommand())
             {
-                command.CommandText = "[ln].[CreateRatingLog]";
+                command.CommandText = "CreateRatingLog";
                 command.CommandType = CommandType.StoredProcedure;
                 command.Transaction = transactionHandler.Transaction.InnerTransaction;
 
-                IDataParameter id = DataUtil.CreateParameter(_providerFactory, "id", DbType.Guid);
+                IDataParameter id = DataUtil.CreateParameter(_providerFactory, "id", DbType.Binary);
                 id.Direction = ParameterDirection.Output;
                 command.Parameters.Add(id);
 
-                IDataParameter timestamp = DataUtil.CreateParameter(_providerFactory, "timestamp", DbType.DateTime2);
+                IDataParameter timestamp = DataUtil.CreateParameter(_providerFactory, "timestamp", DbType.DateTime);
                 timestamp.Direction = ParameterDirection.Output;
                 command.Parameters.Add(timestamp);
 
-                DataUtil.AddParameter(_providerFactory, command.Parameters, "ratingId", DbType.Guid, DataUtil.GetParameterValue(data.RatingId));
+                DataUtil.AddParameter(_providerFactory, command.Parameters, "ratingId", DbType.Binary, DataUtil.GetParameterValueBinary(data.RatingId));
                 DataUtil.AddParameter(_providerFactory, command.Parameters, "value", DbType.Double, DataUtil.GetParameterValue(data.Value));
                 DataUtil.AddParameter(_providerFactory, command.Parameters, "description", DbType.AnsiString, DataUtil.GetParameterValue(data.Description));
 
                 await command.ExecuteNonQueryAsync();
-                data.RatingLogId = (Guid)id.Value;
-                data.CreateTimestamp = (DateTime)timestamp.Value;
+                data.RatingLogId = new Guid((byte[])id.Value);
+                data.CreateTimestamp = DateTime.SpecifyKind((DateTime)timestamp.Value, DateTimeKind.Utc);
             }
         }
     }

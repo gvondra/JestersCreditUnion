@@ -78,14 +78,14 @@ namespace JestersCreditUnion.Loan.Data.Internal
             sql.Append("SELECT ");
             sql.AppendLine(string.Join(", ", Constants.Column.LoanApplicationComment.Select(c => $"`cmt`.`{c}`")));
             sql.AppendLine($"FROM {Constants.TableName.LoanApplicationComment} `cmt` ");
-            sql.AppendLine("WHERE `cmt`.`LoanApplicationId` = @loanApplicationId ");
+            sql.AppendLine("WHERE `cmt`.`LoanApplicationId` = @id ");
             sql.AppendLine("ORDER BY `CreateTimestamp`; ");
 
             sql.Append("SELECT ");
             sql.AppendLine(string.Join(", ", Constants.Column.IdentificationCard.Select(c => $"`idc`.`{c}`")));
             sql.AppendLine($"FROM {Constants.TableName.IdentificationCard} `idc` ");
             sql.AppendLine($"INNER JOIN {Constants.TableName.LoanApplication} `lapp` on `idc`.`IdentificationCardId` = `lapp`.`BorrowerIdentificationCardId` ");
-            sql.AppendLine("WHERE `lapp`.`LoanApplicationId` = @loanApplicationId; ");
+            sql.AppendLine("WHERE `lapp`.`LoanApplicationId` = @id; ");
 
             return sql.ToString();
         }
