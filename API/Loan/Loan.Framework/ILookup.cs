@@ -8,9 +8,9 @@ namespace JestersCreditUnion.Loan.Framework
 
         Dictionary<string, string> Data { get; set; }
 
-        public DateTime CreateTimestamp { get; set; }
+        DateTime CreateTimestamp { get; set; }
 
-        public DateTime UpdateTimestamp { get; set; }
+        DateTime UpdateTimestamp { get; set; }
 
         string GetDataValue(object key);
     }

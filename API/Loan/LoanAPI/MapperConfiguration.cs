@@ -2,6 +2,7 @@
 using JestersCreditUnion.Interface.Loan.Models;
 using JestersCreditUnion.Loan.Framework;
 using JestersCreditUnion.Loan.Framework.Enumerations;
+using ConfigApiModels = BrassLoon.Interface.Config.Models;
 using Reporting = JestersCreditUnion.Loan.Framework.Reporting;
 
 namespace LoanAPI
@@ -33,6 +34,7 @@ namespace LoanAPI
             exp.CreateMap<Reporting.ILoanSummary, OpenLoanSummary>();
             exp.CreateMap<Reporting.IOpenLoanSummary, OpenLoanSummaryItem>();
             exp.CreateMap<ILookup, Lookup>();
+            exp.CreateMap<ConfigApiModels.Lookup, Lookup>();
             exp.CreateMap<LoanPayment, IPayment>();
             exp.CreateMap<IPayment, LoanPayment>()
                 .ForMember(p => p.Message, config => config.Ignore());
