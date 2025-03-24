@@ -1,6 +1,6 @@
-DROP PROCEDURE IF EXISTS `SetLoanApplicationDenial`;
+DROP PROCEDURE IF EXISTS `SetLoanApplicationDenial_v2`;
 DELIMITER $$
-CREATE DEFINER=`sa-dev-dataserver`@`%` PROCEDURE `SetLoanApplicationDenial`(
+CREATE DEFINER=`sa-dev-dataserver`@`%` PROCEDURE `SetLoanApplicationDenial_v2`(
 `id` BINARY(16),
 `status` SMALLINT,
 `closedDate` DATE,

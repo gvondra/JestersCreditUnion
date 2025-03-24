@@ -47,7 +47,7 @@ namespace JestersCreditUnion.Loan.Data.Internal
             await _providerFactory.EstablishTransaction(transactionHandler, denial);
             using (DbCommand command = transactionHandler.Connection.CreateCommand())
             {
-                command.CommandText = "SetLoanApplicationDenial";
+                command.CommandText = "SetLoanApplicationDenial_v2";
                 command.CommandType = CommandType.StoredProcedure;
                 command.Transaction = transactionHandler.Transaction.InnerTransaction;
 

@@ -72,21 +72,21 @@ namespace JestersCreditUnion.CommonAPI
                             .AddAuthenticationSchemes(Constants.AUTH_SCHEMA_JCU)
                             .Build();
                         });
-                    AddPolicy(o, Constants.POLICY_USER_READ, Constants.AUTH_SCHEMA_JCU, idIssuer);
-                    AddPolicy(o, Constants.POLICY_USER_EDIT, Constants.AUTH_SCHEMA_JCU, idIssuer, _userEditPolicies);
+                    AddPolicy(o, Constants.POLICY_USER_READ, Constants.AUTH_SCHEMA_JCU, idIssuer, _userEditPolicies);
+                    AddPolicy(o, Constants.POLICY_USER_EDIT, Constants.AUTH_SCHEMA_JCU, idIssuer);
                     AddPolicy(o, Constants.POLICY_ROLE_EDIT, Constants.AUTH_SCHEMA_JCU, idIssuer);
                     AddPolicy(o, Constants.POLICY_LOG_READ, Constants.AUTH_SCHEMA_JCU, idIssuer);
-                    AddPolicy(o, Constants.POLICY_WORKTASK_TYPE_READ, Constants.AUTH_SCHEMA_JCU, idIssuer);
-                    AddPolicy(o, Constants.POLICY_WORKTASK_TYPE_EDIT, Constants.AUTH_SCHEMA_JCU, idIssuer, _workTaskTypeEditPolicies);
+                    AddPolicy(o, Constants.POLICY_WORKTASK_TYPE_READ, Constants.AUTH_SCHEMA_JCU, idIssuer, _workTaskTypeEditPolicies);
+                    AddPolicy(o, Constants.POLICY_WORKTASK_TYPE_EDIT, Constants.AUTH_SCHEMA_JCU, idIssuer);
                     AddPolicy(o, Constants.POLICY_LOOKUP_EDIT, Constants.AUTH_SCHEMA_JCU, idIssuer);
-                    AddPolicy(o, Constants.POLICY_WORKTASK_READ, Constants.AUTH_SCHEMA_JCU, idIssuer);
+                    AddPolicy(o, Constants.POLICY_WORKTASK_READ, Constants.AUTH_SCHEMA_JCU, idIssuer, new string[] { Constants.POLICY_WORKTASK_EDIT });
                     AddPolicy(o, Constants.POLICY_WORKTASK_CLAIM, Constants.AUTH_SCHEMA_JCU, idIssuer, new string[] { Constants.POLICY_WORKTASK_READ, Constants.POLICY_WORKTASK_EDIT });
-                    AddPolicy(o, Constants.POLICY_WORKTASK_EDIT, Constants.AUTH_SCHEMA_JCU, idIssuer, new string[] { Constants.POLICY_WORKTASK_READ });
-                    AddPolicy(o, Constants.POLICY_LOAN_APPLICATION_EDIT, Constants.AUTH_SCHEMA_JCU, idIssuer, new string[] { Constants.POLICY_LOAN_APPLICATION_READ });
-                    AddPolicy(o, Constants.POLICY_LOAN_APPLICATION_READ, Constants.AUTH_SCHEMA_JCU, idIssuer);
+                    AddPolicy(o, Constants.POLICY_WORKTASK_EDIT, Constants.AUTH_SCHEMA_JCU, idIssuer);
+                    AddPolicy(o, Constants.POLICY_LOAN_APPLICATION_EDIT, Constants.AUTH_SCHEMA_JCU, idIssuer);
+                    AddPolicy(o, Constants.POLICY_LOAN_APPLICATION_READ, Constants.AUTH_SCHEMA_JCU, idIssuer, new string[] { Constants.POLICY_LOAN_APPLICATION_EDIT });
                     AddPolicy(o, Constants.POLICY_LOAN_CREATE, Constants.AUTH_SCHEMA_JCU, idIssuer, new string[] { Constants.POLICY_LOAN_APPLICATION_EDIT, Constants.POLICY_LOAN_READ });
-                    AddPolicy(o, Constants.POLICY_LOAN_EDIT, Constants.AUTH_SCHEMA_JCU, idIssuer, new string[] { Constants.POLICY_LOAN_APPLICATION_EDIT, Constants.POLICY_LOAN_READ });
-                    AddPolicy(o, Constants.POLICY_LOAN_READ, Constants.AUTH_SCHEMA_JCU, idIssuer, new string[] { Constants.POLICY_LOAN_APPLICATION_READ });
+                    AddPolicy(o, Constants.POLICY_LOAN_EDIT, Constants.AUTH_SCHEMA_JCU, idIssuer, new string[] { Constants.POLICY_LOAN_APPLICATION_EDIT });
+                    AddPolicy(o, Constants.POLICY_LOAN_READ, Constants.AUTH_SCHEMA_JCU, idIssuer, new string[] { Constants.POLICY_LOAN_APPLICATION_READ, Constants.POLICY_LOAN_APPLICATION_EDIT, Constants.POLICY_LOAN_EDIT });
                     AddPolicy(o, Constants.POLICY_INTEREST_RATE_CONFIGURE, Constants.AUTH_SCHEMA_JCU, idIssuer);
                 }
             });

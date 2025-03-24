@@ -1,8 +1,8 @@
 DROP PROCEDURE IF EXISTS `CreateLoanApplicationDenial`;
 DELIMITER $$
-CREATE PROCEDURE `CreateLoanApplicationDenial`(
-`id` CHAR(16),
-`userId` CHAR(16),
+CREATE DEFINER=`sa-dev-dataserver`@`%` PROCEDURE `CreateLoanApplicationDenial`(
+`id` BINARY(16),
+`userId` BINARY(16),
 `reason` SMALLINT,
 `date` DATE,
 `text` NVARCHAR(8000),
