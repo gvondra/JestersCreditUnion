@@ -37,8 +37,8 @@ services:
     - ServiceBusNamespace=${ServiceBusNamespace}
     - ServiceBusNewLoanAppQueue=${ServiceBusNewLoanAppQueue}
     - RunHours=6
-    - AZURE_TENANT_ID=058633a6-92d2-4cdd-86cd-04cfc6afac43
-    - AZURE_CLIENT_ID=cdac7a76-be29-42d7-997a-e58e6fe17ca9
-    - AZURE_CLIENT_SECRET=JVA8Q~n.sFPneBXYtbloUE584CqW2rTnWfDwUaRg
+    - AZURE_TENANT_ID=${ServiceBusTenantId}
+    - AZURE_CLIENT_ID=${ServiceBusClientId}
+    - AZURE_CLIENT_SECRET=${ServiceBusClientSecret}
     - LoanApiBaseAddress=http://host.docker.internal:5006/api
     - ApiBaseAddress=http://jcu-api:8080/api
