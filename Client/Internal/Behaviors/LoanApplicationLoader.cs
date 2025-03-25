@@ -24,6 +24,7 @@ namespace JCU.Internal.Behaviors
 
         public void LoadRating()
         {
+            _loanApplicationVM.Rating = null;
             Task.Run(() => _loanApplicationRatingService.Get(_settingsFactory.CreateLoanApi(), _loanApplicationVM.LoanApplicationId.Value))
                 .ContinueWith(LoadRatingCallback, null, TaskScheduler.FromCurrentSynchronizationContext());
         }
@@ -33,7 +34,10 @@ namespace JCU.Internal.Behaviors
             try
             {
                 Rating rating = await loadRating;
-                _loanApplicationVM.Rating = new RatingVM(rating);
+                if (rating != null)
+                {
+                    _loanApplicationVM.Rating = new RatingVM(rating);
+                }
             }
             catch (Exception ex)
             {
