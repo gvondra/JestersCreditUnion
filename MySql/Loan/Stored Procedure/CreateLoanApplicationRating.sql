@@ -12,7 +12,7 @@ BEGIN
     UPDATE `LoanApplicationRating`
     SET `RatingId` = `id`,
     `UpdateTimestamp` = `timestamp`
-    WHERE `LoanApplicationId` = `loanApplicationId`;
+    WHERE `LoanApplicationRating`.`LoanApplicationId` = `loanApplicationId`;
 
     IF ROW_COUNT() = 0 THEN
         INSERT INTO `LoanApplicationRating` (`LoanApplicationId`, `RatingId`, `CreateTimestamp`, `UpdateTimestamp`)
