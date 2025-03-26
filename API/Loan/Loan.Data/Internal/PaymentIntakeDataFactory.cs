@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace JestersCreditUnion.Loan.Data.Internal
@@ -15,30 +16,49 @@ namespace JestersCreditUnion.Loan.Data.Internal
         public async Task<PaymentIntakeData> Get(ISettings settings, Guid id)
         {
             IDataParameter[] parameters = [
-                DataUtil.CreateParameter(ProviderFactory, "id", DbType.Guid, id)
+                DataUtil.CreateParameter(ProviderFactory, "id", DbType.Binary, DataUtil.GetParameterValueBinary(id))
             ];
             return (await DataFactory.GetData(
                 settings,
                 ProviderFactory,
-                "[ln].[GetPaymentIntake]",
+                GetSql(),
                 Create,
                 DataUtil.AssignDataStateManager,
-                parameters))
+                parameters,
+                CommandType.Text))
                 .FirstOrDefault();
         }
 
         public Task<IEnumerable<PaymentIntakeData>> GetByStatuses(ISettings settings, IEnumerable<short> statuses)
         {
             IDataParameter[] parameters = [
-                DataUtil.CreateParameter(ProviderFactory, "statues", DbType.AnsiString, string.Join(",", statuses))
+                DataUtil.CreateParameter(ProviderFactory, "statues", DbType.AnsiString, $"[{string.Join(",", statuses)}]")
             ];
             return DataFactory.GetData(
                 settings,
                 ProviderFactory,
-                "[ln].[GetPaymentIntake_by_Statuses]",
+                GetByStatusesSql(),
                 Create,
                 DataUtil.AssignDataStateManager,
-                parameters);
+                parameters,
+                CommandType.Text);
+        }
+
+        private static string GetSql()
+        {
+            StringBuilder sql = new StringBuilder("SELECT ");
+            sql.AppendLine($"FROM {Constants.TableName.PaymentIntake} `pIn` ");
+            sql.AppendLine("WHERE `pIn`.`PaymentIntakeId` = @id; ");
+            return sql.ToString();
+        }
+
+        private static string GetByStatusesSql()
+        {
+            StringBuilder sql = new StringBuilder("SELECT ");
+            sql.AppendLine(string.Join(", ", Constants.Column.PaymentIntake.Select(c => $"`pIn`.`{c}`")));
+            sql.AppendLine($"FROM {Constants.TableName.PaymentIntake} `pIn` ");
+            sql.AppendLine("WHERE `pIn`.`Status` MEMBER OF(@statues) ");
+            return sql.ToString();
         }
     }
 }
