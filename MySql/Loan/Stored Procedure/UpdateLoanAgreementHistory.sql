@@ -46,6 +46,6 @@ BEGIN
 	`PaymentAmount` = `paymentAmount`, 
 	`PaymentFrequency` = `paymentFrequency`,
 	`UpdateTimestamp` = `timestamp`
-	WHERE `CreateTimestamp` = `createTimestamp`
-	AND `LoanId` = `loanId`;
+	WHERE `LoanAgreement`.`CreateTimestamp` = `createTimestamp`
+	AND `LoanAgreement`.`LoanId` = `loanId`;
 END

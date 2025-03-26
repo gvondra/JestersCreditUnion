@@ -19,7 +19,7 @@ BEGIN
 	`Status` = `status`,
 	`Balance` = `balance`,
 	`UpdateTimestamp` = `timestamp`
-	WHERE `CreateTimestamp` = `createTimestamp`
-	AND `LoanId` = `loanId`;
+	WHERE `LoanHistory`.`CreateTimestamp` = `createTimestamp`
+	AND `LoanHistory`.`LoanId` = `loanId`;
 END$$
 DELIMITER ;
