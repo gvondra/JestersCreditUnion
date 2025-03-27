@@ -1,20 +1,20 @@
 DROP PROCEDURE IF EXISTS `CreateLoanAgreement`;
 DELIMITER $$
 CREATE PROCEDURE `CreateLoanAgreement`(
-`id` CHAR(16),
+`id` BINARY(16),
 `status` SMALLINT,
 `createDate` DATE,
 `agreementDate` DATE,
 `borrowerName` NVARCHAR(1024),
 `borrowerBirthDate` DATE,
-`borrowerAddressId` CHAR(16),
-`borrowerEmailAddressId` CHAR(16),
-`borrowerPhoneId` CHAR(16),
+`borrowerAddressId` BINARY(16),
+`borrowerEmailAddressId` BINARY(16),
+`borrowerPhoneId` BINARY(16),
 `coBorrowerName` NVARCHAR(1024),
 `coBorrowerBirthDate` DATE,
-`coBorrowerAddressId` CHAR(16),
-`coBorrowerEmailAddressId` CHAR(16),
-`coBorrowerPhoneId` CHAR(16),
+`coBorrowerAddressId` BINARY(16),
+`coBorrowerEmailAddressId` BINARY(16),
+`coBorrowerPhoneId` BINARY(16),
 `originalAmount` DECIMAL(11, 2),
 `originalTerm` SMALLINT,
 `interestRate` DECIMAL(5, 4),
@@ -23,9 +23,9 @@ CREATE PROCEDURE `CreateLoanAgreement`(
 OUT `timestamp` TIMESTAMP
 )
 BEGIN
-    DECLARE `historyId` CHAR(16);
+    DECLARE `historyId` BINARY(16);
 	DECLARE `historyTimestamp` TIMESTAMP;
-	SET @timestamp = UTC_TIMESTAMP(4);
+	SET `timestamp` = UTC_TIMESTAMP(4);
 	INSERT INTO `LoanAgreement` (
 	`LoanId`, `Status`, `CreateDate`, `AgreementDate`,
 	`BorrowerName`, `BorrowerBirthDate`, `BorrowerAddressId`, `BorrowerEmailAddressId`, `BorrowerPhoneId`,
@@ -33,15 +33,15 @@ BEGIN
 	`OriginalAmount`, `OriginalTerm`, `InterestRate`, `PaymentAmount`, `PaymentFrequency`,
 	`CreateTimestamp`, `UpdateTimestamp`) 
 	VALUES (
-	@id, @status, @createDate, @agreementDate,
-	@borrowerName, @borrowerBirthDate, @borrowerAddressId, @borrowerEmailAddressId, @borrowerPhoneId,
-	@coBorrowerName, @coBorrowerBirthDate, @coBorrowerAddressId, @coBorrowerEmailAddressId, @coBorrowerPhoneId,
-	@originalAmount, @originalTerm, @interestRate, @paymentAmount, @paymentFrequency,
-	@timestamp, @timestamp);
+	`id`, `status`, `createDate`, `agreementDate`,
+	`borrowerName`, `borrowerBirthDate`, `borrowerAddressId`, `borrowerEmailAddressId`, `borrowerPhoneId`,
+	`coBorrowerName`, `coBorrowerBirthDate`, `coBorrowerAddressId`, `coBorrowerEmailAddressId`, `coBorrowerPhoneId`,
+	`originalAmount`, `originalTerm`, `interestRate`, `paymentAmount`, `paymentFrequency`,
+	`timestamp`, `timestamp`);
 	
-	CALL `CreateLoanAgreementHistory`(@historyId, @id, @status, @createDate, @agreementDate,
-		@borrowerName, @borrowerBirthDate, @borrowerAddressId, @borrowerEmailAddressId, @borrowerPhoneId,
-		@coBorrowerName, @coBorrowerBirthDate, @coBorrowerAddressId, @coBorrowerEmailAddressId, @coBorrowerPhoneId, 
-		@originalAmount, @originalTerm, @interestRate, @paymentAmount, @paymentFrequency, @historyTimestamp);
+	CALL `CreateLoanAgreementHistory`(`historyId`, `id`, `status`, `createDate`, `agreementDate`,
+		`borrowerName`, `borrowerBirthDate`, `borrowerAddressId`, `borrowerEmailAddressId`, `borrowerPhoneId`,
+		`coBorrowerName`, `coBorrowerBirthDate`, `coBorrowerAddressId`, `coBorrowerEmailAddressId`, `coBorrowerPhoneId`, 
+		`originalAmount`, `originalTerm`, `interestRate`, `paymentAmount`, `paymentFrequency`, `historyTimestamp`);
 END$$
 DELIMITER ;

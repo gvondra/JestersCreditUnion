@@ -1,21 +1,21 @@
 DROP PROCEDURE IF EXISTS `CreateLoanAgreementHistory`;
 DELIMITER $$
 CREATE PROCEDURE `CreateLoanAgreementHistory`(
-OUT `id` CHAR(16),
-`loanId` CHAR(16),
+OUT `id` BINARY(16),
+`loanId` BINARY(16),
 `status` SMALLINT,
 `createDate` DATE,
 `agreementDate` DATE,
 `borrowerName` NVARCHAR(1024),
 `borrowerBirthDate` DATE,
-`borrowerAddressId` CHAR(16),
-`borrowerEmailAddressId` CHAR(16),
-`borrowerPhoneId` CHAR(16),
+`borrowerAddressId` BINARY(16),
+`borrowerEmailAddressId` BINARY(16),
+`borrowerPhoneId` BINARY(16),
 `coBorrowerName` NVARCHAR(1024),
 `coBorrowerBirthDate` DATE,
-`coBorrowerAddressId` CHAR(16),
-`coBorrowerEmailAddressId` CHAR(16),
-`coBorrowerPhoneId` CHAR(16),
+`coBorrowerAddressId` BINARY(16),
+`coBorrowerEmailAddressId` BINARY(16),
+`coBorrowerPhoneId` BINARY(16),
 `originalAmount` DECIMAL(11, 2),
 `originalTerm` SMALLINT,
 `interestRate` DECIMAL(5, 4),
@@ -24,8 +24,8 @@ OUT `id` CHAR(16),
 OUT `timestamp` TIMESTAMP
 )
 BEGIN
-SET @id = UUID();
-SET @timestamp = UTC_TIMESTAMP(4);
+SET `id` = UUID_TO_BIN(UUID());
+SET `timestamp` = UTC_TIMESTAMP(4);
 INSERT INTO `LoanAgreementHistory` (
 `LoanAgreementHistoryId`, `LoanId`, `Status`, `CreateDate`, `AgreementDate`,
 `BorrowerName`, `BorrowerBirthDate`, `BorrowerAddressId`, `BorrowerEmailAddressId`, `BorrowerPhoneId`,
@@ -33,10 +33,10 @@ INSERT INTO `LoanAgreementHistory` (
 `OriginalAmount`, `OriginalTerm`, `InterestRate`, `PaymentAmount`, `PaymentFrequency`,
 `CreateTimestamp`, `UpdateTimestamp`) 
 VALUES (
-@id, @loanId, @status, @createDate, @agreementDate,
-@borrowerName, @borrowerBirthDate, @borrowerAddressId, @borrowerEmailAddressId, @borrowerPhoneId,
-@coBorrowerName, @coBorrowerBirthDate, @coBorrowerAddressId, @coBorrowerEmailAddressId, @coBorrowerPhoneId,
-@originalAmount, @originalTerm, @interestRate, @paymentAmount, @paymentFrequency,
-@timestamp, @timestamp);
+`id`, `loanId`, `status`, `createDate`, `agreementDate`,
+`borrowerName`, `borrowerBirthDate`, `borrowerAddressId`, `borrowerEmailAddressId`, `borrowerPhoneId`,
+`coBorrowerName`, `coBorrowerBirthDate`, `coBorrowerAddressId`, `coBorrowerEmailAddressId`, `coBorrowerPhoneId`,
+`originalAmount`, `originalTerm`, `interestRate`, `paymentAmount`, `paymentFrequency`,
+`timestamp`, `timestamp`);
 END$$
 DELIMITER ;

@@ -2,7 +2,7 @@ DROP PROCEDURE IF EXISTS `UpdateLoanHistory`;
 DELIMITER $$
 CREATE PROCEDURE `UpdateLoanHistory`(
 `createTimestamp` TIMESTAMP,
-`loanId` CHAR(16),
+`loanId` BINARY(16),
 `initialDisbursementDate` DATE,
 `firstPaymentDue` DATE,
 `nextPaymentDue` DATE,

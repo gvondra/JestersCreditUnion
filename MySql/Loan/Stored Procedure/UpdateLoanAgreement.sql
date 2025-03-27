@@ -1,20 +1,20 @@
 DROP PROCEDURE IF EXISTS `UpdateLoanAgreement`;
 DELIMITER $$
 CREATE PROCEDURE `UpdateLoanAgreement`(
-`id` CHAR(16),
+`id` BINARY(16),
 `status` SMALLINT,
 `createDate` DATE,
 `agreementDate` DATE,
 `borrowerName` NVARCHAR(1024),
 `borrowerBirthDate` DATE,
-`borrowerAddressId` CHAR(16),
-`borrowerEmailAddressId` CHAR(16),
-`borrowerPhoneId` CHAR(16),
+`borrowerAddressId` BINARY(16),
+`borrowerEmailAddressId` BINARY(16),
+`borrowerPhoneId` BINARY(16),
 `coBorrowerName` NVARCHAR(1024),
 `coBorrowerBirthDate` DATE,
-`coBorrowerAddressId` CHAR(16),
-`coBorrowerEmailAddressId` CHAR(16),
-`coBorrowerPhoneId` CHAR(16),
+`coBorrowerAddressId` BINARY(16),
+`coBorrowerEmailAddressId` BINARY(16),
+`coBorrowerPhoneId` BINARY(16),
 `originalAmount` DECIMAL(11, 2),
 `originalTerm` SMALLINT,
 `interestRate` DECIMAL(5, 4),
@@ -23,7 +23,7 @@ CREATE PROCEDURE `UpdateLoanAgreement`(
 OUT `timestamp` TIMESTAMP
 )
 BEGIN
-	DECLARE `historyId` CHAR(16);
+	DECLARE `historyId` BINARY(16);
 	DECLARE `historyTimestamp` TIMESTAMP;
 	SET `timestamp` = UTC_TIMESTAMP(4);
 	UPDATE `LoanAgreement` 
