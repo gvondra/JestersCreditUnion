@@ -156,6 +156,8 @@ dotnet_diagnostic.SA1201.severity = none
 
 # IDE0018: Inline variable declaration
 dotnet_diagnostic.IDE0018.severity = none
+csharp_prefer_system_threading_lock = true:suggestion
+dotnet_diagnostic.SA1602.severity = none
 
 [*.{cs,vb}]
 
