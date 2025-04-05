@@ -145,15 +145,15 @@ namespace JestersCreditUnion.Loan.Data.Internal
             sql.Append("WHERE EXISTS (SELECT 1 ");
             sql.Append($"FROM `{Constants.TableName.LoanAgreement}` `lagmt` ");
             sql.Append("WHERE `lagmt`.`LoanId` = `ln`.`LoanId` ");
-            sql.Append("AND ((`lagmt`.`BorrowerName` LIKE @name ESCAPE '\' AND `lagmt`.`BorrowerBirthDate = @birthDate) ");
-            sql.Append("OR (`lagmt`.`CoBorrowerName` LIKE @name ESCAPE '\' AND `lagmt`.`CoBorrowerBirthDate = @birthDate)) ");
+            sql.Append("AND ((`lagmt`.`BorrowerName` LIKE @name ESCAPE '\' AND `lagmt`.`BorrowerBirthDate` = @birthDate) ");
+            sql.Append("OR (`lagmt`.`CoBorrowerName` LIKE @name ESCAPE '\' AND `lagmt`.`CoBorrowerBirthDate` = @birthDate)) ");
             sql.AppendLine("LIMIT 1); ");
 
             sql.Append("SELECT ");
             sql.AppendLine(string.Join(", ", Constants.Column.LoanAgreement.Select(c => $"`lagmt`.`{c}`")));
             sql.AppendLine($"FROM `{Constants.TableName.LoanAgreement}` `lagmt` ");
-            sql.Append("WHERE (`lagmt`.`BorrowerName` LIKE @name ESCAPE '\' AND `lagmt`.`BorrowerBirthDate = @birthDate) ");
-            sql.Append("OR (`lagmt`.`CoBorrowerName` LIKE @name ESCAPE '\' AND `lagmt`.`CoBorrowerBirthDate = @birthDate); ");
+            sql.Append("WHERE (`lagmt`.`BorrowerName` LIKE @name ESCAPE '\' AND `lagmt`.`BorrowerBirthDate` = @birthDate) ");
+            sql.Append("OR (`lagmt`.`CoBorrowerName` LIKE @name ESCAPE '\' AND `lagmt`.`CoBorrowerBirthDate` = @birthDate); ");
 
             return sql.ToString();
         }
