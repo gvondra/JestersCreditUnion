@@ -19,26 +19,26 @@ namespace JestersCreditUnion.Loan.Data.Internal
                 await _providerFactory.EstablishTransaction(transactionHandler, data);
                 using (DbCommand command = transactionHandler.Connection.CreateCommand())
                 {
-                    command.CommandText = "[ln].[CreateTransaction]";
+                    command.CommandText = "CreateTransaction";
                     command.CommandType = CommandType.StoredProcedure;
                     command.Transaction = transactionHandler.Transaction.InnerTransaction;
 
-                    IDataParameter id = DataUtil.CreateParameter(_providerFactory, "id", DbType.Guid);
+                    IDataParameter id = DataUtil.CreateParameter(_providerFactory, "id", DbType.Binary);
                     id.Direction = ParameterDirection.Output;
                     command.Parameters.Add(id);
 
-                    IDataParameter timestamp = DataUtil.CreateParameter(_providerFactory, "timestamp", DbType.DateTime2);
+                    IDataParameter timestamp = DataUtil.CreateParameter(_providerFactory, "timestamp", DbType.DateTime);
                     timestamp.Direction = ParameterDirection.Output;
                     command.Parameters.Add(timestamp);
 
-                    DataUtil.AddParameter(_providerFactory, command.Parameters, "loanId", DbType.Guid, DataUtil.GetParameterValue(data.LoanId));
-                    DataUtil.AddParameter(_providerFactory, command.Parameters, "paymentId", DbType.Guid, DataUtil.GetParameterValue(paymentId));
+                    DataUtil.AddParameter(_providerFactory, command.Parameters, "loanId", DbType.Binary, DataUtil.GetParameterValueBinary(data.LoanId));
+                    DataUtil.AddParameter(_providerFactory, command.Parameters, "paymentId", DbType.Binary, DataUtil.GetParameterValueBinary(paymentId));
                     DataUtil.AddParameter(_providerFactory, command.Parameters, "termNumber", DbType.Int16, DataUtil.GetParameterValue(termNumber));
                     AddCommonParameters(command.Parameters, data);
 
                     await command.ExecuteNonQueryAsync();
-                    data.TransactionId = (Guid)id.Value;
-                    data.CreateTimestamp = (DateTime)timestamp.Value;
+                    data.TransactionId = new Guid((byte[])id.Value);
+                    data.CreateTimestamp = DateTime.SpecifyKind((DateTime)timestamp.Value, DateTimeKind.Utc);
                 }
             }
         }

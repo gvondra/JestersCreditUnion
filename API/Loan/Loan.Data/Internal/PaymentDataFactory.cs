@@ -1,77 +1,121 @@
 ﻿using JestersCreditUnion.Loan.Data.Models;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace JestersCreditUnion.Loan.Data.Internal
 {
     public class PaymentDataFactory : DataFactoryBase<PaymentData>, IPaymentDataFactory
     {
-        public PaymentDataFactory(IDbProviderFactory providerFactory, IGenericDataFactory<PaymentData> dataFactory)
-            : base(providerFactory, dataFactory) { }
+        private readonly IGenericDataFactory<PaymentTransactionData> _paymentTransactionDataFactory;
+
+        public PaymentDataFactory(
+            IDbProviderFactory providerFactory,
+            IGenericDataFactory<PaymentData> dataFactory,
+            IGenericDataFactory<PaymentTransactionData> paymentTransactionDataFactory)
+            : base(providerFactory, dataFactory)
+        {
+            _paymentTransactionDataFactory = paymentTransactionDataFactory;
+        }
 
         public async Task<PaymentData> GetByDateLoanNumberTransactionNumber(ISettings settings, DateTime date, Guid loanId, string transactionNumber)
         {
             IDataParameter[] parameters = new IDataParameter[]
             {
                 DataUtil.CreateParameter(ProviderFactory, "date", DbType.Date, DataUtil.GetParameterValue(date)),
-                DataUtil.CreateParameter(ProviderFactory, "loanId", DbType.Guid, DataUtil.GetParameterValue(loanId)),
+                DataUtil.CreateParameter(ProviderFactory, "loanId", DbType.Binary, DataUtil.GetParameterValueBinary(loanId)),
                 DataUtil.CreateParameter(ProviderFactory, "transactionNumber", DbType.AnsiString, DataUtil.GetParameterValue(transactionNumber))
             };
-            PaymentData payment = null;
             DataReaderProcess dataReaderProcess = new DataReaderProcess();
-            await dataReaderProcess.Read(
+            IEnumerable<PaymentData> result = await dataReaderProcess.Read(
                 settings,
                 ProviderFactory,
-                "[ln].[GetPayment_by_Date_LoanId_TransactionNumber]",
-                CommandType.StoredProcedure,
+                GetByDateLoanNumberTransactionNumberSql(),
+                CommandType.Text,
                 parameters,
-                async reader =>
-                {
-                    payment = (await DataFactory.LoadData(reader, Create, DataUtil.AssignDataStateManager)).FirstOrDefault();
-                    if (payment != null)
-                    {
-                        await reader.NextResultAsync();
-                        GenericDataFactory<PaymentTransactionData> transactionDataFactory = new GenericDataFactory<PaymentTransactionData>();
-                        payment.Transactions = (await transactionDataFactory.LoadData(reader, () => new PaymentTransactionData(), DataUtil.AssignDataStateManager)).ToList();
-                    }
-                });
-            return payment;
+                Read);
+            return result.FirstOrDefault();
         }
 
         public async Task<IEnumerable<PaymentData>> GetByLoanId(ISettings settings, Guid loanId)
         {
             IDataParameter[] parameters = new IDataParameter[]
             {
-                DataUtil.CreateParameter(ProviderFactory, "loanId", DbType.Guid, DataUtil.GetParameterValue(loanId))
+                DataUtil.CreateParameter(ProviderFactory, "loanId", DbType.Binary, DataUtil.GetParameterValueBinary(loanId))
             };
-            List<PaymentData> payments = new List<PaymentData>();
-            List<PaymentTransactionData> transactions = new List<PaymentTransactionData>();
             DataReaderProcess dataReaderProcess = new DataReaderProcess();
-            await dataReaderProcess.Read(
+            return await dataReaderProcess.Read(
                 settings,
                 ProviderFactory,
-                "[ln].[GetPayment_by_LoanId]",
-                CommandType.StoredProcedure,
+                GetByLoanId(),
+                CommandType.Text,
                 parameters,
-                async reader =>
-                {
-                    payments = (await DataFactory.LoadData(reader, Create, DataUtil.AssignDataStateManager)).ToList();
+                Read);
+        }
 
-                    await reader.NextResultAsync();
-                    GenericDataFactory<PaymentTransactionData> transactionDataFactory = new GenericDataFactory<PaymentTransactionData>();
-                    transactions = (await transactionDataFactory.LoadData(reader, () => new PaymentTransactionData(), DataUtil.AssignDataStateManager)).ToList();
-                });
-            return payments.GroupJoin(
+        private static string GetByDateLoanNumberTransactionNumberSql()
+        {
+            StringBuilder sql = new StringBuilder("SELECT ");
+            sql.AppendLine(string.Join(", ", Constants.Column.Payment.Select(c => $"`{Constants.TableName.Payment}`.`{c}`")));
+            sql.AppendLine($"FROM `{Constants.TableName.Payment}` ");
+            sql.Append("WHERE `Date` = @date ");
+            sql.Append("AND `LoanId` = @loanId ");
+            sql.AppendLine("AND `TransactionNumber` = @transactionNumber ");
+            sql.AppendLine("ORDER BY `Date`; ");
+
+            sql.Append($"SELECT `{Constants.TableName.PaymentTransaction}`.`PaymentId`, `{Constants.TableName.PaymentTransaction}`.`TermNumber`, ");
+            sql.AppendLine(string.Join(", ", Constants.Column.Transaction.Select(c => $"`{Constants.TableName.Transaction}`.`{c}`")));
+            sql.AppendLine($"FROM `{Constants.TableName.Transaction}` ");
+            sql.AppendLine($"INNER JOIN `{Constants.TableName.PaymentTransaction}` ON `{Constants.TableName.Transaction}`.`TransactionId` = `{Constants.TableName.PaymentTransaction}`.`TransactionId` ");
+            sql.Append($"WHERE EXISTS (SELECT 1 FROM `{Constants.TableName.Payment}` `pmt` ");
+            sql.Append($"WHERE `pmt`.`PaymentId` = `{Constants.TableName.PaymentTransaction}`.`PaymentId` ");
+            sql.Append("AND `pmt`.`Date` = @date ");
+            sql.Append("AND `pmt`.`LoanId` = @loanId ");
+            sql.AppendLine("AND `pmt`.`TransactionNumber` = @transactionNumber ");
+            sql.AppendLine("LIMIT 1); ");
+
+            return sql.ToString();
+        }
+
+        private static string GetByLoanId()
+        {
+            StringBuilder sql = new StringBuilder("SELECT ");
+            sql.AppendLine(string.Join(", ", Constants.Column.Payment.Select(c => $"`{Constants.TableName.Payment}`.`{c}`")));
+            sql.AppendLine($"FROM `{Constants.TableName.Payment}` ");
+            sql.Append("WHERE `LoanId` = @loanId ");
+            sql.AppendLine("ORDER BY `Date`; ");
+
+            sql.Append($"SELECT `{Constants.TableName.PaymentTransaction}`.`PaymentId`, `{Constants.TableName.PaymentTransaction}`.`TermNumber`, ");
+            sql.AppendLine(string.Join(", ", Constants.Column.Transaction.Select(c => $"`{Constants.TableName.Transaction}`.`{c}`")));
+            sql.AppendLine($"FROM `{Constants.TableName.Transaction}` ");
+            sql.AppendLine($"INNER JOIN `{Constants.TableName.PaymentTransaction}` ON `{Constants.TableName.Transaction}`.`TransactionId` = `{Constants.TableName.PaymentTransaction}`.`TransactionId` ");
+            sql.Append($"WHERE EXISTS (SELECT 1 FROM `{Constants.TableName.Payment}` `pmt` ");
+            sql.Append($"WHERE `pmt`.`PaymentId` = `{Constants.TableName.PaymentTransaction}`.`PaymentId` ");
+            sql.AppendLine("AND `pmt`.`LoanId` = @loanId ");
+            sql.AppendLine("LIMIT 1); ");
+
+            return sql.ToString();
+        }
+
+        private async Task<IEnumerable<PaymentData>> Read(DbDataReader reader)
+        {
+            IEnumerable<PaymentData> result = await DataFactory.LoadData(reader, Create, DataUtil.AssignDataStateManager);
+            IEnumerable<PaymentTransactionData> transactions = Enumerable.Empty<PaymentTransactionData>();
+            if (await reader.NextResultAsync())
+                transactions = await _paymentTransactionDataFactory.LoadData(reader, () => new PaymentTransactionData(), DataUtil.AssignDataStateManager);
+            result = result.GroupJoin(
                 transactions,
                 pmt => pmt.PaymentId,
-                trn => trn.PaymentId,
-                (pmt, trns) =>
+                trx => trx.PaymentId,
+                (pmt, trx) =>
                 {
-                    pmt.Transactions = trns.ToList<PaymentTransactionData>();
+                    pmt.Transactions = trx.ToList();
                     return pmt;
                 });
+            return result.ToList();
         }
     }
 }
