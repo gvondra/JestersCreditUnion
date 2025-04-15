@@ -50,7 +50,7 @@ namespace JestersCreditUnion.Loan.Data.Internal
             return await dataReaderProcess.Read(
                 settings,
                 ProviderFactory,
-                GetByLoanId(),
+                GetByLoanIdSql(),
                 CommandType.Text,
                 parameters,
                 Read);
@@ -80,7 +80,7 @@ namespace JestersCreditUnion.Loan.Data.Internal
             return sql.ToString();
         }
 
-        private static string GetByLoanId()
+        private static string GetByLoanIdSql()
         {
             StringBuilder sql = new StringBuilder("SELECT ");
             sql.AppendLine(string.Join(", ", Constants.Column.Payment.Select(c => $"`{Constants.TableName.Payment}`.`{c}`")));

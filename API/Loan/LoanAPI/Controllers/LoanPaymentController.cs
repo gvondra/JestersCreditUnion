@@ -61,7 +61,7 @@ namespace LoanAPI.Controllers
 
         [Authorize(Constants.POLICY_LOAN_READ)]
         [HttpPost("/api/Loan/Payment")]
-        public async Task<IActionResult> Post(LoanPayment[] loanPayments)
+        public async Task<IActionResult> Post([FromBody] LoanPayment[] loanPayments)
         {
             DateTime start = DateTime.UtcNow;
             IActionResult result = null;

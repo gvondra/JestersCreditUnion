@@ -4,14 +4,20 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace JestersCreditUnion.Loan.Data.Internal
 {
     public class PaymentDataSaver : DataSaverBase, IPaymentDataSaver
     {
-        public PaymentDataSaver(IDbProviderFactory providerFactory)
-            : base(providerFactory) { }
+        private readonly IGenericDataFactory<PaymentData> _genericDataFactory;
+
+        public PaymentDataSaver(IDbProviderFactory providerFactory, IGenericDataFactory<PaymentData> genericDataFactory)
+            : base(providerFactory)
+        {
+            _genericDataFactory = genericDataFactory;
+        }
 
         public async Task Save(ITransactionHandler transactionHandler, IEnumerable<PaymentData> payments)
         {
@@ -88,6 +94,17 @@ namespace JestersCreditUnion.Loan.Data.Internal
             }
         }
 
+        private static string GetByLoanIDateTransactionNumberdSql()
+        {
+            StringBuilder sql = new StringBuilder("SELECT ");
+            sql.AppendLine(string.Join(", ", Constants.Column.Payment.Select(c => $"`{Constants.TableName.Payment}`.`{c}`")));
+            sql.AppendLine($"FROM `{Constants.TableName.Payment}` ");
+            sql.Append("WHERE `LoanId` = @loanId AND `Date` = @date AND `TransactionNumber` = @transactionNumber ");
+            sql.AppendLine("ORDER BY `Date`; ");
+
+            return sql.ToString();
+        }
+
         private void AddCommonParameters(IList commandParameters, PaymentData data)
         {
             DataUtil.AddParameter(_providerFactory, commandParameters, "amount", DbType.Decimal, DataUtil.GetParameterValue(data.Amount));
@@ -103,17 +120,16 @@ namespace JestersCreditUnion.Loan.Data.Internal
         {
             using (DbCommand command = connection.CreateCommand())
             {
-                command.CommandText = "[ln].[GetPayment_by_Date_LoanId_TransactionNumber]";
-                command.CommandType = CommandType.StoredProcedure;
+                command.CommandText = GetByLoanIDateTransactionNumberdSql();
+                command.CommandType = CommandType.Text;
                 command.Transaction = dbTransaction;
                 DataUtil.AddParameter(_providerFactory, command.Parameters, "date", DbType.Date, DataUtil.GetParameterValue(date));
-                DataUtil.AddParameter(_providerFactory, command.Parameters, "loanId", DbType.Guid, DataUtil.GetParameterValue(loanId));
+                DataUtil.AddParameter(_providerFactory, command.Parameters, "loanId", DbType.Binary, DataUtil.GetParameterValueBinary(loanId));
                 DataUtil.AddParameter(_providerFactory, command.Parameters, "transactionNumber", DbType.AnsiString, DataUtil.GetParameterValue(transactionNumber));
 
                 using (DbDataReader reader = await command.ExecuteReaderAsync())
                 {
-                    GenericDataFactory<PaymentData> dataFactory = new GenericDataFactory<PaymentData>();
-                    return (await dataFactory.LoadData(reader, () => new PaymentData(), DataUtil.AssignDataStateManager))
+                    return (await _genericDataFactory.LoadData(reader, () => new PaymentData(), DataUtil.AssignDataStateManager))
                         .FirstOrDefault();
                 }
             }

@@ -61,17 +61,23 @@ namespace JCU.Internal.Behaviors
         {
             try
             {
-                if (state != null && state is ReceiveLoanPaymentVM receiveLoanPaymentVM)
+                LoanPayment loanPayment = await save;
+                if (state is ReceiveLoanPaymentVM receiveLoanPaymentVM)
                 {
-                    LoanPayment loanPayment = await save;
-                    receiveLoanPaymentVM.Message = loanPayment.Message;
-                    receiveLoanPaymentVM.BusyVisibility = Visibility.Collapsed;
-                    receiveLoanPaymentVM.SaveEnabled = false;
+                    receiveLoanPaymentVM.Message = loanPayment?.Message;
                 }
             }
             catch (System.Exception ex)
             {
                 ErrorWindow.Open(ex);
+            }
+            finally
+            {
+                if (state is ReceiveLoanPaymentVM receiveLoanPaymentVM)
+                {
+                    receiveLoanPaymentVM.BusyVisibility = Visibility.Collapsed;
+                    receiveLoanPaymentVM.SaveEnabled = false;
+                }
             }
         }
     }
