@@ -1,7 +1,7 @@
 DROP PROCEDURE IF EXISTS `UpdatePayment`;
 DELIMITER $$
 CREATE PROCEDURE `UpdatePayment`(
-`id` CHAR(16),
+`id` BINARY(16),
 `amount` DECIMAL(8, 2),
 `status` SMALLINT,
 OUT `timestamp` TIMESTAMP

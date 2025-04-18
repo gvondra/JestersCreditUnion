@@ -10,8 +10,8 @@ namespace JestersCreditUnion.Batch.LoanPaymentProcessor
         public string BrassLoonLogRpcBaseAddress { get; set; }
         public string BrassLoonWorkTaskApiBaseAddress { get; set; }
         public string BrassLoonAddressApiBaseAddress { get; set; }
-        public Guid? BrassLoonLogClientId { get; set; }
-        public string BrassLoonLogClientSecret { get; set; }
+        public Guid? BrassLoonClientId { get; set; }
+        public string BrassLoonClientSecret { get; set; }
         public Guid? ConfigDomainId { get; set; }
         public Guid? LogDomainId { get; set; }
         public Guid? WorkTaskDomainId { get; set; }

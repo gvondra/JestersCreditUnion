@@ -18,7 +18,7 @@ namespace JestersCreditUnion.Batch.LoanPaymentProcessor.DependencyInjection
             if (settings != null)
             {
                 builder.RegisterInstance<Settings>(settings);
-                if (!string.IsNullOrEmpty(settings.BrassLoonLogRpcBaseAddress) && settings.BrassLoonLogClientId.HasValue)
+                if (!string.IsNullOrEmpty(settings.BrassLoonLogRpcBaseAddress) && settings.BrassLoonClientId.HasValue)
                 {
                     RegisterLogging(builder, settings);
                 }
@@ -34,8 +34,8 @@ namespace JestersCreditUnion.Batch.LoanPaymentProcessor.DependencyInjection
                 {
                     config.LogApiBaseAddress = settings.BrassLoonLogRpcBaseAddress;
                     config.LogDomainId = settings.LogDomainId.Value;
-                    config.LogClientId = settings.BrassLoonLogClientId.Value;
-                    config.LogClientSecret = settings.BrassLoonLogClientSecret;
+                    config.LogClientId = settings.BrassLoonClientId.Value;
+                    config.LogClientSecret = settings.BrassLoonClientSecret;
                 })
                 .AddConsole();
             })).SingleInstance();

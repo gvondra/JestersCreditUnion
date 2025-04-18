@@ -1,12 +1,12 @@
 DROP PROCEDURE IF EXISTS `CreateTransaction`;
 DELIMITER $$
-CREATE DEFINER=`sa-dev-dataserver`@`%` PROCEDURE `CreateTransaction`(
+CREATE PROCEDURE `CreateTransaction`(
 OUT `id` BINARY(16),
 `loanId` BINARY(16),
 `date` DATE,
 `type` SMALLINT,
 `amount` DECIMAL(11, 2),
-`paymentId` CHAR(16),
+`paymentId` BINARY(16),
 `termNumber` SMALLINT,
 OUT `timestamp` TIMESTAMP 
 )
@@ -22,3 +22,4 @@ BEGIN
 	END IF;
 END$$
 DELIMITER ;
+

@@ -19,9 +19,9 @@ namespace JestersCreditUnion.Batch.LoanPaymentProcessor
 
         public string BrassLoonWorkTaskApiBaseAddress => _settings.BrassLoonWorkTaskApiBaseAddress;
 
-        public Guid? BrassLoonClientId => _settings.BrassLoonLogClientId;
+        public Guid? BrassLoonClientId => _settings.BrassLoonClientId;
 
-        public string BrassLoonClientSecret => _settings.BrassLoonLogClientSecret;
+        public string BrassLoonClientSecret => _settings.BrassLoonClientSecret;
 
         public Guid? ConfigDomainId => _settings.ConfigDomainId;
 

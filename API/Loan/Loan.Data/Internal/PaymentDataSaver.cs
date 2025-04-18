@@ -53,23 +53,23 @@ namespace JestersCreditUnion.Loan.Data.Internal
         {
             using (DbCommand command = transactionHandler.Connection.CreateCommand())
             {
-                command.CommandText = "[ln].[CreatePayment]";
+                command.CommandText = "CreatePayment";
                 command.CommandType = CommandType.StoredProcedure;
                 command.Transaction = transactionHandler.Transaction.InnerTransaction;
 
-                IDataParameter timestamp = DataUtil.CreateParameter(_providerFactory, "timestamp", DbType.DateTime2);
+                IDataParameter timestamp = DataUtil.CreateParameter(_providerFactory, "timestamp", DbType.DateTime);
                 timestamp.Direction = ParameterDirection.Output;
                 command.Parameters.Add(timestamp);
 
-                DataUtil.AddParameter(_providerFactory, command.Parameters, "id", DbType.Guid, DataUtil.GetParameterValue(data.PaymentId));
-                DataUtil.AddParameter(_providerFactory, command.Parameters, "loanId", DbType.Guid, DataUtil.GetParameterValue(data.LoanId));
+                DataUtil.AddParameter(_providerFactory, command.Parameters, "id", DbType.Binary, DataUtil.GetParameterValueBinary(data.PaymentId));
+                DataUtil.AddParameter(_providerFactory, command.Parameters, "loanId", DbType.Binary, DataUtil.GetParameterValueBinary(data.LoanId));
                 DataUtil.AddParameter(_providerFactory, command.Parameters, "transactionNumber", DbType.AnsiString, DataUtil.GetParameterValue(data.TransactionNumber));
                 DataUtil.AddParameter(_providerFactory, command.Parameters, "date", DbType.Date, DataUtil.GetParameterValue(data.Date));
                 AddCommonParameters(command.Parameters, data);
 
                 await command.ExecuteNonQueryAsync();
-                data.CreateTimestamp = (DateTime)timestamp.Value;
-                data.UpdateTimestamp = (DateTime)timestamp.Value;
+                data.CreateTimestamp = DateTime.SpecifyKind((DateTime)timestamp.Value, DateTimeKind.Utc);
+                data.UpdateTimestamp = DateTime.SpecifyKind((DateTime)timestamp.Value, DateTimeKind.Utc);
             }
         }
 
@@ -78,19 +78,19 @@ namespace JestersCreditUnion.Loan.Data.Internal
             await _providerFactory.EstablishTransaction(transactionHandler);
             using (DbCommand command = transactionHandler.Connection.CreateCommand())
             {
-                command.CommandText = "[ln].[UpdatePayment]";
+                command.CommandText = "UpdatePayment";
                 command.CommandType = CommandType.StoredProcedure;
                 command.Transaction = transactionHandler.Transaction.InnerTransaction;
 
-                IDataParameter timestamp = DataUtil.CreateParameter(_providerFactory, "timestamp", DbType.DateTime2);
+                IDataParameter timestamp = DataUtil.CreateParameter(_providerFactory, "timestamp", DbType.DateTime);
                 timestamp.Direction = ParameterDirection.Output;
                 command.Parameters.Add(timestamp);
 
-                DataUtil.AddParameter(_providerFactory, command.Parameters, "id", DbType.Guid, DataUtil.GetParameterValue(data.PaymentId));
+                DataUtil.AddParameter(_providerFactory, command.Parameters, "id", DbType.Binary, DataUtil.GetParameterValueBinary(data.PaymentId));
                 AddCommonParameters(command.Parameters, data);
 
                 await command.ExecuteNonQueryAsync();
-                data.UpdateTimestamp = (DateTime)timestamp.Value;
+                data.UpdateTimestamp = DateTime.SpecifyKind((DateTime)timestamp.Value, DateTimeKind.Utc);
             }
         }
 

@@ -110,11 +110,11 @@ namespace JestersCreditUnion.Loan.Core
                 Principal = loan.Agreement.OriginalAmount
             };
             ProcessTerm(settings, paymentTerm);
-            await UpdatePayments(settings, paymentTerm.Payments.Where(p => p.Status == PaymentStatus.Unprocessed));
+            await UpdatePayments(settings, paymentTerm.Payments.Where(p => p.Status == PaymentStatus.Unprocessed).ToList());
             await _loanSaver.Update(settings, loan);
         }
 
-        private async Task UpdatePayments(ISettings settings, IEnumerable<IPayment> payments)
+        private async Task UpdatePayments(ISettings settings, List<IPayment> payments)
         {
             foreach (IPayment payment in payments)
             {
