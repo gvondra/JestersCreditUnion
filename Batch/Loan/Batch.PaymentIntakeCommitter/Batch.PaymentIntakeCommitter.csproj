@@ -30,7 +30,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Autofac" Version="8.2.*" />
+		<PackageReference Include="Autofac" Version="8.3.*" />
 		<PackageReference Include="BrassLoon.Extensions.Logging" Version="2.0.0-prerelease.*" />
 		<PackageReference Include="BrassLoon.Interface.Authorization" Version="4.2.*" />
 		<PackageReference Include="JestersCreditUnion.Interface.Loan" Version="1.0.0-alpha.*" />

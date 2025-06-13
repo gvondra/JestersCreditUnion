@@ -31,11 +31,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Autofac" Version="8.2.*" />
+		<PackageReference Include="Autofac" Version="8.3.*" />
 		<PackageReference Include="Azure.Identity" Version="1.13.*" />
-		<PackageReference Include="Azure.Messaging.ServiceBus" Version="7.18.*" />
+		<PackageReference Include="Azure.Messaging.ServiceBus" Version="7.20.*" />
 		<PackageReference Include="Azure.Security.KeyVault.Keys" Version="4.7.*" />
-		<PackageReference Include="Azure.Storage.Blobs" Version="12.23.*" />
+		<PackageReference Include="Azure.Storage.Blobs" Version="12.24.*" />
 		<PackageReference Include="BrassLoon.Interface.Account" Version="4.4.*" />
 		<PackageReference Include="BrassLoon.Interface.Address" Version="1.1.*" />
 		<PackageReference Include="BrassLoon.Interface.Authorization" Version="4.2.*" />
@@ -43,7 +43,7 @@
 		<PackageReference Include="BrassLoon.Interface.WorkTask" Version="4.0.0-prerelease.*" />
 		<PackageReference Include="JestersCreditUnion.Interface" Version="1.0.0-alpha.*" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.*" />
-		<PackageReference Include="Polly" Version="8.5.*" />
+		<PackageReference Include="Polly" Version="8.6.*" />
 	</ItemGroup>
 
 	<ItemGroup>
